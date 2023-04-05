@@ -13,7 +13,7 @@ class BaseURL {
 
 class BaseURLs {
   
-  static const BaseURL confirmStripe = BaseURL._(
+  static const BaseURL development = BaseURL._(
     schemes: 'https://',
     host: 'api.themoviedb.org',
     basePath: '/3',
