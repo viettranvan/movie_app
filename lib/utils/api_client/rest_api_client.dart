@@ -11,7 +11,9 @@ class RestApiClient extends APIClient {
 
   final Dio dio = Dio(
     BaseOptions(
-      baseUrl: 'https://api.themoviedb.org/3',
+      baseUrl:
+          BaseURLs.development.schemes + BaseURLs.development.host + BaseURLs.development.basePath,
+      // baseUrl: 'https://api.themoviedb.org/3',
     ),
   )..interceptors.add(APIInterceptor());
 
@@ -42,4 +44,3 @@ class RestApiClient extends APIClient {
     }
   }
 }
-
