@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/shared_ui/path/images_path.dart';
-
-import 'bloc/navigation_bloc.dart';
+import 'package:movie_app/shared_ui/index.dart';
+import 'package:movie_app/ui/navigation/bloc/navigation_bloc.dart';
 
 class NavigationPage extends StatelessWidget {
   const NavigationPage({super.key});
