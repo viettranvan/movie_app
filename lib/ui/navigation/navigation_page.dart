@@ -54,8 +54,8 @@ class NavigationPage extends StatelessWidget {
                         bloc.indexPage == 1
                             ? ImagesPath.discoverySelectedIcon.assetName
                             : ImagesPath.discoveryUnselectedIcon.assetName,
-                        height: 26,
-                        width: 26,
+                        height: 27,
+                        width: 27,
                       ),
                     ),
                   ),
