@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class DiscoveryPage extends StatelessWidget {
-  const DiscoveryPage({super.key});
+class SearchPage extends StatelessWidget {
+  const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class DiscoveryPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             Text(
-              'Discovery',
+              'Search',
             ),
           ],
         ),

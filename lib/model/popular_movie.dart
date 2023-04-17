@@ -14,27 +14,27 @@ class Movie {
   double? voteAverage;
   int? voteCount;
 
-  Movie(
-      {this.adult,
-      this.backdropPath,
-      this.genreIds = const [],
-      this.id,
-      this.originalLanguage,
-      this.originalTitle,
-      this.overview,
-      this.popularity,
-      this.posterPath,
-      this.releaseDate,
-      this.title,
-      this.video,
-      this.voteAverage,
-      this.voteCount});
+  Movie({
+    this.adult,
+    this.backdropPath,
+    this.genreIds = const [],
+    this.id,
+    this.originalLanguage,
+    this.originalTitle,
+    this.overview,
+    this.popularity,
+    this.posterPath,
+    this.releaseDate,
+    this.title,
+    this.video,
+    this.voteAverage,
+    this.voteCount,
+  });
 
   factory Movie.fromJson(Map<String, dynamic> json) => Movie(
         adult: json['adult'],
         backdropPath: json['backdrop_path'],
-        genreIds:
-            json['genre_ids'] == null ? [] : json['genre_ids'].cast<int>(),
+        genreIds: json['genre_ids'] == null ? [] : json['genre_ids'].cast<int>(),
         id: json['id'],
         originalLanguage: json['original_language'],
         originalTitle: json['original_title'],

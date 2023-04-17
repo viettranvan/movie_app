@@ -1,4 +1,7 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/shared_ui/colors/colors.dart';
+import 'package:movie_app/shared_ui/index.dart';
 import 'package:movie_app/ui/home/widgets/title_widget.dart';
 import 'package:movie_app/utils/index.dart';
 
@@ -7,27 +10,117 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CarouselController trendingController = CarouselController();
+    CarouselController nowPlayingController = CarouselController();
+
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: darkBlueColor,
+        toolbarHeight: 56,
+        centerTitle: true,
+        title: Image.asset(
+          ImagesPath.appBarLogo.assetName,
+          width: 200,
+          height: 80,
+          filterQuality: FilterQuality.high,
+        ),
+      ),
       body: SingleChildScrollView(
         primary: true,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 44),
-            const TitleWidget(textTitle: 'Stream Everywhere'),
-            const SizedBox(height: 28),
-            FittedBox(
-              child: Image.network(
-                '${AppConstants.kImagePath}/ovM06PdF3M8wvKb06i4sjW3xoww.jpg',
-                width: 327,
-                height: 170,
-                filterQuality: FilterQuality.high,
-                fit: BoxFit.fill,
+            const SizedBox(height: 18),
+            const TitleWidget(
+              textTitle: 'Popular Genres',
+              sizeTitle: 15,
+            ),
+            const SizedBox(height: 15),
+            const TitleWidget(
+              textTitle: 'Now Playing',
+              sizeTitle: 21,
+            ),
+            const SizedBox(height: 15),
+            CarouselSlider.builder(
+              carouselController: nowPlayingController,
+              itemBuilder: itemBuilderNowPlaying,
+              itemCount: 5,
+              options: CarouselOptions(
+                autoPlay: true,
+                viewportFraction: 1,
+                enableInfiniteScroll: true,
+                onPageChanged: (index, reason) {},
               ),
             ),
             const SizedBox(height: 28),
-            const TitleWidget(textTitle: 'Trending'),
+            const TitleWidget(
+              textTitle: 'Trending',
+              sizeTitle: 21,
+            ),
+            const SizedBox(height: 28),
+            CarouselSlider.builder(
+              carouselController: trendingController,
+              itemBuilder: itemBuilderTrending,
+              itemCount: 5,
+              options: CarouselOptions(
+                height: 336,
+                enlargeCenterPage: true,
+                enableInfiniteScroll: true,
+                viewportFraction: 0.8,
+                onPageChanged: (index, reason) {},
+              ),
+            ),
+            const SizedBox(height: 28),
+            const TitleWidget(
+              textTitle: 'Popular',
+              sizeTitle: 21,
+            ),
+            const SizedBox(height: 28),
+            Container(
+              height: 150,
+              color: Colors.red,
+            ),
+            Container(
+              height: 150,
+              color: Colors.blue,
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget itemBuilderNowPlaying(BuildContext context, int index, int realIndex) {
+    return GestureDetector(
+      onTap: () {},
+      child: SizedBox(
+        child: Image.network(
+          '${AppConstants.kImagePathBackdrop}/ovM06PdF3M8wvKb06i4sjW3xoww.jpg',
+          width: double.infinity,
+          filterQuality: FilterQuality.high,
+          fit: BoxFit.fitWidth,
+        ),
+      ),
+    );
+  }
+
+  Widget itemBuilderTrending(BuildContext context, int index, int realIndex) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        margin: const EdgeInsets.fromLTRB(2.5, 0, 2.5, 0),
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(30),
+          ),
+          image: DecorationImage(
+            image: Image.network(
+              '${AppConstants.kImagePathPoster}/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
+            ).image,
+            filterQuality: FilterQuality.high,
+            fit: BoxFit.fill,
+          ),
         ),
       ),
     );
