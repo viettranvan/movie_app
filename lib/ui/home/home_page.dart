@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/index.dart';
 import 'package:movie_app/ui/home/widgets/title_widget.dart';
 import 'package:movie_app/utils/index.dart';
@@ -12,19 +11,20 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     CarouselController trendingController = CarouselController();
     CarouselController nowPlayingController = CarouselController();
-
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: darkBlueColor,
-        toolbarHeight: 56,
-        centerTitle: true,
-        title: Image.asset(
-          ImagesPath.appBarLogo.assetName,
-          width: 200,
-          height: 80,
-          filterQuality: FilterQuality.high,
-        ),
-      ),
+      // appBar: CustomAppBar(
+      //   centerTitle: true,
+      //   title: Image.asset(
+      //     ImagesPath.primaryLongLogo.assetName,
+      //     scale: 1,
+      //     filterQuality: FilterQuality.high,
+      //   ),
+      //   context: context,
+      //   visibleAvatar: true,
+      //   visibleNotificationIcon: true,
+      //   visiblePrimaryLongLogo: true,
+      //   visiblePrimaryShortLogo: false,
+      // ),
       body: SingleChildScrollView(
         primary: true,
         child: Column(

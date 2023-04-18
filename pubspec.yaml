@@ -31,4 +31,5 @@ flutter:
     - lib/shared_ui/assets/images/favorite_icon.png
     - lib/shared_ui/assets/images/search_icon.png
     - lib/shared_ui/assets/images/profile_icon.png
-    - lib/shared_ui/assets/images/app_bar_logo.png
+    - lib/shared_ui/assets/images/primary_long_logo.png
+    - lib/shared_ui/assets/images/primary_short_logo.png
