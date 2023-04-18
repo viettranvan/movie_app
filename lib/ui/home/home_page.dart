@@ -1,7 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/index.dart';
+import 'package:movie_app/ui/details/details_page.dart';
 import 'package:movie_app/ui/home/widgets/title_widget.dart';
+import 'package:movie_app/ui/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/utils/index.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,19 +15,29 @@ class HomePage extends StatelessWidget {
     CarouselController trendingController = CarouselController();
     CarouselController nowPlayingController = CarouselController();
     return Scaffold(
-      // appBar: CustomAppBar(
-      //   centerTitle: true,
-      //   title: Image.asset(
-      //     ImagesPath.primaryLongLogo.assetName,
-      //     scale: 1,
-      //     filterQuality: FilterQuality.high,
-      //   ),
-      //   context: context,
-      //   visibleAvatar: true,
-      //   visibleNotificationIcon: true,
-      //   visiblePrimaryLongLogo: true,
-      //   visiblePrimaryShortLogo: false,
-      // ),
+      appBar: CustomAppBar(
+        centerTitle: true,
+        leading: Padding(
+          padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+          child: CircleAvatar(
+            backgroundImage: Image.network(
+              ImagesPath.noImage.assetName,
+              filterQuality: FilterQuality.high,
+            ).image,
+          ),
+        ),
+        title: Image.asset(
+          ImagesPath.primaryLongLogo.assetName,
+          filterQuality: FilterQuality.high,
+        ),
+        actions: const Icon(
+          Icons.notifications_sharp,
+          size: 30,
+        ),
+        onTapLeading: () => BlocProvider.of<NavigationBloc>(context).add(
+          NavigateScreen(indexPage: 3),
+        ),
+      ),
       body: SingleChildScrollView(
         primary: true,
         child: Column(
@@ -92,7 +105,9 @@ class HomePage extends StatelessWidget {
 
   Widget itemBuilderNowPlaying(BuildContext context, int index, int realIndex) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const DetailsPage(),
+      )),
       child: SizedBox(
         child: Image.network(
           '${AppConstants.kImagePathBackdrop}/ovM06PdF3M8wvKb06i4sjW3xoww.jpg',

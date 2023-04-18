@@ -19,21 +19,6 @@ class NavigationPage extends StatelessWidget {
           var bloc = BlocProvider.of<NavigationBloc>(context);
           return Scaffold(
             extendBody: true,
-            appBar: CustomAppBar(
-              centerTitle: false,
-              context: context,
-              indexPage: state.indexPage,
-              title: getTitle(state.indexPage),
-              leading: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                child: CircleAvatar(
-                  backgroundImage: Image.network(
-                    ImagesPath.noImage.assetName,
-                    filterQuality: FilterQuality.high,
-                  ).image,
-                ),
-              ),
-            ),
             resizeToAvoidBottomInset: false,
             body: state.pages[state.indexPage],
             bottomNavigationBar: CustomNavigationBar(
@@ -65,20 +50,6 @@ class NavigationPage extends StatelessWidget {
         },
       ),
     );
-  }
-
-  String getTitle(int indexPage) {
-    if (indexPage == 0) {
-      return '';
-    } else if (indexPage == 1) {
-      return 'Your favorite';
-    } else if (indexPage == 2) {
-      return 'Search';
-    } else if (indexPage == 3) {
-      return 'Profile';
-    } else {
-      return '';
-    }
   }
 }
 // Icon(Icons.arrow_back_ios),

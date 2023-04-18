@@ -1,64 +1,45 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
-import 'package:movie_app/shared_ui/index.dart';
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
-  final BuildContext context;
-  final Widget leading;
-  final String? title;
-  final int indexPage;
-  final bool centerTitle;
+  final Widget? leading;
+  final Widget? title;
+  final bool? centerTitle;
+  final double? titleSpacing;
+  final Widget? actions;
+  final EdgeInsets? paddingActions;
+  final VoidCallback? onTapLeading;
+  final double? leadingWidth;
   const CustomAppBar({
-    Key? key,
-    required this.context,
-    required this.leading,
+    super.key,
     this.title,
-    required this.centerTitle,
-    required this.indexPage,
-  }) : super(key: key);
+    this.actions,
+    this.leading,
+    this.titleSpacing,
+    this.paddingActions,
+    this.centerTitle,
+    this.onTapLeading,
+    this.leadingWidth,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: darkBlueColor,
-      centerTitle: indexPage == 0 ? true : false,
       elevation: 0,
-      titleSpacing: indexPage == 0 ? null : 16,
-      leadingWidth: indexPage == 0 ? null : 0,
-      leading: Visibility(
-        visible: indexPage == 0 ? true : false,
-        child: indexPage == 0 ? leading : const SizedBox(),
+      title: title,
+      centerTitle: centerTitle,
+      titleSpacing: titleSpacing,
+      leadingWidth: leadingWidth,
+      backgroundColor: darkBlueColor,
+      leading: GestureDetector(
+        onTap: onTapLeading,
+        child: leading,
       ),
-      title: indexPage == 0
-          ? Image.asset(
-              ImagesPath.primaryLongLogo.assetName,
-              filterQuality: FilterQuality.high,
-            )
-          : Text(
-              title ?? '',
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
       actions: [
-        (indexPage == 0 || indexPage == 3)
-            ? Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                child: Icon(
-                  indexPage == 0 ? Icons.notifications_sharp : Icons.exit_to_app_sharp,
-                  size: 30,
-                ),
-              )
-            : Padding(
-                padding: const EdgeInsets.fromLTRB(0, 8, 12, 8),
-                child: Image.asset(
-                  ImagesPath.primaryShortLogo.assetName,
-                  scale: 4,
-                  filterQuality: FilterQuality.high,
-                ),
-              ),
+        Padding(
+          padding: paddingActions ?? const EdgeInsets.fromLTRB(0, 0, 15, 0),
+          child: actions,
+        )
       ],
     );
   }
