@@ -33,3 +33,6 @@ flutter:
     - lib/shared_ui/assets/images/profile_icon.png
     - lib/shared_ui/assets/images/primary_long_logo.png
     - lib/shared_ui/assets/images/primary_short_logo.png
+    - lib/shared_ui/assets/images/trending_icon.png
+    - lib/shared_ui/assets/images/tv_show_icon.png
+    - lib/shared_ui/assets/images/best_drama_icon.png

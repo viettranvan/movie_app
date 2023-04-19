@@ -13,7 +13,6 @@ class RestApiClient extends APIClient {
     BaseOptions(
       baseUrl:
           BaseURLs.development.schemes + BaseURLs.development.host + BaseURLs.development.basePath,
-      // baseUrl: 'https://api.themoviedb.org/3',
     ),
   )..interceptors.add(APIInterceptor());
 

@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/index.dart';
 import 'package:movie_app/ui/details/details_page.dart';
-import 'package:movie_app/ui/home/widgets/title_widget.dart';
+import 'package:movie_app/ui/home/widgets/index.dart';
 import 'package:movie_app/ui/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/utils/index.dart';
 
@@ -12,9 +13,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CarouselController trendingController = CarouselController();
+    CarouselController upcomingController = CarouselController();
     CarouselController nowPlayingController = CarouselController();
     return Scaffold(
+      backgroundColor: darkWhiteColor,
       appBar: CustomAppBar(
         centerTitle: true,
         leading: Padding(
@@ -45,13 +47,34 @@ class HomePage extends StatelessWidget {
           children: [
             const SizedBox(height: 18),
             const TitleWidget(
+              paddingLeft: 20,
               textTitle: 'Popular Genres',
               sizeTitle: 15,
+              
             ),
-            const SizedBox(height: 15),
-            const TitleWidget(
+            const SizedBox(height: 5),
+            SizedBox(
+              height: 30,
+              child: ListView.separated(
+                primary: true,
+                padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: itemBuilderGenre,
+                separatorBuilder: separatorBuilderGengre,
+                itemCount: 5,
+              ),
+            ),
+            const SizedBox(height: 30),
+            TitleWidget(
+              visibleIcon: true,
+              paddingLeft: 0,
               textTitle: 'Now Playing',
-              sizeTitle: 21,
+              sizeTitle: 20,
+              icon: Icon(
+                Icons.smart_display_outlined,
+                color: greyColor,
+              ),
             ),
             const SizedBox(height: 15),
             CarouselSlider.builder(
@@ -66,27 +89,67 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 28),
-            const TitleWidget(
+            TitleWidget(
+              visibleIcon: true,
+              paddingLeft: 0,
               textTitle: 'Trending',
-              sizeTitle: 21,
+              visibleViewAll: true,
+              onTapViewAll: () {},
+              sizeTitle: 20,
+              icon: Image.asset(
+                ImagesPath.trendingIcon.assetName,
+                filterQuality: FilterQuality.high,
+              ),
+            ),
+            const SizedBox(height: 15),
+            SizedBox(
+              height: 213,
+              child: ListView.separated(
+                primary: true,
+                padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: itemBuilderTrending,
+                separatorBuilder: separatorBuilderGengre,
+                itemCount: 11,
+              ),
+            ),
+            const SizedBox(height: 28),
+            TitleWidget(
+              visibleIcon: true,
+              paddingLeft: 0,
+              textTitle: 'Best Drama',
+              sizeTitle: 20,
+              visibleViewAll: true,
+              onTapViewAll: () {},
+              icon: Image.asset(
+                ImagesPath.bestDramaIcon.assetName,
+                filterQuality: FilterQuality.high,
+              ),
+            ),
+            const SizedBox(height: 28),
+            TitleWidget(
+              visibleIcon: true,
+              paddingLeft: 0,
+              textTitle: 'Upcoming',
+              sizeTitle: 20,
+              icon: Icon(
+                Icons.update_sharp,
+                color: greyColor,
+              ),
             ),
             const SizedBox(height: 28),
             CarouselSlider.builder(
-              carouselController: trendingController,
-              itemBuilder: itemBuilderTrending,
+              carouselController: upcomingController,
+              itemBuilder: itemBuilderUpcoming,
               itemCount: 5,
               options: CarouselOptions(
-                height: 336,
+                height: 360,
                 enlargeCenterPage: true,
                 enableInfiniteScroll: true,
                 viewportFraction: 0.8,
                 onPageChanged: (index, reason) {},
               ),
-            ),
-            const SizedBox(height: 28),
-            const TitleWidget(
-              textTitle: 'Popular',
-              sizeTitle: 21,
             ),
             const SizedBox(height: 28),
             Container(
@@ -119,26 +182,41 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget itemBuilderTrending(BuildContext context, int index, int realIndex) {
-    return GestureDetector(
+  Widget itemBuilderGenre(BuildContext context, int index) {
+    return ItemGenre(
+      text: 'Genre aaaaaa',
       onTap: () {},
-      child: Container(
-        margin: const EdgeInsets.fromLTRB(2.5, 0, 2.5, 0),
-        decoration: BoxDecoration(
-          color: Colors.red,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(30),
-          ),
-          image: DecorationImage(
-            image: Image.network(
-              '${AppConstants.kImagePathPoster}/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
-            ).image,
-            filterQuality: FilterQuality.high,
-            fit: BoxFit.fill,
-          ),
+    );
+  }
+
+  Widget itemBuilderUpcoming(BuildContext context, int index, int realIndex) {
+    return ItemUpcoming(
+      image: Image.network(
+        '${AppConstants.kImagePathPoster}/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
+      ).image,
+      onTap: () {},
+    );
+  }
+
+  Widget itemBuilderTrending(BuildContext context, int index) {
+    return ItemTrending(
+      title: 'Spider-Man: No way home',
+      index: index,
+      itemCount: 10,
+      image: Image.network(
+        '${AppConstants.kImagePathPoster}/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg',
+      ).image,
+      onTapViewAll: () {},
+      onTapItem: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const DetailsPage(),
         ),
       ),
     );
+  }
+
+  Widget separatorBuilderGengre(BuildContext context, int index) {
+    return const SizedBox(width: 10);
   }
 }
 
