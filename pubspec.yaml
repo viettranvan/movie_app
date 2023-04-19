@@ -36,3 +36,4 @@ flutter:
     - lib/shared_ui/assets/images/trending_icon.png
     - lib/shared_ui/assets/images/tv_show_icon.png
     - lib/shared_ui/assets/images/best_drama_icon.png
+    - lib/shared_ui/assets/images/upcoming_icon.png

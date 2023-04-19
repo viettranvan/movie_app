@@ -7,6 +7,8 @@ enum ImagesPath {
   primaryShortLogo('lib/shared_ui/assets/images/primary_short_logo.png'),
   trendingIcon('lib/shared_ui/assets/images/trending_icon.png'),
   bestDramaIcon('lib/shared_ui/assets/images/best_drama_icon.png'),
+  upcomingIcon('lib/shared_ui/assets/images/upcoming_icon.png'),
+
   tvShowIcon('lib/shared_ui/assets/images/tv_show_icon.png'),
 
   noImage(

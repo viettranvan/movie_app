@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/shared_ui/components/custom_app_bar_title.dart';
 import 'package:movie_app/shared_ui/index.dart';
 
 class SearchPage extends StatelessWidget {
