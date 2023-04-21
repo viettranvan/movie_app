@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/index.dart';
+import 'package:movie_app/shared_ui/transitions/horizontal_navigator_route.dart';
 import 'package:movie_app/ui/details/details_page.dart';
 import 'package:movie_app/ui/home/widgets/index.dart';
 import 'package:movie_app/ui/navigation/bloc/navigation_bloc.dart';
@@ -51,7 +52,7 @@ class HomePage extends StatelessWidget {
               textTitle: 'Popular Genres',
               sizeTitle: 15,
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 7),
             SizedBox(
               height: 30,
               child: ListView.separated(
@@ -109,7 +110,7 @@ class HomePage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemBuilder: itemBuilderTrending,
-                separatorBuilder: separatorBuilderGengre,
+                separatorBuilder: separatorBuilder,
                 itemCount: 11,
               ),
             ),
@@ -125,108 +126,20 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            Container(
-              margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              decoration: BoxDecoration(
-                color: greyColor,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              height: 175,
-              child: GestureDetector(
-                onTap: () {},
-                child: Row(
-                  children: [
-                    Container(
-                      width: 117,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          bottomLeft: Radius.circular(15),
-                        ),
-                        image: DecorationImage(
-                          image: Image.network(
-                            '${AppConstants.kImagePathPoster}/vUUqzWa2LnHIVqkaKVlVGkVcZIW.jpg',
-                            fit: BoxFit.fill,
-                          ).image,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(15),
-                            bottomRight: Radius.circular(15),
-                          ),
-                          gradient: LinearGradient(
-                            stops: const [0, 1],
-                            colors: [
-                              darkTealColor,
-                              tealColor,
-                            ],
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 9),
-                              Text(
-                                'Peaky Blinders',
-                                style: TextStyle(
-                                  color: whiteColor,
-                                  fontSize: 20,
-                                ),
-                              ),
-                              const SizedBox(height: 1),
-                              Text(
-                                'Season 6 | Episode 3',
-                                style: TextStyle(
-                                  color: whiteColor,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              const SizedBox(height: 11),
-                              Text(
-                                'A gangster family epic set in 1919 Birmingham, England and centered on a gang who sew razor blades in the peaks...',
-                                maxLines: 4,
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: whiteColor,
-                                  fontSize: 12,
-                                ),
-                              ),
-                              const SizedBox(height: 18),
-                              Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset(
-                                      ImagesPath.tvShowIcon.assetName,
-                                      filterQuality: FilterQuality.high,
-                                      color: whiteColor,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      'Watch now!',
-                                      style: TextStyle(
-                                        color: whiteColor,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+            ItemNowPlaying(
+              title: 'Peaky Blinders',
+              season: 6, // lay latest season
+              episode: 3, // lay latest episode
+              overview:
+                  'A gangster family epic set in 1919 Birmingham, England and centered on a gang who sew razor blades in the peaks...',
+              image: Image.network(
+                '${AppConstants.kImagePathPoster}/vUUqzWa2LnHIVqkaKVlVGkVcZIW.jpg',
+              ).image,
+              colors: [darkTealColor, tealColor],
+              onTap: () => Navigator.of(context).push(
+                HorizontalNavigatorRoute(
+                  page: const DetailsPage(),
+                  begin: const Offset(1, 0),
                 ),
               ),
             ),
@@ -252,7 +165,52 @@ class HomePage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemBuilder: itemBuilderDrama,
-                separatorBuilder: separatorBuilderGengre,
+                separatorBuilder: separatorBuilder,
+                itemCount: 11,
+              ),
+            ),
+            const SizedBox(height: 30),
+            const TitleWidget(
+              paddingLeft: 20,
+              textTitle: 'Popular Artists',
+              sizeTitle: 15,
+            ),
+            const SizedBox(height: 7),
+            SizedBox(
+              height: 145,
+              child: ListView.separated(
+                primary: true,
+                padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: itemBuilderArtist,
+                separatorBuilder: separatorBuilder,
+                itemCount: 11,
+              ),
+            ),
+            const SizedBox(height: 30),
+            TitleWidget(
+              visibleIcon: true,
+              paddingLeft: 0,
+              textTitle: 'Top TV Shows',
+              sizeTitle: 20,
+              visibleViewAll: true,
+              onTapViewAll: () {},
+              icon: Image.asset(
+                ImagesPath.tvShowIcon.assetName,
+                filterQuality: FilterQuality.high,
+              ),
+            ),
+            const SizedBox(height: 15),
+            SizedBox(
+              height: 213,
+              child: ListView.separated(
+                primary: true,
+                padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: itemBuilderTvShow,
+                separatorBuilder: separatorBuilder,
                 itemCount: 11,
               ),
             ),
@@ -269,7 +227,7 @@ class HomePage extends StatelessWidget {
                 scale: 2,
               ),
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 18),
             CarouselSlider.builder(
               carouselController: upcomingController,
               itemBuilder: itemBuilderUpcoming,
@@ -295,9 +253,12 @@ class HomePage extends StatelessWidget {
 
   Widget itemBuilderPopular(BuildContext context, int index, int realIndex) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const DetailsPage(),
-      )),
+      onTap: () => Navigator.of(context).push(
+        HorizontalNavigatorRoute(
+          page: const DetailsPage(),
+          begin: const Offset(1, 0),
+        ),
+      ),
       child: SizedBox(
         child: Image.network(
           '${AppConstants.kImagePathBackdrop}/ovM06PdF3M8wvKb06i4sjW3xoww.jpg',
@@ -316,34 +277,44 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget itemBuilderUpcoming(BuildContext context, int index, int realIndex) {
-    return ItemUpcoming(
-      image: Image.network(
-        '${AppConstants.kImagePathPoster}/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
-      ).image,
-      onTap: () {},
-    );
-  }
-
   Widget itemBuilderTrending(BuildContext context, int index) {
-    return ItemTrending(
-      title: 'Spider-Man: No way home',
+    return ItemMovieTv(
+      title: 'Thor: Love and Thunder',
       index: index,
       itemCount: 10,
       image: Image.network(
-        '${AppConstants.kImagePathPoster}/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg',
+        '${AppConstants.kImagePathPoster}/pIkRyD18kl4FhoCNQuWxWu5cBLM.jpg',
       ).image,
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const DetailsPage(),
+        HorizontalNavigatorRoute(
+          page: const DetailsPage(),
+          begin: const Offset(1, 0),
         ),
       ),
     );
   }
 
+  Widget itemBuilderArtist(BuildContext context, int index) {
+    return ItemArtist(
+      title: 'Scarlett Johansson',
+      image: Image.network(
+        '${AppConstants.kImagePathPoster}/9TC1fyJXX3UEcKJ2erFuyMERxdf.jpg',
+      ).image,
+      index: index,
+      itemCount: 10,
+      onTapItem: () => Navigator.of(context).push(
+        HorizontalNavigatorRoute(
+          page: const DetailsPage(),
+          begin: const Offset(1, 0),
+        ),
+      ),
+      onTapViewAll: () {},
+    );
+  }
+
   Widget itemBuilderDrama(BuildContext context, int index) {
-    return ItemTrending(
+    return ItemMovieTv(
       title: 'The Last Of Us',
       index: index,
       itemCount: 10,
@@ -352,8 +323,41 @@ class HomePage extends StatelessWidget {
       ).image,
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const DetailsPage(),
+        HorizontalNavigatorRoute(
+          page: const DetailsPage(),
+          begin: const Offset(1, 0),
+        ),
+      ),
+    );
+  }
+
+  Widget itemBuilderTvShow(BuildContext context, int index) {
+    return ItemMovieTv(
+      title: 'Spider-Man: No way home',
+      index: index,
+      itemCount: 10,
+      image: Image.network(
+        '${AppConstants.kImagePathPoster}/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg',
+      ).image,
+      onTapViewAll: () {},
+      onTapItem: () => Navigator.of(context).push(
+        HorizontalNavigatorRoute(
+          page: const DetailsPage(),
+          begin: const Offset(1, 0),
+        ),
+      ),
+    );
+  }
+
+  Widget itemBuilderUpcoming(BuildContext context, int index, int realIndex) {
+    return ItemUpcoming(
+      image: Image.network(
+        '${AppConstants.kImagePathPoster}/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
+      ).image,
+      onTap: () => Navigator.of(context).push(
+        HorizontalNavigatorRoute(
+          page: const DetailsPage(),
+          begin: const Offset(1, 0),
         ),
       ),
     );
@@ -362,6 +366,14 @@ class HomePage extends StatelessWidget {
   Widget separatorBuilderGengre(BuildContext context, int index) {
     return const SizedBox(width: 10);
   }
+
+  Widget separatorBuilder(BuildContext context, int index) {
+    return const SizedBox(width: 14);
+  }
+
+  // Widget itemBuilderTvShow(BuildContext context, int index) {
+
+  // }
 }
 
 // void _incrementCounter() async {

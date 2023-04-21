@@ -15,7 +15,8 @@ class CustomNavigationBarItem extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: onTap,
-        child: Image.asset(
+        child: 
+        Image.asset(
           imagePath,
           scale: 2,
         ),

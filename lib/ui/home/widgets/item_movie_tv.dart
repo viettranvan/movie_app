@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 
-class ItemDrama extends StatelessWidget {
+class ItemMovieTv extends StatelessWidget {
   final int itemCount;
   final int index;
   final VoidCallback? onTapItem;
   final VoidCallback? onTapViewAll;
   final ImageProvider<Object> image;
   final String? title;
-  const ItemDrama({
+  const ItemMovieTv({
     super.key,
     required this.itemCount,
     required this.index,
     this.onTapItem,
     this.onTapViewAll,
     required this.image,
-    this.title,
+    required this.title,
   });
 
   @override
@@ -53,17 +53,20 @@ class ItemDrama extends StatelessWidget {
                         ),
                         Positioned.fill(
                           right: 10,
-                          child: RotatedBox(
-                            quarterTurns: 2,
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: whiteColor,
-                            ),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: whiteColor,
+                            textDirection: TextDirection.rtl,
                           ),
                         ),
                       ],
                     ),
-                    const Text('View all'),
+                    Text(
+                      'View all',
+                      style: TextStyle(
+                        color: darkBlueColor,
+                      ),
+                    ),
                   ],
                 ),
               )

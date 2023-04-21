@@ -12,7 +12,7 @@ enum ImagesPath {
   tvShowIcon('lib/shared_ui/assets/images/tv_show_icon.png'),
 
   noImage(
-      'https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-1/330798293_576320571084139_6497451970399755023_n.jpg?stp=dst-jpg_s320x320&_nc_cat=108&ccb=1-7&_nc_sid=7206a8&_nc_ohc=aoAgIRMLY7kAX_8u56b&_nc_ht=scontent.fsgn8-4.fna&oh=00_AfCv2uL6UExFQujezcoPPA2UZNY1mhWrTB3TwIVSY12AQg&oe=64417C04');
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPFX24dOkZavnvV7R9supHkmmSEXlCTbKRQamQkrhN&s');
 
   const ImagesPath(this.assetName);
   final String assetName;
