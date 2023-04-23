@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class HorizontalNavigatorRoute<Object> extends PageRouteBuilder<Object> {
+class CustomPageRoute<Object> extends PageRouteBuilder<Object> {
   final Widget page;
   final Offset begin;
-  HorizontalNavigatorRoute({
+  CustomPageRoute({
     required this.page,
     required this.begin,
   }) : super(

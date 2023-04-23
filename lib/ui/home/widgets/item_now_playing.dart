@@ -27,7 +27,7 @@ class ItemNowPlaying extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 175,
-        margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+        margin: const EdgeInsets.fromLTRB(17, 0, 17, 0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           image: DecorationImage(
@@ -83,7 +83,7 @@ class ItemNowPlaying extends StatelessWidget {
                       SizedBox(
                         width: 200,
                         child: Text(
-                          overview??'',
+                          overview ?? '',
                           maxLines: 4,
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,

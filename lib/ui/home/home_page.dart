@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/index.dart';
-import 'package:movie_app/shared_ui/transitions/horizontal_navigator_route.dart';
+import 'package:movie_app/shared_ui/transitions/custom_page_route.dart';
 import 'package:movie_app/ui/details/details_page.dart';
 import 'package:movie_app/ui/home/widgets/index.dart';
 import 'package:movie_app/ui/navigation/bloc/navigation_bloc.dart';
@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
     CarouselController upcomingController = CarouselController();
     CarouselController nowPlayingController = CarouselController();
     return Scaffold(
-      backgroundColor: darkWhiteColor,
+      backgroundColor: whiteColor,
       appBar: CustomAppBar(
         centerTitle: true,
         leading: Padding(
@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
           children: [
             const SizedBox(height: 15),
             const TitleWidget(
-              paddingLeft: 20,
+              paddingLeft: 17,
               textTitle: 'Popular Genres',
               sizeTitle: 15,
             ),
@@ -137,7 +137,7 @@ class HomePage extends StatelessWidget {
               ).image,
               colors: [darkTealColor, tealColor],
               onTap: () => Navigator.of(context).push(
-                HorizontalNavigatorRoute(
+                CustomPageRoute(
                   page: const DetailsPage(),
                   begin: const Offset(1, 0),
                 ),
@@ -171,16 +171,16 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             const TitleWidget(
-              paddingLeft: 20,
+              paddingLeft: 17,
               textTitle: 'Popular Artists',
               sizeTitle: 15,
             ),
             const SizedBox(height: 7),
             SizedBox(
-              height: 145,
+              height: 150,
               child: ListView.separated(
                 primary: true,
-                padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
+                padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemBuilder: itemBuilderArtist,
@@ -227,13 +227,13 @@ class HomePage extends StatelessWidget {
                 scale: 2,
               ),
             ),
-            const SizedBox(height: 18),
+            const SizedBox(height: 15),
             CarouselSlider.builder(
               carouselController: upcomingController,
               itemBuilder: itemBuilderUpcoming,
               itemCount: 5,
               options: CarouselOptions(
-                height: 360,
+                height: 365,
                 enlargeCenterPage: true,
                 enableInfiniteScroll: true,
                 viewportFraction: 0.8,
@@ -254,7 +254,7 @@ class HomePage extends StatelessWidget {
   Widget itemBuilderPopular(BuildContext context, int index, int realIndex) {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(
-        HorizontalNavigatorRoute(
+        CustomPageRoute(
           page: const DetailsPage(),
           begin: const Offset(1, 0),
         ),
@@ -287,7 +287,7 @@ class HomePage extends StatelessWidget {
       ).image,
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
-        HorizontalNavigatorRoute(
+        CustomPageRoute(
           page: const DetailsPage(),
           begin: const Offset(1, 0),
         ),
@@ -304,7 +304,7 @@ class HomePage extends StatelessWidget {
       index: index,
       itemCount: 10,
       onTapItem: () => Navigator.of(context).push(
-        HorizontalNavigatorRoute(
+        CustomPageRoute(
           page: const DetailsPage(),
           begin: const Offset(1, 0),
         ),
@@ -323,7 +323,7 @@ class HomePage extends StatelessWidget {
       ).image,
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
-        HorizontalNavigatorRoute(
+        CustomPageRoute(
           page: const DetailsPage(),
           begin: const Offset(1, 0),
         ),
@@ -341,7 +341,7 @@ class HomePage extends StatelessWidget {
       ).image,
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
-        HorizontalNavigatorRoute(
+        CustomPageRoute(
           page: const DetailsPage(),
           begin: const Offset(1, 0),
         ),
@@ -352,10 +352,10 @@ class HomePage extends StatelessWidget {
   Widget itemBuilderUpcoming(BuildContext context, int index, int realIndex) {
     return ItemUpcoming(
       image: Image.network(
-        '${AppConstants.kImagePathPoster}/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
+        '${AppConstants.kImagePathPoster}/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg',
       ).image,
       onTap: () => Navigator.of(context).push(
-        HorizontalNavigatorRoute(
+        CustomPageRoute(
           page: const DetailsPage(),
           begin: const Offset(1, 0),
         ),
@@ -370,10 +370,6 @@ class HomePage extends StatelessWidget {
   Widget separatorBuilder(BuildContext context, int index) {
     return const SizedBox(width: 14);
   }
-
-  // Widget itemBuilderTvShow(BuildContext context, int index) {
-
-  // }
 }
 
 // void _incrementCounter() async {

@@ -1,3 +1,3 @@
 library transitions;
 
-export 'horizontal_navigator_route.dart';
+export 'custom_page_route.dart';

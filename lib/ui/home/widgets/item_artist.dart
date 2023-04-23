@@ -77,6 +77,8 @@ class ItemArtist extends StatelessWidget {
               ],
             )
           : Column(
+              // mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                   width: 67,
