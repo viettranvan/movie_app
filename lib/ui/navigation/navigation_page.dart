@@ -22,9 +22,15 @@ class NavigationPage extends StatelessWidget {
             resizeToAvoidBottomInset: false,
             body: state.pages[state.indexPage],
             bottomNavigationBar: CustomNavigationBar(
-              background: const CustomNavigationBackground(),
-              margin: state.margin,
-              padding: state.padding,
+              background: const BlurBackground(
+                sigmaX: 3,
+                sigmaY: 3,
+                heightBackground: 60,
+                paddingHorizontal: 25,
+                radiusCorner: 30,
+              ),
+              margin: const EdgeInsets.fromLTRB(25, 0, 25, 23),
+              padding: const EdgeInsets.fromLTRB(23, 7, 23, 7),
               lengthPages: state.pages.length,
               indexPage: state.indexPage,
               items: [
@@ -52,3 +58,4 @@ class NavigationPage extends StatelessWidget {
     );
   }
 }
+// Icon(Icons.arrow_back_ios),

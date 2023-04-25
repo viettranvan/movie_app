@@ -24,12 +24,10 @@ class CustomNavigationBar extends StatelessWidget {
         background,
         LayoutBuilder(
           builder: (context, constraints) {
-            double left = ((constraints.biggest.width - (margin.horizontal + padding.horizontal)) /
-                    lengthPages) *
-                indexPage;
-            double widthCircle =
-                ((constraints.biggest.width - (margin.horizontal + padding.horizontal)) /
-                    lengthPages);
+            double widthNavigation =
+                constraints.biggest.width - (margin.horizontal + padding.horizontal);
+            double widthCircle = widthNavigation / lengthPages;
+            double left = widthCircle * indexPage;
             return Container(
               height: 60,
               margin: margin,
@@ -56,7 +54,7 @@ class CustomNavigationBar extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: darkGreenColor.withOpacity(0.6),
+                        color: darkBlueColor.withOpacity(0.6),
                       ),
                     ),
                   ),
