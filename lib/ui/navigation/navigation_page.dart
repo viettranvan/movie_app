@@ -23,6 +23,8 @@ class NavigationPage extends StatelessWidget {
             body: state.pages[state.indexPage],
             bottomNavigationBar: CustomNavigationBar(
               background: const BlurBackground(
+                sigmaX: 3,
+                sigmaY: 3,
                 heightBackground: 60,
                 paddingHorizontal: 25,
                 radiusCorner: 30,

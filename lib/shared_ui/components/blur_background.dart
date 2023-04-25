@@ -7,12 +7,16 @@ class BlurBackground extends StatelessWidget {
   final double? radiusCorner;
   final double? paddingHorizontal;
   final double? width;
+  final double? sigmaX;
+  final double? sigmaY;
   const BlurBackground({
     super.key,
     this.heightBackground,
     this.radiusCorner,
     this.paddingHorizontal,
     this.width,
+    this.sigmaX,
+    this.sigmaY,
   });
 
   @override
@@ -24,10 +28,10 @@ class BlurBackground extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(radiusCorner ?? 0),
         child: BackdropFilter(
-          blendMode: BlendMode.srcOver,
+          blendMode: BlendMode.src,
           filter: ImageFilter.blur(
-            sigmaX: 5.0,
-            sigmaY: 5.0,
+            sigmaX: sigmaX ?? 8,
+            sigmaY: sigmaX ?? 8,
           ),
           child: const SizedBox.expand(),
         ),

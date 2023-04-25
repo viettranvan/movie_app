@@ -1,21 +1,23 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/index.dart';
-import 'package:movie_app/shared_ui/transitions/custom_page_route.dart';
-import 'package:movie_app/ui/details/details_page.dart';
+import 'package:movie_app/ui/home/views/artist/index.dart';
+import 'package:movie_app/ui/home/views/best_drama/index.dart';
+import 'package:movie_app/ui/home/views/genre/index.dart';
+import 'package:movie_app/ui/home/views/now_playing/index.dart';
+import 'package:movie_app/ui/home/views/popular/index.dart';
+import 'package:movie_app/ui/home/views/trending/index.dart';
+import 'package:movie_app/ui/home/views/tv_show/index.dart';
+import 'package:movie_app/ui/home/views/upcoming/index.dart';
 import 'package:movie_app/ui/home/widgets/index.dart';
 import 'package:movie_app/ui/navigation/bloc/navigation_bloc.dart';
-import 'package:movie_app/utils/index.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    CarouselController upcomingController = CarouselController();
-    CarouselController nowPlayingController = CarouselController();
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: CustomAppBar(
@@ -53,18 +55,7 @@ class HomePage extends StatelessWidget {
               sizeTitle: 15,
             ),
             const SizedBox(height: 7),
-            SizedBox(
-              height: 30,
-              child: ListView.separated(
-                primary: true,
-                padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemBuilder: itemBuilderGenre,
-                separatorBuilder: separatorBuilderGengre,
-                itemCount: 5,
-              ),
-            ),
+            const Genreview(),
             const SizedBox(height: 30),
             TitleWidget(
               visibleIcon: true,
@@ -77,17 +68,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            CarouselSlider.builder(
-              carouselController: nowPlayingController,
-              itemBuilder: itemBuilderPopular,
-              itemCount: 5,
-              options: CarouselOptions(
-                autoPlay: true,
-                viewportFraction: 1,
-                enableInfiniteScroll: true,
-                onPageChanged: (index, reason) {},
-              ),
-            ),
+            const PopularView(),
             const SizedBox(height: 30),
             TitleWidget(
               visibleIcon: true,
@@ -102,18 +83,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            SizedBox(
-              height: 213,
-              child: ListView.separated(
-                primary: true,
-                padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemBuilder: itemBuilderTrending,
-                separatorBuilder: separatorBuilder,
-                itemCount: 11,
-              ),
-            ),
+            const TrendingView(),
             const SizedBox(height: 30),
             TitleWidget(
               visibleIcon: true,
@@ -126,23 +96,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            ItemNowPlaying(
-              title: 'Peaky Blinders',
-              season: 6, // lay latest season
-              episode: 3, // lay latest episode
-              overview:
-                  'A gangster family epic set in 1919 Birmingham, England and centered on a gang who sew razor blades in the peaks...',
-              image: Image.network(
-                '${AppConstants.kImagePathPoster}/vUUqzWa2LnHIVqkaKVlVGkVcZIW.jpg',
-              ).image,
-              colors: [darkTealColor, tealColor],
-              onTap: () => Navigator.of(context).push(
-                CustomPageRoute(
-                  page: const DetailsPage(),
-                  begin: const Offset(1, 0),
-                ),
-              ),
-            ),
+            const NowPlayingView(),
             const SizedBox(height: 30),
             TitleWidget(
               visibleIcon: true,
@@ -157,18 +111,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            SizedBox(
-              height: 213,
-              child: ListView.separated(
-                primary: true,
-                padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemBuilder: itemBuilderDrama,
-                separatorBuilder: separatorBuilder,
-                itemCount: 11,
-              ),
-            ),
+            const BestDramaView(),
             const SizedBox(height: 30),
             const TitleWidget(
               paddingLeft: 17,
@@ -176,18 +119,7 @@ class HomePage extends StatelessWidget {
               sizeTitle: 15,
             ),
             const SizedBox(height: 7),
-            SizedBox(
-              height: 150,
-              child: ListView.separated(
-                primary: true,
-                padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemBuilder: itemBuilderArtist,
-                separatorBuilder: separatorBuilder,
-                itemCount: 11,
-              ),
-            ),
+            const ArtistView(),
             const SizedBox(height: 30),
             TitleWidget(
               visibleIcon: true,
@@ -202,18 +134,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            SizedBox(
-              height: 213,
-              child: ListView.separated(
-                primary: true,
-                padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemBuilder: itemBuilderTvShow,
-                separatorBuilder: separatorBuilder,
-                itemCount: 11,
-              ),
-            ),
+            const TvShowView(),
             const SizedBox(height: 30),
             TitleWidget(
               visibleIcon: true,
@@ -228,18 +149,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            CarouselSlider.builder(
-              carouselController: upcomingController,
-              itemBuilder: itemBuilderUpcoming,
-              itemCount: 5,
-              options: CarouselOptions(
-                height: 365,
-                enlargeCenterPage: true,
-                enableInfiniteScroll: true,
-                viewportFraction: 0.8,
-                onPageChanged: (index, reason) {},
-              ),
-            ),
+            const UpcomingView(),
             const SizedBox(height: 30),
             Container(
               height: 80,
@@ -249,126 +159,6 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget itemBuilderPopular(BuildContext context, int index, int realIndex) {
-    return GestureDetector(
-      onTap: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: const DetailsPage(),
-          begin: const Offset(1, 0),
-        ),
-      ),
-      child: SizedBox(
-        child: Image.network(
-          '${AppConstants.kImagePathBackdrop}/ovM06PdF3M8wvKb06i4sjW3xoww.jpg',
-          width: double.infinity,
-          filterQuality: FilterQuality.high,
-          fit: BoxFit.fitWidth,
-        ),
-      ),
-    );
-  }
-
-  Widget itemBuilderGenre(BuildContext context, int index) {
-    return ItemGenre(
-      text: 'Animation',
-      onTap: () {},
-    );
-  }
-
-  Widget itemBuilderTrending(BuildContext context, int index) {
-    return ItemMovieTv(
-      title: 'Thor: Love and Thunder',
-      index: index,
-      itemCount: 10,
-      image: Image.network(
-        '${AppConstants.kImagePathPoster}/pIkRyD18kl4FhoCNQuWxWu5cBLM.jpg',
-      ).image,
-      onTapViewAll: () {},
-      onTapItem: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: const DetailsPage(),
-          begin: const Offset(1, 0),
-        ),
-      ),
-    );
-  }
-
-  Widget itemBuilderArtist(BuildContext context, int index) {
-    return ItemArtist(
-      title: 'Scarlett Johansson',
-      image: Image.network(
-        '${AppConstants.kImagePathPoster}/9TC1fyJXX3UEcKJ2erFuyMERxdf.jpg',
-      ).image,
-      index: index,
-      itemCount: 10,
-      onTapItem: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: const DetailsPage(),
-          begin: const Offset(1, 0),
-        ),
-      ),
-      onTapViewAll: () {},
-    );
-  }
-
-  Widget itemBuilderDrama(BuildContext context, int index) {
-    return ItemMovieTv(
-      title: 'The Last Of Us',
-      index: index,
-      itemCount: 10,
-      image: Image.network(
-        '${AppConstants.kImagePathPoster}/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg',
-      ).image,
-      onTapViewAll: () {},
-      onTapItem: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: const DetailsPage(),
-          begin: const Offset(1, 0),
-        ),
-      ),
-    );
-  }
-
-  Widget itemBuilderTvShow(BuildContext context, int index) {
-    return ItemMovieTv(
-      title: 'Spider-Man: No way home',
-      index: index,
-      itemCount: 10,
-      image: Image.network(
-        '${AppConstants.kImagePathPoster}/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg',
-      ).image,
-      onTapViewAll: () {},
-      onTapItem: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: const DetailsPage(),
-          begin: const Offset(1, 0),
-        ),
-      ),
-    );
-  }
-
-  Widget itemBuilderUpcoming(BuildContext context, int index, int realIndex) {
-    return ItemUpcoming(
-      image: Image.network(
-        '${AppConstants.kImagePathPoster}/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg',
-      ).image,
-      onTap: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: const DetailsPage(),
-          begin: const Offset(1, 0),
-        ),
-      ),
-    );
-  }
-
-  Widget separatorBuilderGengre(BuildContext context, int index) {
-    return const SizedBox(width: 10);
-  }
-
-  Widget separatorBuilder(BuildContext context, int index) {
-    return const SizedBox(width: 14);
   }
 }
 
@@ -380,3 +170,57 @@ class HomePage extends StatelessWidget {
 //       Logger.debug(e.runtimeType.toString());
 //     }
 //   }
+
+
+// SizedBox(
+//   height: 18,
+//   child: Center(
+//     child: ListView.separated(
+//       shrinkWrap: true,
+//       scrollDirection: Axis.horizontal,
+//       itemBuilder: (context, index) {
+//         return Indicator(
+//           isActive:
+//               state.selectedIndex % images.length == index ? true : false,
+//         );
+//       },
+//       separatorBuilder: (context, index) => const SizedBox(width: 2),
+//       itemCount: images.length,
+//     ),
+//   ),
+// ),
+
+
+ // SizedBox(
+//   height: 200,
+//   child: PageView.builder(
+//     controller: pageController,
+//     itemBuilder: itemBuilderPopular2,
+//     onPageChanged: (value) {
+//       bloc.add(SlidePageView(selectedIndex: value));
+//     },
+//   ),
+// ),
+
+ // @override
+  // void initState() {
+  //   super.initState();
+  //   timer = Timer.periodic(const Duration(seconds: 5), (time) async {
+  //     final nexPage = (pageController.page?.toInt() ?? 0);
+  //     await pageController.animateToPage(
+  //       nexPage + 1,
+  //       duration: const Duration(milliseconds: 350),
+  //       curve: Curves.ease,
+  //     );
+  //   });
+  // }
+
+  // @override
+  // void dispose() {
+  //   timer!.cancel();
+  //   pageController.dispose();
+  //   super.dispose();
+  // }
+
+
+

@@ -54,7 +54,7 @@ class CustomNavigationBar extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: darkGreenColor.withOpacity(0.6),
+                        color: darkBlueColor.withOpacity(0.6),
                       ),
                     ),
                   ),

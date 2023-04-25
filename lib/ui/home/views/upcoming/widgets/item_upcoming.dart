@@ -5,10 +5,15 @@ import 'package:movie_app/shared_ui/index.dart';
 class ItemUpcoming extends StatelessWidget {
   final ImageProvider image;
   final VoidCallback? onTap;
+  final String? title;
+  final double? voteAverage;
+
   const ItemUpcoming({
     super.key,
     required this.image,
     this.onTap,
+    this.title,
+    this.voteAverage,
   });
 
   @override
@@ -57,6 +62,42 @@ class ItemUpcoming extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                     color: const Color(0xffDADADA).withOpacity(0.3),
                   ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18),
+                        child: Text(
+                          'IMDb',
+                          style: TextStyle(
+                            color: whiteColor,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.star_rounded,
+                            color: Colors.yellow,
+                            size: 25,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            '$voteAverage',
+                            style: TextStyle(
+                              color: whiteColor,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -69,6 +110,8 @@ class ItemUpcoming extends StatelessWidget {
                 Container(
                   width: double.infinity,
                   height: 88,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(15),
                   decoration: BoxDecoration(
                     border: Border.all(
                       strokeAlign: 1,
@@ -76,6 +119,15 @@ class ItemUpcoming extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(20),
                     color: const Color(0xffDADADA).withOpacity(0.3),
+                  ),
+                  child: Text(
+                    title ?? '',
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    style: TextStyle(
+                      color: whiteColor,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ],
