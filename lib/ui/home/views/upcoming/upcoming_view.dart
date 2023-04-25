@@ -1,10 +1,8 @@
-
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/details/details_page.dart';
-import 'package:movie_app/ui/home/widgets/index.dart';
+import 'package:movie_app/ui/home/views/upcoming/widgets/index.dart';
 import 'package:movie_app/utils/index.dart';
 
 class UpcomingView extends StatelessWidget {

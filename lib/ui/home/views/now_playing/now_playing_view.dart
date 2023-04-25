@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/details/details_page.dart';
-import 'package:movie_app/ui/home/widgets/index.dart';
+import 'package:movie_app/ui/home/views/now_playing/widgets/index.dart';
 import 'package:movie_app/utils/index.dart';
 
 class NowPlayingView extends StatelessWidget {
