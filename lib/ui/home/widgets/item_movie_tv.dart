@@ -94,7 +94,7 @@ class ItemMovieTv extends StatelessWidget {
                       maxLines: 1,
                       softWrap: false,
                       style: const TextStyle(
-                        fontSize: 15,
+                        fontSize: 14.5,
                         overflow: TextOverflow.clip,
                       ),
                     ),

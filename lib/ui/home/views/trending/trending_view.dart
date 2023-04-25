@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/details/details_page.dart';
+import 'package:movie_app/ui/home/views/trending/bloc/trending_bloc.dart';
 import 'package:movie_app/ui/home/widgets/index.dart';
 import 'package:movie_app/utils/index.dart';
 
@@ -9,27 +11,48 @@ class TrendingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 213,
-      child: ListView.separated(
-        primary: true,
-        padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        itemBuilder: itemBuilder,
-        separatorBuilder: separatorBuilder,
-        itemCount: 11,
+    return BlocProvider(
+      create: (context) => TrendingBloc()
+        ..add(FetchData(
+          mediaType: 'all',
+          timeWindow: 'day',
+          page: 1,
+          language: 'en-US',
+        )),
+      child: BlocBuilder<TrendingBloc, TrendingState>(
+        builder: (context, state) {
+          if (state is TrendingInitial) {
+            return const SizedBox(
+              height: 213,
+            );
+          }
+          return SizedBox(
+            height: 213,
+            child: ListView.separated(
+              primary: true,
+              padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemBuilder: itemBuilder,
+              separatorBuilder: separatorBuilder,
+              itemCount: state.listTrending.length + 1,
+            ),
+          );
+        },
       ),
     );
   }
 
   Widget itemBuilder(BuildContext context, int index) {
+    var list = (BlocProvider.of<TrendingBloc>(context).state as TrendingSuccess).listTrending;
+    String? title = index != list.length ? (list[index].title ?? list[index].name) : '';
+    String? posterPath = index != list.length ? list[index].posterPath : '';
     return ItemMovieTv(
-      title: 'Thor: Love and Thunder',
+      title: title,
       index: index,
-      itemCount: 10,
+      itemCount: list.length,
       image: Image.network(
-        '${AppConstants.kImagePathPoster}/pIkRyD18kl4FhoCNQuWxWu5cBLM.jpg',
+        '${AppConstants.kImagePathPoster}$posterPath',
       ).image,
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
