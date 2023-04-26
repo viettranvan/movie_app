@@ -9,6 +9,5 @@ Color get lightBlueColor => const Color(0xFF01b4e4);
 Color get darkBlueColor => const Color(0xFF0d253f);
 Color get greyColor => const Color(0xFF9C9C9C);
 Color get lightGreyColor => const Color(0xFFC4C4C4);
-// Color get darkGreenColor => const Color(0xFF0D253F);
 Color get tealColor => const Color(0xFF4C9B94);
 Color get darkTealColor => const Color(0xFF000C34);

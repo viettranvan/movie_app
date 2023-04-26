@@ -28,9 +28,7 @@ class TvShowView extends StatelessWidget {
       title: 'Spider-Man: No way home',
       index: index,
       itemCount: 10,
-      image: Image.network(
-        '${AppConstants.kImagePathPoster}/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg',
-      ).image,
+      urlImage: '${AppConstants.kImagePathPoster}/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg',
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(
