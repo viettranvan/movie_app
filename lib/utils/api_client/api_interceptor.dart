@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 class APIInterceptor extends QueuedInterceptor {
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     // if (accessToken != null) {
     //   if (JwtDecoder.isExpired(accessToken)) {
     //     try {
@@ -57,7 +57,7 @@ class APIInterceptor extends QueuedInterceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
     switch (err.response?.statusCode) {
       case 401:
         // await storage.deleteAll();
