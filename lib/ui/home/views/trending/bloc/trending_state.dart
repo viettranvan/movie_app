@@ -1,7 +1,7 @@
 part of 'trending_bloc.dart';
 
 abstract class TrendingState {
-  final List<Movie> listTrending;
+  final List<TrendingSynthesis> listTrending;
   TrendingState({
     required this.listTrending,
   });

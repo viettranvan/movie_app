@@ -14,7 +14,7 @@ class TrendingView extends StatelessWidget {
     return BlocProvider(
       create: (context) => TrendingBloc()
         ..add(FetchData(
-          mediaType: 'all',
+          mediaType: 'movie',
           timeWindow: 'day',
           page: 1,
           language: 'en-US',

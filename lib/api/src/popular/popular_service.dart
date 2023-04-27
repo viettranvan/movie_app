@@ -5,7 +5,7 @@ import 'package:movie_app/utils/api_client/response_type.dart';
 class PopularService {
   PopularService({required this.apiClient});
   APIClient apiClient;
-  Future<ListResponse<Movie>> getPopularMovie({
+  Future<ListResponse<Media>> getPopularMovie({
     required String language,
     required int page,
     required String region,
@@ -16,7 +16,7 @@ class PopularService {
       region: region,
     );
     final response = await apiClient.execute(request: request);
-    final listResponse = response.results.toList().map<Movie>((e) => Movie.fromJson(e)).toList();
+    final listResponse = response.results.toList().map<Media>((e) => Media.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 }

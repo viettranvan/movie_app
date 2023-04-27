@@ -2,7 +2,7 @@
 import 'package:movie_app/api/index.dart';
 import 'package:movie_app/api/src/genre/genre_service.dart';
 import 'package:movie_app/api/src/trending/trending_service.dart';
-import 'package:movie_app/model/genre_movie.dart';
+import 'package:movie_app/model/media_genre.dart';
 import 'package:movie_app/model/index.dart';
 import 'package:movie_app/utils/index.dart';
 
@@ -11,7 +11,7 @@ class HomeRepository {
   HomeRepository({
     required this.restApiClient,
   });
-  Future<ListResponse<Movie>> getPopularMovie({
+  Future<ListResponse<Media>> getPopularMovie({
     required String language,
     required int page,
     required String region,
@@ -23,7 +23,7 @@ class HomeRepository {
     );
   }
 
-  Future<ListResponse<Movie>> getTrendingMovie({
+  Future<ListResponse<TrendingSynthesis>> getTrendingMovie({
     required String mediaType,
     required String timeWindow,
     required int page,
