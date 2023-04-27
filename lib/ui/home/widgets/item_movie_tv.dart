@@ -6,7 +6,8 @@ class ItemMovieTv extends StatelessWidget {
   final int index;
   final VoidCallback? onTapItem;
   final VoidCallback? onTapViewAll;
-  final ImageProvider<Object> image;
+  final String urlImage;
+  // final ImageProvider<Object> image;
   final String? title;
   const ItemMovieTv({
     super.key,
@@ -14,7 +15,7 @@ class ItemMovieTv extends StatelessWidget {
     required this.index,
     this.onTapItem,
     this.onTapViewAll,
-    required this.image,
+    required this.urlImage,
     required this.title,
   });
 
@@ -81,7 +82,9 @@ class ItemMovieTv extends StatelessWidget {
                       ),
                       color: Colors.green,
                       image: DecorationImage(
-                        image: image,
+                        image: Image.network(
+                          urlImage,
+                        ).image,
                         filterQuality: FilterQuality.high,
                         fit: BoxFit.cover,
                       ),

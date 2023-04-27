@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:movie_app/api/index.dart';
+import 'package:movie_app/api/src/genre/genre_service.dart';
 import 'package:movie_app/api/src/trending/trending_service.dart';
+import 'package:movie_app/model/genre_movie.dart';
 import 'package:movie_app/model/index.dart';
 import 'package:movie_app/utils/index.dart';
 
@@ -31,6 +33,22 @@ class HomeRepository {
       mediaType: mediaType,
       timeWindow: timeWindow,
       page: page,
+      language: language,
+    );
+  }
+
+  Future<ListResponse<Genre>> getGenreMovie({
+    required String language,
+  }) async {
+    return GenreService(apiClient: restApiClient).getGenreMovie(
+      language: language,
+    );
+  }
+
+  Future<ListResponse<Genre>> getGenreTv({
+    required String language,
+  }) async {
+    return GenreService(apiClient: restApiClient).getGenreTv(
       language: language,
     );
   }

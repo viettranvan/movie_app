@@ -51,9 +51,7 @@ class TrendingView extends StatelessWidget {
       title: title,
       index: index,
       itemCount: list.length,
-      image: Image.network(
-        '${AppConstants.kImagePathPoster}$posterPath',
-      ).image,
+      urlImage: '${AppConstants.kImagePathPoster}$posterPath',
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(

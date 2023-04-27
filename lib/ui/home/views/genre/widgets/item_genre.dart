@@ -3,11 +3,11 @@ import 'package:movie_app/shared_ui/colors/colors.dart';
 
 class ItemGenre extends StatelessWidget {
   final VoidCallback? onTap;
-  final String text;
+  final String? genreName;
   const ItemGenre({
     super.key,
     this.onTap,
-    required this.text,
+    required this.genreName,
   });
 
   @override
@@ -22,7 +22,7 @@ class ItemGenre extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         child: Text(
-          text,
+          genreName??'',
           style: TextStyle(
             color: whiteColor,
           ),

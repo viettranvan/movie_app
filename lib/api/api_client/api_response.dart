@@ -1,10 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
-// when successfully
 class APIResponse {
   Dates? dates;
   int? page;
   dynamic results;
+  dynamic genres;
   int? totalPages;
   int? totalResults;
 
@@ -12,6 +10,7 @@ class APIResponse {
     this.dates,
     this.page,
     this.results,
+    this.genres,
     this.totalPages,
     this.totalResults,
   });
@@ -20,6 +19,10 @@ class APIResponse {
     dates = json['dates'] != null ? Dates.fromJson(json['dates']) : null;
     page = json['page'];
     results = json['results'];
+    // genres = json['genres'] == null
+    //     ? []
+    //     : List<Genre>.from(json['genres'].map((x) => Genre.fromJson(json)));
+    genres = json['genres'];
     totalPages = json['total_pages'];
     totalResults = json['total_results'];
   }
@@ -38,7 +41,7 @@ class APIError implements Exception {
     statusCode = json['status_code'];
     statusMessage = json['status_message'];
   }
-  
+
   @override
   String toString() {
     return statusMessage ?? 'An unexpected error occurred.';

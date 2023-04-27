@@ -28,9 +28,7 @@ class BestDramaView extends StatelessWidget {
       title: 'The Last Of Us',
       index: index,
       itemCount: 10,
-      image: Image.network(
-        '${AppConstants.kImagePathPoster}/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg',
-      ).image,
+      urlImage: '${AppConstants.kImagePathPoster}/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg',
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(
@@ -40,7 +38,8 @@ class BestDramaView extends StatelessWidget {
       ),
     );
   }
-    Widget separatorBuilder(BuildContext context, int index) {
+
+  Widget separatorBuilder(BuildContext context, int index) {
     return const SizedBox(width: 14);
   }
 }
