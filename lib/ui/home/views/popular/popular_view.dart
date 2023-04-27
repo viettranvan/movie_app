@@ -18,7 +18,7 @@ class PopularView extends StatelessWidget {
         ..add(FetchData(
           page: 1,
           region: '',
-          language: '',
+          language: 'en-US',
         )),
       child: BlocBuilder<PopularBloc, PopularState>(
         builder: (context, state) {

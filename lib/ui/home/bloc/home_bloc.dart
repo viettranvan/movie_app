@@ -6,13 +6,11 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  bool isActive = false;
-  HomeBloc() : super(HomeInitial()) {
+  HomeBloc() : super(HomeInitial(isActive: false)) {
     on<SwitchType>(_onSwitchType);
   }
 
   FutureOr<void> _onSwitchType(SwitchType event, Emitter<HomeState> emit) {
-    isActive = !isActive;
-    emit(HomeInitial());
+    emit(HomeInitial(isActive: event.isActive));
   }
 }

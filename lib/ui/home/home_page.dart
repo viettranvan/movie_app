@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc(),
+      create: (context) => HomeBloc()..add(SwitchType(isActive: false)),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           var bloc = BlocProvider.of<HomeBloc>(context);
@@ -55,33 +55,21 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(height: 15),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      const Expanded(
-                        child: TitleWidget(
-                          paddingLeft: 17,
-                          textTitle: 'Popular Genres',
-                          sizeTitle: 15,
-                        ),
-                      ),
-                      CustomSwitch(
-                        isActive: bloc.isActive,
-                        onSwitch: () => bloc.add(SwitchType(
-                          isActive: false,
-                        )),
-                      ),
-                    ],
+                  const SizedBox(height: 20),
+                  SecondaryTitle(
+                    title: 'Popular Genres',
+                    leftWidget: CustomSwitch(
+                      isActive: state.isActive,
+                      onSwitchMovie: () => bloc.add(SwitchType(isActive: false)),
+                      onSwitchTV: () => bloc.add(SwitchType(isActive: true)),
+                    ),
                   ),
-                  const SizedBox(height: 10),
-                  const Genreview(),
+                  const SizedBox(height: 12),
+                  Genreview(isActive: state.isActive),
                   const SizedBox(height: 30),
-                  TitleWidget(
+                  PrimaryTitle(
                     visibleIcon: true,
-                    paddingLeft: 0,
-                    textTitle: 'Popular',
-                    sizeTitle: 20,
+                    title: 'Popular',
                     icon: Icon(
                       Icons.stars_outlined,
                       color: greyColor,
@@ -90,13 +78,11 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 15),
                   const PopularView(),
                   const SizedBox(height: 30),
-                  TitleWidget(
+                  PrimaryTitle(
                     visibleIcon: true,
-                    paddingLeft: 0,
-                    textTitle: 'Trending',
+                    title: 'Trending',
                     visibleViewAll: true,
                     onTapViewAll: () {},
-                    sizeTitle: 20,
                     icon: Image.asset(
                       ImagesPath.trendingIcon.assetName,
                       filterQuality: FilterQuality.high,
@@ -105,11 +91,9 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 15),
                   const TrendingView(),
                   const SizedBox(height: 30),
-                  TitleWidget(
+                  PrimaryTitle(
                     visibleIcon: true,
-                    paddingLeft: 0,
-                    textTitle: 'Now Playing',
-                    sizeTitle: 20,
+                    title: 'Now Playing',
                     icon: Icon(
                       Icons.smart_display_outlined,
                       color: greyColor,
@@ -118,11 +102,9 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 15),
                   const NowPlayingView(),
                   const SizedBox(height: 30),
-                  TitleWidget(
+                  PrimaryTitle(
                     visibleIcon: true,
-                    paddingLeft: 0,
-                    textTitle: 'Best Drama',
-                    sizeTitle: 20,
+                    title: 'Best Drama',
                     visibleViewAll: true,
                     onTapViewAll: () {},
                     icon: Image.asset(
@@ -133,19 +115,15 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 15),
                   const BestDramaView(),
                   const SizedBox(height: 30),
-                  const TitleWidget(
-                    paddingLeft: 17,
-                    textTitle: 'Popular Artists',
-                    sizeTitle: 15,
+                  const SecondaryTitle(
+                    title: 'Popular Artists',
                   ),
-                  const SizedBox(height: 7),
+                  const SizedBox(height: 12),
                   const ArtistView(),
                   const SizedBox(height: 30),
-                  TitleWidget(
+                  PrimaryTitle(
                     visibleIcon: true,
-                    paddingLeft: 0,
-                    textTitle: 'Top TV Shows',
-                    sizeTitle: 20,
+                    title: 'Top TV Shows',
                     visibleViewAll: true,
                     onTapViewAll: () {},
                     icon: Image.asset(
@@ -156,11 +134,11 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 15),
                   const TvShowView(),
                   const SizedBox(height: 30),
-                  TitleWidget(
+                  PrimaryTitle(
                     visibleIcon: true,
-                    paddingLeft: 0,
-                    textTitle: 'Upcoming',
-                    sizeTitle: 20,
+                    title: 'Upcoming',
+                    visibleViewAll: true,
+                    onTapViewAll: () {},
                     icon: Image.asset(
                       ImagesPath.upcomingIcon.assetName,
                       filterQuality: FilterQuality.high,

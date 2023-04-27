@@ -5,16 +5,23 @@ class GenreRequest {
 
   static APIRequest getGenreMovie({
     required String language,
-    required int page,
-    required String region,
   }) =>
       APIRequest(
         method: HTTPMethods.get,
-        path: '/movie/popular',
+        path: '/genre/movie/list',
         parameters: {
-          'language':language,
-          'page': page,
-          'region': region,
+          'language': language,
+        },
+      );
+
+  static APIRequest getGenreTv({
+    required String language,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/genre/tv/list',
+        parameters: {
+          'language': language,
         },
       );
 }
