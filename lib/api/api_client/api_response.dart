@@ -19,9 +19,6 @@ class APIResponse {
     dates = json['dates'] != null ? Dates.fromJson(json['dates']) : null;
     page = json['page'];
     results = json['results'];
-    // genres = json['genres'] == null
-    //     ? []
-    //     : List<Genre>.from(json['genres'].map((x) => Genre.fromJson(json)));
     genres = json['genres'];
     totalPages = json['total_pages'];
     totalResults = json['total_results'];

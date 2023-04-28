@@ -66,6 +66,8 @@ class ItemNowPlaying extends StatelessWidget {
                       const SizedBox(height: 9),
                       Text(
                         title ?? '',
+                        overflow: TextOverflow.clip,
+                        softWrap: false,
                         style: TextStyle(
                           color: whiteColor,
                           fontSize: 20,
@@ -74,6 +76,8 @@ class ItemNowPlaying extends StatelessWidget {
                       const SizedBox(height: 1),
                       Text(
                         'Season $season | Episode $episode',
+                        overflow: TextOverflow.clip,
+                        softWrap: false,
                         style: TextStyle(
                           color: whiteColor,
                           fontSize: 14,

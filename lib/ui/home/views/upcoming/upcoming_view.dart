@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/details/details_page.dart';
+import 'package:movie_app/ui/home/views/upcoming/bloc/upcoming_bloc.dart';
 import 'package:movie_app/ui/home/views/upcoming/widgets/index.dart';
 import 'package:movie_app/utils/index.dart';
-
-import 'bloc/upcoming_bloc.dart';
 
 class UpcomingView extends StatelessWidget {
   const UpcomingView({super.key});

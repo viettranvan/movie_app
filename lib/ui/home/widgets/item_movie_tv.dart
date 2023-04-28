@@ -7,7 +7,6 @@ class ItemMovieTv extends StatelessWidget {
   final VoidCallback? onTapItem;
   final VoidCallback? onTapViewAll;
   final String urlImage;
-  // final ImageProvider<Object> image;
   final String? title;
   const ItemMovieTv({
     super.key,
@@ -80,7 +79,7 @@ class ItemMovieTv extends StatelessWidget {
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15),
                       ),
-                      color: Colors.green,
+                      color: lightGreyColor,
                       image: DecorationImage(
                         image: Image.network(
                           urlImage,

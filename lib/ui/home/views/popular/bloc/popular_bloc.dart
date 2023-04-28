@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:movie_app/model/index.dart';
+import 'package:movie_app/model/model.dart';
 import 'package:movie_app/ui/home/home_repository.dart';
 import 'package:movie_app/utils/api_client/index.dart';
 import 'package:movie_app/utils/index.dart';
