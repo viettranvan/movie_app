@@ -1,7 +1,7 @@
 part of 'popular_bloc.dart';
 
 abstract class PopularState {
-  final List<Movie> listPopular;
+  final List<MediaSynthesis> listPopular;
   final int selectedIndex;
 
   PopularState({

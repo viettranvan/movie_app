@@ -1,6 +1,6 @@
 import 'package:movie_app/api/index.dart';
 import 'package:movie_app/api/src/genre/genre_request.dart';
-import 'package:movie_app/model/genre_movie.dart';
+import 'package:movie_app/model/media_genre.dart';
 import 'package:movie_app/utils/index.dart';
 
 class GenreService {

@@ -1,16 +1,17 @@
 import 'package:movie_app/api/index.dart';
+import 'package:movie_app/api/src/upcoming/index.dart';
 import 'package:movie_app/model/index.dart';
 import 'package:movie_app/utils/api_client/response_type.dart';
 
-class PopularService {
-  PopularService({required this.apiClient});
+class UpcomingService {
+  UpcomingService({required this.apiClient});
   APIClient apiClient;
-  Future<ListResponse<MediaSynthesis>> getPopularMovie({
+  Future<ListResponse<MediaSynthesis>> getUpcomingMovie({
     required String language,
     required int page,
     required String region,
   }) async {
-    final request = PopularRequest.getPopularMovie(
+    final request = UpcomingRequest.getUpcomingMovie(
       language: language,
       page: page,
       region: region,

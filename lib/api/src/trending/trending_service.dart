@@ -6,7 +6,7 @@ import 'package:movie_app/utils/api_client/response_type.dart';
 class TrendingService {
   TrendingService({required this.apiClient});
   APIClient apiClient;
-  Future<ListResponse<Movie>> getTrendingMovie({
+  Future<ListResponse<TrendingSynthesis>> getTrendingMovie({
     required String mediaType,
     required String timeWindow,
     required int page,
@@ -19,7 +19,7 @@ class TrendingService {
       language: language,
     );
     final response = await apiClient.execute(request: request);
-    final listResponse = response.results.toList().map<Movie>((e) => Movie.fromJson(e)).toList();
+    final listResponse = response.results.toList().map<TrendingSynthesis>((e) => TrendingSynthesis.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 }

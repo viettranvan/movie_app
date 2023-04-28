@@ -62,8 +62,7 @@ class PopularView extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index, int realIndex) {
-    var state = BlocProvider.of<PopularBloc>(context).state as PopularSuccess;
-    var list = state.listPopular;
+    var list = (BlocProvider.of<PopularBloc>(context).state as PopularSuccess).listPopular;
     return ItemPopular(
       urlImage: '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}',
       onTap: () => Navigator.of(context).push(
