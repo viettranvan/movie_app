@@ -1,4 +1,4 @@
-import 'package:movie_app/model/media_sythesis.dart';
+import 'package:movie_app/model/media_synthesis.dart';
 
 class TrendingSynthesis {
   bool? adult;
@@ -22,7 +22,7 @@ class TrendingSynthesis {
   int? gender;
   String? knownForDepartment;
   String? profilePath;
-  List<Media> knownFor;
+  List<MediaSynthesis> knownFor;
 
   TrendingSynthesis({
     this.adult,
@@ -75,7 +75,7 @@ class TrendingSynthesis {
         profilePath: json['profile_path'],
         knownFor: json['known_for'] == null
             ? []
-            : List<Media>.from(json['known_for'].map((x) => Media.fromJson(x))),
+            : List<MediaSynthesis>.from(json['known_for'].map((x) => MediaSynthesis.fromJson(x))),
       );
 }
 

@@ -4,8 +4,8 @@ import 'package:movie_app/ui/details/details_page.dart';
 import 'package:movie_app/ui/home/widgets/index.dart';
 import 'package:movie_app/utils/index.dart';
 
-class TvShowView extends StatelessWidget {
-  const TvShowView({super.key});
+class TopTvShowView extends StatelessWidget {
+  const TopTvShowView({super.key});
 
   @override
   Widget build(BuildContext context) {

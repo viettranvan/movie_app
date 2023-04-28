@@ -1,4 +1,4 @@
-class Media {
+class MediaSynthesis {
   bool? adult;
   String? backdropPath;
   List<int> genreIds;
@@ -18,7 +18,7 @@ class Media {
   String? firstAirDate;
   List<String> originCountry;
 
-  Media({
+  MediaSynthesis({
     this.adult,
     this.backdropPath,
     this.genreIds = const [],
@@ -39,7 +39,7 @@ class Media {
     this.originCountry = const [],
   });
 
-  factory Media.fromJson(Map<String, dynamic> json) => Media(
+  factory MediaSynthesis.fromJson(Map<String, dynamic> json) => MediaSynthesis(
         adult: json['adult'],
         backdropPath: json['backdrop_path'],
         genreIds: json['genre_ids'] == null ? [] : List<int>.from(json['genre_ids'].map((x) => x)),

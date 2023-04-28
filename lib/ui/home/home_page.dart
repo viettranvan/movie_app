@@ -8,8 +8,8 @@ import 'package:movie_app/ui/home/views/best_drama/index.dart';
 import 'package:movie_app/ui/home/views/genre/index.dart';
 import 'package:movie_app/ui/home/views/now_playing/index.dart';
 import 'package:movie_app/ui/home/views/popular/index.dart';
+import 'package:movie_app/ui/home/views/top_tv_show/index.dart';
 import 'package:movie_app/ui/home/views/trending/index.dart';
-import 'package:movie_app/ui/home/views/tv_show/index.dart';
 import 'package:movie_app/ui/home/views/upcoming/index.dart';
 import 'package:movie_app/ui/home/widgets/index.dart';
 import 'package:movie_app/ui/navigation/bloc/navigation_bloc.dart';
@@ -132,7 +132,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const TvShowView(),
+                  const TopTvShowView(),
                   const SizedBox(height: 30),
                   PrimaryTitle(
                     visibleIcon: true,
