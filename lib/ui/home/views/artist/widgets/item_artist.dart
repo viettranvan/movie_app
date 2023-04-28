@@ -77,13 +77,13 @@ class ItemArtist extends StatelessWidget {
               ],
             )
           : Column(
-              // mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
                   width: 67,
                   height: 100,
                   decoration: BoxDecoration(
+                    color: lightGreyColor,
                     borderRadius: BorderRadius.circular(33.36),
                     boxShadow: [
                       BoxShadow(
@@ -99,7 +99,7 @@ class ItemArtist extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 7),
                 SizedBox(
                   width: 67,
                   child: Text(

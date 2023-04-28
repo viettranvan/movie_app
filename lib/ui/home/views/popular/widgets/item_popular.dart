@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/shared_ui/colors/colors.dart';
 
 class ItemPopular extends StatelessWidget {
   final VoidCallback? onTap;
@@ -13,8 +14,10 @@ class ItemPopular extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-    
-      child: SizedBox(
+      child: Container(
+        decoration: BoxDecoration(
+          color: lightGreyColor,
+        ),
         child: Image.network(
           urlImage,
           width: double.infinity,

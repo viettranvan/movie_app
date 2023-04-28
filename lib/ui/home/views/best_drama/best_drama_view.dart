@@ -42,11 +42,10 @@ class BestDramaView extends StatelessWidget {
 
   Widget itemBuilder(BuildContext context, int index) {
     var list = (BlocProvider.of<BestDramaBloc>(context).state as BestDramaSuccess).listBestDrama;
-
-    String? title = index != list.length ? list[index].name : '';
+    String? name = index != list.length ? list[index].name : '';
     String? posterPath = index != list.length ? list[index].posterPath : '';
     return ItemMovieTv(
-      title: title,
+      title: name,
       index: index,
       itemCount: list.length,
       urlImage: '${AppConstants.kImagePathPoster}$posterPath',

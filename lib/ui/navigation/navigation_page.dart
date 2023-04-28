@@ -20,7 +20,10 @@ class NavigationPage extends StatelessWidget {
           return Scaffold(
             extendBody: true,
             resizeToAvoidBottomInset: false,
-            body: state.pages[state.indexPage],
+            body: IndexedStack(
+              index: state.indexPage,
+              children: state.pages,
+            ),
             bottomNavigationBar: CustomNavigationBar(
               background: const BlurBackground(
                 sigmaX: 3,

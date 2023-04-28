@@ -1,10 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:movie_app/api/index.dart';
-import 'package:movie_app/api/src/best_drama/index.dart';
+import 'package:movie_app/api/src/artist/index.dart';
 import 'package:movie_app/api/src/genre/genre_service.dart';
-import 'package:movie_app/api/src/trending/trending_service.dart';
-import 'package:movie_app/api/src/upcoming/index.dart';
-import 'package:movie_app/model/index.dart';
+import 'package:movie_app/api/src/movie/movie_service.dart';
+import 'package:movie_app/api/src/tv/tv_service.dart';
+import 'package:movie_app/model/model.dart';
 import 'package:movie_app/utils/index.dart';
 
 class HomeRepository {
@@ -34,7 +32,7 @@ class HomeRepository {
     required int page,
     required String region,
   }) async {
-    return PopularService(apiClient: restApiClient).getPopularMovie(
+    return MovieService(apiClient: restApiClient).getPopularMovie(
       language: language,
       page: page,
       region: region,
@@ -47,11 +45,21 @@ class HomeRepository {
     required int page,
     required String language,
   }) async {
-    return TrendingService(apiClient: restApiClient).getTrendingMovie(
+    return MovieService(apiClient: restApiClient).getTrendingMovie(
       mediaType: mediaType,
       timeWindow: timeWindow,
       page: page,
       language: language,
+    );
+  }
+
+  Future<ListResponse<MediaSynthesis>> getNowPlayingTv({
+    required String language,
+    required int page,
+  }) async {
+    return TvService(apiClient: restApiClient).getNowPlayingTv(
+      language: language,
+      page: page,
     );
   }
 
@@ -61,11 +69,31 @@ class HomeRepository {
     required List<int> withGenres,
     // required String region,
   }) async {
-    return BestDramaService(apiClient: restApiClient).getBestDramaTv(
+    return TvService(apiClient: restApiClient).getBestDramaTv(
       language: language,
       page: page,
       withGenres: withGenres,
       // region: region,
+    );
+  }
+
+  Future<ListResponse<MediaArtist>> getPopularArtist({
+    required String language,
+    required int page,
+  }) async {
+    return ArtistService(apiClient: restApiClient).getPopularArtist(
+      language: language,
+      page: page,
+    );
+  }
+
+  Future<ListResponse<MediaSynthesis>> getTopTv({
+    required String language,
+    required int page,
+  }) async {
+    return TvService(apiClient: restApiClient).getTopTv(
+      language: language,
+      page: page,
     );
   }
 
@@ -74,7 +102,7 @@ class HomeRepository {
     required int page,
     required String region,
   }) async {
-    return UpcomingService(apiClient: restApiClient).getUpcomingMovie(
+    return MovieService(apiClient: restApiClient).getUpcomingMovie(
       language: language,
       page: page,
       region: region,

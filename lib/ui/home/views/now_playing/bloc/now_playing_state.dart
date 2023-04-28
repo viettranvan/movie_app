@@ -1,5 +1,24 @@
 part of 'now_playing_bloc.dart';
 
-abstract class NowPlayingState {}
+abstract class NowPlayingState {
+  final MediaSynthesis nowPlayingTv;
+  NowPlayingState({
+    required this.nowPlayingTv,
+  });
+}
 
-class NowPlayingInitial extends NowPlayingState {}
+class NowPlayingInitial extends NowPlayingState {
+  NowPlayingInitial({required super.nowPlayingTv});
+}
+
+class NowPlayingSuccess extends NowPlayingState {
+  NowPlayingSuccess({required super.nowPlayingTv});
+}
+
+class NowPlayingError extends NowPlayingState {
+  final String errorMessage;
+  NowPlayingError({
+    required this.errorMessage,
+    required super.nowPlayingTv,
+  });
+}
