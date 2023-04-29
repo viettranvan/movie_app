@@ -15,6 +15,7 @@ class UpcomingBloc extends Bloc<UpcomingEvent, UpcomingState> {
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<UpcomingState> emit) async {
+    
     try {
       var result = await homeRepository.getUpcomingMovie(
         language: event.language,

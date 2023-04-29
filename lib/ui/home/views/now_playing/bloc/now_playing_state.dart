@@ -1,7 +1,7 @@
 part of 'now_playing_bloc.dart';
 
 abstract class NowPlayingState {
-  final MediaSynthesis nowPlayingTv;
+  final MediaSynthesisDetails nowPlayingTv;
   NowPlayingState({
     required this.nowPlayingTv,
   });

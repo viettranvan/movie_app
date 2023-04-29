@@ -10,7 +10,7 @@ part 'now_playing_state.dart';
 
 class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
   final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
-  NowPlayingBloc() : super(NowPlayingInitial(nowPlayingTv: MediaSynthesis())) {
+  NowPlayingBloc() : super(NowPlayingInitial(nowPlayingTv: MediaSynthesisDetails())) {
     on<FetchData>(_onFetchData);
   }
 
@@ -20,10 +20,13 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
         language: event.language,
         page: event.page,
       );
-      // var random = Random();
-      // var nowPlayingTv = result.list[random.nextInt(result.list.length)];
-      var nowPlayingTv = (result.list..shuffle()).first;
-      emit(NowPlayingSuccess(nowPlayingTv: nowPlayingTv));
+      var randomNowPlaying = (result.list..shuffle()).first;
+      var resultDetails = await homeRepository.getDetailsTv(
+        language: event.language,
+        tvId: randomNowPlaying.id ?? 0,
+        appendToResponse: null,
+      );
+      emit(NowPlayingSuccess(nowPlayingTv: resultDetails.object));
     } catch (e) {
       emit(NowPlayingError(
         errorMessage: e.toString(),

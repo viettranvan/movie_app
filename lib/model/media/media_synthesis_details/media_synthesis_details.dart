@@ -33,7 +33,7 @@ class MediaSynthesisDetails {
   bool? inProduction;
   List<String> languages;
   String? lastAirDate;
-  LastEpisodeToAir lastEpisodeToAir;
+  LastEpisodeToAir? lastEpisodeToAir;
   String? name;
   NextEpisodeToAir? nextEpisodeToAir;
   List<Network> networks;
@@ -76,9 +76,9 @@ class MediaSynthesisDetails {
     this.inProduction,
     this.languages = const [],
     this.lastAirDate,
-    required this.lastEpisodeToAir,
+    this.lastEpisodeToAir,
     this.name,
-    required this.nextEpisodeToAir,
+    this.nextEpisodeToAir,
     this.networks = const [],
     this.numberOfEpisodes,
     this.numberOfSeasons,
@@ -91,7 +91,9 @@ class MediaSynthesisDetails {
   factory MediaSynthesisDetails.fromJson(Map<String, dynamic> json) => MediaSynthesisDetails(
         adult: json['adult'],
         backdropPath: json['backdrop_path'],
-        belongsToCollection: json['belongs_to_collection'],
+        belongsToCollection: json['belongs_to_collection'] == null
+            ? null
+            : BelongsToCollection.fromJson(json['belongs_to_collection']),
         budget: json['budget'],
         genres: json['genres'] == null
             ? []
@@ -134,9 +136,13 @@ class MediaSynthesisDetails {
         languages:
             json["languages"] == null ? [] : List<String>.from(json["languages"].map((x) => x)),
         lastAirDate: json['last_air_date'],
-        lastEpisodeToAir: json['last_episode_to_air'],
+        lastEpisodeToAir: json['last_episode_to_air'] == null
+            ? null
+            : LastEpisodeToAir.fromJson(json['last_episode_to_air']),
         name: json['name'],
-        nextEpisodeToAir: json['next_episode_to_air'],
+        nextEpisodeToAir: json['next_episode_to_air'] == null
+            ? null
+            : NextEpisodeToAir.fromJson(json['next_episode_to_air']),
         networks: json["networks"] == null
             ? []
             : List<Network>.from(json["networks"].map((x) => Network.fromJson(x))),
@@ -153,6 +159,12 @@ class MediaSynthesisDetails {
       );
 }
 
-class NextEpisodeToAir {}
+class NextEpisodeToAir {
+  NextEpisodeToAir();
+  factory NextEpisodeToAir.fromJson(Map<String, dynamic> json) => NextEpisodeToAir();
+}
 
-class BelongsToCollection {}
+class BelongsToCollection {
+  BelongsToCollection();
+  factory BelongsToCollection.fromJson(Map<String, dynamic> json) => BelongsToCollection();
+}

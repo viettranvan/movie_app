@@ -108,4 +108,16 @@ class HomeRepository {
       region: region,
     );
   }
+
+  Future<ObjectResponse<MediaSynthesisDetails>> getDetailsTv({
+    required String language,
+    required int tvId,
+    String? appendToResponse,
+  }) async {
+    return TvService(apiClient: restApiClient).getDetailsTv(
+      language: language,
+      tvId: tvId,
+      appendToResponse: appendToResponse,
+    );
+  }
 }
