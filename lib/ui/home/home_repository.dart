@@ -11,7 +11,7 @@ class HomeRepository {
     required this.restApiClient,
   });
 
-  Future<ListResponse<Genre>> getGenreMovie({
+  Future<ObjectResponse<MediaGenre>> getGenreMovie({
     required String language,
   }) async {
     return GenreService(apiClient: restApiClient).getGenreMovie(
@@ -19,13 +19,30 @@ class HomeRepository {
     );
   }
 
-  Future<ListResponse<Genre>> getGenreTv({
+  Future<ObjectResponse<MediaGenre>> getGenreTv({
     required String language,
   }) async {
     return GenreService(apiClient: restApiClient).getGenreTv(
       language: language,
     );
   }
+
+
+  // Future<ListResponse<Genre>> getGenreMovie({
+  //   required String language,
+  // }) async {
+  //   return GenreService(apiClient: restApiClient).getGenreMovie(
+  //     language: language,
+  //   );
+  // }
+
+  // Future<ListResponse<Genre>> getGenreTv({
+  //   required String language,
+  // }) async {
+  //   return GenreService(apiClient: restApiClient).getGenreTv(
+  //     language: language,
+  //   );
+  // }
 
   Future<ListResponse<MediaSynthesis>> getPopularMovie({
     required String language,

@@ -2,7 +2,7 @@ class APIResponse {
   Dates? dates;
   int? page;
   dynamic results;
-  dynamic genres;
+  // dynamic genres;
   int? totalPages;
   int? totalResults;
 
@@ -10,7 +10,7 @@ class APIResponse {
     this.dates,
     this.page,
     this.results,
-    this.genres,
+    // this.genres,
     this.totalPages,
     this.totalResults,
   });
@@ -19,13 +19,11 @@ class APIResponse {
     dates = json['dates'] != null ? Dates.fromJson(json['dates']) : null;
     page = json['page'];
     results = json['results'] ?? json;
-    genres = json['genres'];
+    // genres = json['genres'];
     totalPages = json['total_pages'];
     totalResults = json['total_results'];
   }
 
-
-  
   Map<String, dynamic> toObject() {
     return Map<String, dynamic>.from(results);
   }

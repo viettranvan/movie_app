@@ -30,8 +30,8 @@ class GenreBloc extends Bloc<GenreEvent, GenreState> {
       emit(GenreSuccess(
         visibleMovie: state.visibleMovie,
         visibleTv: state.visibleTv,
-        listGenreMovie: movieResult.list,
-        listGenreTv: tvResult.list,
+        listGenreMovie: movieResult.object.genres,
+        listGenreTv: tvResult.object.genres,
       ));
     } catch (e) {
       emit(GenreError(

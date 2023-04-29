@@ -20,7 +20,7 @@ class TvService {
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
-        response.results.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
+        response.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 
@@ -34,7 +34,7 @@ class TvService {
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
-        response.results.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
+        response.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 
@@ -48,7 +48,7 @@ class TvService {
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
-        response.results.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
+        response.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 
@@ -63,7 +63,7 @@ class TvService {
       appendToResponse: appendToResponse,
     );
     final response = await apiClient.execute(request: request);
-    final objectResponse = MediaSynthesisDetails.fromJson(response.results);
+    final objectResponse = MediaSynthesisDetails.fromJson(response.toObject());
     return ObjectResponse(object: objectResponse);
   }
 }

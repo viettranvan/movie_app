@@ -16,7 +16,7 @@ class ArtistService {
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
-        response.results.toList().map<MediaArtist>((e) => MediaArtist.fromJson(e)).toList();
+        response.toList().map<MediaArtist>((e) => MediaArtist.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 }

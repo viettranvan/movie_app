@@ -44,10 +44,12 @@ class ItemNowPlaying extends StatelessWidget {
           ],
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const SizedBox(width: 114),
             Expanded(
+              flex: 2,
               child: Container(
+                margin: const EdgeInsets.only(left: 113),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(15),
@@ -85,11 +87,11 @@ class ItemNowPlaying extends StatelessWidget {
                       ),
                       const SizedBox(height: 11),
                       SizedBox(
-                        width: 200,
+                        width: 300,
                         child: Text(
                           overview ?? '',
                           maxLines: 4,
-                          softWrap: true,
+                          // softWrap: true,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: whiteColor,

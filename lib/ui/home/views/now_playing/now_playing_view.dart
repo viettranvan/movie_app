@@ -25,8 +25,8 @@ class NowPlayingView extends StatelessWidget {
           }
           return ItemNowPlaying(
             title: state.nowPlayingTv.name,
-            season: 6, // lay latest season
-            episode: 3, // lay latest episode
+            season: state.nowPlayingTv.lastEpisodeToAir?.seasonNumber, // lay latest season
+            episode: state.nowPlayingTv.lastEpisodeToAir?.episodeNumber, // lay latest episode
             overview:
                 state.nowPlayingTv.overview != '' ? state.nowPlayingTv.overview : 'Comming soon',
             image: Image.network(
