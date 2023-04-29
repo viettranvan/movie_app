@@ -18,10 +18,24 @@ class APIResponse {
   APIResponse.fromJson(Map<String, dynamic> json) {
     dates = json['dates'] != null ? Dates.fromJson(json['dates']) : null;
     page = json['page'];
-    results = json['results'];
+    results = json['results'] ?? json;
     genres = json['genres'];
     totalPages = json['total_pages'];
     totalResults = json['total_results'];
+  }
+
+
+  
+  Map<String, dynamic> toObject() {
+    return Map<String, dynamic>.from(results);
+  }
+
+  List<Map<String, dynamic>> toList() {
+    return List<Map<String, dynamic>>.from(results);
+  }
+
+  List<Map<String, dynamic>> toItems() {
+    return List<Map<String, dynamic>>.from(results['results']);
   }
 }
 

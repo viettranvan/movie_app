@@ -51,4 +51,19 @@ class TvService {
         response.results.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
+
+  Future<ObjectResponse<MediaSynthesisDetails>> getDetailsTv({
+    required String language,
+    required int tvId,
+    String? appendToResponse,
+  }) async {
+    final request = TvRequest.getDetailsTv(
+      tvId: tvId,
+      language: language,
+      appendToResponse: appendToResponse,
+    );
+    final response = await apiClient.execute(request: request);
+    final objectResponse = MediaSynthesisDetails.fromJson(response.results);
+    return ObjectResponse(object: objectResponse);
+  }
 }

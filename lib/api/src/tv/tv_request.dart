@@ -45,4 +45,19 @@ class TvRequest {
           'page': page,
         },
       );
+
+  static APIRequest getDetailsTv({
+    required String language,
+    required int tvId,
+    String? appendToResponse,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/tv/$tvId',
+        parameters: {
+          'language': language,
+          'tv_id': tvId,
+          'append_to_response': appendToResponse,
+        },
+      );
 }
