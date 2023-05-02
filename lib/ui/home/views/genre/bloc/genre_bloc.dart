@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:movie_app/model/genre/media_genre/media_genre.dart';
 import 'package:movie_app/ui/home/index.dart';
-import 'package:movie_app/utils/index.dart';
+import 'package:movie_app/utils/utils.dart';
 
 part 'genre_event.dart';
 part 'genre_state.dart';
@@ -30,8 +30,8 @@ class GenreBloc extends Bloc<GenreEvent, GenreState> {
       emit(GenreSuccess(
         visibleMovie: state.visibleMovie,
         visibleTv: state.visibleTv,
-        listGenreMovie: movieResult.list,
-        listGenreTv: tvResult.list,
+        listGenreMovie: movieResult.object.genres,
+        listGenreTv: tvResult.object.genres,
       ));
     } catch (e) {
       emit(GenreError(

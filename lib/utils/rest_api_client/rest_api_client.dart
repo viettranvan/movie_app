@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:movie_app/api/index.dart';
-import 'package:movie_app/utils/index.dart';
+import 'package:movie_app/utils/utils.dart';
 
 class RestApiClient extends APIClient {
   static final RestApiClient _instance = RestApiClient._();

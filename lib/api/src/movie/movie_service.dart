@@ -1,7 +1,7 @@
 import 'package:movie_app/api/index.dart';
 import 'package:movie_app/api/src/movie/movie_request.dart';
 import 'package:movie_app/model/model.dart';
-import 'package:movie_app/utils/api_client/response_type.dart';
+import 'package:movie_app/utils/rest_api_client/response_type.dart';
 
 class MovieService {
   MovieService({required this.apiClient});
@@ -18,7 +18,7 @@ class MovieService {
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
-        response.results.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
+        response.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 
@@ -35,10 +35,8 @@ class MovieService {
       language: language,
     );
     final response = await apiClient.execute(request: request);
-    final listResponse = response.results
-        .toList()
-        .map<TrendingSynthesis>((e) => TrendingSynthesis.fromJson(e))
-        .toList();
+    final listResponse =
+        response.toList().map<TrendingSynthesis>((e) => TrendingSynthesis.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 
@@ -54,7 +52,7 @@ class MovieService {
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
-        response.results.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
+        response.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 }

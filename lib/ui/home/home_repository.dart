@@ -3,7 +3,7 @@ import 'package:movie_app/api/src/genre/genre_service.dart';
 import 'package:movie_app/api/src/movie/movie_service.dart';
 import 'package:movie_app/api/src/tv/tv_service.dart';
 import 'package:movie_app/model/model.dart';
-import 'package:movie_app/utils/index.dart';
+import 'package:movie_app/utils/utils.dart';
 
 class HomeRepository {
   final RestApiClient restApiClient;
@@ -11,7 +11,7 @@ class HomeRepository {
     required this.restApiClient,
   });
 
-  Future<ListResponse<Genre>> getGenreMovie({
+  Future<ObjectResponse<MediaGenre>> getGenreMovie({
     required String language,
   }) async {
     return GenreService(apiClient: restApiClient).getGenreMovie(
@@ -19,7 +19,7 @@ class HomeRepository {
     );
   }
 
-  Future<ListResponse<Genre>> getGenreTv({
+  Future<ObjectResponse<MediaGenre>> getGenreTv({
     required String language,
   }) async {
     return GenreService(apiClient: restApiClient).getGenreTv(

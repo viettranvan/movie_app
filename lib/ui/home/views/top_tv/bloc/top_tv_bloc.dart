@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:movie_app/model/model.dart';
 import 'package:movie_app/ui/home/index.dart';
-import 'package:movie_app/utils/index.dart';
+import 'package:movie_app/utils/utils.dart';
 
 part 'top_tv_event.dart';
 part 'top_tv_state.dart';
