@@ -63,7 +63,7 @@ class ItemNowPlaying extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(height: 9),
                       Text(
@@ -99,7 +99,9 @@ class ItemNowPlaying extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 18),
+                      SizedBox(
+                        height: overview!.contains('Comming soon') ? 55 : 18,
+                      ),
                       Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

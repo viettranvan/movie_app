@@ -5,7 +5,7 @@ import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/details/details_page.dart';
 import 'package:movie_app/ui/home/views/popular/bloc/popular_bloc.dart';
 import 'package:movie_app/ui/home/views/popular/widgets/index.dart';
-import 'package:movie_app/utils/index.dart';
+import 'package:movie_app/utils/utils.dart';
 
 class PopularView extends StatelessWidget {
   const PopularView({super.key});

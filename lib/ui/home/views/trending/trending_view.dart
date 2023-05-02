@@ -4,7 +4,7 @@ import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/details/details_page.dart';
 import 'package:movie_app/ui/home/views/trending/bloc/trending_bloc.dart';
 import 'package:movie_app/ui/home/widgets/index.dart';
-import 'package:movie_app/utils/index.dart';
+import 'package:movie_app/utils/utils.dart';
 
 class TrendingView extends StatelessWidget {
   const TrendingView({super.key});

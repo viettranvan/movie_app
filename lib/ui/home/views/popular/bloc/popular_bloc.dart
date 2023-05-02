@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:movie_app/model/model.dart';
 import 'package:movie_app/ui/home/home_repository.dart';
-import 'package:movie_app/utils/api_client/index.dart';
-import 'package:movie_app/utils/index.dart';
+import 'package:movie_app/utils/rest_api_client/index.dart';
+import 'package:movie_app/utils/utils.dart';
 
 part 'popular_event.dart';
 part 'popular_state.dart';

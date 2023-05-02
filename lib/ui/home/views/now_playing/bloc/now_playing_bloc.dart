@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:movie_app/model/model.dart';
 import 'package:movie_app/ui/home/index.dart';
-import 'package:movie_app/utils/index.dart';
+import 'package:movie_app/utils/utils.dart';
 
 part 'now_playing_event.dart';
 part 'now_playing_state.dart';

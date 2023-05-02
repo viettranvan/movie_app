@@ -1,4 +1,4 @@
-import 'package:movie_app/utils/index.dart';
+import '../constants/constants.dart';
 
 extension APIKey on Map<String, dynamic>? {
   Map<String, dynamic>? addApiKey() {

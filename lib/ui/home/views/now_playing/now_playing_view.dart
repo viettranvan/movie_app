@@ -5,10 +5,20 @@ import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/details/details_page.dart';
 import 'package:movie_app/ui/home/views/now_playing/bloc/now_playing_bloc.dart';
 import 'package:movie_app/ui/home/views/now_playing/widgets/index.dart';
-import 'package:movie_app/utils/index.dart';
+import 'package:movie_app/utils/utils.dart';
 
-class NowPlayingView extends StatelessWidget {
+class NowPlayingView extends StatefulWidget {
   const NowPlayingView({super.key});
+
+  @override
+  State<NowPlayingView> createState() => _NowPlayingViewState();
+}
+
+class _NowPlayingViewState extends State<NowPlayingView> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

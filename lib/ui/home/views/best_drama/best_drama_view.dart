@@ -4,7 +4,7 @@ import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/details/details_page.dart';
 import 'package:movie_app/ui/home/views/best_drama/bloc/best_drama_bloc.dart';
 import 'package:movie_app/ui/home/widgets/index.dart';
-import 'package:movie_app/utils/index.dart';
+import 'package:movie_app/utils/utils.dart';
 
 class BestDramaView extends StatelessWidget {
   const BestDramaView({super.key});
