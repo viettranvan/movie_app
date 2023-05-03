@@ -6,6 +6,7 @@ class ItemNowPlaying extends StatelessWidget {
   final VoidCallback? onTap;
   final ImageProvider image;
   final List<Color>? colors;
+  final List<double>? stops;
   final String? title;
   final int? season;
   final int? episode;
@@ -19,6 +20,7 @@ class ItemNowPlaying extends StatelessWidget {
     this.season,
     this.episode,
     this.overview,
+    this.stops,
   });
 
   @override
@@ -56,7 +58,9 @@ class ItemNowPlaying extends StatelessWidget {
                     bottomRight: Radius.circular(15),
                   ),
                   gradient: LinearGradient(
-                    stops: const [0, 1],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    stops: stops,
                     colors: colors ?? [],
                   ),
                 ),
@@ -100,7 +104,7 @@ class ItemNowPlaying extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: overview!.contains('Comming soon') ? 55 : 18,
+                        height: overview!.contains('Comming soon') ? 59 : 18,
                       ),
                       Center(
                         child: Row(
