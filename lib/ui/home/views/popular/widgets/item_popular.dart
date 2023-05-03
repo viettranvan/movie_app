@@ -23,6 +23,7 @@ class ItemPopular extends StatelessWidget {
           width: double.infinity,
           filterQuality: FilterQuality.high,
           fit: BoxFit.fitWidth,
+          isAntiAlias: true,
         ),
       ),
     );

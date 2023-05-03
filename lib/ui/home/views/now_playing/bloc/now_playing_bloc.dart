@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/services.dart';
 import 'package:movie_app/model/model.dart';
 import 'package:movie_app/ui/home/index.dart';
+import 'package:movie_app/utils/app_utils/app_utils.dart';
 import 'package:movie_app/utils/utils.dart';
 
 part 'now_playing_event.dart';
@@ -10,8 +12,15 @@ part 'now_playing_state.dart';
 
 class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
   final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
-  NowPlayingBloc() : super(NowPlayingInitial(nowPlayingTv: MediaSynthesisDetails())) {
+
+  NowPlayingBloc()
+      : super(NowPlayingInitial(
+          nowPlayingTv: MediaSynthesisDetails(),
+          paletteColors: [],
+          averageLuminance: 0,
+        )) {
     on<FetchData>(_onFetchData);
+    on<ChangeColor>(_onChangeColor);
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<NowPlayingState> emit) async {
@@ -26,11 +35,42 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
         tvId: randomNowPlaying.id ?? 0,
         appendToResponse: null,
       );
-      emit(NowPlayingSuccess(nowPlayingTv: resultDetails.object));
+      emit(NowPlayingSuccess(
+        nowPlayingTv: resultDetails.object,
+        paletteColors: [],
+        averageLuminance: state.averageLuminance,
+      ));
     } catch (e) {
       emit(NowPlayingError(
         errorMessage: e.toString(),
         nowPlayingTv: state.nowPlayingTv,
+        paletteColors: state.paletteColors,
+        averageLuminance: state.averageLuminance,
+      ));
+    }
+  }
+
+  FutureOr<void> _onChangeColor(ChangeColor event, Emitter<NowPlayingState> emit) async {
+    try {
+      if (event.imagePath.isNotEmpty) {
+        final baseUrl = Uri.parse(event.imagePath);
+        final loadImage = await NetworkAssetBundle(baseUrl).load(event.imagePath);
+        final imageBytes = loadImage.buffer.asUint8List(); // load the image
+        final colors = AppUtils().extractPixelsColors(imageBytes);
+        final paletteColors = AppUtils().generatePalette({'palette': colors, 'numberOfItems': 16});
+        final averageLuminance = AppUtils().getLuminance(paletteColors);
+        emit(NowPlayingSuccess(
+          averageLuminance: averageLuminance,
+          paletteColors: paletteColors,
+          nowPlayingTv: state.nowPlayingTv,
+        ));
+      }
+    } catch (e) {
+      emit(NowPlayingError(
+        errorMessage: e.toString(),
+        nowPlayingTv: state.nowPlayingTv,
+        paletteColors: state.paletteColors,
+        averageLuminance: state.averageLuminance,
       ));
     }
   }

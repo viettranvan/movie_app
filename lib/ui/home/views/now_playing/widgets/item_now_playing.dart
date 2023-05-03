@@ -6,6 +6,8 @@ class ItemNowPlaying extends StatelessWidget {
   final VoidCallback? onTap;
   final ImageProvider image;
   final List<Color>? colors;
+  final List<double>? stops;
+  final Color? textColor;
   final String? title;
   final int? season;
   final int? episode;
@@ -19,6 +21,8 @@ class ItemNowPlaying extends StatelessWidget {
     this.season,
     this.episode,
     this.overview,
+    this.stops,
+    this.textColor,
   });
 
   @override
@@ -56,7 +60,9 @@ class ItemNowPlaying extends StatelessWidget {
                     bottomRight: Radius.circular(15),
                   ),
                   gradient: LinearGradient(
-                    stops: const [0, 1],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    stops: stops,
                     colors: colors ?? [],
                   ),
                 ),
@@ -71,7 +77,7 @@ class ItemNowPlaying extends StatelessWidget {
                         overflow: TextOverflow.clip,
                         softWrap: false,
                         style: TextStyle(
-                          color: whiteColor,
+                          color: textColor,
                           fontSize: 20,
                         ),
                       ),
@@ -81,7 +87,7 @@ class ItemNowPlaying extends StatelessWidget {
                         overflow: TextOverflow.clip,
                         softWrap: false,
                         style: TextStyle(
-                          color: whiteColor,
+                          color: textColor,
                           fontSize: 14,
                         ),
                       ),
@@ -94,13 +100,13 @@ class ItemNowPlaying extends StatelessWidget {
                           // softWrap: true,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            color: whiteColor,
+                            color: textColor,
                             fontSize: 12,
                           ),
                         ),
                       ),
                       SizedBox(
-                        height: overview!.contains('Comming soon') ? 55 : 18,
+                        height: overview!.contains('Comming soon') ? 59 : 18,
                       ),
                       Center(
                         child: Row(
@@ -110,13 +116,13 @@ class ItemNowPlaying extends StatelessWidget {
                             Image.asset(
                               ImagesPath.tvShowIcon.assetName,
                               filterQuality: FilterQuality.high,
-                              color: whiteColor,
+                              color: textColor,
                             ),
                             const SizedBox(width: 8),
                             Text(
                               'Watch now!',
                               style: TextStyle(
-                                color: whiteColor,
+                                color: textColor,
                                 fontSize: 18,
                               ),
                             ),
