@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/details/details_page.dart';
 import 'package:movie_app/ui/home/views/now_playing/bloc/now_playing_bloc.dart';
@@ -42,11 +43,13 @@ class _NowPlayingViewState extends State<NowPlayingView> {
             episode: state.nowPlayingTv.lastEpisodeToAir?.episodeNumber,
             overview:
                 state.nowPlayingTv.overview != '' ? state.nowPlayingTv.overview : 'Comming soon',
+            textColor: state.averageLuminance > 0.5 ? greyColor : whiteColor,
             image: Image.network(
               '${AppConstants.kImagePathPoster}${state.nowPlayingTv.posterPath}',
+              isAntiAlias: true,
             ).image,
             colors: state.paletteColors,
-            stops: List.generate(state.paletteColors.length, (index) => index * 0.09),
+            stops: List.generate(state.paletteColors.length, (index) => index * 0.13),
             onTap: () => Navigator.of(context).push(
               CustomPageRoute(
                 page: const DetailsPage(),

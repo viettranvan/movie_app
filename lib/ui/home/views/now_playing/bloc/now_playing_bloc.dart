@@ -12,10 +12,12 @@ part 'now_playing_state.dart';
 
 class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
   final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
+
   NowPlayingBloc()
       : super(NowPlayingInitial(
           nowPlayingTv: MediaSynthesisDetails(),
           paletteColors: [],
+          averageLuminance: 0,
         )) {
     on<FetchData>(_onFetchData);
     on<ChangeColor>(_onChangeColor);
@@ -36,12 +38,14 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
       emit(NowPlayingSuccess(
         nowPlayingTv: resultDetails.object,
         paletteColors: [],
+        averageLuminance: state.averageLuminance,
       ));
     } catch (e) {
       emit(NowPlayingError(
         errorMessage: e.toString(),
         nowPlayingTv: state.nowPlayingTv,
         paletteColors: state.paletteColors,
+        averageLuminance: state.averageLuminance,
       ));
     }
   }
@@ -54,7 +58,9 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
         final imageBytes = loadImage.buffer.asUint8List(); // load the image
         final colors = AppUtils().extractPixelsColors(imageBytes);
         final paletteColors = AppUtils().generatePalette({'palette': colors, 'numberOfItems': 16});
+        final averageLuminance = AppUtils().getLuminance(paletteColors);
         emit(NowPlayingSuccess(
+          averageLuminance: averageLuminance,
           paletteColors: paletteColors,
           nowPlayingTv: state.nowPlayingTv,
         ));
@@ -64,6 +70,7 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
         errorMessage: e.toString(),
         nowPlayingTv: state.nowPlayingTv,
         paletteColors: state.paletteColors,
+        averageLuminance: state.averageLuminance,
       ));
     }
   }

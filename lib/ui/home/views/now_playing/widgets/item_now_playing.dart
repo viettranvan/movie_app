@@ -7,6 +7,7 @@ class ItemNowPlaying extends StatelessWidget {
   final ImageProvider image;
   final List<Color>? colors;
   final List<double>? stops;
+  final Color? textColor;
   final String? title;
   final int? season;
   final int? episode;
@@ -21,6 +22,7 @@ class ItemNowPlaying extends StatelessWidget {
     this.episode,
     this.overview,
     this.stops,
+    this.textColor,
   });
 
   @override
@@ -75,7 +77,7 @@ class ItemNowPlaying extends StatelessWidget {
                         overflow: TextOverflow.clip,
                         softWrap: false,
                         style: TextStyle(
-                          color: whiteColor,
+                          color: textColor,
                           fontSize: 20,
                         ),
                       ),
@@ -85,7 +87,7 @@ class ItemNowPlaying extends StatelessWidget {
                         overflow: TextOverflow.clip,
                         softWrap: false,
                         style: TextStyle(
-                          color: whiteColor,
+                          color: textColor,
                           fontSize: 14,
                         ),
                       ),
@@ -98,7 +100,7 @@ class ItemNowPlaying extends StatelessWidget {
                           // softWrap: true,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            color: whiteColor,
+                            color: textColor,
                             fontSize: 12,
                           ),
                         ),
@@ -114,13 +116,13 @@ class ItemNowPlaying extends StatelessWidget {
                             Image.asset(
                               ImagesPath.tvShowIcon.assetName,
                               filterQuality: FilterQuality.high,
-                              color: whiteColor,
+                              color: textColor,
                             ),
                             const SizedBox(width: 8),
                             Text(
                               'Watch now!',
                               style: TextStyle(
-                                color: whiteColor,
+                                color: textColor,
                                 fontSize: 18,
                               ),
                             ),

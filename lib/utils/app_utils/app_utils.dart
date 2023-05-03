@@ -70,4 +70,13 @@ class AppUtils {
 
     return colors;
   }
+
+  double getLuminance(List<Color> paletteColors) {
+    double totalLuminance = 0;
+    for (final paletteColor in paletteColors) {
+      totalLuminance += paletteColor.computeLuminance();
+    }
+    double averageLuminance = totalLuminance / paletteColors.length;
+    return averageLuminance;
+  }
 }
