@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 
@@ -6,7 +8,7 @@ class ItemMovieTv extends StatelessWidget {
   final int index;
   final VoidCallback? onTapItem;
   final VoidCallback? onTapViewAll;
-  final String urlImage;
+  final String imageUrl;
   final String? title;
   const ItemMovieTv({
     super.key,
@@ -14,7 +16,7 @@ class ItemMovieTv extends StatelessWidget {
     required this.index,
     this.onTapItem,
     this.onTapViewAll,
-    required this.urlImage,
+    required this.imageUrl,
     required this.title,
   });
 
@@ -72,20 +74,22 @@ class ItemMovieTv extends StatelessWidget {
               )
             : Column(
                 children: [
-                  Container(
+                  SizedBox(
                     height: 171,
-                    decoration: BoxDecoration(
+                    child: ClipRRect(
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15),
                       ),
-                      color: lightGreyColor,
-                      image: DecorationImage(
-                        image: Image.network(
-                          urlImage,
-                        ).image,
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl,
                         filterQuality: FilterQuality.high,
+                        width: double.infinity,
                         fit: BoxFit.cover,
+                        progressIndicatorBuilder: (context, url, progress) =>
+                            CupertinoActivityIndicator(
+                          color: darkBlueColor,
+                        ),
                       ),
                     ),
                   ),

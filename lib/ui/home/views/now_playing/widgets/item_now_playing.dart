@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/index.dart';
 
 class ItemNowPlaying extends StatelessWidget {
   final VoidCallback? onTap;
-  final ImageProvider image;
+  final String imageUrl;
   final List<Color>? colors;
   final List<double>? stops;
   final Color? textColor;
@@ -15,7 +17,7 @@ class ItemNowPlaying extends StatelessWidget {
   const ItemNowPlaying({
     super.key,
     this.onTap,
-    required this.image,
+    required this.imageUrl,
     this.colors,
     this.title,
     this.season,
@@ -33,13 +35,8 @@ class ItemNowPlaying extends StatelessWidget {
         height: 175,
         margin: const EdgeInsets.fromLTRB(17, 0, 17, 0),
         decoration: BoxDecoration(
+          color: whiteColor,
           borderRadius: BorderRadius.circular(15),
-          image: DecorationImage(
-            alignment: Alignment.centerLeft,
-            filterQuality: FilterQuality.high,
-            fit: BoxFit.fitHeight,
-            image: image,
-          ),
           boxShadow: [
             BoxShadow(
               color: lightGreyColor,
@@ -50,10 +47,26 @@ class ItemNowPlaying extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            Flexible(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  bottomLeft: Radius.circular(15),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  filterQuality: FilterQuality.high,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  progressIndicatorBuilder: (context, url, progress) => CupertinoActivityIndicator(
+                    color: darkBlueColor,
+                  ),
+                ),
+              ),
+            ),
             Expanded(
               flex: 2,
               child: Container(
-                margin: const EdgeInsets.only(left: 113),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(15),
@@ -113,10 +126,12 @@ class ItemNowPlaying extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.asset(
+                            SvgPicture.asset(
                               ImagesPath.tvShowIcon.assetName,
-                              filterQuality: FilterQuality.high,
-                              color: textColor,
+                              colorFilter: ColorFilter.mode(
+                                textColor ?? whiteColor,
+                                BlendMode.srcIn,
+                              ),
                             ),
                             const SizedBox(width: 8),
                             Text(

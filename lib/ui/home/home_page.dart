@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/index.dart';
 import 'package:movie_app/ui/home/bloc/home_bloc.dart';
@@ -83,9 +84,8 @@ class HomePage extends StatelessWidget {
                     title: 'Trending',
                     visibleViewAll: true,
                     onTapViewAll: () {},
-                    icon: Image.asset(
+                    icon: SvgPicture.asset(
                       ImagesPath.trendingIcon.assetName,
-                      filterQuality: FilterQuality.high,
                     ),
                   ),
                   const SizedBox(height: 15),
@@ -107,9 +107,8 @@ class HomePage extends StatelessWidget {
                     title: 'Best Drama',
                     visibleViewAll: true,
                     onTapViewAll: () {},
-                    icon: Image.asset(
+                    icon: SvgPicture.asset(
                       ImagesPath.bestDramaIcon.assetName,
-                      filterQuality: FilterQuality.high,
                     ),
                   ),
                   const SizedBox(height: 15),
@@ -126,9 +125,8 @@ class HomePage extends StatelessWidget {
                     title: 'Top TV Shows',
                     visibleViewAll: true,
                     onTapViewAll: () {},
-                    icon: Image.asset(
+                    icon: SvgPicture.asset(
                       ImagesPath.tvShowIcon.assetName,
-                      filterQuality: FilterQuality.high,
                     ),
                   ),
                   const SizedBox(height: 15),

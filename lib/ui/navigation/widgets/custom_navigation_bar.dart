@@ -27,7 +27,7 @@ class CustomNavigationBar extends StatelessWidget {
             double widthNavigation =
                 constraints.biggest.width - (margin.horizontal + padding.horizontal);
             double widthCircle = widthNavigation / lengthPages;
-            double left = widthCircle * indexPage;
+            double left = widthCircle * indexPage - widthCircle / 100;
             return Container(
               height: 60,
               margin: margin,
@@ -43,11 +43,13 @@ class CustomNavigationBar extends StatelessWidget {
                 ),
               ),
               child: Stack(
+                alignment: Alignment.center,
                 children: [
                   AnimatedPositioned(
                     duration: const Duration(milliseconds: 150),
                     curve: Curves.decelerate,
                     left: left,
+                    // right: right,
                     top: 0,
                     bottom: 0,
                     width: widthCircle,

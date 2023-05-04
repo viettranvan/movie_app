@@ -45,9 +45,7 @@ class ArtistView extends StatelessWidget {
     String? profilePath = index != list.length ? list[index].profilePath : '';
     return ItemArtist(
       title: name,
-      image: Image.network(
-        '${AppConstants.kImagePathPoster}$profilePath',
-      ).image,
+      imageUrl: '${AppConstants.kImagePathPoster}$profilePath',
       index: index,
       itemCount: list.length,
       onTapItem: () => Navigator.of(context).push(
