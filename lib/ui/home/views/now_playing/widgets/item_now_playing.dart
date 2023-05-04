@@ -31,125 +31,128 @@ class ItemNowPlaying extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        height: 175,
-        margin: const EdgeInsets.fromLTRB(17, 0, 17, 0),
-        decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: lightGreyColor,
-              blurRadius: 5,
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Flexible(
-              child: ClipRRect(
+      child: RepaintBoundary(
+        child: Container(
+          height: 175,
+          margin: const EdgeInsets.fromLTRB(17, 0, 17, 0),
+          decoration: BoxDecoration(
+            color: whiteColor,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: lightGreyColor,
+                blurRadius: 5,
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ClipRRect(
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(15),
                   bottomLeft: Radius.circular(15),
                 ),
                 child: CachedNetworkImage(
+                  width: 115,
                   imageUrl: imageUrl,
                   filterQuality: FilterQuality.high,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
+                  // width: double.infinity,
+                  fit: BoxFit.fitHeight,
                   progressIndicatorBuilder: (context, url, progress) => CupertinoActivityIndicator(
                     color: darkBlueColor,
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(15),
-                    bottomRight: Radius.circular(15),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      stops: stops,
+                      colors: colors ?? [],
+                    ),
                   ),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    stops: stops,
-                    colors: colors ?? [],
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: 9),
-                      Text(
-                        title ?? '',
-                        overflow: TextOverflow.clip,
-                        softWrap: false,
-                        style: TextStyle(
-                          color: textColor,
-                          fontSize: 20,
-                        ),
-                      ),
-                      const SizedBox(height: 1),
-                      Text(
-                        'Season $season | Episode $episode',
-                        overflow: TextOverflow.clip,
-                        softWrap: false,
-                        style: TextStyle(
-                          color: textColor,
-                          fontSize: 14,
-                        ),
-                      ),
-                      const SizedBox(height: 11),
-                      SizedBox(
-                        width: 300,
-                        child: Text(
-                          overview ?? '',
-                          maxLines: 4,
-                          // softWrap: true,
-                          overflow: TextOverflow.ellipsis,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 9),
+                        Text(
+                          title ?? '',
+                          overflow: TextOverflow.clip,
+                          softWrap: false,
                           style: TextStyle(
                             color: textColor,
-                            fontSize: 12,
+                            fontSize: 20,
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: overview!.contains('Comming soon') ? 59 : 18,
-                      ),
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              ImagesPath.tvShowIcon.assetName,
-                              colorFilter: ColorFilter.mode(
-                                textColor ?? whiteColor,
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              'Watch now!',
-                              style: TextStyle(
-                                color: textColor,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ],
+                        const SizedBox(height: 1),
+                        Text(
+                          'Season $season | Episode $episode',
+                          overflow: TextOverflow.clip,
+                          softWrap: false,
+                          style: TextStyle(
+                            color: textColor,
+                            fontSize: 14,
+                          ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 11),
+                        SizedBox(
+                          width: 300,
+                          child: Text(
+                            overview ?? '',
+                            maxLines: 4,
+                            // softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: overview!.contains('Comming soon') ? 59 : 18,
+                        ),
+                        Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SvgPicture.asset(
+                                ImagesPath.tvShowIcon.assetName,
+                                colorFilter: ColorFilter.mode(
+                                  textColor ?? whiteColor,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Watch now!',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
