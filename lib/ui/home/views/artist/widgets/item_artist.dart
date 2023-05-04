@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 
@@ -7,11 +9,11 @@ class ItemArtist extends StatelessWidget {
   final VoidCallback? onTapItem;
   final VoidCallback? onTapViewAll;
   final String? title;
-  final ImageProvider image;
+  final String imageUrl;
   const ItemArtist({
     super.key,
     this.title,
-    required this.image,
+    required this.imageUrl,
     required this.itemCount,
     required this.index,
     this.onTapItem,
@@ -83,7 +85,7 @@ class ItemArtist extends StatelessWidget {
                   width: 67,
                   height: 100,
                   decoration: BoxDecoration(
-                    color: lightGreyColor,
+                    color: whiteColor,
                     borderRadius: BorderRadius.circular(33.36),
                     boxShadow: [
                       BoxShadow(
@@ -91,11 +93,19 @@ class ItemArtist extends StatelessWidget {
                         blurRadius: 5,
                       ),
                     ],
-                    image: DecorationImage(
-                      isAntiAlias: true,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(33.36),
+                    child: CachedNetworkImage(
+                      imageUrl: imageUrl,
+                      width: double.infinity,
+                      height: double.infinity,
                       filterQuality: FilterQuality.high,
                       fit: BoxFit.fill,
-                      image: image,
+                      progressIndicatorBuilder: (context, url, progress) =>
+                          CupertinoActivityIndicator(
+                        color: darkBlueColor,
+                      ),
                     ),
                   ),
                 ),

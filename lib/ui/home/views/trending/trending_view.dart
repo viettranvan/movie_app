@@ -27,7 +27,7 @@ class TrendingView extends StatelessWidget {
             );
           }
           return SizedBox(
-            height: 213,
+            height: 215,
             child: ListView.separated(
               primary: true,
               padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
@@ -51,7 +51,7 @@ class TrendingView extends StatelessWidget {
       title: title,
       index: index,
       itemCount: list.length,
-      urlImage: '${AppConstants.kImagePathPoster}$posterPath',
+      imageUrl: '${AppConstants.kImagePathPoster}$posterPath',
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 
 class ItemPopular extends StatelessWidget {
@@ -14,16 +15,15 @@ class ItemPopular extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: lightGreyColor,
-        ),
-        child: Image.network(
-          urlImage,
+      child: SizedBox(
+        child: CachedNetworkImage(
+          imageUrl: urlImage,
           width: double.infinity,
           filterQuality: FilterQuality.high,
-          fit: BoxFit.fitWidth,
-          isAntiAlias: true,
+          fit: BoxFit.cover,
+          progressIndicatorBuilder: (context, url, progress) => CupertinoActivityIndicator(
+            color: darkBlueColor,
+          ),
         ),
       ),
     );

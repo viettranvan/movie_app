@@ -47,7 +47,7 @@ class TopTvView extends StatelessWidget {
       title: name,
       index: index,
       itemCount: list.length,
-      urlImage: '${AppConstants.kImagePathPoster}$posterPath',
+      imageUrl: '${AppConstants.kImagePathPoster}$posterPath',
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(

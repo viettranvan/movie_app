@@ -86,7 +86,6 @@ class HomePage extends StatelessWidget {
                     onTapViewAll: () {},
                     icon: SvgPicture.asset(
                       ImagesPath.trendingIcon.assetName,
-                      // filterQuality: FilterQuality.high,
                     ),
                   ),
                   const SizedBox(height: 15),
@@ -110,7 +109,6 @@ class HomePage extends StatelessWidget {
                     onTapViewAll: () {},
                     icon: SvgPicture.asset(
                       ImagesPath.bestDramaIcon.assetName,
-                      // filterQuality: FilterQuality.high,
                     ),
                   ),
                   const SizedBox(height: 15),
@@ -129,7 +127,6 @@ class HomePage extends StatelessWidget {
                     onTapViewAll: () {},
                     icon: SvgPicture.asset(
                       ImagesPath.tvShowIcon.assetName,
-                      // filterQuality: FilterQuality.high,
                     ),
                   ),
                   const SizedBox(height: 15),

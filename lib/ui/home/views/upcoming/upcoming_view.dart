@@ -48,9 +48,7 @@ class UpcomingView extends StatelessWidget {
     return ItemUpcoming(
       title: list[index].title,
       voteAverage: list[index].voteAverage?.toDouble(),
-      image: Image.network(
-        '${AppConstants.kImagePathPoster}${list[index].posterPath}',
-      ).image,
+      imageUrl: '${AppConstants.kImagePathPoster}${list[index].posterPath}',
       onTap: () => Navigator.of(context).push(
         CustomPageRoute(
           page: const DetailsPage(),
