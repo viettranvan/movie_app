@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomNavigationBarItem extends StatelessWidget {
   final VoidCallback? onTap;
@@ -15,10 +16,11 @@ class CustomNavigationBarItem extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: onTap,
-        child: 
-        Image.asset(
+        child: SvgPicture.asset(
           imagePath,
-          scale: 2,
+          width: 30,
+          height: 30,
+          fit: BoxFit.scaleDown,
         ),
       ),
     );

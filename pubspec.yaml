@@ -19,6 +19,8 @@ dependencies:
   flutter_config: ^2.0.0
   carousel_slider: ^4.2.1
   image: ^3.0.2
+  cached_network_image: ^3.2.3
+  flutter_svg: ^2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -28,13 +30,14 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - lib/shared_ui/assets/images/home_icon.png
-    - lib/shared_ui/assets/images/favorite_icon.png
-    - lib/shared_ui/assets/images/search_icon.png
-    - lib/shared_ui/assets/images/profile_icon.png
+    - lib/shared_ui/assets/images/home_icon.svg
+    - lib/shared_ui/assets/images/home_icon.svg
+    - lib/shared_ui/assets/images/favorite_icon.svg
+    - lib/shared_ui/assets/images/search_icon.svg
+    - lib/shared_ui/assets/images/profile_icon.svg
     - lib/shared_ui/assets/images/primary_long_logo.png
     - lib/shared_ui/assets/images/primary_short_logo.png
-    - lib/shared_ui/assets/images/trending_icon.png
-    - lib/shared_ui/assets/images/tv_show_icon.png
-    - lib/shared_ui/assets/images/best_drama_icon.png
+    - lib/shared_ui/assets/images/trending_icon.svg
+    - lib/shared_ui/assets/images/tv_show_icon.svg
+    - lib/shared_ui/assets/images/best_drama_icon.svg
     - lib/shared_ui/assets/images/upcoming_icon.png

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/index.dart';
 
@@ -113,9 +114,9 @@ class ItemNowPlaying extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.asset(
+                            SvgPicture.asset(
                               ImagesPath.tvShowIcon.assetName,
-                              filterQuality: FilterQuality.high,
+                              // filterQuality: FilterQuality.high,
                               color: textColor,
                             ),
                             const SizedBox(width: 8),
