@@ -96,9 +96,9 @@ class ItemUpcoming extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.star_rounded,
-                                    color: Colors.yellow,
+                                    color: yellowColor,
                                     size: 25,
                                   ),
                                   const SizedBox(

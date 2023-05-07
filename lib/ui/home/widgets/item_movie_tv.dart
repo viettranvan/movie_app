@@ -29,9 +29,7 @@ class ItemMovieTv extends StatelessWidget {
           width: 120,
           decoration: BoxDecoration(
             color: whiteColor,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(15),
-            ),
+            borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
                 color: lightGreyColor,

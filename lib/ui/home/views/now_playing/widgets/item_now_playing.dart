@@ -59,7 +59,6 @@ class ItemNowPlaying extends StatelessWidget {
                   width: 115,
                   imageUrl: imageUrl,
                   filterQuality: FilterQuality.high,
-                  // width: double.infinity,
                   fit: BoxFit.fitHeight,
                   progressIndicatorBuilder: (context, url, progress) => CupertinoActivityIndicator(
                     color: darkBlueColor,
@@ -82,11 +81,11 @@ class ItemNowPlaying extends StatelessWidget {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    padding: const EdgeInsets.fromLTRB(15, 0, 25, 0),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const SizedBox(height: 9),
                         Text(
                           title ?? '',
                           overflow: TextOverflow.clip,
@@ -107,17 +106,15 @@ class ItemNowPlaying extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 11),
-                        SizedBox(
-                          width: 300,
-                          child: Text(
-                            overview ?? '',
-                            maxLines: 4,
-                            // softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: 12,
-                            ),
+                        Text(
+                          overview ?? '',
+                          maxLines: 4,
+                          softWrap: false,
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: textColor,
+                            fontSize: 12,
                           ),
                         ),
                         SizedBox(

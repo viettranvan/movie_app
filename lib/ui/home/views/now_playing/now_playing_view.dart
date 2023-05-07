@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
@@ -44,7 +43,7 @@ class _NowPlayingViewState extends State<NowPlayingView> {
             episode: state.nowPlayingTv.lastEpisodeToAir?.episodeNumber,
             overview:
                 state.nowPlayingTv.overview != '' ? state.nowPlayingTv.overview : 'Comming soon',
-            textColor: state.averageLuminance > 0.5 ? greyColor : whiteColor,
+            textColor: state.averageLuminance > 0.5 ? brownColor : whiteColor,
             imageUrl: '${AppConstants.kImagePathPoster}${state.nowPlayingTv.posterPath}',
             colors: state.paletteColors,
             stops: List.generate(state.paletteColors.length, (index) => index * 0.13),

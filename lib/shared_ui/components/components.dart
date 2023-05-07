@@ -1,6 +1,3 @@
-library components;
-
+export 'blur_background.dart';
 export 'custom_app_bar.dart';
 export 'custom_app_bar_title.dart';
-export 'blur_background.dart';
-
