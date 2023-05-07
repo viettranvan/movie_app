@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/ui/favorite/widgets/custom_load_more.dart';
+import 'package:movie_app/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MovieView extends StatelessWidget {
@@ -53,13 +54,13 @@ class MovieView extends StatelessWidget {
             Flexible(
               flex: 3,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(14, 0, 15, 0),
+                padding: const EdgeInsets.fromLTRB(14, 0, 14, 0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
-                      'Spider-Man: No Way Home',
+                      'The Super Mario Bros. Movie',
                       maxLines: 1,
                       softWrap: true,
                       overflow: TextOverflow.ellipsis,
@@ -69,7 +70,7 @@ class MovieView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Peter Parker is unmasked and no longer able to separate his normal life from the high-stakeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                      'While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario and Luigi are transported down a mysterious pipe and wander into a magical new world. But when the brothers are separated, Mario embarks on an epic quest to find Luigi.',
                       maxLines: 3,
                       softWrap: true,
                       overflow: TextOverflow.ellipsis,
@@ -125,7 +126,7 @@ class MovieView extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
+            Flexible(
               flex: 1,
               child: ClipRRect(
                 borderRadius: const BorderRadius.only(
@@ -133,8 +134,7 @@ class MovieView extends StatelessWidget {
                   bottomRight: Radius.circular(20),
                 ),
                 child: CachedNetworkImage(
-                  imageUrl:
-                      'https://image.tmdb.org//t/p/w220_and_h330_face/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
+                  imageUrl: '${AppConstants.kImagePathPoster}/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg',
                   filterQuality: FilterQuality.high,
                   fit: BoxFit.fitHeight,
                   progressIndicatorBuilder: (context, url, progress) => CupertinoActivityIndicator(
