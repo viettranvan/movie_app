@@ -43,7 +43,7 @@ class TopTvView extends StatelessWidget {
       var list = (BlocProvider.of<TopTvBloc>(context).state as TopTvSuccess).listTopTv;
     String? name = index != list.length ? list[index].name : '';
     String? posterPath = index != list.length ? list[index].posterPath : '';
-    return ItemMovieTv(
+    return ItemMediaSynthesis(
       title: name,
       index: index,
       itemCount: list.length,

@@ -16,7 +16,7 @@ class CustomSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 17, 0),
-      width: 100,
+      width: 130,
       height: 22,
       decoration: BoxDecoration(
         border: Border.all(
@@ -37,7 +37,7 @@ class CustomSwitch extends StatelessWidget {
                 alignment: isActive ? Alignment.centerRight : Alignment.centerLeft,
                 curve: Curves.decelerate,
                 child: Container(
-                  width: isActive ? widthTrack - 5 : widthTrack + 10,
+                  width: isActive ? widthTrack + 10 : widthTrack - 8,
                   height: double.infinity,
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
@@ -52,7 +52,7 @@ class CustomSwitch extends StatelessWidget {
                   GestureDetector(
                     onTap: onSwitchMovie,
                     child: Text(
-                      'Movie',
+                      'Movies',
                       style: TextStyle(
                         color: isActive ? blackColor : whiteColor,
                       ),
@@ -61,7 +61,7 @@ class CustomSwitch extends StatelessWidget {
                   GestureDetector(
                     onTap: onSwitchTV,
                     child: Text(
-                      'TV',
+                      'TV Shows',
                       style: TextStyle(
                         color: isActive ? whiteColor : blackColor,
                       ),

@@ -58,10 +58,12 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
         final imageBytes = loadImage.buffer.asUint8List(); // load the image
         final colors = AppUtils().extractPixelsColors(imageBytes);
         final paletteColors = AppUtils().generatePalette({'palette': colors, 'numberOfItems': 16});
+        final paletteRemoveWhite = paletteColors
+          ..removeWhere((element) => element.computeLuminance() > 0.8);
         final averageLuminance = AppUtils().getLuminance(paletteColors);
         emit(NowPlayingSuccess(
           averageLuminance: averageLuminance,
-          paletteColors: paletteColors,
+          paletteColors: paletteRemoveWhite,
           nowPlayingTv: state.nowPlayingTv,
         ));
       }

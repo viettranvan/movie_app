@@ -2,7 +2,6 @@ class APIResponse {
   Dates? dates;
   int? page;
   dynamic results;
-  // dynamic genres;
   int? totalPages;
   int? totalResults;
 
@@ -10,7 +9,6 @@ class APIResponse {
     this.dates,
     this.page,
     this.results,
-    // this.genres,
     this.totalPages,
     this.totalResults,
   });
@@ -19,7 +17,6 @@ class APIResponse {
     dates = json['dates'] != null ? Dates.fromJson(json['dates']) : null;
     page = json['page'];
     results = json['results'] ?? json;
-    // genres = json['genres'];
     totalPages = json['total_pages'];
     totalResults = json['total_results'];
   }
@@ -43,7 +40,11 @@ class APIError implements Exception {
   int? statusCode;
   String? statusMessage;
 
-  APIError({this.success, this.statusCode, this.statusMessage});
+  APIError({
+    this.success,
+    this.statusCode,
+    this.statusMessage,
+  });
 
   APIError.fromJson(Map<String, dynamic> json) {
     success = json['success'];

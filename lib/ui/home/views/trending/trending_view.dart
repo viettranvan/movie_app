@@ -47,7 +47,7 @@ class TrendingView extends StatelessWidget {
     var list = (BlocProvider.of<TrendingBloc>(context).state as TrendingSuccess).listTrending;
     String? title = index != list.length ? (list[index].title ?? list[index].name) : '';
     String? posterPath = index != list.length ? list[index].posterPath : '';
-    return ItemMovieTv(
+    return ItemMediaSynthesis(
       title: title,
       index: index,
       itemCount: list.length,
