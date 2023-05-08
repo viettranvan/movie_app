@@ -44,7 +44,7 @@ class BestDramaView extends StatelessWidget {
     var list = (BlocProvider.of<BestDramaBloc>(context).state as BestDramaSuccess).listBestDrama;
     String? name = index != list.length ? list[index].name : '';
     String? posterPath = index != list.length ? list[index].posterPath : '';
-    return ItemMovieTv(
+    return ItemMediaSynthesis(
       title: name,
       index: index,
       itemCount: list.length,

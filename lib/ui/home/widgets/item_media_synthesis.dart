@@ -3,14 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 
-class ItemMovieTv extends StatelessWidget {
+class ItemMediaSynthesis extends StatelessWidget {
   final int itemCount;
   final int index;
   final VoidCallback? onTapItem;
   final VoidCallback? onTapViewAll;
   final String imageUrl;
   final String? title;
-  const ItemMovieTv({
+  const ItemMediaSynthesis({
     super.key,
     required this.itemCount,
     required this.index,

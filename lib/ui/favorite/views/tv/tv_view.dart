@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
-import 'package:movie_app/ui/favorite/widgets/custom_load_more.dart';
+import 'package:movie_app/ui/favorite/widgets/index.dart';
+import 'package:movie_app/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class TvView extends StatelessWidget {
@@ -16,29 +16,27 @@ class TvView extends StatelessWidget {
       enablePullDown: true,
       enablePullUp: true,
       footer: const CustomLoadMore(
-        height: 140,
+        height: 130,
       ),
-      child: Container(
-        color: Colors.red,
-        child: ListView.separated(
-          shrinkWrap: true,
-          primary: false,
-          padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
-          itemBuilder: itemBuilder,
-          separatorBuilder: separatorBuilder,
-          itemCount: 10,
-        ),
+      child: ListView.separated(
+        shrinkWrap: true,
+        controller: ScrollController(),
+        padding: const EdgeInsets.fromLTRB(25, 18, 25, 0),
+        itemBuilder: itemBuilder,
+        separatorBuilder: separatorBuilder,
+        itemCount: 10,
       ),
     );
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        height: 140,
-        color: blackColor,
-      ),
+    return const ItemMedia(
+      title: 'The Super Mario Bros. Movie',
+      voteAverage: '7.5',
+      releaseDate: '2021/12/15',
+      overview:
+          'While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario and Luigi are transported down a mysterious pipe and wander into a magical new world. But when the brothers are separated, Mario embarks on an epic quest to find Luigi.',
+      imageUrl: '${AppConstants.kImagePathPoster}/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg',
     );
   }
 
