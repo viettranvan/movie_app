@@ -1,0 +1,9 @@
+export 'details/index.dart';
+export 'favorite/index.dart';
+export 'home/index.dart';
+export 'login/index.dart';
+export 'navigation/index.dart';
+export 'profile/index.dart';
+export 'search/index.dart';
+export 'sign_up/index.dart';
+export 'forgot_password/index.dart';

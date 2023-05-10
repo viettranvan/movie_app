@@ -45,3 +45,14 @@ flutter:
     - lib/shared_ui/assets/images/tv_show_icon.svg
     - lib/shared_ui/assets/images/best_drama_icon.svg
     - lib/shared_ui/assets/images/upcoming_icon.png
+    - lib/shared_ui/assets/images/login.png
+    - lib/shared_ui/assets/images/illustration.png
+    - lib/shared_ui/assets/images/login-background1.png
+    - lib/shared_ui/assets/images/login-background2.png
+    - lib/shared_ui/assets/images/forgot-password-1.png
+    - lib/shared_ui/assets/images/forgot-password-2.png
+    - lib/shared_ui/assets/icons/arrow-down-icon.png
+    - lib/shared_ui/assets/icons/eye-close-icon.png
+    - lib/shared_ui/assets/icons/eye-open-icon.png
+    - lib/shared_ui/assets/icons/back-icon.png
+    - lib/shared_ui/assets/icons/tick-icon.png
