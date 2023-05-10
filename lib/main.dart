@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/ui/home/views/now_playing/bloc/now_playing_bloc.dart';
+import 'package:movie_app/ui/pages/navigation/index.dart';
 
 import 'bloc_observer/bloc_observer.dart';
-import 'ui/navigation/navigation_page.dart';
+import 'ui/pages/home/views/now_playing/bloc/now_playing_bloc.dart';
 
 void main() async {
   Bloc.observer = SimpleBlocObserver();
