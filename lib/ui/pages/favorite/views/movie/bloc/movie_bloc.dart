@@ -17,38 +17,83 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       : super(MovieInitial(
           listFavorite: [],
           isDropDown: false,
-          listSort: ['None', 'Newest', 'Oldest', 'A-Z', 'Z-A'],
-          indexSelected: -1,
-          itemSelected: '',
+          indexSelected: 0,
+          itemSelected: 'None',
         )) {
     on<FetchData>(_onFetchData);
+    on<LoadMore>(_onLoadMore);
     on<DropDown>(_onDropDown);
     on<ChooseSort>(_onChooseSort);
   }
-
   FutureOr<void> _onFetchData(FetchData event, Emitter<MovieState> emit) async {
     try {
-      controller.requestRefresh();
+      page = 1;
       final result = await favoriteRepository.getFavoriteMovie(
         language: event.language,
         accountId: event.accountId,
         sessionId: event.sessionId,
-        page: event.page,
+        sortBy: event.sortBy,
+        page: page,
       );
-      emit(MovieSuccess(
-        listFavorite: result.list,
-        isDropDown: state.isDropDown,
-        listSort: state.listSort,
-        indexSelected: state.indexSelected,
-        itemSelected: state.itemSelected,
-      ));
+      if (result.list.isNotEmpty) {
+        page++;
+        emit(MovieSuccess(
+          listFavorite: result.list,
+          isDropDown: state.isDropDown,
+          indexSelected: state.indexSelected,
+          itemSelected: state.itemSelected,
+        ));
+      } else {
+        emit(MovieSuccess(
+          listFavorite: result.list,
+          isDropDown: state.isDropDown,
+          indexSelected: state.indexSelected,
+          itemSelected: state.itemSelected,
+        ));
+      }
       controller.refreshCompleted();
     } catch (e) {
+      controller.refreshFailed();
       emit(MovieError(
         errorMessage: e.toString(),
         listFavorite: state.listFavorite,
         isDropDown: state.isDropDown,
-        listSort: state.listSort,
+        indexSelected: state.indexSelected,
+        itemSelected: state.itemSelected,
+      ));
+    }
+  }
+
+  FutureOr<void> _onLoadMore(LoadMore event, Emitter<MovieState> emit) async {
+    try {
+      controller.requestLoading();
+      final result = await favoriteRepository.getFavoriteMovie(
+        language: event.language,
+        accountId: event.accountId,
+        sessionId: event.sessionId,
+        sortBy: event.sortBy,
+        page: page,
+      );
+      var curentList = (state as MovieSuccess).listFavorite;
+      if (result.list.isEmpty) {
+        controller.loadNoData();
+      } else {
+        page++;
+        var newList = List<MediaSynthesis>.from(curentList)..addAll(result.list);
+        emit(MovieSuccess(
+          listFavorite: newList,
+          isDropDown: state.isDropDown,
+          indexSelected: state.indexSelected,
+          itemSelected: state.itemSelected,
+        ));
+      }
+      controller.loadComplete();
+    } catch (e) {
+      controller.loadFailed();
+      emit(MovieError(
+        errorMessage: e.toString(),
+        listFavorite: state.listFavorite,
+        isDropDown: state.isDropDown,
         indexSelected: state.indexSelected,
         itemSelected: state.itemSelected,
       ));
@@ -56,22 +101,31 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   }
 
   FutureOr<void> _onDropDown(DropDown event, Emitter<MovieState> emit) {
-    emit(MovieInitial(
+    emit(MovieSuccess(
       listFavorite: state.listFavorite,
       isDropDown: !event.isDropDown,
-      listSort: state.listSort,
       indexSelected: state.indexSelected,
       itemSelected: state.itemSelected,
     ));
   }
 
   FutureOr<void> _onChooseSort(ChooseSort event, Emitter<MovieState> emit) {
-    emit(MovieInitial(
+    page = 1;
+    emit(MovieSortSuccess(
       listFavorite: state.listFavorite,
       isDropDown: state.isDropDown,
-      listSort: state.listSort,
       indexSelected: event.index,
       itemSelected: state.listSort[event.index],
     ));
   }
 }
+
+
+/*
+
+
+
+ 
+
+
+ */

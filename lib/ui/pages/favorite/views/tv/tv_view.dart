@@ -21,7 +21,7 @@ class TvView extends StatelessWidget {
       child: ListView.separated(
         shrinkWrap: true,
         controller: ScrollController(),
-        padding: const EdgeInsets.fromLTRB(25, 18, 25, 0),
+        padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
         itemBuilder: itemBuilder,
         separatorBuilder: separatorBuilder,
         itemCount: 10,

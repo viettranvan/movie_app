@@ -20,7 +20,18 @@ class MovieView extends StatelessWidget {
           page: 1,
         )),
       child: BlocConsumer<MovieBloc, MovieState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is MovieSortSuccess) {
+            BlocProvider.of<MovieBloc>(context).add(FetchData(
+              language: 'en-US',
+              accountId: 11429392,
+              sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
+              page: 1,
+              sortBy: state.itemSelected,
+              listFavorite: state.listFavorite,
+            ));
+          }
+        },
         builder: (context, state) {
           var bloc = BlocProvider.of<MovieBloc>(context);
           return Column(
@@ -33,9 +44,16 @@ class MovieView extends StatelessWidget {
                     language: 'en-US',
                     accountId: 11429392,
                     sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
-                    page: 1,
+                    sortBy: state.itemSelected,
                   )),
-                  onLoading: () {},
+                  onLoading: () {
+                    bloc.add(LoadMore(
+                      language: 'en-US',
+                      accountId: 11429392,
+                      sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
+                      sortBy: state.itemSelected,
+                    ));
+                  },
                   enablePullDown: true,
                   enablePullUp: true,
                   primary: false,
@@ -47,7 +65,7 @@ class MovieView extends StatelessWidget {
                     children: [
                       const SizedBox(height: 5),
                       CustomDropDown(
-                        indexSelected: state.indexSelected,
+                        icon: state.isDropDown ? Icons.arrow_drop_up : Icons.arrow_drop_down,
                         isDropDown: state.isDropDown,
                         items: state.listSort,
                         itemSelected: state.itemSelected,
@@ -60,7 +78,14 @@ class MovieView extends StatelessWidget {
                             colorSelected:
                                 state.indexSelected == index ? darkBlueColor : whiteColor,
                             colorTitle: state.indexSelected == index ? whiteColor : darkBlueColor,
-                            onTapItem: () => bloc.add(ChooseSort(index: index)),
+                            onTapItem: state.indexSelected != index
+                                ? () {
+                                    bloc.add(ChooseSort(index: index));
+                                    state.isDropDown
+                                        ? bloc.add(DropDown(isDropDown: true))
+                                        : bloc.add(DropDown(isDropDown: false));
+                                  }
+                                : null,
                           );
                         },
                       ),
@@ -68,7 +93,7 @@ class MovieView extends StatelessWidget {
                         shrinkWrap: true,
                         primary: false,
                         controller: ScrollController(),
-                        padding: const EdgeInsets.fromLTRB(25, 18, 25, 0),
+                        padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
                         itemBuilder: itemBuilder,
                         separatorBuilder: separatorBuilder,
                         itemCount: state.listFavorite.length,

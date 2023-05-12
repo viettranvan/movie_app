@@ -60,8 +60,10 @@ class ItemNowPlaying extends StatelessWidget {
                   imageUrl: imageUrl,
                   filterQuality: FilterQuality.high,
                   fit: BoxFit.fitHeight,
-                  progressIndicatorBuilder: (context, url, progress) => CupertinoActivityIndicator(
-                    color: darkBlueColor,
+                  progressIndicatorBuilder: (context, url, progress) => Center(
+                    child: CupertinoActivityIndicator(
+                      color: darkBlueColor,
+                    ),
                   ),
                 ),
               ),
@@ -69,6 +71,7 @@ class ItemNowPlaying extends StatelessWidget {
                 flex: 3,
                 child: Container(
                   decoration: BoxDecoration(
+                    color: whiteColor,
                     borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(15),
                       bottomRight: Radius.circular(15),
