@@ -7,13 +7,30 @@ class FetchData extends MovieEvent {
   final int accountId;
   final String sessionId;
   String? sortBy;
-  final int page;
+  int? page;
+  List<MediaSynthesis>? listFavorite;
   FetchData({
     required this.language,
     required this.accountId,
     required this.sessionId,
     this.sortBy,
-    required this.page,
+     this.page,
+    this.listFavorite,
+  });
+}
+
+class LoadMore extends MovieEvent {
+  final String language;
+  final int accountId;
+  final String sessionId;
+  String? sortBy;
+
+  LoadMore({
+    required this.language,
+    required this.accountId,
+    required this.sessionId,
+    this.sortBy,
+  
   });
 }
 

@@ -50,8 +50,10 @@ class ItemUpcoming extends StatelessWidget {
                   height: double.infinity,
                   filterQuality: FilterQuality.high,
                   fit: BoxFit.cover,
-                  progressIndicatorBuilder: (context, url, progress) => CupertinoActivityIndicator(
-                    color: darkBlueColor,
+                  progressIndicatorBuilder: (context, url, progress) => Center(
+                    child: CupertinoActivityIndicator(
+                      color: darkBlueColor,
+                    ),
                   ),
                 ),
               ),

@@ -90,8 +90,9 @@ class ItemArtist extends StatelessWidget {
                       borderRadius: BorderRadius.circular(33.36),
                       boxShadow: [
                         BoxShadow(
-                          color: lightGreyColor,
+                          color: greyColor,
                           blurRadius: 5,
+                          blurStyle: BlurStyle.inner,
                         ),
                       ],
                     ),
@@ -104,8 +105,10 @@ class ItemArtist extends StatelessWidget {
                         filterQuality: FilterQuality.high,
                         fit: BoxFit.fill,
                         progressIndicatorBuilder: (context, url, progress) => Center(
-                          child: CupertinoActivityIndicator(
-                            color: darkBlueColor,
+                          child: Center(
+                            child: CupertinoActivityIndicator(
+                              color: darkBlueColor,
+                            ),
                           ),
                         ),
                       ),

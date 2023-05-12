@@ -44,10 +44,10 @@ class ItemMedia extends StatelessWidget {
               Flexible(
                 flex: 3,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(14, 0, 14, 0),
+                  padding: const EdgeInsets.fromLTRB(12, 0, 6, 0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(height: 11),
                       Text(
@@ -74,8 +74,9 @@ class ItemMedia extends StatelessWidget {
                       ),
                       SizedBox(height: overview!.contains('Coming soon') ? 45 : 10),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               releaseDate ?? '',
@@ -98,6 +99,8 @@ class ItemMedia extends StatelessWidget {
                             ),
                             const SizedBox(width: 6),
                             Container(
+                              width: 22,
+                              height: 22,
                               alignment: Alignment.center,
                               padding: const EdgeInsets.all(3),
                               decoration: BoxDecoration(
@@ -118,8 +121,8 @@ class ItemMedia extends StatelessWidget {
                   ),
                 ),
               ),
-              Flexible(
-                flex: 1,
+              SizedBox(
+                width: 90,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(20),
@@ -128,7 +131,7 @@ class ItemMedia extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: imageUrl ?? '',
                     filterQuality: FilterQuality.high,
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.fill,
                     progressIndicatorBuilder: (context, url, progress) => Center(
                       child: CupertinoActivityIndicator(
                         color: darkBlueColor,
