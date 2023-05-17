@@ -59,7 +59,7 @@ class ItemNowPlaying extends StatelessWidget {
                   width: 115,
                   imageUrl: imageUrl,
                   filterQuality: FilterQuality.high,
-                  fit: BoxFit.fitHeight,
+                  fit: BoxFit.fill,
                   progressIndicatorBuilder: (context, url, progress) => Center(
                     child: CupertinoActivityIndicator(
                       color: darkBlueColor,

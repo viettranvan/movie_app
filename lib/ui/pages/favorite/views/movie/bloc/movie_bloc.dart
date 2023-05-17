@@ -18,12 +18,12 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
           listFavorite: [],
           isDropDown: false,
           indexSelected: 0,
-          itemSelected: 'None',
+          sortBy: '',
         )) {
     on<FetchData>(_onFetchData);
     on<LoadMore>(_onLoadMore);
     on<DropDown>(_onDropDown);
-    on<ChooseSort>(_onChooseSort);
+    on<Sort>(_onSort);
   }
   FutureOr<void> _onFetchData(FetchData event, Emitter<MovieState> emit) async {
     try {
@@ -41,14 +41,14 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
           listFavorite: result.list,
           isDropDown: state.isDropDown,
           indexSelected: state.indexSelected,
-          itemSelected: state.itemSelected,
+          sortBy: state.sortBy,
         ));
       } else {
         emit(MovieSuccess(
           listFavorite: result.list,
           isDropDown: state.isDropDown,
           indexSelected: state.indexSelected,
-          itemSelected: state.itemSelected,
+          sortBy: state.sortBy,
         ));
       }
       controller.refreshCompleted();
@@ -59,7 +59,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         listFavorite: state.listFavorite,
         isDropDown: state.isDropDown,
         indexSelected: state.indexSelected,
-        itemSelected: state.itemSelected,
+        sortBy: state.sortBy,
       ));
     }
   }
@@ -84,7 +84,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
           listFavorite: newList,
           isDropDown: state.isDropDown,
           indexSelected: state.indexSelected,
-          itemSelected: state.itemSelected,
+          sortBy: state.sortBy,
         ));
       }
       controller.loadComplete();
@@ -95,7 +95,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         listFavorite: state.listFavorite,
         isDropDown: state.isDropDown,
         indexSelected: state.indexSelected,
-        itemSelected: state.itemSelected,
+        sortBy: state.sortBy,
       ));
     }
   }
@@ -105,27 +105,125 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       listFavorite: state.listFavorite,
       isDropDown: !event.isDropDown,
       indexSelected: state.indexSelected,
-      itemSelected: state.itemSelected,
+      sortBy: state.sortBy,
     ));
   }
 
-  FutureOr<void> _onChooseSort(ChooseSort event, Emitter<MovieState> emit) {
+  FutureOr<void> _onSort(Sort event, Emitter<MovieState> emit) {
     page = 1;
     emit(MovieSortSuccess(
       listFavorite: state.listFavorite,
       isDropDown: state.isDropDown,
       indexSelected: event.index,
-      itemSelected: state.listSort[event.index],
+      sortBy: state.listSort[event.index],
     ));
   }
 }
 
+// import 'dart:async';
+// import 'dart:developer';
 
-/*
+// import 'package:bloc/bloc.dart';
+// import 'package:movie_app/model/model.dart';
+// import 'package:movie_app/ui/pages/favorite/favorite_repository.dart';
+// import 'package:movie_app/utils/utils.dart';
+// import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+// part 'movie_event.dart';
+// part 'movie_state.dart';
+
+// class MovieBloc extends Bloc<MovieEvent, MovieState> {
+//   FavoriteRepository favoriteRepository = FavoriteRepository(restApiClient: RestApiClient());
+//   RefreshController controller = RefreshController();
+//   MovieBloc()
+//       : super(MovieInitial(
+//           listFavorite: [],
+//           isDropDown: false,
+//           indexSelected: 0,
+//           itemSelected: 'created_at.asc',
+//           page: 0,
+//           sortBy: 'None',
+//         )) {
+//     on<FetchData>(_onFetchData);
+//     on<ChooseSort>(_onChooseSort);
+//   }
+//   FutureOr<void> _onFetchData(FetchData event, Emitter<MovieState> emit) async {
+//     try {
+//       if (state is MovieInitial) {
+//         final result = await favoriteRepository.getFavoriteMovie(
+//           language: event.language,
+//           accountId: event.accountId,
+//           sessionId: event.sessionId,
+//           sortBy: event.sortBy,
+//           page: event.page + 1,
+//         );
+//         emit(MovieInitial(
+//           sortBy: event.sortBy ?? '',
+//           page: event.page,
+//           listFavorite: result.list,
+//           isDropDown: state.isDropDown,
+//           indexSelected: state.indexSelected,
+//           itemSelected: state.itemSelected,
+//         ));
+//       }
+//       log('---${state.page}');
+//       final nextResult = await favoriteRepository.getFavoriteMovie(
+//         language: event.language,
+//         accountId: event.accountId,
+//         sessionId: event.sessionId,
+//         sortBy: state.sortBy,
+//         page: state.page++,
+//       );
+//       print('---${state.page}');
+
+//       if (nextResult.list.isEmpty) {
+//         controller.loadNoData();
+//         return;
+//       } else {
+//         var list = List<MediaSynthesis>.from(state.listFavorite)..addAll(nextResult.list);
+//         emit(MovieSuccess(
+//           sortBy: state.sortBy,
+//           page: state.page,
+//           listFavorite: list,
+//           isDropDown: state.isDropDown,
+//           indexSelected: state.indexSelected,
+//           itemSelected: state.itemSelected,
+//         ));
+//         controller.loadComplete();
+//       }
+//     } catch (e) {
+//       controller.loadFailed();
+//       emit(MovieError(
+//         sortBy: state.sortBy,
+//         page: state.page + 1,
+//         errorMessage: e.toString(),
+//         listFavorite: state.listFavorite,
+//         isDropDown: state.isDropDown,
+//         indexSelected: state.indexSelected,
+//         itemSelected: state.itemSelected,
+//       ));
+//     }
+//   }
 
 
 
- 
-
-
- */
+//   FutureOr<void> _onChooseSort(ChooseSort event, Emitter<MovieState> emit) {
+//     state.page = 0;
+//     emit(MovieSortSuccess(
+//       sortBy: state.sortBy,
+//       page: state.page,
+//       listFavorite: state.listFavorite,
+//       isDropDown: state.isDropDown,
+//       indexSelected: event.index,
+//       itemSelected: state.listSort[event.index],
+//     ));
+//     emit(MovieInitial(
+//         sortBy: state.sortBy,
+//         page: state.page,
+//         listFavorite: state.listFavorite,
+//         isDropDown: state.isDropDown,
+//         indexSelected: state.indexSelected,
+//         itemSelected: state.itemSelected,
+//       ));
+//   }
+// }
