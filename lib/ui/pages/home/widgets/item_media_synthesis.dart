@@ -84,7 +84,7 @@ class ItemMediaSynthesis extends StatelessWidget {
                           imageUrl: imageUrl,
                           filterQuality: FilterQuality.high,
                           width: double.infinity,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                           progressIndicatorBuilder: (context, url, progress) =>
                               CupertinoActivityIndicator(
                             color: darkBlueColor,

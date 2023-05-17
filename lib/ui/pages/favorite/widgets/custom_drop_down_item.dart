@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/utils/app_utils/app_utils.dart';
 
 class CustomDropDownItem extends StatelessWidget {
   final VoidCallback? onTapItem;
@@ -25,7 +26,7 @@ class CustomDropDownItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
-          title,
+          AppUtils().getSortTitle(title),
           style: TextStyle(
             color: colorTitle,
             fontSize: 14,
@@ -34,4 +35,6 @@ class CustomDropDownItem extends StatelessWidget {
       ),
     );
   }
+
+ 
 }

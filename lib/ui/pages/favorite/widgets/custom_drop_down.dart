@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
+import 'package:movie_app/utils/app_utils/app_utils.dart';
 
 class CustomDropDown extends StatelessWidget {
   final Widget Function(BuildContext, int) itemBuilder;
@@ -20,7 +21,7 @@ class CustomDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double heightDropDown = 30;
+    double heightDropDown = 28;
     return GestureDetector(
       child: Stack(
         children: [
@@ -70,7 +71,7 @@ class CustomDropDown extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
-                      itemSelected,
+                      AppUtils().getSortTitle(itemSelected),
                       style: TextStyle(
                         color: whiteColor,
                         fontSize: 14,

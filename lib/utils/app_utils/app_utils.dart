@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 
 class AppUtils {
+  static final AppUtils _instance = AppUtils._();
+  AppUtils._();
+  factory AppUtils() => _instance;
   int pixelsPerAxis = 8;
   Color getAverageColor(List<Color> colors) {
     int r = 0, g = 0, b = 0, a = 0;
@@ -78,5 +81,13 @@ class AppUtils {
     }
     double averageLuminance = totalLuminance / paletteColors.length;
     return averageLuminance;
+  }
+
+  String getSortTitle(String sortBy) {
+    if (sortBy.contains('created_at.desc')) {
+      return 'Newest';
+    } else {
+      return 'Oldest';
+    }
   }
 }

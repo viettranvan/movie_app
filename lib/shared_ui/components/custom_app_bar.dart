@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 
-class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final Widget? title;
   final bool? centerTitle;
