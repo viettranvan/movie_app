@@ -48,7 +48,9 @@ class UpcomingView extends StatelessWidget {
     return ItemUpcoming(
       title: list[index].title,
       voteAverage: list[index].voteAverage?.toDouble(),
-      imageUrl: '${AppConstants.kImagePathPoster}${list[index].posterPath}',
+      imageUrl: list[index].posterPath != null
+          ? '${AppConstants.kImagePathPoster}${list[index].posterPath}'
+          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
       onTap: () => Navigator.of(context).push(
         CustomPageRoute(
           page: const DetailsPage(),

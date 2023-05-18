@@ -64,7 +64,9 @@ class PopularView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index, int realIndex) {
     var list = (BlocProvider.of<PopularBloc>(context).state as PopularSuccess).listPopular;
     return ItemPopular(
-      urlImage: '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}',
+      urlImage: list[index].backdropPath != null
+          ? '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}'
+          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
       onTap: () => Navigator.of(context).push(
         CustomPageRoute(
           page: const DetailsPage(),

@@ -51,7 +51,9 @@ class TrendingView extends StatelessWidget {
       title: title,
       index: index,
       itemCount: list.length,
-      imageUrl: '${AppConstants.kImagePathPoster}$posterPath',
+      imageUrl: posterPath != null
+          ? '${AppConstants.kImagePathPoster}$posterPath'
+          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(
