@@ -26,21 +26,15 @@ class CustomLoadMore extends StatelessWidget {
         body = const SizedBox();
         break;
       case LoadStatus.canLoading:
-        body = Padding(
-          padding: const EdgeInsets.all(20),
-          child: CupertinoActivityIndicator(
-            color: darkBlueColor,
-            radius: 10,
-          ),
+        body = CupertinoActivityIndicator(
+          color: darkBlueColor,
+          radius: 10,
         );
         break;
       case LoadStatus.loading:
-        body = Padding(
-          padding: const EdgeInsets.all(20),
-          child: CupertinoActivityIndicator(
-            color: darkBlueColor,
-            radius: 10,
-          ),
+        body = CupertinoActivityIndicator(
+          color: darkBlueColor,
+          radius: 10,
         );
         break;
       case LoadStatus.failed:
@@ -52,6 +46,9 @@ class CustomLoadMore extends StatelessWidget {
       default:
         body = const SizedBox();
     }
-    return Center(child: body);
+    return Center(child: Padding(
+      padding: const EdgeInsets.all(20),
+      child: body,
+    ));
   }
 }

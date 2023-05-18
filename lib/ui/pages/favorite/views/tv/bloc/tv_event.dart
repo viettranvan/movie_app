@@ -7,13 +7,11 @@ class FetchData extends TvEvent {
   final int accountId;
   final String sessionId;
   String? sortBy;
-  int? page;
   FetchData({
     required this.language,
     required this.accountId,
     required this.sessionId,
     this.sortBy,
-    this.page,
   });
 }
 
@@ -39,8 +37,10 @@ class DropDown extends TvEvent {
 }
 
 class Sort extends TvEvent {
+  final String sortBy;
   final int index;
   Sort({
+    required this.sortBy,
     required this.index,
   });
 }

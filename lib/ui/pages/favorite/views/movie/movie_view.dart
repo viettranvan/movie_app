@@ -17,7 +17,7 @@ class MovieView extends StatelessWidget {
           language: 'en-US',
           accountId: 11429392,
           sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
-          page: 1,
+          sortBy: 'created_at.desc',
         )),
       child: BlocConsumer<MovieBloc, MovieState>(
         listener: (context, state) {
@@ -27,7 +27,6 @@ class MovieView extends StatelessWidget {
               accountId: 11429392,
               sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
               sortBy: state.sortBy,
-              page: 1,
             ));
           }
         },
@@ -45,12 +44,14 @@ class MovieView extends StatelessWidget {
                     sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
                     sortBy: state.sortBy,
                   )),
-                  onLoading: () => bloc.add(LoadMore(
-                    language: 'en-US',
-                    accountId: 11429392,
-                    sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
-                    sortBy: state.sortBy,
-                  )),
+                  onLoading: () {
+                    bloc.add(LoadMore(
+                      language: 'en-US',
+                      accountId: 11429392,
+                      sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
+                      sortBy: state.sortBy,
+                    ));
+                  },
                   enablePullDown: true,
                   enablePullUp: true,
                   primary: false,
@@ -77,7 +78,10 @@ class MovieView extends StatelessWidget {
                             colorTitle: state.indexSelected == index ? whiteColor : darkBlueColor,
                             onTapItem: state.indexSelected != index
                                 ? () {
-                                    bloc.add(Sort(index: index));
+                                    bloc.add(Sort(
+                                      index: index,
+                                      sortBy: state.listSort[index],
+                                    ));
                                     state.isDropDown
                                         ? bloc.add(DropDown(isDropDown: true))
                                         : bloc.add(DropDown(isDropDown: false));

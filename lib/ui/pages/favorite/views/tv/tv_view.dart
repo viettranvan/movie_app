@@ -17,7 +17,7 @@ class TvView extends StatelessWidget {
           language: 'en-US',
           accountId: 11429392,
           sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
-          page: 1,
+          sortBy: 'created_at.desc',
         )),
       child: BlocConsumer<TvBloc, TvState>(
         listener: (context, state) {
@@ -27,7 +27,6 @@ class TvView extends StatelessWidget {
               accountId: 11429392,
               sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
               sortBy: state.sortBy,
-              page: 1,
             ));
           }
         },
@@ -71,7 +70,10 @@ class TvView extends StatelessWidget {
                       colorTitle: state.indexSelected == index ? whiteColor : darkBlueColor,
                       onTapItem: state.indexSelected != index
                           ? () {
-                              bloc.add(Sort(index: index));
+                              bloc.add(Sort(
+                                index: index,
+                                sortBy: state.listSort[index],
+                              ));
                               state.isDropDown
                                   ? bloc.add(DropDown(isDropDown: true))
                                   : bloc.add(DropDown(isDropDown: false));
@@ -98,12 +100,12 @@ class TvView extends StatelessWidget {
 
   Widget itemBuilder(BuildContext context, int index) {
     var itemFavorite = BlocProvider.of<TvBloc>(context).state.listFavorite[index];
-
     return ItemMedia(
       title: itemFavorite.title ?? itemFavorite.name,
       voteAverage: itemFavorite.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),
       releaseDate: itemFavorite.releaseDate ?? itemFavorite.firstAirDate,
       overview: itemFavorite.overview != '' ? itemFavorite.overview : 'Coming soon',
+      originalLanguage: itemFavorite.originalLanguage,
       imageUrl: itemFavorite.posterPath != null
           ? '${AppConstants.kImagePathPoster}/${itemFavorite.posterPath}'
           : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',

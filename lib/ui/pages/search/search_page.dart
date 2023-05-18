@@ -20,10 +20,10 @@ class SearchPage extends StatelessWidget {
           filterQuality: FilterQuality.high,
         ),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text(
               'Search',
             ),
