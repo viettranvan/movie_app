@@ -40,14 +40,16 @@ class TopTvView extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-      var list = (BlocProvider.of<TopTvBloc>(context).state as TopTvSuccess).listTopTv;
+    var list = (BlocProvider.of<TopTvBloc>(context).state as TopTvSuccess).listTopTv;
     String? name = index != list.length ? list[index].name : '';
     String? posterPath = index != list.length ? list[index].posterPath : '';
     return ItemMediaSynthesis(
       title: name,
       index: index,
       itemCount: list.length,
-      imageUrl: '${AppConstants.kImagePathPoster}$posterPath',
+      imageUrl: posterPath != null
+          ? '${AppConstants.kImagePathPoster}$posterPath'
+          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(

@@ -37,14 +37,21 @@ class _NowPlayingViewState extends State<NowPlayingView> {
           if (state is NowPlayingInitial) {
             return const SizedBox(height: 175);
           }
+          final name = state.nowPlayingTv.name;
+          final seasonNumber = state.nowPlayingTv.lastEpisodeToAir?.seasonNumber;
+          final episode = state.nowPlayingTv.lastEpisodeToAir?.episodeNumber;
+          final overview =
+              state.nowPlayingTv.overview != '' ? state.nowPlayingTv.overview : 'Comming soon';
+          final posterPath = state.nowPlayingTv.posterPath;
           return ItemNowPlaying(
-            title: state.nowPlayingTv.name,
-            season: state.nowPlayingTv.lastEpisodeToAir?.seasonNumber,
-            episode: state.nowPlayingTv.lastEpisodeToAir?.episodeNumber,
-            overview:
-                state.nowPlayingTv.overview != '' ? state.nowPlayingTv.overview : 'Comming soon',
+            title: name,
+            season: seasonNumber,
+            episode: episode,
+            overview: overview,
             textColor: state.averageLuminance > 0.5 ? brownColor : whiteColor,
-            imageUrl: '${AppConstants.kImagePathPoster}${state.nowPlayingTv.posterPath}',
+            imageUrl: posterPath != null
+                ? '${AppConstants.kImagePathPoster}$posterPath'
+                : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
             colors: state.paletteColors,
             stops: List.generate(state.paletteColors.length, (index) => index * 0.13),
             onTap: () => Navigator.of(context).push(

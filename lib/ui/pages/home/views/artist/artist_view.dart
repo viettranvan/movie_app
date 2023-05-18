@@ -4,7 +4,6 @@ import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/views/artist/bloc/artist_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/artist/widgets/index.dart';
-
 import 'package:movie_app/utils/utils.dart';
 
 class ArtistView extends StatelessWidget {
@@ -46,7 +45,9 @@ class ArtistView extends StatelessWidget {
     String? profilePath = index != list.length ? list[index].profilePath : '';
     return ItemArtist(
       title: name,
-      imageUrl: '${AppConstants.kImagePathPoster}$profilePath',
+      imageUrl: profilePath != null
+          ? '${AppConstants.kImagePathPoster}$profilePath'
+          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
       index: index,
       itemCount: list.length,
       onTapItem: () => Navigator.of(context).push(

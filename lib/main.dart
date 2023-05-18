@@ -9,7 +9,6 @@ import 'ui/pages/home/views/now_playing/bloc/now_playing_bloc.dart';
 void main() async {
   Bloc.observer = SimpleBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
-
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
