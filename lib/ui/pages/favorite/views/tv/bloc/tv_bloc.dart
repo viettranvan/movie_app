@@ -42,16 +42,17 @@ class TvBloc extends Bloc<TvEvent, TvState> {
           listFavorite: result.list,
           isDropDown: state.isDropDown,
           indexSelected: state.indexSelected,
-          sortBy: state.sortBy,
+          sortBy: event.sortBy ?? '',
         ));
       } else {
         emit(TvSuccess(
           listFavorite: result.list,
           isDropDown: state.isDropDown,
           indexSelected: state.indexSelected,
-          sortBy: state.sortBy,
+          sortBy: event.sortBy ?? '',
         ));
       }
+      controller.loadComplete();
       controller.refreshCompleted();
     } catch (e) {
       controller.refreshFailed();
@@ -87,8 +88,8 @@ class TvBloc extends Bloc<TvEvent, TvState> {
           indexSelected: state.indexSelected,
           sortBy: state.sortBy,
         ));
+        controller.loadComplete();
       }
-      controller.loadComplete();
     } catch (e) {
       controller.loadFailed();
       emit(TvError(
@@ -111,12 +112,13 @@ class TvBloc extends Bloc<TvEvent, TvState> {
   }
 
   FutureOr<void> _onSort(Sort event, Emitter<TvState> emit) {
-    page = 1;
+    controller.loadComplete();
+
     emit(TvSortSuccess(
       listFavorite: state.listFavorite,
       isDropDown: state.isDropDown,
       indexSelected: event.index,
-      sortBy: state.listSort[event.index],
+      sortBy: event.sortBy,
     ));
   }
 }

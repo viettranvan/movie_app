@@ -7,13 +7,11 @@ class FetchData extends MovieEvent {
   final int accountId;
   final String sessionId;
   String? sortBy;
-  int? page;
   FetchData({
     required this.language,
     required this.accountId,
     required this.sessionId,
     this.sortBy,
-     this.page,
   });
 }
 
@@ -28,7 +26,6 @@ class LoadMore extends MovieEvent {
     required this.accountId,
     required this.sessionId,
     this.sortBy,
-
   });
 }
 
@@ -40,8 +37,10 @@ class DropDown extends MovieEvent {
 }
 
 class Sort extends MovieEvent {
+  final String sortBy;
   final int index;
   Sort({
+    required this.sortBy,
     required this.index,
   });
 }

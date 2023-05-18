@@ -41,16 +41,17 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
           listFavorite: result.list,
           isDropDown: state.isDropDown,
           indexSelected: state.indexSelected,
-          sortBy: state.sortBy,
+          sortBy: event.sortBy ?? '',
         ));
       } else {
         emit(MovieSuccess(
           listFavorite: result.list,
           isDropDown: state.isDropDown,
           indexSelected: state.indexSelected,
-          sortBy: state.sortBy,
+          sortBy: event.sortBy ?? '',
         ));
       }
+      controller.loadComplete();
       controller.refreshCompleted();
     } catch (e) {
       controller.refreshFailed();
@@ -59,7 +60,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         listFavorite: state.listFavorite,
         isDropDown: state.isDropDown,
         indexSelected: state.indexSelected,
-        sortBy: state.sortBy,
+        sortBy: event.sortBy ?? '',
       ));
     }
   }
@@ -86,8 +87,8 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
           indexSelected: state.indexSelected,
           sortBy: state.sortBy,
         ));
+        controller.loadComplete();
       }
-      controller.loadComplete();
     } catch (e) {
       controller.loadFailed();
       emit(MovieError(
@@ -110,12 +111,12 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   }
 
   FutureOr<void> _onSort(Sort event, Emitter<MovieState> emit) {
-    page = 1;
+    controller.loadComplete();
     emit(MovieSortSuccess(
       listFavorite: state.listFavorite,
       isDropDown: state.isDropDown,
       indexSelected: event.index,
-      sortBy: state.listSort[event.index],
+      sortBy: event.sortBy,
     ));
   }
 }

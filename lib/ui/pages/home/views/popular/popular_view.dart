@@ -36,6 +36,7 @@ class PopularView extends StatelessWidget {
                 itemBuilder: itemBuilder,
                 itemCount: (state.listPopular.length / 2).round(),
                 options: CarouselOptions(
+                  autoPlayAnimationDuration: const Duration(milliseconds: 500),
                   autoPlay: true,
                   viewportFraction: 1,
                   enableInfiniteScroll: true,

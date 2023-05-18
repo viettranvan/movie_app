@@ -7,22 +7,23 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         leadingWidth: 0,
         centerTitle: false,
-        title: CustomAppBarTitle(
+        title: const CustomAppBarTitle(
           titleAppBar: 'Profile',
         ),
-        paddingActions: EdgeInsets.fromLTRB(0, 8, 12, 8),
-        actions: Icon(
-          Icons.exit_to_app_sharp,
-          size: 30,
+        paddingActions: const EdgeInsets.fromLTRB(0, 8, 12, 8),
+        actions: Image.asset(
+          ImagesPath.primaryShortLogo.assetName,
+          scale: 4,
+          filterQuality: FilterQuality.high,
         ),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text(
               'Profile',
             ),

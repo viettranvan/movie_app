@@ -2,7 +2,7 @@ part of 'movie_bloc.dart';
 
 abstract class MovieState {
   final List<MediaSynthesis> listFavorite;
-  final List<String> listSort = const ['created_at.asc', 'created_at.desc'];
+  final List<String> listSort = const ['created_at.desc', 'created_at.asc'];
   final bool isDropDown;
   final int indexSelected;
   final String sortBy;
