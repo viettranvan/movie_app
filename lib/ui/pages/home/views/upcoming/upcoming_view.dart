@@ -12,8 +12,6 @@ class UpcomingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CarouselController upcomingController = CarouselController();
-
     return BlocProvider(
       create: (context) => UpcomingBloc()
         ..add(FetchData(
@@ -23,11 +21,12 @@ class UpcomingView extends StatelessWidget {
         )),
       child: BlocBuilder<UpcomingBloc, UpcomingState>(
         builder: (context, state) {
+          var bloc = BlocProvider.of<UpcomingBloc>(context);
           if (state is UpcomingInitial) {
             return const SizedBox(height: 365);
           }
           return CarouselSlider.builder(
-            carouselController: upcomingController,
+            carouselController: bloc.controller,
             itemBuilder: itemBuilder,
             itemCount: state.listUpcoming.length,
             disableGesture: false,

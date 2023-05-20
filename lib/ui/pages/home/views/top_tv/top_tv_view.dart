@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/shared_ui/components/components.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/views/top_tv/bloc/top_tv_bloc.dart';
@@ -22,17 +23,24 @@ class TopTvView extends StatelessWidget {
           if (state is TopTvInitial) {
             return const SizedBox(height: 213);
           }
-          return SizedBox(
-            height: 213,
-            child: ListView.separated(
-              primary: true,
-              padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemBuilder: itemBuilder,
-              separatorBuilder: separatorBuilder,
-              itemCount: state.listTopTv.length + 1,
-            ),
+          return Stack(
+            children: [
+              const Positioned.fill(
+                child: Background(),
+              ),
+              SizedBox(
+                height: 213,
+                child: ListView.separated(
+                  primary: true,
+                  padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemBuilder: itemBuilder,
+                  separatorBuilder: separatorBuilder,
+                  itemCount: state.listTopTv.length + 1,
+                ),
+              ),
+            ],
           );
         },
       ),

@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class CustomLoadMore extends StatelessWidget {
+class Footer extends StatelessWidget {
   final double? height;
   final String? loadingStatus;
-  const CustomLoadMore({
+  const Footer({
     super.key,
     this.height,
     this.loadingStatus,
@@ -46,7 +46,8 @@ class CustomLoadMore extends StatelessWidget {
       default:
         body = const SizedBox();
     }
-    return Center(child: Padding(
+    return Center(
+        child: Padding(
       padding: const EdgeInsets.all(20),
       child: body,
     ));

@@ -146,11 +146,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
                   const UpcomingView(),
-                  const SizedBox(height: 30),
-                  Container(
-                    height: 80,
-                    color: darkWhiteColor,
-                  ),
+                  const SizedBox(height: 110),
                 ],
               ),
             ),

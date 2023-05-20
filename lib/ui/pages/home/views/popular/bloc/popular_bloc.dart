@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:movie_app/model/model.dart';
 import 'package:movie_app/ui/pages/home/index.dart';
 import 'package:movie_app/utils/rest_api_client/index.dart';
@@ -11,6 +12,7 @@ part 'popular_state.dart';
 
 class PopularBloc extends Bloc<PopularEvent, PopularState> {
   final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
+  CarouselController controller = CarouselController();
   PopularBloc()
       : super(PopularInitial(
           listPopular: [],

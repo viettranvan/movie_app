@@ -12,7 +12,6 @@ class PopularView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CarouselController popularController = CarouselController();
     return BlocProvider(
       create: (context) => PopularBloc()
         ..add(FetchData(
@@ -22,17 +21,17 @@ class PopularView extends StatelessWidget {
         )),
       child: BlocBuilder<PopularBloc, PopularState>(
         builder: (context, state) {
+          var bloc = BlocProvider.of<PopularBloc>(context);
           if (state is PopularInitial) {
             return const SizedBox(
               height: 200,
             );
           }
-          var bloc = BlocProvider.of<PopularBloc>(context);
           return Stack(
             alignment: Alignment.bottomCenter,
             children: [
               CarouselSlider.builder(
-                carouselController: popularController,
+                carouselController: bloc.controller,
                 itemBuilder: itemBuilder,
                 itemCount: (state.listPopular.length / 2).round(),
                 options: CarouselOptions(
