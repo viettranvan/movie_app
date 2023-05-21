@@ -33,7 +33,7 @@ class NavigationPage extends StatelessWidget {
                 radiusCorner: 30,
               ),
               margin: const EdgeInsets.fromLTRB(25, 0, 25, 23),
-              padding: const EdgeInsets.fromLTRB(18, 7, 18, 7),
+              padding: const EdgeInsets.fromLTRB(23, 7, 23, 7),
               lengthPages: state.pages.length,
               indexPage: state.indexPage,
               items: [
