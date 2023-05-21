@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/components/components.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
@@ -38,7 +39,7 @@ class BestDramaView extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: itemBuilder,
                   separatorBuilder: separatorBuilder,
-                  itemCount: state.listBestDrama.length + 1,
+                  itemCount: state.listBestDrama.isNotEmpty ? state.listBestDrama.length + 1 : 21,
                 ),
               ),
             ],
@@ -49,24 +50,36 @@ class BestDramaView extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    var list = (BlocProvider.of<BestDramaBloc>(context).state as BestDramaSuccess).listBestDrama;
-    String? name = index != list.length ? list[index].name : '';
-    String? posterPath = index != list.length ? list[index].posterPath : '';
-    return ItemMediaSynthesis(
-      title: name,
-      index: index,
-      itemCount: list.length,
-      imageUrl: posterPath != null
-          ? '${AppConstants.kImagePathPoster}$posterPath'
-          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
-      onTapViewAll: () {},
-      onTapItem: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: const DetailsPage(),
-          begin: const Offset(1, 0),
+    var list = BlocProvider.of<BestDramaBloc>(context).state.listBestDrama;
+    if (list.isEmpty) {
+      return SizedBox(
+        height: 200,
+        width: 120,
+        child: Center(
+          child: CupertinoActivityIndicator(
+            color: darkBlueColor,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      String? name = index != list.length ? list[index].name : '';
+      String? posterPath = index != list.length ? list[index].posterPath : '';
+      return ItemMediaSynthesis(
+        title: name,
+        index: index,
+        itemCount: list.length,
+        imageUrl: posterPath != null
+            ? '${AppConstants.kImagePathPoster}$posterPath'
+            : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+        onTapViewAll: () {},
+        onTapItem: () => Navigator.of(context).push(
+          CustomPageRoute(
+            page: const DetailsPage(),
+            begin: const Offset(1, 0),
+          ),
+        ),
+      );
+    }
   }
 
   Widget separatorBuilder(BuildContext context, int index) {

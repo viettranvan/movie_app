@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/views/popular/bloc/popular_bloc.dart';
@@ -62,17 +63,28 @@ class PopularView extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index, int realIndex) {
-    var list = (BlocProvider.of<PopularBloc>(context).state as PopularSuccess).listPopular;
-    return ItemPopular(
-      urlImage: list[index].backdropPath != null
-          ? '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}'
-          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
-      onTap: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: const DetailsPage(),
-          begin: const Offset(1, 0),
+    var list = BlocProvider.of<PopularBloc>(context).state.listPopular;
+    if (list.isEmpty) {
+      return SizedBox(
+        height: 200,
+        child: Center(
+          child: CupertinoActivityIndicator(
+            color: darkBlueColor,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return ItemPopular(
+        urlImage: list[index].backdropPath != null
+            ? '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}'
+            : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+        onTap: () => Navigator.of(context).push(
+          CustomPageRoute(
+            page: const DetailsPage(),
+            begin: const Offset(1, 0),
+          ),
+        ),
+      );
+    }
   }
 }

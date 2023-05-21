@@ -65,6 +65,11 @@ class ItemNowPlaying extends StatelessWidget {
                         color: darkBlueColor,
                       ),
                     ),
+                    errorWidget: (context, url, error) => Center(
+                      child: CupertinoActivityIndicator(
+                        color: darkBlueColor,
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
@@ -121,7 +126,7 @@ class ItemNowPlaying extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            height: overview!.contains('Comming soon') ? 59 : 18,
+                            height: (overview ?? '').contains('Comming soon') ? 59 : 18,
                           ),
                           Center(
                             child: Row(

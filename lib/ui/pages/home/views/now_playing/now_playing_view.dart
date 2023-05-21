@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
@@ -36,6 +36,17 @@ class _NowPlayingViewState extends State<NowPlayingView> {
         builder: (context, state) {
           if (state is NowPlayingInitial) {
             return const SizedBox(height: 175);
+          }
+          if (state is NowPlayingError) {
+            return SizedBox(
+              height: 175,
+              width: double.infinity,
+              child: Center(
+                child: CupertinoActivityIndicator(
+                  color: darkBlueColor,
+                ),
+              ),
+            );
           }
           final name = state.nowPlayingTv.name;
           final seasonNumber = state.nowPlayingTv.lastEpisodeToAir?.seasonNumber;

@@ -26,6 +26,11 @@ class ItemPopular extends StatelessWidget {
               color: darkBlueColor,
             ),
           ),
+          errorWidget: (context, url, error) => Center(
+            child: CupertinoActivityIndicator(
+              color: darkBlueColor,
+            ),
+          ),
         ),
       ),
     );

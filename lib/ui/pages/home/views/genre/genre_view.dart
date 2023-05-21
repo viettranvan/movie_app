@@ -1,7 +1,8 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/ui/pages/home/views/genre/bloc/genre_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/genre/widgets/index.dart';
 
@@ -44,7 +45,7 @@ class Genreview extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: separatorBuilderMovie,
                       separatorBuilder: separatorBuilder,
-                      itemCount: state.listGenreMovie.length,
+                      itemCount: state.listGenreMovie.isNotEmpty ? state.listGenreMovie.length : 21,
                     ),
                   ),
                 ),
@@ -67,7 +68,7 @@ class Genreview extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: itemBuilderTv,
                       separatorBuilder: separatorBuilder,
-                      itemCount: state.listGenreTv.length,
+                      itemCount: state.listGenreTv.isNotEmpty ? state.listGenreTv.length : 21,
                     ),
                   ),
                 ),
@@ -80,23 +81,45 @@ class Genreview extends StatelessWidget {
   }
 
   Widget separatorBuilderMovie(BuildContext context, int index) {
-    var listGenre = (BlocProvider.of<GenreBloc>(context).state as GenreSuccess).listGenreMovie;
-    return ItemGenre(
-      genreName: listGenre[index].name,
-      onTap: () {
-        log('yeah');
-      },
-    );
+    var list = BlocProvider.of<GenreBloc>(context).state.listGenreMovie;
+    if (list.isEmpty) {
+      return SizedBox(
+        height: 30,
+        width: 53,
+        child: Center(
+          child: CupertinoActivityIndicator(
+            color: darkBlueColor,
+          ),
+        ),
+      );
+    } else {
+      return ItemGenre(
+        genreName: list[index].name,
+        onTap: () {
+          log('yeah');
+        },
+      );
+    }
   }
 
   Widget itemBuilderTv(BuildContext context, int index) {
-    var listGenre = (BlocProvider.of<GenreBloc>(context).state as GenreSuccess).listGenreTv;
-    return ItemGenre(
-      genreName: listGenre[index].name,
-      onTap: () {
-        log('yo');
-      },
-    );
+    var list = BlocProvider.of<GenreBloc>(context).state.listGenreTv;
+    if (list.isEmpty) {
+      return SizedBox(
+        height: 30,
+        width: 53,
+        child: Center(
+          child: CupertinoActivityIndicator(
+            color: darkBlueColor,
+          ),
+        ),
+      );
+    } else {
+      return ItemGenre(
+        genreName: list[index].name,
+        onTap: () {},
+      );
+    }
   }
 
   Widget separatorBuilder(BuildContext context, int index) {

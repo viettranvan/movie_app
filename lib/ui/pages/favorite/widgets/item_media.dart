@@ -145,6 +145,11 @@ class ItemMedia extends StatelessWidget {
                           color: darkBlueColor,
                         ),
                       ),
+                      errorWidget: (context, url, error) => Center(
+                        child: CupertinoActivityIndicator(
+                          color: darkBlueColor,
+                        ),
+                      ),
                     ),
                   ),
                 ),
