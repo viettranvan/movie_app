@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
+import 'package:intl/intl.dart';
 
 class AppUtils {
   static final AppUtils _instance = AppUtils._();
@@ -89,5 +90,12 @@ class AppUtils {
     } else {
       return 'Oldest';
     }
+  }
+
+  String formatDate(String date) {
+    var outputFormat = DateFormat('yyyy-MM-dd');
+    var outputDate = outputFormat.parse(date);
+    var outputDateTime = DateFormat('dd-MM-yyyy').format(outputDate);
+    return outputDateTime;
   }
 }

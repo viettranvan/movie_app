@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/views/artist/bloc/artist_bloc.dart';
@@ -31,7 +32,7 @@ class ArtistView extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: itemBuilder,
               separatorBuilder: separatorBuilder,
-              itemCount: state.listArtist.length + 1,
+              itemCount: state.listArtist.isNotEmpty ? state.listArtist.length + 1 : 21,
             ),
           );
         },
@@ -40,24 +41,36 @@ class ArtistView extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    var list = (BlocProvider.of<ArtistBloc>(context).state as ArtistSuccess).listArtist;
-    String? name = index != list.length ? list[index].name : '';
-    String? profilePath = index != list.length ? list[index].profilePath : '';
-    return ItemArtist(
-      title: name,
-      imageUrl: profilePath != null
-          ? '${AppConstants.kImagePathPoster}$profilePath'
-          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
-      index: index,
-      itemCount: list.length,
-      onTapItem: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: const DetailsPage(),
-          begin: const Offset(1, 0),
+    var list = BlocProvider.of<ArtistBloc>(context).state.listArtist;
+    if (list.isEmpty) {
+      return SizedBox(
+        height: 140,
+        width: 67,
+        child: Center(
+          child: CupertinoActivityIndicator(
+            color: darkBlueColor,
+          ),
         ),
-      ),
-      onTapViewAll: () {},
-    );
+      );
+    } else {
+      String? name = index != list.length ? list[index].name : '';
+      String? profilePath = index != list.length ? list[index].profilePath : '';
+      return ItemArtist(
+        title: name,
+        imageUrl: profilePath != null
+            ? '${AppConstants.kImagePathPoster}$profilePath'
+            : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+        index: index,
+        itemCount: list.length,
+        onTapItem: () => Navigator.of(context).push(
+          CustomPageRoute(
+            page: const DetailsPage(),
+            begin: const Offset(1, 0),
+          ),
+        ),
+        onTapViewAll: () {},
+      );
+    }
   }
 
   Widget separatorBuilder(BuildContext context, int index) {

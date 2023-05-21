@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
+import 'package:movie_app/shared_ui/components/components.dart';
 import 'package:movie_app/ui/pages/favorite/views/movie/bloc/movie_bloc.dart';
 import 'package:movie_app/ui/pages/favorite/widgets/index.dart';
+import 'package:movie_app/utils/app_utils/app_utils.dart';
 import 'package:movie_app/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -38,6 +40,14 @@ class MovieView extends StatelessWidget {
               Expanded(
                 child: SmartRefresher(
                   controller: bloc.controller,
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  primary: false,
+                  header: const Header(),
+                  footer: const Footer(
+                    height: 130,
+                    loadingStatus: 'All Movies was loaded',
+                  ),
                   onRefresh: () => bloc.add(FetchData(
                     language: 'en-US',
                     accountId: 11429392,
@@ -52,12 +62,6 @@ class MovieView extends StatelessWidget {
                       sortBy: state.sortBy,
                     ));
                   },
-                  enablePullDown: true,
-                  enablePullUp: true,
-                  primary: false,
-                  footer: const CustomLoadMore(
-                    height: 130,
-                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -115,7 +119,7 @@ class MovieView extends StatelessWidget {
     return ItemMedia(
       title: itemFavorite.title ?? itemFavorite.name,
       voteAverage: itemFavorite.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),
-      releaseDate: itemFavorite.releaseDate ?? itemFavorite.firstAirDate,
+      releaseDate: AppUtils().formatDate(itemFavorite.releaseDate ?? ''),
       overview: itemFavorite.overview != '' ? itemFavorite.overview : 'Coming soon',
       originalLanguage: itemFavorite.originalLanguage,
       imageUrl: itemFavorite.posterPath != null

@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/views/popular/bloc/popular_bloc.dart';
@@ -12,7 +13,6 @@ class PopularView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CarouselController popularController = CarouselController();
     return BlocProvider(
       create: (context) => PopularBloc()
         ..add(FetchData(
@@ -22,17 +22,17 @@ class PopularView extends StatelessWidget {
         )),
       child: BlocBuilder<PopularBloc, PopularState>(
         builder: (context, state) {
+          var bloc = BlocProvider.of<PopularBloc>(context);
           if (state is PopularInitial) {
             return const SizedBox(
               height: 200,
             );
           }
-          var bloc = BlocProvider.of<PopularBloc>(context);
           return Stack(
             alignment: Alignment.bottomCenter,
             children: [
               CarouselSlider.builder(
-                carouselController: popularController,
+                carouselController: bloc.controller,
                 itemBuilder: itemBuilder,
                 itemCount: (state.listPopular.length / 2).round(),
                 options: CarouselOptions(
@@ -63,17 +63,28 @@ class PopularView extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index, int realIndex) {
-    var list = (BlocProvider.of<PopularBloc>(context).state as PopularSuccess).listPopular;
-    return ItemPopular(
-      urlImage: list[index].backdropPath != null
-          ? '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}'
-          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
-      onTap: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: const DetailsPage(),
-          begin: const Offset(1, 0),
+    var list = BlocProvider.of<PopularBloc>(context).state.listPopular;
+    if (list.isEmpty) {
+      return SizedBox(
+        height: 200,
+        child: Center(
+          child: CupertinoActivityIndicator(
+            color: darkBlueColor,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return ItemPopular(
+        urlImage: list[index].backdropPath != null
+            ? '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}'
+            : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+        onTap: () => Navigator.of(context).push(
+          CustomPageRoute(
+            page: const DetailsPage(),
+            begin: const Offset(1, 0),
+          ),
+        ),
+      );
+    }
   }
 }

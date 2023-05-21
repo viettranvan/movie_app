@@ -1,5 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
@@ -12,8 +12,6 @@ class UpcomingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CarouselController upcomingController = CarouselController();
-
     return BlocProvider(
       create: (context) => UpcomingBloc()
         ..add(FetchData(
@@ -23,11 +21,12 @@ class UpcomingView extends StatelessWidget {
         )),
       child: BlocBuilder<UpcomingBloc, UpcomingState>(
         builder: (context, state) {
+          var bloc = BlocProvider.of<UpcomingBloc>(context);
           if (state is UpcomingInitial) {
             return const SizedBox(height: 365);
           }
           return CarouselSlider.builder(
-            carouselController: upcomingController,
+            carouselController: bloc.controller,
             itemBuilder: itemBuilder,
             itemCount: state.listUpcoming.length,
             disableGesture: false,
@@ -44,7 +43,16 @@ class UpcomingView extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index, int realIndex) {
-    var list = (BlocProvider.of<UpcomingBloc>(context).state as UpcomingSuccess).listUpcoming;
+    var state = BlocProvider.of<UpcomingBloc>(context).state;
+    var list = state.listUpcoming;
+    if (state is UpcomingError) {
+      return const SizedBox(
+        height: 365,
+        child: Center(
+          child: CupertinoActivityIndicator(),
+        ),
+      );
+    }
     return ItemUpcoming(
       title: list[index].title,
       voteAverage: list[index].voteAverage?.toDouble(),

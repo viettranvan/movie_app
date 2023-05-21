@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -32,10 +33,21 @@ class HomePage extends StatelessWidget {
               leading: Padding(
                 padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                 child: CircleAvatar(
-                  backgroundImage: Image.network(
-                    ImagesPath.noImage.assetName,
-                    filterQuality: FilterQuality.high,
-                  ).image,
+                  backgroundImage: ImagesPath.noImage.assetName.isEmpty
+                      ? Image.network(
+                          ImagesPath.noImage.assetName,
+                          filterQuality: FilterQuality.high,
+                          errorBuilder: (context, error, stackTrace) => const Center(
+                            child: CupertinoActivityIndicator(),
+                          ),
+                        ).image
+                      : Image.asset(
+                          ImagesPath.primaryShortLogo.assetName,
+                          filterQuality: FilterQuality.high,
+                          errorBuilder: (context, error, stackTrace) => const Center(
+                            child: CupertinoActivityIndicator(),
+                          ),
+                        ).image,
                 ),
               ),
               title: Image.asset(
@@ -146,11 +158,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
                   const UpcomingView(),
-                  const SizedBox(height: 30),
-                  Container(
-                    height: 80,
-                    color: darkWhiteColor,
-                  ),
+                  const SizedBox(height: 110),
                 ],
               ),
             ),

@@ -111,6 +111,11 @@ class ItemArtist extends StatelessWidget {
                             ),
                           ),
                         ),
+                        errorWidget: (context, url, error) => Center(
+                          child: CupertinoActivityIndicator(
+                            color: darkBlueColor,
+                          ),
+                        ),
                       ),
                     ),
                   ),

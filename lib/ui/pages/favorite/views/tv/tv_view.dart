@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
+import 'package:movie_app/shared_ui/components/components.dart';
 import 'package:movie_app/ui/pages/favorite/views/tv/bloc/tv_bloc.dart';
 import 'package:movie_app/ui/pages/favorite/widgets/index.dart';
+import 'package:movie_app/utils/app_utils/app_utils.dart';
 import 'package:movie_app/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -34,6 +36,14 @@ class TvView extends StatelessWidget {
           var bloc = BlocProvider.of<TvBloc>(context);
           return SmartRefresher(
             controller: bloc.controller,
+            enablePullDown: true,
+            enablePullUp: true,
+            primary: false,
+            header: const Header(),
+            footer: const Footer(
+              height: 130,
+              loadingStatus: 'All Tv Shows was loaded',
+            ),
             onRefresh: () => bloc.add(FetchData(
               language: 'en-US',
               accountId: 11429392,
@@ -46,11 +56,6 @@ class TvView extends StatelessWidget {
               sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
               sortBy: state.sortBy,
             )),
-            enablePullDown: true,
-            enablePullUp: true,
-            footer: const CustomLoadMore(
-              height: 130,
-            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -103,7 +108,7 @@ class TvView extends StatelessWidget {
     return ItemMedia(
       title: itemFavorite.title ?? itemFavorite.name,
       voteAverage: itemFavorite.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),
-      releaseDate: itemFavorite.releaseDate ?? itemFavorite.firstAirDate,
+      releaseDate: AppUtils().formatDate(itemFavorite.firstAirDate ?? ''),
       overview: itemFavorite.overview != '' ? itemFavorite.overview : 'Coming soon',
       originalLanguage: itemFavorite.originalLanguage,
       imageUrl: itemFavorite.posterPath != null

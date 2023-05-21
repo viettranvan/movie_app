@@ -9,6 +9,7 @@ enum ImagesPath {
   bestDramaIcon('lib/shared_ui/assets/images/best_drama_icon.svg'),
   upcomingIcon('lib/shared_ui/assets/images/upcoming_icon.png'),
   tvShowIcon('lib/shared_ui/assets/images/tv_show_icon.svg'),
+  background('lib/shared_ui/assets/images/background.png'),
   noImage(
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPFX24dOkZavnvV7R9supHkmmSEXlCTbKRQamQkrhN&s');
 
