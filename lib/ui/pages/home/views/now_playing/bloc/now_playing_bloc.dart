@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:movie_app/model/model.dart';
 import 'package:movie_app/ui/pages/home/index.dart';
@@ -56,11 +57,14 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
         final baseUrl = Uri.parse(event.imagePath);
         final loadImage = await NetworkAssetBundle(baseUrl).load(event.imagePath);
         final imageBytes = loadImage.buffer.asUint8List(); // load the image
-        final colors = AppUtils().extractPixelsColors(imageBytes);
-        final paletteColors = AppUtils().generatePalette({'palette': colors, 'numberOfItems': 16});
+        final colors = await compute(AppUtils().extractPixelsColors, imageBytes);
+        final paletteColors = await compute(
+          AppUtils().generatePalette,
+          {'palette': colors, 'numberOfItems': 16},
+        );
         final paletteRemoveWhite = paletteColors
           ..removeWhere((element) => element.computeLuminance() > 0.8);
-        final averageLuminance = AppUtils().getLuminance(paletteColors);
+        final averageLuminance = await compute(AppUtils().getLuminance, paletteColors);
         emit(NowPlayingSuccess(
           averageLuminance: averageLuminance,
           paletteColors: paletteRemoveWhite,
@@ -77,3 +81,8 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
     }
   }
 }
+
+
+// final colors = AppUtils().extractPixelsColors(imageBytes);
+// final paletteColors = AppUtils().generatePalette({'palette': colors, 'numberOfItems': 16});
+// final averageLuminance = AppUtils().getLuminance(paletteColors);

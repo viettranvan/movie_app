@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,21 +33,9 @@ class HomePage extends StatelessWidget {
               leading: Padding(
                 padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                 child: CircleAvatar(
-                  backgroundImage: ImagesPath.noImage.assetName.isEmpty
-                      ? Image.network(
-                          ImagesPath.noImage.assetName,
-                          filterQuality: FilterQuality.high,
-                          errorBuilder: (context, error, stackTrace) => const Center(
-                            child: CupertinoActivityIndicator(),
-                          ),
-                        ).image
-                      : Image.asset(
-                          ImagesPath.primaryShortLogo.assetName,
-                          filterQuality: FilterQuality.high,
-                          errorBuilder: (context, error, stackTrace) => const Center(
-                            child: CupertinoActivityIndicator(),
-                          ),
-                        ).image,
+                  backgroundImage: CachedNetworkImageProvider(
+                    ImagesPath.noImage.assetName,
+                  ),
                 ),
               ),
               title: Image.asset(
@@ -83,6 +71,8 @@ class HomePage extends StatelessWidget {
                   PrimaryTitle(
                     visibleIcon: true,
                     title: 'Popular',
+                    visibleViewAll: true,
+                    onTapViewAll: () {},
                     icon: Icon(
                       Icons.stars_outlined,
                       color: greyColor,
@@ -106,6 +96,8 @@ class HomePage extends StatelessWidget {
                   PrimaryTitle(
                     visibleIcon: true,
                     title: 'Now Playing',
+                    visibleViewAll: true,
+                    onTapViewAll: () {},
                     icon: Icon(
                       Icons.smart_display_outlined,
                       color: greyColor,
@@ -178,7 +170,6 @@ class HomePage extends StatelessWidget {
 //     }
 //   }
 
-
 // SizedBox(
 //   height: 18,
 //   child: Center(
@@ -197,8 +188,7 @@ class HomePage extends StatelessWidget {
 //   ),
 // ),
 
-
- // SizedBox(
+// SizedBox(
 //   height: 200,
 //   child: PageView.builder(
 //     controller: pageController,
@@ -209,25 +199,22 @@ class HomePage extends StatelessWidget {
 //   ),
 // ),
 
- // @override
-  // void initState() {
-  //   super.initState();
-  //   timer = Timer.periodic(const Duration(seconds: 5), (time) async {
-  //     final nexPage = (pageController.page?.toInt() ?? 0);
-  //     await pageController.animateToPage(
-  //       nexPage + 1,
-  //       duration: const Duration(milliseconds: 350),
-  //       curve: Curves.ease,
-  //     );
-  //   });
-  // }
+// @override
+// void initState() {
+//   super.initState();
+//   timer = Timer.periodic(const Duration(seconds: 5), (time) async {
+//     final nexPage = (pageController.page?.toInt() ?? 0);
+//     await pageController.animateToPage(
+//       nexPage + 1,
+//       duration: const Duration(milliseconds: 350),
+//       curve: Curves.ease,
+//     );
+//   });
+// }
 
-  // @override
-  // void dispose() {
-  //   timer!.cancel();
-  //   pageController.dispose();
-  //   super.dispose();
-  // }
-
-
-
+// @override
+// void dispose() {
+//   timer!.cancel();
+//   pageController.dispose();
+//   super.dispose();
+// }

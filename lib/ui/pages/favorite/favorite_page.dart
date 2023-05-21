@@ -12,7 +12,6 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderStateMixin {
-
   AnimationController? animationController;
   @override
   void initState() {
@@ -32,17 +31,16 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
           var bloc = BlocProvider.of<FavoriteBloc>(context);
           return Scaffold(
             appBar: CustomAppBar(
-              leadingWidth: 0,
-              centerTitle: false,
-              title: const CustomAppBarTitle(
-                titleAppBar: 'Your Favorite',
+              centerTitle: true,
+              leading: const Padding(
+                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  size: 30,
+                ),
               ),
-              paddingActions: const EdgeInsets.fromLTRB(0, 8, 12, 8),
-              actions: Image.asset(
-                ImagesPath.primaryShortLogo.assetName,
-                scale: 4,
-                filterQuality: FilterQuality.high,
-              ),
+              title: const CustomAppBarTitle(titleAppBar: 'Favorites'),
+              onTapLeading: () => Navigator.of(context).pop(),
             ),
             body: Center(
               child: Column(

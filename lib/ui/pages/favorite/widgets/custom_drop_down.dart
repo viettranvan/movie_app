@@ -67,9 +67,9 @@ class CustomDropDown extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(),
+                  const SizedBox.shrink(),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                    padding: const EdgeInsets.only(left: 25),
                     child: Text(
                       AppUtils().getSortTitle(itemSelected),
                       style: TextStyle(

@@ -45,7 +45,7 @@ class MovieView extends StatelessWidget {
                   primary: false,
                   header: const Header(),
                   footer: const Footer(
-                    height: 130,
+                    height: 70,
                     loadingStatus: 'All Movies was loaded',
                   ),
                   onRefresh: () => bloc.add(FetchData(
