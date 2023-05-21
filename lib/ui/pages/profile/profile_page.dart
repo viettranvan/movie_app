@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/index.dart';
+import 'package:movie_app/shared_ui/transitions/custom_page_route.dart';
+import 'package:movie_app/ui/pages/favorite/favorite_page.dart';
+import 'package:movie_app/ui/pages/watch_list/index.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -20,12 +23,32 @@ class ProfilePage extends StatelessWidget {
           filterQuality: FilterQuality.high,
         ),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Profile',
+            GestureDetector(
+              onTap: () => Navigator.of(context).push(
+                CustomPageRoute(
+                  page: const FavoritePage(),
+                  begin: const Offset(1, 0),
+                ),
+              ),
+              child: const Text(
+                'My Favorites',
+              ),
+            ),
+            const SizedBox(height: 15),
+            GestureDetector(
+              onTap: () => Navigator.of(context).push(
+                CustomPageRoute(
+                  page: const WatchListPage(),
+                  begin: const Offset(1, 0),
+                ),
+              ),
+              child: const Text(
+                'My Watchlist',
+              ),
             ),
           ],
         ),

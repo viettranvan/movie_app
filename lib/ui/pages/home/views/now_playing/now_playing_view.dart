@@ -35,11 +35,11 @@ class _NowPlayingViewState extends State<NowPlayingView> {
         },
         builder: (context, state) {
           if (state is NowPlayingInitial) {
-            return const SizedBox(height: 175);
+            return const SizedBox(height: 172);
           }
           if (state is NowPlayingError) {
             return SizedBox(
-              height: 175,
+              height: 172,
               width: double.infinity,
               child: Center(
                 child: CupertinoActivityIndicator(
