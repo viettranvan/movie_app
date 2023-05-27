@@ -10,7 +10,7 @@ class CustomTextField extends StatelessWidget {
   final void Function(String)? onChanged;
   final VoidCallback? onTapSuffixIcon;
   final VoidCallback? onTapFilter;
-
+  final TextEditingController? controller;
   const CustomTextField({
     super.key,
     this.onTapSuffixIcon,
@@ -20,6 +20,7 @@ class CustomTextField extends StatelessWidget {
     this.isAuthentication,
     this.hintText,
     this.onTapFilter,
+    this.controller,
   });
 
   @override
@@ -31,6 +32,7 @@ class CustomTextField extends StatelessWidget {
         children: [
           Expanded(
             child: TextFormField(
+              controller: controller,
               cursorColor: darkBlueColor,
               obscureText: obscureText ?? false,
               onChanged: onChanged,
