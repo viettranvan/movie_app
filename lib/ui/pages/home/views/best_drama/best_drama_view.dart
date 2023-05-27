@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
-import 'package:movie_app/shared_ui/components/components.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
+import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/views/best_drama/bloc/best_drama_bloc.dart';
-import 'package:movie_app/ui/pages/home/widgets/index.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class BestDramaView extends StatelessWidget {
@@ -28,7 +26,7 @@ class BestDramaView extends StatelessWidget {
           return Stack(
             children: [
               const Positioned.fill(
-                child: Background(),
+                child: PrimaryBackground(),
               ),
               SizedBox(
                 height: 213,
@@ -52,19 +50,15 @@ class BestDramaView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     var list = BlocProvider.of<BestDramaBloc>(context).state.listBestDrama;
     if (list.isEmpty) {
-      return SizedBox(
+      return const SizedBox(
         height: 200,
         width: 120,
-        child: Center(
-          child: CupertinoActivityIndicator(
-            color: darkBlueColor,
-          ),
-        ),
+        child: CustomIndicator(),
       );
     } else {
       String? name = index != list.length ? list[index].name : '';
       String? posterPath = index != list.length ? list[index].posterPath : '';
-      return ItemMediaSynthesis(
+      return TertiaryItemList(
         title: name,
         index: index,
         itemCount: list.length,

@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
-import 'package:movie_app/shared_ui/components/components.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
+import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/views/trending/bloc/trending_bloc.dart';
-import 'package:movie_app/ui/pages/home/widgets/index.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class TrendingView extends StatelessWidget {
@@ -31,7 +29,7 @@ class TrendingView extends StatelessWidget {
           return Stack(
             children: [
               const Positioned.fill(
-                child: Background(),
+                child: PrimaryBackground(),
               ),
               SizedBox(
                 height: 215,
@@ -55,19 +53,15 @@ class TrendingView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     var list = BlocProvider.of<TrendingBloc>(context).state.listTrending;
     if (list.isEmpty) {
-      return SizedBox(
+      return const SizedBox(
         height: 200,
         width: 120,
-        child: Center(
-          child: CupertinoActivityIndicator(
-            color: darkBlueColor,
-          ),
-        ),
+        child: CustomIndicator(),
       );
     } else {
       String? title = index != list.length ? (list[index].title ?? list[index].name) : '';
       String? posterPath = index != list.length ? list[index].posterPath : '';
-      return ItemMediaSynthesis(
+      return TertiaryItemList(
         title: title,
         index: index,
         itemCount: list.length,

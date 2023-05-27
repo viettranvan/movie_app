@@ -1,11 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
+import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/views/popular/bloc/popular_bloc.dart';
-import 'package:movie_app/ui/pages/home/views/popular/widgets/index.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class PopularView extends StatelessWidget {
@@ -43,17 +42,9 @@ class PopularView extends StatelessWidget {
                   onPageChanged: (index, reason) => bloc.add(SlidePageView(selectedIndex: index)),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: List.generate(
-                  (state.listPopular.length / 2).round(),
-                  (index) => Indicator(
-                    isActive: state.selectedIndex % (state.listPopular.length / 2).round() == index
-                        ? true
-                        : false,
-                  ),
-                ),
+              SliderIndicator(
+                indexIndicator: state.selectedIndex % (state.listPopular.length / 2).round(),
+                length: (state.listPopular.length / 2).round(),
               ),
             ],
           );
@@ -65,17 +56,14 @@ class PopularView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index, int realIndex) {
     var list = BlocProvider.of<PopularBloc>(context).state.listPopular;
     if (list.isEmpty) {
-      return SizedBox(
+      return const SizedBox(
         height: 200,
-        child: Center(
-          child: CupertinoActivityIndicator(
-            color: darkBlueColor,
-          ),
-        ),
+        child: CustomIndicator(),
       );
     } else {
-      return ItemPopular(
-        urlImage: list[index].backdropPath != null
+      return SliderItem(
+        isBackdrop: true,
+        imageUrlBackdrop: list[index].backdropPath != null
             ? '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}'
             : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
         onTap: () => Navigator.of(context).push(

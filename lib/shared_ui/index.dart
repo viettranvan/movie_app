@@ -1,6 +1,5 @@
 library index;
 
-export 'path/images_path.dart';
-export 'path/fonts_path.dart';
+export 'paths/images_path.dart';
+export 'paths/fonts_path.dart';
 export 'styles/styles.dart';
-export 'components/components.dart';

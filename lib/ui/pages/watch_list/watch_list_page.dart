@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/shared_ui/index.dart';
+import 'package:movie_app/ui/components/components.dart';
 
 class WatchListPage extends StatelessWidget {
   const WatchListPage({super.key});
