@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:movie_app/model/model.dart';
+import 'package:movie_app/models/models.dart';
 import 'package:movie_app/ui/pages/favorite/favorite_repository.dart';
 import 'package:movie_app/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -80,7 +80,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         controller.loadNoData();
       } else {
         page++;
-        var newList = List<MediaSynthesis>.from(curentList)..addAll(result.list);
+        var newList = List<MultipleMedia>.from(curentList)..addAll(result.list);
         emit(MovieSuccess(
           listFavorite: newList,
           isDropDown: state.isDropDown,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
+import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';
 
 class CustomDropDown extends StatelessWidget {

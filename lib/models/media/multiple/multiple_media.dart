@@ -1,6 +1,5 @@
-import 'package:movie_app/model/media/media_synthesis/media_synthesis.dart';
 
-class TrendingSynthesis {
+class MultipleMedia {
   bool? adult;
   String? backdropPath;
   List<int> genreIds;
@@ -10,6 +9,7 @@ class TrendingSynthesis {
   String? overview;
   num? popularity;
   String? posterPath;
+  String? mediaType;
   String? releaseDate;
   String? title;
   bool? video;
@@ -22,9 +22,9 @@ class TrendingSynthesis {
   int? gender;
   String? knownForDepartment;
   String? profilePath;
-  List<MediaSynthesis> knownFor;
+  List<MultipleMedia> knownFor;
 
-  TrendingSynthesis({
+  MultipleMedia({
     this.adult,
     this.backdropPath,
     this.genreIds = const [],
@@ -34,6 +34,7 @@ class TrendingSynthesis {
     this.overview,
     this.popularity,
     this.posterPath,
+    this.mediaType,
     this.releaseDate,
     this.title,
     this.video,
@@ -49,7 +50,7 @@ class TrendingSynthesis {
     this.knownFor = const [],
   });
 
-  factory TrendingSynthesis.fromJson(Map<String, dynamic> json) => TrendingSynthesis(
+  factory MultipleMedia.fromJson(Map<String, dynamic> json) => MultipleMedia(
         adult: json['adult'],
         backdropPath: json['backdrop_path'],
         genreIds: json['genre_ids'] == null ? [] : List<int>.from(json['genre_ids'].map((x) => x)),
@@ -59,6 +60,7 @@ class TrendingSynthesis {
         overview: json['overview'],
         popularity: json['popularity'],
         posterPath: json['poster_path'],
+        mediaType: json['media_type'],
         releaseDate: json['release_date'],
         title: json['title'],
         video: json['video'],
@@ -75,6 +77,6 @@ class TrendingSynthesis {
         profilePath: json['profile_path'],
         knownFor: json['known_for'] == null
             ? []
-            : List<MediaSynthesis>.from(json['known_for'].map((x) => MediaSynthesis.fromJson(x))),
+            : List<MultipleMedia>.from(json['known_for'].map((x) => MultipleMedia.fromJson(x))),
       );
 }

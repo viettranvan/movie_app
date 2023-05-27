@@ -1,7 +1,7 @@
 part of 'now_playing_bloc.dart';
 
 abstract class NowPlayingState {
-  final MediaSynthesisDetails nowPlayingTv;
+  final MultipleDetails nowPlayingTv;
   final List<Color> paletteColors;
   final double averageLuminance;
 

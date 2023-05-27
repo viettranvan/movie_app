@@ -1,4 +1,4 @@
-import 'package:movie_app/api/index.dart';
+import 'package:movie_app/api/api.dart';
 
 class TvRequest {
   TvRequest._();

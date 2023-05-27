@@ -1,7 +1,7 @@
 part of 'trending_bloc.dart';
 
 abstract class TrendingState {
-  final List<TrendingSynthesis> listTrending;
+  final List<MultipleMedia> listTrending;
   TrendingState({
     required this.listTrending,
   });

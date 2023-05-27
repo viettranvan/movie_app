@@ -1,5 +1,5 @@
-import 'package:movie_app/api/src/favorite/index.dart';
-import 'package:movie_app/model/model.dart';
+import 'package:movie_app/api/src/favorite/favorite.dart';
+import 'package:movie_app/models/models.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class FavoriteRepository {
@@ -8,7 +8,7 @@ class FavoriteRepository {
     required this.restApiClient,
   });
 
-  Future<ListResponse<MediaSynthesis>> getFavoriteMovie({
+  Future<ListResponse<MultipleMedia>> getFavoriteMovie({
     required String language,
     required int accountId,
     required String sessionId,
@@ -24,7 +24,7 @@ class FavoriteRepository {
     );
   }
 
-  Future<ListResponse<MediaSynthesis>> getFavoriteTv({
+  Future<ListResponse<MultipleMedia>> getFavoriteTv({
     required String language,
     required int accountId,
     required String sessionId,

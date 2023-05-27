@@ -2,7 +2,7 @@
 part of 'upcoming_bloc.dart';
 
 abstract class UpcomingState {
-  final List<MediaSynthesis> listUpcoming;
+  final List<MultipleMedia> listUpcoming;
   UpcomingState({
     required this.listUpcoming,
   });

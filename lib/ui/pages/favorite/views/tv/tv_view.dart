@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
+import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/favorite/views/tv/bloc/tv_bloc.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';

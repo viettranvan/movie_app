@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
+import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/ui/components/components.dart';
 
 class SecondaryItemList extends StatelessWidget {
@@ -57,18 +57,9 @@ class SecondaryItemList extends StatelessWidget {
                         height: double.infinity,
                         filterQuality: FilterQuality.high,
                         fit: BoxFit.fill,
-                        progressIndicatorBuilder: (context, url, progress) => Center(
-                          child: Center(
-                            child: CupertinoActivityIndicator(
-                              color: darkBlueColor,
-                            ),
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => Center(
-                          child: CupertinoActivityIndicator(
-                            color: darkBlueColor,
-                          ),
-                        ),
+                        progressIndicatorBuilder: (context, url, progress) =>
+                            const CustomIndicator(),
+                        errorWidget: (context, url, error) => const CustomIndicator(),
                       ),
                     ),
             ),
