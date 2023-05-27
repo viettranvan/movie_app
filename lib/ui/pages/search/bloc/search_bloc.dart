@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -26,46 +25,25 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<SearchState> emit) async {
-    page = 1;
-    final result = await favoriteRepository.searchMultipleMedia(
-      query: event.query,
-      includeAdult: event.includeAdult,
-      language: event.language,
-      page: page,
-    );
-    if (result.list.isNotEmpty) {
-      page = 1;
-      page++;
-      emit(SearchSuccess(
-        listSearch: result.list,
-        query: event.query,
-      ));
-    } else {
-      emit(SearchSuccess(
-        listSearch: result.list,
-        query: event.query,
-      ));
-    }
-    log('---$page');
     try {
-      // final result = await favoriteRepository.searchMultipleMedia(
-      //   query: event.query,
-      //   includeAdult: event.includeAdult,
-      //   language: event.language,
-      //   page: page,
-      // );
-      // if (result.list.isNotEmpty) {
-      //   page++;
-      //   emit(SearchSuccess(
-      //     listSearch: result.list,
-      //     query: event.query,
-      //   ));
-      // } else {
-      //   emit(SearchSuccess(
-      //     listSearch: result.list,
-      //     query: event.query,
-      //   ));
-      // }
+      final result = await favoriteRepository.searchMultipleMedia(
+        query: event.query,
+        includeAdult: event.includeAdult,
+        language: event.language,
+        page: page,
+      );
+      if (result.list.isNotEmpty) {
+        page++;
+        emit(SearchSuccess(
+          listSearch: result.list,
+          query: event.query,
+        ));
+      } else {
+        emit(SearchSuccess(
+          listSearch: result.list,
+          query: event.query,
+        ));
+      }
       controller.loadComplete();
       controller.refreshCompleted();
     } catch (e) {
