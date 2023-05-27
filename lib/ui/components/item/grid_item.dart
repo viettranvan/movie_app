@@ -22,61 +22,65 @@ class GridItem extends StatelessWidget {
       onTap: onTap,
       child: RepaintBoundary(
         child: IntrinsicHeight(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: darkWhiteColor,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: lightGreyColor,
-                      blurRadius: 5,
+          child: SizedBox(
+            height: 275,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: darkWhiteColor,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: lightGreyColor,
+                        blurRadius: 5,
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: CachedNetworkImage(
+                      imageUrl: imageUrl,
+                      filterQuality: FilterQuality.high,
+                      fit: BoxFit.fill,
+                      height: 220,
+                      width: double.infinity,
+                      progressIndicatorBuilder: (context, url, prgress) => const CustomIndicator(),
+                      errorWidget: (context, url, error) => const CustomIndicator(),
                     ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    filterQuality: FilterQuality.high,
-                    fit: BoxFit.fill,
-                    height: MediaQuery.of(context).size.height / 2.5,
-                    progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
-                    errorWidget: (context, url, error) => const CustomIndicator(),
                   ),
                 ),
-              ),
-              const SizedBox(height: 15),
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: title,
-                      style: TextStyle(
-                        color: blackColor,
-                        fontSize: 15,
+                const SizedBox(height: 15),
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: title,
+                        style: TextStyle(
+                          color: blackColor,
+                          fontSize: 15,
+                        ),
                       ),
-                    ),
-                    const WidgetSpan(
-                      child: SizedBox(width: 5),
-                    ),
-                    TextSpan(
-                      text: releaseYear,
-                      style: TextStyle(
-                        color: greyColor,
-                        fontSize: 15,
+                      const WidgetSpan(
+                        child: SizedBox(width: 5),
                       ),
-                    ),
-                  ],
+                      TextSpan(
+                        text: releaseYear,
+                        style: TextStyle(
+                          color: greyColor,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                  maxLines: 2,
+                  softWrap: true,
+                  textAlign: TextAlign.start,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 2,
-                softWrap: true,
-                textAlign: TextAlign.start,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

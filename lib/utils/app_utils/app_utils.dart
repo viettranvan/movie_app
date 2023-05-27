@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:intl/intl.dart';
+import 'package:movie_app/utils/utils.dart';
 
 class AppUtils {
   static final AppUtils _instance = AppUtils._();
@@ -139,6 +140,55 @@ class AppUtils {
     var outputDate = outputFormat.parse(date);
     var outputDateTime = DateFormat('dd-MM-yyyy').format(outputDate);
     return outputDateTime;
+  }
+
+  String getImageUrl(String? posterPath, String? profilePath) {
+    if (posterPath != null) {
+      return '${AppConstants.kImagePathPoster}$posterPath';
+    } else if (profilePath != null) {
+      return '${AppConstants.kImagePathPoster}$profilePath';
+    } else {
+      return 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg';
+    }
+  }
+
+  String getYearReleaseOrDepartment(
+    String? releaseDate,
+    String? firstAirDate,
+    String mediaType,
+    String? knownForDepartment,
+  ) {
+    switch (mediaType) {
+      case 'movie':
+        {
+          if (releaseDate != '') {
+            return '(${(releaseDate ?? '').substring(0, 4)})';
+          } else {
+            return '';
+          }
+        }
+
+      case 'tv':
+        {
+          if (firstAirDate != '') {
+            return '(${(firstAirDate ?? '').substring(0, 4)})';
+          } else {
+            return '';
+          }
+        }
+      case 'person':
+        {
+          if (knownForDepartment != '' && knownForDepartment != null) {
+            return '(${(knownForDepartment)})';
+          } else {
+            return '';
+          }
+        }
+      default:
+        {
+          return '';
+        }
+    }
   }
 }
 
