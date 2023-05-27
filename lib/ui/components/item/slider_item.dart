@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
+import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/ui/components/components.dart';
 
 class SliderItem extends StatelessWidget {

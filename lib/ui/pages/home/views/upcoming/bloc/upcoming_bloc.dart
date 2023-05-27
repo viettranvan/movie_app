@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:movie_app/model/model.dart';
+import 'package:movie_app/models/models.dart';
 import 'package:movie_app/ui/pages/home/index.dart';
 import 'package:movie_app/utils/utils.dart';
 

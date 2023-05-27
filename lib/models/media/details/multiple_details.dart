@@ -1,7 +1,7 @@
-import 'package:movie_app/model/genre/genre.dart';
-import 'package:movie_app/model/media/media.dart';
+import 'package:movie_app/models/genre/genre.dart';
+import 'package:movie_app/models/media/media.dart';
 
-class MediaSynthesisDetails {
+class MultipleDetails {
   bool? adult;
   String? backdropPath;
   BelongsToCollection? belongsToCollection;
@@ -44,7 +44,7 @@ class MediaSynthesisDetails {
   List<Season> seasons;
   String? type;
 
-  MediaSynthesisDetails({
+  MultipleDetails({
     this.adult, //movie
     this.backdropPath,
     this.belongsToCollection,
@@ -88,7 +88,7 @@ class MediaSynthesisDetails {
     this.type,
   });
 
-  factory MediaSynthesisDetails.fromJson(Map<String, dynamic> json) => MediaSynthesisDetails(
+  factory MultipleDetails.fromJson(Map<String, dynamic> json) => MultipleDetails(
         adult: json['adult'],
         backdropPath: json['backdrop_path'],
         belongsToCollection: json['belongs_to_collection'] == null

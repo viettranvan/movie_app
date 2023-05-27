@@ -1,8 +1,8 @@
-import 'package:movie_app/api/src/artist/index.dart';
+import 'package:movie_app/api/src/artist/artist.dart';
 import 'package:movie_app/api/src/genre/genre_service.dart';
 import 'package:movie_app/api/src/movie/movie_service.dart';
 import 'package:movie_app/api/src/tv/tv_service.dart';
-import 'package:movie_app/model/model.dart';
+import 'package:movie_app/models/models.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class HomeRepository {
@@ -27,7 +27,7 @@ class HomeRepository {
     );
   }
 
-  Future<ListResponse<MediaSynthesis>> getPopularMovie({
+  Future<ListResponse<MultipleMedia>> getPopularMovie({
     required String language,
     required int page,
     required String region,
@@ -39,7 +39,7 @@ class HomeRepository {
     );
   }
 
-  Future<ListResponse<TrendingSynthesis>> getTrendingMovie({
+  Future<ListResponse<MultipleMedia>> getTrendingMovie({
     required String mediaType,
     required String timeWindow,
     required int page,
@@ -53,7 +53,7 @@ class HomeRepository {
     );
   }
 
-  Future<ListResponse<MediaSynthesis>> getNowPlayingTv({
+  Future<ListResponse<MultipleMedia>> getNowPlayingTv({
     required String language,
     required int page,
   }) async {
@@ -63,7 +63,7 @@ class HomeRepository {
     );
   }
 
-  Future<ListResponse<MediaSynthesis>> getBestDramaTv({
+  Future<ListResponse<MultipleMedia>> getBestDramaTv({
     required String language,
     required int page,
     required List<int> withGenres,
@@ -77,7 +77,7 @@ class HomeRepository {
     );
   }
 
-  Future<ListResponse<MediaArtist>> getPopularArtist({
+  Future<ListResponse<MultipleMedia>> getPopularArtist({
     required String language,
     required int page,
   }) async {
@@ -87,7 +87,7 @@ class HomeRepository {
     );
   }
 
-  Future<ListResponse<MediaSynthesis>> getTopTv({
+  Future<ListResponse<MultipleMedia>> getTopTv({
     required String language,
     required int page,
   }) async {
@@ -97,7 +97,7 @@ class HomeRepository {
     );
   }
 
-  Future<ListResponse<MediaSynthesis>> getUpcomingMovie({
+  Future<ListResponse<MultipleMedia>> getUpcomingMovie({
     required String language,
     required int page,
     required String region,
@@ -106,18 +106,6 @@ class HomeRepository {
       language: language,
       page: page,
       region: region,
-    );
-  }
-
-  Future<ObjectResponse<MediaSynthesisDetails>> getDetailsTv({
-    required String language,
-    required int tvId,
-    String? appendToResponse,
-  }) async {
-    return TvService(apiClient: restApiClient).getDetailsTv(
-      language: language,
-      tvId: tvId,
-      appendToResponse: appendToResponse,
     );
   }
 }

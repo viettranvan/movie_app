@@ -1,12 +1,12 @@
-import 'package:movie_app/api/index.dart';
+import 'package:movie_app/api/api.dart';
 import 'package:movie_app/api/src/movie/movie_request.dart';
-import 'package:movie_app/model/model.dart';
+import 'package:movie_app/models/models.dart';
 import 'package:movie_app/utils/rest_api_client/response_type.dart';
 
 class MovieService {
   MovieService({required this.apiClient});
   APIClient apiClient;
-  Future<ListResponse<MediaSynthesis>> getPopularMovie({
+  Future<ListResponse<MultipleMedia>> getPopularMovie({
     required String language,
     required int page,
     required String region,
@@ -18,11 +18,11 @@ class MovieService {
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
-        response.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
+        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 
-  Future<ListResponse<TrendingSynthesis>> getTrendingMovie({
+  Future<ListResponse<MultipleMedia>> getTrendingMovie({
     required String mediaType,
     required String timeWindow,
     required int page,
@@ -36,11 +36,11 @@ class MovieService {
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
-        response.toList().map<TrendingSynthesis>((e) => TrendingSynthesis.fromJson(e)).toList();
+        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 
-  Future<ListResponse<MediaSynthesis>> getUpcomingMovie({
+  Future<ListResponse<MultipleMedia>> getUpcomingMovie({
     required String language,
     required int page,
     required String region,
@@ -52,7 +52,7 @@ class MovieService {
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
-        response.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
+        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 }

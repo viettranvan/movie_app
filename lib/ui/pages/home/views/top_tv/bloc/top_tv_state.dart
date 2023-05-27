@@ -1,7 +1,7 @@
 part of 'top_tv_bloc.dart';
 
 abstract class TopTvState {
-  final List<MediaSynthesis> listTopTv;
+  final List<MultipleMedia> listTopTv;
   TopTvState({
     required this.listTopTv,
   });

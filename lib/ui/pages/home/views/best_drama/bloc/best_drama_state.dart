@@ -1,7 +1,7 @@
 part of 'best_drama_bloc.dart';
 
 abstract class BestDramaState {
-  final List<MediaSynthesis> listBestDrama;
+  final List<MultipleMedia> listBestDrama;
   BestDramaState({
     required this.listBestDrama,
   });

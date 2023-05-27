@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:movie_app/model/model.dart';
+import 'package:movie_app/models/models.dart';
+import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/index.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';
 import 'package:movie_app/utils/utils.dart';
@@ -13,10 +14,11 @@ part 'now_playing_state.dart';
 
 class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
   final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
+  final DetailsRepository detailsRepository = DetailsRepository(restApiClient: RestApiClient());
 
   NowPlayingBloc()
       : super(NowPlayingInitial(
-          nowPlayingTv: MediaSynthesisDetails(),
+          nowPlayingTv: MultipleDetails(),
           paletteColors: [],
           averageLuminance: 0,
         )) {
@@ -31,7 +33,7 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
         page: event.page,
       );
       var randomNowPlaying = (result.list..shuffle()).first;
-      var resultDetails = await homeRepository.getDetailsTv(
+      var resultDetails = await detailsRepository.getDetailsTv(
         language: event.language,
         tvId: randomNowPlaying.id ?? 0,
         appendToResponse: null,

@@ -1,4 +1,4 @@
-import 'package:movie_app/api/index.dart';
+import 'package:movie_app/api/api.dart';
 
 class MovieRequest {
   MovieRequest._();
@@ -17,7 +17,7 @@ class MovieRequest {
           'region': region,
         },
       );
-      
+
   static APIRequest getTrendingMovie({
     required String mediaType,
     required String timeWindow,

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:movie_app/api/index.dart';
+import 'package:movie_app/api/api.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class RestApiClient extends APIClient {

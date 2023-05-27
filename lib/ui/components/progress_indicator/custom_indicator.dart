@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
+import 'package:movie_app/shared_ui/colors/color.dart';
 
 class CustomIndicator extends StatelessWidget {
   const CustomIndicator({super.key});

@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
-import 'package:movie_app/shared_ui/index.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 
 class ViewItem extends StatelessWidget {
   final VoidCallback? onTap;

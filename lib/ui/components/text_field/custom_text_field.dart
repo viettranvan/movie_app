@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
-import 'package:movie_app/shared_ui/decorations/decorations.dart';
-import 'package:movie_app/shared_ui/index.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 
 class CustomTextField extends StatelessWidget {
   final String? hintText;

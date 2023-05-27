@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/shared_ui/index.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 
 class DiscoveryPage extends StatelessWidget {

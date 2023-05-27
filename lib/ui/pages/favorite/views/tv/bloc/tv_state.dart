@@ -1,7 +1,7 @@
 part of 'tv_bloc.dart';
 
 abstract class TvState {
-  final List<MediaSynthesis> listFavorite;
+  final List<MultipleMedia> listFavorite;
   final List<String> listSort = const ['created_at.desc', 'created_at.asc'];
   final bool isDropDown;
   final int indexSelected;

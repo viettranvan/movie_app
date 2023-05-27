@@ -1,12 +1,12 @@
-import 'package:movie_app/api/index.dart';
-import 'package:movie_app/api/src/tv/index.dart';
-import 'package:movie_app/model/model.dart';
+import 'package:movie_app/api/api.dart';
+import 'package:movie_app/api/src/tv/tv.dart';
+import 'package:movie_app/models/models.dart';
 import 'package:movie_app/utils/rest_api_client/response_type.dart';
 
 class TvService {
   TvService({required this.apiClient});
   APIClient apiClient;
-  Future<ListResponse<MediaSynthesis>> getBestDramaTv({
+  Future<ListResponse<MultipleMedia>> getBestDramaTv({
     required String language,
     required int page,
     required List<int> withGenres,
@@ -20,11 +20,11 @@ class TvService {
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
-        response.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
+        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 
-  Future<ListResponse<MediaSynthesis>> getNowPlayingTv({
+  Future<ListResponse<MultipleMedia>> getNowPlayingTv({
     required String language,
     required int page,
   }) async {
@@ -34,11 +34,11 @@ class TvService {
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
-        response.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
+        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 
-  Future<ListResponse<MediaSynthesis>> getTopTv({
+  Future<ListResponse<MultipleMedia>> getTopTv({
     required String language,
     required int page,
   }) async {
@@ -48,11 +48,11 @@ class TvService {
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
-        response.toList().map<MediaSynthesis>((e) => MediaSynthesis.fromJson(e)).toList();
+        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 
-  Future<ObjectResponse<MediaSynthesisDetails>> getDetailsTv({
+  Future<ObjectResponse<MultipleDetails>> getDetailsTv({
     required String language,
     required int tvId,
     String? appendToResponse,
@@ -63,7 +63,7 @@ class TvService {
       appendToResponse: appendToResponse,
     );
     final response = await apiClient.execute(request: request);
-    final objectResponse = MediaSynthesisDetails.fromJson(response.toObject());
+    final objectResponse = MultipleDetails.fromJson(response.toObject());
     return ObjectResponse(object: objectResponse);
   }
 }
