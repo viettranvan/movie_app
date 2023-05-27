@@ -2,9 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
+import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/home/views/genre/bloc/genre_bloc.dart';
-import 'package:movie_app/ui/pages/home/views/genre/widgets/index.dart';
 
 class Genreview extends StatelessWidget {
   final bool isActive;
@@ -83,18 +82,14 @@ class Genreview extends StatelessWidget {
   Widget separatorBuilderMovie(BuildContext context, int index) {
     var list = BlocProvider.of<GenreBloc>(context).state.listGenreMovie;
     if (list.isEmpty) {
-      return SizedBox(
+      return const SizedBox(
         height: 30,
         width: 53,
-        child: Center(
-          child: CupertinoActivityIndicator(
-            color: darkBlueColor,
-          ),
-        ),
+        child: CustomIndicator(),
       );
     } else {
-      return ItemGenre(
-        genreName: list[index].name,
+      return PrimaryItemList(
+        title: list[index].name,
         onTap: () {
           log('yeah');
         },
@@ -105,18 +100,14 @@ class Genreview extends StatelessWidget {
   Widget itemBuilderTv(BuildContext context, int index) {
     var list = BlocProvider.of<GenreBloc>(context).state.listGenreTv;
     if (list.isEmpty) {
-      return SizedBox(
+      return const SizedBox(
         height: 30,
         width: 53,
-        child: Center(
-          child: CupertinoActivityIndicator(
-            color: darkBlueColor,
-          ),
-        ),
+        child: CustomIndicator(),
       );
     } else {
-      return ItemGenre(
-        genreName: list[index].name,
+      return PrimaryItemList(
+        title: list[index].name,
         onTap: () {},
       );
     }

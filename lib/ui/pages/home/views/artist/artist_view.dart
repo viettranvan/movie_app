@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
+import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/views/artist/bloc/artist_bloc.dart';
-import 'package:movie_app/ui/pages/home/views/artist/widgets/index.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class ArtistView extends StatelessWidget {
@@ -43,19 +42,15 @@ class ArtistView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     var list = BlocProvider.of<ArtistBloc>(context).state.listArtist;
     if (list.isEmpty) {
-      return SizedBox(
+      return const SizedBox(
         height: 140,
         width: 67,
-        child: Center(
-          child: CupertinoActivityIndicator(
-            color: darkBlueColor,
-          ),
-        ),
+        child: CustomIndicator(),
       );
     } else {
       String? name = index != list.length ? list[index].name : '';
       String? profilePath = index != list.length ? list[index].profilePath : '';
-      return ItemArtist(
+      return SecondaryItemList(
         title: name,
         imageUrl: profilePath != null
             ? '${AppConstants.kImagePathPoster}$profilePath'

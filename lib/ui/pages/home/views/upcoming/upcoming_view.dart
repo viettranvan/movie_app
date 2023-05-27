@@ -2,9 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
+import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/views/upcoming/bloc/upcoming_bloc.dart';
-import 'package:movie_app/ui/pages/home/views/upcoming/widgets/index.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class UpcomingView extends StatelessWidget {
@@ -48,15 +48,14 @@ class UpcomingView extends StatelessWidget {
     if (state is UpcomingError) {
       return const SizedBox(
         height: 365,
-        child: Center(
-          child: CupertinoActivityIndicator(),
-        ),
+        child: CustomIndicator(),
       );
     }
-    return ItemUpcoming(
+    return SliderItem(
+      isBackdrop: false,
       title: list[index].title,
       voteAverage: list[index].voteAverage?.toDouble(),
-      imageUrl: list[index].posterPath != null
+      imageUrlPoster: list[index].posterPath != null
           ? '${AppConstants.kImagePathPoster}${list[index].posterPath}'
           : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
       onTap: () => Navigator.of(context).push(

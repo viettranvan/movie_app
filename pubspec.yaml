@@ -25,6 +25,7 @@ dependencies:
   flutter_launcher_icons: ^0.11.0
   image_picker: ^0.8.7+4
   intl: ^0.18.1
+  flutter_staggered_grid_view: ^0.6.2
 
 dev_dependencies:
   flutter_test:
@@ -34,17 +35,17 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - lib/shared_ui/assets/images/home_icon.svg
-    - lib/shared_ui/assets/images/home_icon.svg
-    - lib/shared_ui/assets/images/favorite_icon.svg
-    - lib/shared_ui/assets/images/search_icon.svg
-    - lib/shared_ui/assets/images/profile_icon.svg
+    - lib/shared_ui/assets/icons/home_icon.svg
+    - lib/shared_ui/assets/icons/favorite_icon.svg
+    - lib/shared_ui/assets/icons/search_icon.svg
+    - lib/shared_ui/assets/icons/profile_icon.svg
+    - lib/shared_ui/assets/icons/trending_icon.svg
+    - lib/shared_ui/assets/icons/tv_show_icon.svg
+    - lib/shared_ui/assets/icons/best_drama_icon.svg
+    - lib/shared_ui/assets/icons/upcoming_icon.png
+    - lib/shared_ui/assets/icons/filter_icon.svg
+    - lib/shared_ui/assets/icons/eye_open_icon.png
+    - lib/shared_ui/assets/icons/eye_close_icon.png
     - lib/shared_ui/assets/images/primary_long_logo.png
     - lib/shared_ui/assets/images/primary_short_logo.png
-    - lib/shared_ui/assets/images/trending_icon.svg
-    - lib/shared_ui/assets/images/tv_show_icon.svg
-    - lib/shared_ui/assets/images/best_drama_icon.svg
-    - lib/shared_ui/assets/images/upcoming_icon.png
-    - lib/shared_ui/assets/images/filter_icon.svg
     - lib/shared_ui/assets/images/background.png
-

@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/colors/colors.dart';
 import 'package:movie_app/shared_ui/index.dart';
+import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/artist/index.dart';
 import 'package:movie_app/ui/pages/home/views/best_drama/index.dart';
@@ -13,7 +13,6 @@ import 'package:movie_app/ui/pages/home/views/popular/index.dart';
 import 'package:movie_app/ui/pages/home/views/top_tv/index.dart';
 import 'package:movie_app/ui/pages/home/views/trending/index.dart';
 import 'package:movie_app/ui/pages/home/views/upcoming/index.dart';
-import 'package:movie_app/ui/pages/home/widgets/index.dart';
 import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 
 class HomePage extends StatelessWidget {
@@ -33,9 +32,9 @@ class HomePage extends StatelessWidget {
               leading: Padding(
                 padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                 child: CircleAvatar(
-                  backgroundImage: CachedNetworkImageProvider(
-                    ImagesPath.noImage.assetName,
-                  ),
+                  backgroundImage: Image.asset(
+                    ImagesPath.primaryShortLogo.assetName,
+                  ).image,
                 ),
               ),
               title: Image.asset(
