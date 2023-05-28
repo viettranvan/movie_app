@@ -45,7 +45,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         ));
       } else {
         emit(MovieSuccess(
-          listFavorite: result.list,
+          listFavorite: state.listFavorite,
           isDropDown: state.isDropDown,
           indexSelected: state.indexSelected,
           sortBy: event.sortBy ?? '',

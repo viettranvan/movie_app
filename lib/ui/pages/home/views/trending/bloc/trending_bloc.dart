@@ -21,6 +21,7 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
         timeWindow: event.timeWindow,
         page: event.page,
         language: event.language,
+        includeAdult: event.includeAdult,
       );
       emit(TrendingSuccess(listTrending: result.list));
     } catch (e) {

@@ -36,6 +36,9 @@ class CustomTextField extends StatelessWidget {
               cursorColor: darkBlueColor,
               obscureText: obscureText ?? false,
               onChanged: onChanged,
+              onTapOutside: (event) {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
               decoration: InputDecoration(
                 filled: true,
                 fillColor: whiteColor,

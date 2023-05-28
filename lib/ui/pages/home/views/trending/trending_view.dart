@@ -18,6 +18,7 @@ class TrendingView extends StatelessWidget {
           timeWindow: 'day',
           page: 1,
           language: 'en-US',
+          includeAdult: true,
         )),
       child: BlocBuilder<TrendingBloc, TrendingState>(
         builder: (context, state) {

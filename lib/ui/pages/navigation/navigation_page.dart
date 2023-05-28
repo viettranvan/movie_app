@@ -17,7 +17,7 @@ class NavigationPage extends StatelessWidget {
         )),
       child: BlocBuilder<NavigationBloc, NavigationState>(
         builder: (context, state) {
-          var bloc = BlocProvider.of<NavigationBloc>(context);
+          final bloc = BlocProvider.of<NavigationBloc>(context);
           return Scaffold(
             extendBody: true,
             resizeToAvoidBottomInset: false,

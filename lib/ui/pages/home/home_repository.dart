@@ -44,12 +44,14 @@ class HomeRepository {
     required String timeWindow,
     required int page,
     required String language,
+    required bool includeAdult,
   }) async {
     return MovieService(apiClient: restApiClient).getTrendingMovie(
       mediaType: mediaType,
       timeWindow: timeWindow,
       page: page,
       language: language,
+      includeAdult: includeAdult,
     );
   }
 

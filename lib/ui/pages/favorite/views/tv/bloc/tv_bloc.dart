@@ -46,7 +46,7 @@ class TvBloc extends Bloc<TvEvent, TvState> {
         ));
       } else {
         emit(TvSuccess(
-          listFavorite: result.list,
+          listFavorite: state.listFavorite,
           isDropDown: state.isDropDown,
           indexSelected: state.indexSelected,
           sortBy: event.sortBy ?? '',
@@ -113,7 +113,6 @@ class TvBloc extends Bloc<TvEvent, TvState> {
 
   FutureOr<void> _onSort(Sort event, Emitter<TvState> emit) {
     controller.loadComplete();
-
     emit(TvSortSuccess(
       listFavorite: state.listFavorite,
       isDropDown: state.isDropDown,

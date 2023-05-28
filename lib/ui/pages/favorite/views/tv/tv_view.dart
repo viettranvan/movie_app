@@ -41,7 +41,7 @@ class TvView extends StatelessWidget {
             header: const Header(),
             footer: const Footer(
               height: 70,
-              loadingStatus: 'All Tv Shows was loaded',
+              loadingStatus: 'All Tv Shows was loaded !',
             ),
             onRefresh: () => bloc.add(FetchData(
               language: 'en-US',

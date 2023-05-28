@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/ui/pages/discovery/bloc/discovery_bloc.dart';
+import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/navigation/index.dart';
+import 'package:movie_app/ui/pages/profile/bloc/profile_bloc.dart';
+import 'package:movie_app/ui/pages/search/bloc/search_bloc.dart';
 
 import 'bloc_observer/bloc_observer.dart';
-import 'ui/pages/home/views/now_playing/bloc/now_playing_bloc.dart';
 
 void main() async {
   Bloc.observer = SimpleBlocObserver();
@@ -20,8 +23,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NowPlayingBloc(),
+    FocusScope.of(context).requestFocus(FocusNode());
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => HomeBloc()),
+        BlocProvider(create: (context) => DiscoveryBloc()),
+        BlocProvider(create: (context) => SearchBloc()),
+        BlocProvider(create: (context) => ProfileBloc()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',

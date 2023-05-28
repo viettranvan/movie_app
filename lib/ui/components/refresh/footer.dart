@@ -32,10 +32,20 @@ class Footer extends StatelessWidget {
         body = const CustomIndicator();
         break;
       case LoadStatus.failed:
-        body = const Text('Failed to load data!');
+        body = const Text(
+          'Failed to load data!',
+          style: TextStyle(
+            fontSize: 15,
+          ),
+        );
         break;
       case LoadStatus.noMore:
-        body = Text(loadingStatus ?? 'No more data!');
+        body = Text(
+          loadingStatus ?? 'No more data!',
+          style: const TextStyle(
+            fontSize: 15,
+          ),
+        );
         break;
       default:
         body = const SizedBox();

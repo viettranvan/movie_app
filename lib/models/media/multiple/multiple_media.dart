@@ -1,4 +1,3 @@
-
 class MultipleMedia {
   bool? adult;
   String? backdropPath;

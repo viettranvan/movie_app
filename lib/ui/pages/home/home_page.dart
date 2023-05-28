@@ -40,10 +40,15 @@ class HomePage extends StatelessWidget {
                 ImagesPath.primaryLongLogo.assetName,
                 filterQuality: FilterQuality.high,
               ),
-              actions: const Icon(
-                Icons.notifications_sharp,
-                size: 30,
-              ),
+              actions: const [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                  child: Icon(
+                    Icons.notifications_sharp,
+                    size: 30,
+                  ),
+                ),
+              ],
               onTapLeading: () => BlocProvider.of<NavigationBloc>(context).add(
                 NavigatePage(indexPage: 3),
               ),

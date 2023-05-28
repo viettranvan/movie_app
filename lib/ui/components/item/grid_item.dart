@@ -23,7 +23,7 @@ class GridItem extends StatelessWidget {
       child: RepaintBoundary(
         child: IntrinsicHeight(
           child: SizedBox(
-            height: 275,
+            height: 300,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -44,7 +44,7 @@ class GridItem extends StatelessWidget {
                       imageUrl: imageUrl,
                       filterQuality: FilterQuality.high,
                       fit: BoxFit.fill,
-                      height: 220,
+                      height: 240,
                       width: double.infinity,
                       progressIndicatorBuilder: (context, url, prgress) => const CustomIndicator(),
                       errorWidget: (context, url, error) => const CustomIndicator(),
