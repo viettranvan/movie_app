@@ -27,12 +27,14 @@ class MovieService {
     required String timeWindow,
     required int page,
     required String language,
+    required bool includeAdult,
   }) async {
     final request = MovieRequest.getTrendingMovie(
       mediaType: mediaType,
       timeWindow: timeWindow,
       page: page,
       language: language,
+      includeAdult: includeAdult,
     );
     final response = await apiClient.execute(request: request);
     final listResponse =

@@ -17,10 +17,22 @@ class DetailsPage extends StatelessWidget {
           ),
         ),
         title: const CustomAppBarTitle(titleAppBar: 'Details'),
-        actions: const Icon(
-          Icons.menu,
-          size: 30,
-        ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 8, 8, 8),
+            child: Icon(
+              Icons.star_outline_rounded,
+              size: 32,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 8, 10, 8),
+            child: Icon(
+              Icons.bookmark_outline_rounded,
+              size: 32,
+            ),
+          ),
+        ],
         onTapLeading: () => Navigator.of(context).pop(),
       ),
     );

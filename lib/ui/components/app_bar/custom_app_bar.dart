@@ -6,8 +6,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? title;
   final bool? centerTitle;
   final double? titleSpacing;
-  final Widget? actions;
-  final EdgeInsets? paddingActions;
+  final List<Widget>? actions;
+
   final VoidCallback? onTapLeading;
   final double? leadingWidth;
   const CustomAppBar({
@@ -16,7 +16,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
     this.leading,
     this.titleSpacing,
-    this.paddingActions,
     this.centerTitle,
     this.onTapLeading,
     this.leadingWidth,
@@ -35,12 +34,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         onTap: onTapLeading,
         child: leading,
       ),
-      actions: [
-        Padding(
-          padding: paddingActions ?? const EdgeInsets.fromLTRB(0, 0, 15, 0),
-          child: actions,
-        )
-      ],
+      actions: actions,
     );
   }
 

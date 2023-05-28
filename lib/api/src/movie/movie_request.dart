@@ -23,6 +23,7 @@ class MovieRequest {
     required String timeWindow,
     required int page,
     required String language,
+    required bool includeAdult,
   }) =>
       APIRequest(
         method: HTTPMethods.get,
@@ -32,6 +33,7 @@ class MovieRequest {
           'time_window': timeWindow,
           'page': page,
           'language': language,
+          'include_adult': includeAdult,
         },
       );
 

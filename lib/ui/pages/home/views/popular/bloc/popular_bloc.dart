@@ -26,7 +26,7 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
     try {
       var result = await homeRepository.getPopularMovie(
         language: event.language,
-        page: 1,
+        page: event.page,
         region: event.region,
       );
       emit(PopularSuccess(

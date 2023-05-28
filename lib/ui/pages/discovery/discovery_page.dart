@@ -12,14 +12,18 @@ class DiscoveryPage extends StatelessWidget {
         leadingWidth: 0,
         centerTitle: false,
         title: const CustomAppBarTitle(
-          titleAppBar: 'Profile',
+          titleAppBar: 'Discovery',
         ),
-        paddingActions: const EdgeInsets.fromLTRB(0, 8, 12, 8),
-        actions: Image.asset(
-          ImagesPath.primaryShortLogo.assetName,
-          scale: 4,
-          filterQuality: FilterQuality.high,
-        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 12, 8),
+            child: Image.asset(
+              ImagesPath.primaryShortLogo.assetName,
+              scale: 4,
+              filterQuality: FilterQuality.high,
+            ),
+          ),
+        ],
       ),
       body: const Center(
         child: Column(
