@@ -17,7 +17,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
   RefreshController refreshController = RefreshController();
   TextEditingController textController = TextEditingController();
-  ScrollController scrollController = ScrollController(debugLabel: 'Scroll');
+  ScrollController scrollController = ScrollController();
   int page = 1;
   int pageTrending = 1;
   bool visible = false;
@@ -37,7 +37,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   FutureOr<void> _onFetchTrending(FetchTrending event, Emitter<SearchState> emit) async {
     try {
-      add(ScrollToTop());
       pageTrending = 1;
       final trendingResult = await homeRepository.getTrendingMovie(
         mediaType: event.mediaType,
@@ -113,7 +112,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   FutureOr<void> _onFetchSearch(FetchSearch event, Emitter<SearchState> emit) async {
     try {
-      add(ScrollToTop());
       page = 1;
       final searchResult = await searchRepository.searchMultipleMedia(
         query: event.query,
@@ -192,10 +190,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   FutureOr<void> _onShowHideButton(ShowHideButton event, Emitter<SearchState> emit) {
-    scrollController.addListener(() {
-      scrollController.offset > 90 ? visible = true : visible = false;
-    });
-
+    scrollController
+        .addListener(() => scrollController.offset > 500 ? visible = true : visible = false);
     emit(SearchSuccess(
       listSearch: state.listSearch,
       listTrending: state.listTrending,
