@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -69,60 +67,104 @@ class SearchPage extends StatelessWidget {
                       ),
                     );
                   },
-                  onChanged: (value) {
-                    bloc.add(FetchSearch(
+                  onChanged: (value) => bloc.add(
+                    FetchSearch(
                       query: value,
                       includeAdult: true,
                       language: 'en-US',
-                    ));
-                  },
+                    ),
+                  ),
                 ),
                 Expanded(
-                  child: SmartRefresher(
-                    controller: bloc.refreshController,
-                    enablePullUp: true,
-                    enablePullDown: true,
-                    header: const Header(),
-                    footer: const Footer(
-                      height: 140,
-                      loadingStatus: 'All results was loaded !',
-                    ),
-                    onRefresh: () => state.listSearch.isNotEmpty
-                        ? bloc.add(FetchSearch(
-                            query: state.query,
-                            includeAdult: true,
-                            language: 'en-US',
-                          ))
-                        : bloc.add(FetchTrending(
-                            language: 'en-US',
-                            mediaType: 'all',
-                            timeWindow: 'day',
-                            includeAdult: true,
-                          )),
-                    onLoading: () => state.listSearch.isNotEmpty
-                        ? bloc.add(LoadMoreSearch(
-                            query: state.query,
-                            includeAdult: true,
-                            language: 'en-US',
-                          ))
-                        : bloc.add(LoadMoreTrending(
-                            language: 'en-US',
-                            mediaType: 'all',
-                            timeWindow: 'day',
-                            includeAdult: true,
-                          )),
-                    child: MasonryGridView.count(
-                      controller: bloc.scrollController,
-                      padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      shrinkWrap: true,
-                      itemBuilder: itemBuilder,
-                      itemCount: state.listSearch.isNotEmpty
-                          ? state.listSearch.length
-                          : state.listTrending.length,
-                    ),
+                  child: Stack(
+                    children: [
+                      NotificationListener<ScrollNotification>(
+                        onNotification: (notification) {
+                          bloc.add(ShowHideButton());
+                          return true;
+                        },
+                        child: SmartRefresher(
+                          scrollController: bloc.scrollController,
+                          controller: bloc.refreshController,
+                          enablePullUp: true,
+                          enablePullDown: true,
+                          header: const Header(),
+                          footer: const Footer(
+                            height: 140,
+                            loadingStatus: 'All results was loaded !',
+                          ),
+                          onRefresh: () => state.listSearch.isNotEmpty
+                              ? bloc.add(FetchSearch(
+                                  query: state.query,
+                                  includeAdult: true,
+                                  language: 'en-US',
+                                ))
+                              : bloc.add(FetchTrending(
+                                  language: 'en-US',
+                                  mediaType: 'all',
+                                  timeWindow: 'day',
+                                  includeAdult: true,
+                                )),
+                          onLoading: () => state.listSearch.isNotEmpty
+                              ? bloc.add(LoadMoreSearch(
+                                  query: state.query,
+                                  includeAdult: true,
+                                  language: 'en-US',
+                                ))
+                              : bloc.add(LoadMoreTrending(
+                                  language: 'en-US',
+                                  mediaType: 'all',
+                                  timeWindow: 'day',
+                                  includeAdult: true,
+                                )),
+                          child: MasonryGridView.count(
+                            controller: ScrollController(),
+                            padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                            shrinkWrap: true,
+                            itemBuilder: itemBuilder,
+                            itemCount: state.listSearch.isNotEmpty
+                                ? state.listSearch.length
+                                : state.listTrending.length,
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: bloc.visible,
+                        child: Align(
+                          alignment: const Alignment(0, -0.9),
+                          child: GestureDetector(
+                            onTap: () => bloc.add(ScrollToTop()),
+                            child: AnimatedOpacity(
+                              opacity: bloc.visible ? 1.0 : 0.0,
+                              duration: const Duration(microseconds: 200),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: whiteColor,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: greyColor,
+                                      blurRadius: 2,
+                                    ),
+                                  ],
+                                ),
+                                child: RotatedBox(
+                                  quarterTurns: 45,
+                                  child: Icon(
+                                    Icons.arrow_circle_left_rounded,
+                                    color: darkBlueColor,
+                                    size: 50,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -146,12 +188,5 @@ class SearchPage extends StatelessWidget {
       ),
       imageUrl: AppUtils().getImageUrl(item.posterPath, item.profilePath),
     );
-  }
-
-  String generateRandomString(int length) {
-    const char = 'abcdefghijklmnopqrstuvwxyz';
-    Random random = Random();
-    return String.fromCharCodes(
-        Iterable.generate(length, (index) => char.codeUnitAt(random.nextInt(char.length))));
   }
 }

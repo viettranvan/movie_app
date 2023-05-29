@@ -20,6 +20,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   ScrollController scrollController = ScrollController(debugLabel: 'Scroll');
   int page = 1;
   int pageTrending = 1;
+  bool visible = false;
   SearchBloc()
       : super(SearchInitial(
           query: '',
@@ -31,10 +32,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<FetchSearch>(_onFetchSearch);
     on<LoadMoreSearch>(_onLoadMoreSearch);
     on<ScrollToTop>(_onScrollToTop);
+    on<ShowHideButton>(_onShowHideButton);
   }
 
   FutureOr<void> _onFetchTrending(FetchTrending event, Emitter<SearchState> emit) async {
     try {
+      add(ScrollToTop());
       pageTrending = 1;
       final trendingResult = await homeRepository.getTrendingMovie(
         mediaType: event.mediaType,
@@ -181,6 +184,18 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   FutureOr<void> _onScrollToTop(ScrollToTop event, Emitter<SearchState> emit) {
     scrollController.jumpTo(0);
+    emit(SearchSuccess(
+      listSearch: state.listSearch,
+      listTrending: state.listTrending,
+      query: state.query,
+    ));
+  }
+
+  FutureOr<void> _onShowHideButton(ShowHideButton event, Emitter<SearchState> emit) {
+    scrollController.addListener(() {
+      scrollController.offset > 90 ? visible = true : visible = false;
+    });
+
     emit(SearchSuccess(
       listSearch: state.listSearch,
       listTrending: state.listTrending,
