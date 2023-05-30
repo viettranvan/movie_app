@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:movie_app/models/models.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
@@ -7,7 +8,6 @@ import 'package:movie_app/ui/pages/filter/filter_page.dart';
 import 'package:movie_app/ui/pages/search/bloc/search_bloc.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -16,7 +16,8 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SearchBloc()
-        ..add(FetchTrending(
+        ..add(FetchData(
+          query: '',
           language: 'en-US',
           mediaType: 'all',
           timeWindow: 'day',
@@ -53,7 +54,14 @@ class SearchPage extends StatelessWidget {
                   controller: bloc.textController,
                   hintText: 'Search for movies, tv shows, people...'.padLeft(14),
                   onTapFilter: () => goToFilterPage(context),
-                  onChanged: (value) => fetchSearch(context, value),
+                  onChanged: (value) {
+                    value.isEmpty ||
+                            value == '' ||
+                            bloc.textController.text.isEmpty ||
+                            bloc.textController.text == ''
+                        ? fetchData(context, '')
+                        : fetchData(context, value);
+                  },
                 ),
                 Expanded(
                   child: BlocBuilder<SearchBloc, SearchState>(
@@ -88,12 +96,8 @@ class SearchPage extends StatelessWidget {
                                 noMoreStatus: 'All results was loaded !',
                                 failedStatus: 'Failed to load results !',
                               ),
-                              onRefresh: () => state.listSearch.isNotEmpty
-                                  ? fetchSearch(context, state.query)
-                                  : fetchTrending(context),
-                              onLoading: () => state.listSearch.isNotEmpty
-                                  ? loadMoreSearch(context, state.query)
-                                  : loadMoreTrending(context),
+                              onRefresh: () => fetchData(context, state.query),
+                              onLoading: () => loadMore(context, state.query),
                               child: MasonryGridView.count(
                                 addAutomaticKeepAlives: false,
                                 addRepaintBoundaries: false,
@@ -156,43 +160,26 @@ class SearchPage extends StatelessWidget {
     }
   }
 
-  fetchTrending(BuildContext context) {
+  fetchData(BuildContext context, String query) {
     final bloc = BlocProvider.of<SearchBloc>(context);
     bloc.add(ScrollToTop());
-    bloc.add(FetchTrending(
-      language: 'en-US',
-      mediaType: 'all',
-      timeWindow: 'day',
-      includeAdult: true,
-    ));
-  }
-
-  loadMoreTrending(BuildContext context) {
-    final bloc = BlocProvider.of<SearchBloc>(context);
-    bloc.add(LoadMoreTrending(
-      language: 'en-US',
-      mediaType: 'all',
-      timeWindow: 'day',
-      includeAdult: true,
-    ));
-  }
-
-  fetchSearch(BuildContext context, String query) {
-    final bloc = BlocProvider.of<SearchBloc>(context);
-    bloc.add(ScrollToTop());
-    bloc.add(FetchSearch(
+    bloc.add(FetchData(
       query: query,
       includeAdult: true,
       language: 'en-US',
+      mediaType: 'all',
+      timeWindow: 'day',
     ));
   }
 
-  loadMoreSearch(BuildContext context, String query) {
+  loadMore(BuildContext context, String query) {
     final bloc = BlocProvider.of<SearchBloc>(context);
-    bloc.add(LoadMoreSearch(
+    bloc.add(LoadMore(
       query: query,
       includeAdult: true,
       language: 'en-US',
+      mediaType: 'all',
+      timeWindow: 'day',
     ));
   }
 
@@ -211,7 +198,7 @@ class SearchPage extends StatelessWidget {
       () {
         Navigator.of(context).pop();
         bloc.add(ScrollToTop());
-        state.listSearch.isNotEmpty ? fetchSearch(context, state.query) : fetchTrending(context);
+        fetchData(context, state.query);
       },
     );
   }
@@ -221,7 +208,7 @@ class SearchPage extends StatelessWidget {
     final state = bloc.state;
     bloc.textController.clear();
     state.listSearch.clear();
-    fetchTrending(context);
+    fetchData(context, '');
     Navigator.of(context).push(
       CustomPageRoute(
         page: const FilterPage(),
