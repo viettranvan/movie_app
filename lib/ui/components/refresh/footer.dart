@@ -4,11 +4,13 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class Footer extends StatelessWidget {
   final double? height;
-  final String? loadingStatus;
+  final String? noMoreStatus;
+  final String? failedStatus;
   const Footer({
     super.key,
     this.height,
-    this.loadingStatus,
+    this.noMoreStatus,
+    this.failedStatus,
   });
 
   @override
@@ -32,16 +34,16 @@ class Footer extends StatelessWidget {
         body = const CustomIndicator();
         break;
       case LoadStatus.failed:
-        body = const Text(
-          'Failed to load data!',
-          style: TextStyle(
+        body = Text(
+          failedStatus ?? 'Failed to load data!',
+          style: const TextStyle(
             fontSize: 15,
           ),
         );
         break;
       case LoadStatus.noMore:
         body = Text(
-          loadingStatus ?? 'No more data!',
+          noMoreStatus ?? 'No more data!',
           style: const TextStyle(
             fontSize: 15,
           ),

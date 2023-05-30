@@ -53,4 +53,10 @@ class LoadMoreTrending extends SearchEvent {
   });
 }
 
-class ScrollToTop extends SearchEvent {}
+class ScrollToTop extends SearchEvent {
+ 
+}
+
+class ShowHideButton extends SearchEvent {
+
+}

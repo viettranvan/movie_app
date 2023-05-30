@@ -24,6 +24,7 @@ class SearchSuccess extends SearchState {
     required super.listSearch,
     required super.query,
     required super.listTrending,
+
   });
 }
 
@@ -34,5 +35,6 @@ class SearchError extends SearchState {
     required super.listSearch,
     required super.listTrending,
     required super.query,
+
   });
 }

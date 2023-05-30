@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +16,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
   RefreshController refreshController = RefreshController();
   TextEditingController textController = TextEditingController();
-  ScrollController scrollController = ScrollController(debugLabel: 'Scroll');
+  ScrollController scrollController = ScrollController();
   int page = 1;
   int pageTrending = 1;
+  bool visible = false;
   SearchBloc()
       : super(SearchInitial(
           query: '',
@@ -31,6 +31,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<FetchSearch>(_onFetchSearch);
     on<LoadMoreSearch>(_onLoadMoreSearch);
     on<ScrollToTop>(_onScrollToTop);
+    on<ShowHideButton>(_onShowHideButton);
   }
 
   FutureOr<void> _onFetchTrending(FetchTrending event, Emitter<SearchState> emit) async {
@@ -105,12 +106,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         query: state.query,
       ));
     }
-    log(page.toString());
   }
 
   FutureOr<void> _onFetchSearch(FetchSearch event, Emitter<SearchState> emit) async {
     try {
-      add(ScrollToTop());
       page = 1;
       final searchResult = await searchRepository.searchMultipleMedia(
         query: event.query,
@@ -186,5 +185,24 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       listTrending: state.listTrending,
       query: state.query,
     ));
+  }
+
+  FutureOr<void> _onShowHideButton(ShowHideButton event, Emitter<SearchState> emit) {
+    if (state.listTrending.isNotEmpty) {
+      scrollController
+          .addListener(() => scrollController.offset > 930 ? visible = true : visible = false);
+      emit(SearchSuccess(
+        listSearch: state.listSearch,
+        listTrending: state.listTrending,
+        query: state.query,
+      ));
+    } else {
+      emit(SearchError(
+        errorMessage: 'An unexpected error occurred.',
+        listSearch: state.listSearch,
+        listTrending: state.listTrending,
+        query: state.query,
+      ));
+    }
   }
 }

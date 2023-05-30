@@ -9,11 +9,4 @@ class FetchData extends GenreEvent {
   });
 }
 
-class VisbleList extends GenreEvent {
-  final bool visibleMovie;
-  final bool visibleTv;
-  VisbleList({
-    required this.visibleMovie,
-    required this.visibleTv,
-  });
-}
+

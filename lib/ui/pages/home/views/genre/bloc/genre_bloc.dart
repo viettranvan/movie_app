@@ -14,13 +14,10 @@ class GenreBloc extends Bloc<GenreEvent, GenreState> {
   final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
   GenreBloc()
       : super(GenreInitial(
-          visibleMovie: true,
-          visibleTv: false,
           listGenreMovie: [],
           listGenreTv: [],
         )) {
     on<FetchData>(_onFetchData);
-    on<VisbleList>(_onVisbleList);
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<GenreState> emit) async {
@@ -28,28 +25,15 @@ class GenreBloc extends Bloc<GenreEvent, GenreState> {
       var movieResult = await homeRepository.getGenreMovie(language: event.language);
       var tvResult = await homeRepository.getGenreTv(language: event.language);
       emit(GenreSuccess(
-        visibleMovie: state.visibleMovie,
-        visibleTv: state.visibleTv,
         listGenreMovie: movieResult.object.genres,
         listGenreTv: tvResult.object.genres,
       ));
     } catch (e) {
       emit(GenreError(
-        visibleMovie: state.visibleMovie,
-        visibleTv: state.visibleTv,
         errorMessage: e.toString(),
         listGenreMovie: state.listGenreMovie,
         listGenreTv: state.listGenreTv,
       ));
     }
-  }
-
-  FutureOr<void> _onVisbleList(VisbleList event, Emitter<GenreState> emit) {
-    emit(GenreSuccess(
-      listGenreMovie: state.listGenreMovie,
-      listGenreTv: state.listGenreTv,
-      visibleMovie: event.visibleMovie,
-      visibleTv: event.visibleTv,
-    ));
   }
 }

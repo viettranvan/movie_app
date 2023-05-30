@@ -61,7 +61,7 @@ class TvBloc extends Bloc<TvEvent, TvState> {
         listFavorite: state.listFavorite,
         isDropDown: state.isDropDown,
         indexSelected: state.indexSelected,
-        sortBy: state.sortBy,
+        sortBy: event.sortBy ?? '',
       ));
     }
   }
@@ -103,12 +103,20 @@ class TvBloc extends Bloc<TvEvent, TvState> {
   }
 
   FutureOr<void> _onDropDown(DropDown event, Emitter<TvState> emit) {
-    emit(TvSuccess(
-      listFavorite: state.listFavorite,
-      isDropDown: !event.isDropDown,
-      indexSelected: state.indexSelected,
-      sortBy: state.sortBy,
-    ));
+    state.listFavorite.isEmpty
+        ? emit(TvError(
+            errorMessage: 'An unexpected error occurred.',
+            listFavorite: state.listFavorite,
+            isDropDown: !event.isDropDown,
+            indexSelected: state.indexSelected,
+            sortBy: state.sortBy,
+          ))
+        : emit(TvSuccess(
+            listFavorite: state.listFavorite,
+            isDropDown: !event.isDropDown,
+            indexSelected: state.indexSelected,
+            sortBy: state.sortBy,
+          ));
   }
 
   FutureOr<void> _onSort(Sort event, Emitter<TvState> emit) {

@@ -33,18 +33,20 @@ class PopularView extends StatelessWidget {
               CarouselSlider.builder(
                 carouselController: bloc.controller,
                 itemBuilder: itemBuilder,
-                itemCount: (state.listPopular.length / 2).round(),
+                itemCount:
+                    state.listPopular.isNotEmpty ? (state.listPopular.length / 2).round() : 10,
                 options: CarouselOptions(
                   autoPlayAnimationDuration: const Duration(milliseconds: 500),
-                  autoPlay: true,
+                  // autoPlay: true,
                   viewportFraction: 1,
                   enableInfiniteScroll: true,
                   onPageChanged: (index, reason) => bloc.add(SlidePageView(selectedIndex: index)),
                 ),
               ),
               SliderIndicator(
-                indexIndicator: state.selectedIndex % (state.listPopular.length / 2).round(),
-                length: (state.listPopular.length / 2).round(),
+                indexIndicator: state.selectedIndex %
+                    (state.listPopular.isNotEmpty ? (state.listPopular.length / 2).round() : 10),
+                length: state.listPopular.isNotEmpty ? (state.listPopular.length / 2).round() : 10,
               ),
             ],
           );

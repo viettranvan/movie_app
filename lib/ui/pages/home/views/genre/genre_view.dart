@@ -18,61 +18,38 @@ class Genreview extends StatelessWidget {
       create: (context) => GenreBloc()..add(FetchData(language: 'en-US')),
       child: BlocBuilder<GenreBloc, GenreState>(
         builder: (context, state) {
-          var bloc = BlocProvider.of<GenreBloc>(context);
           if (state is GenreInitial) {
             return const SizedBox(
               height: 30,
             );
           }
-          return Stack(
-            children: [
-              Visibility(
-                visible: state.visibleMovie,
-                child: AnimatedOpacity(
-                  onEnd: () => bloc.add(VisbleList(
-                    visibleMovie: false,
-                    visibleTv: true,
-                  )),
-                  opacity: isActive ? 0.0 : 1.0,
-                  duration: const Duration(milliseconds: 300),
-                  child: SizedBox(
-                    height: 30,
-                    child: ListView.separated(
-                      primary: true,
-                      padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemBuilder: separatorBuilderMovie,
-                      separatorBuilder: separatorBuilder,
-                      itemCount: state.listGenreMovie.isNotEmpty ? state.listGenreMovie.length : 21,
-                    ),
-                  ),
-                ),
+          return AnimatedCrossFade(
+            duration: const Duration(milliseconds: 200),
+            crossFadeState: isActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            firstChild: SizedBox(
+              height: 30,
+              child: ListView.separated(
+                primary: true,
+                padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: separatorBuilderMovie,
+                separatorBuilder: separatorBuilder,
+                itemCount: state.listGenreMovie.isNotEmpty ? state.listGenreMovie.length : 21,
               ),
-              Visibility(
-                visible: state.visibleTv,
-                child: AnimatedOpacity(
-                  onEnd: () => bloc.add(VisbleList(
-                    visibleMovie: true,
-                    visibleTv: false,
-                  )),
-                  opacity: isActive ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 300),
-                  child: SizedBox(
-                    height: 30,
-                    child: ListView.separated(
-                      primary: true,
-                      padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemBuilder: itemBuilderTv,
-                      separatorBuilder: separatorBuilder,
-                      itemCount: state.listGenreTv.isNotEmpty ? state.listGenreTv.length : 21,
-                    ),
-                  ),
-                ),
+            ),
+            secondChild: SizedBox(
+              height: 30,
+              child: ListView.separated(
+                primary: true,
+                padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: itemBuilderTv,
+                separatorBuilder: separatorBuilder,
+                itemCount: state.listGenreTv.isNotEmpty ? state.listGenreTv.length : 21,
               ),
-            ],
+            ),
           );
         },
       ),
@@ -108,7 +85,9 @@ class Genreview extends StatelessWidget {
     } else {
       return PrimaryItemList(
         title: list[index].name,
-        onTap: () {},
+        onTap: () {
+          log('yeah');
+        },
       );
     }
   }
