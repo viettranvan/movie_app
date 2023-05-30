@@ -59,8 +59,8 @@ class SearchPage extends StatelessWidget {
                             value == '' ||
                             bloc.textController.text.isEmpty ||
                             bloc.textController.text == ''
-                        ? fetchSearch(context, '')
-                        : fetchSearch(context, value);
+                        ? fetchData(context, '')
+                        : fetchData(context, value);
                   },
                 ),
                 Expanded(
@@ -96,8 +96,8 @@ class SearchPage extends StatelessWidget {
                                 noMoreStatus: 'All results was loaded !',
                                 failedStatus: 'Failed to load results !',
                               ),
-                              onRefresh: () => fetchSearch(context, state.query),
-                              onLoading: () => loadMoreSearch(context, state.query),
+                              onRefresh: () => fetchData(context, state.query),
+                              onLoading: () => loadMore(context, state.query),
                               child: MasonryGridView.count(
                                 addAutomaticKeepAlives: false,
                                 addRepaintBoundaries: false,
@@ -160,7 +160,7 @@ class SearchPage extends StatelessWidget {
     }
   }
 
-  fetchSearch(BuildContext context, String query) {
+  fetchData(BuildContext context, String query) {
     final bloc = BlocProvider.of<SearchBloc>(context);
     bloc.add(ScrollToTop());
     bloc.add(FetchData(
@@ -172,7 +172,7 @@ class SearchPage extends StatelessWidget {
     ));
   }
 
-  loadMoreSearch(BuildContext context, String query) {
+  loadMore(BuildContext context, String query) {
     final bloc = BlocProvider.of<SearchBloc>(context);
     bloc.add(LoadMore(
       query: query,
@@ -198,7 +198,7 @@ class SearchPage extends StatelessWidget {
       () {
         Navigator.of(context).pop();
         bloc.add(ScrollToTop());
-        fetchSearch(context, state.query);
+        fetchData(context, state.query);
       },
     );
   }
@@ -208,7 +208,7 @@ class SearchPage extends StatelessWidget {
     final state = bloc.state;
     bloc.textController.clear();
     state.listSearch.clear();
-    fetchSearch(context, '');
+    fetchData(context, '');
     Navigator.of(context).push(
       CustomPageRoute(
         page: const FilterPage(),
