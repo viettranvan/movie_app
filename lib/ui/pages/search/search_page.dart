@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:movie_app/models/models.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/filter/filter_page.dart';
 import 'package:movie_app/ui/pages/search/bloc/search_bloc.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -55,73 +56,66 @@ class SearchPage extends StatelessWidget {
                   onChanged: (value) => fetchSearch(context, value),
                 ),
                 Expanded(
-                  child: Stack(
-                    children: [
-                      NotificationListener<ScrollNotification>(
-                        onNotification: (notification) => showHideButton(context),
-                        child: SmartRefresher(
-                          scrollController: bloc.scrollController,
-                          controller: bloc.refreshController,
-                          enablePullUp: true,
-                          enablePullDown: true,
-                          header: const Header(),
-                          footer: const Footer(
-                            height: 140,
-                            loadingStatus: 'All results was loaded !',
+                  child: BlocBuilder<SearchBloc, SearchState>(
+                    builder: (context, state) {
+                      if (state is SearchInitial) {
+                        return const CustomIndicator(
+                          radius: 20,
+                        );
+                      }
+                      return Stack(
+                        children: [
+                          BlocBuilder<SearchBloc, SearchState>(
+                            builder: (context, state) {
+                              if (state is SearchError) {
+                                return Center(
+                                  child: Text(state.errorMessage),
+                                );
+                              }
+                              return const SizedBox();
+                            },
                           ),
-                          onRefresh: () => state.listSearch.isNotEmpty
-                              ? fetchSearch(context, state.query)
-                              : fetchTrending(context),
-                          onLoading: () => state.listSearch.isNotEmpty
-                              ? loadMoreSearch(context, state.query)
-                              : loadMoreTrending(context),
-                          child: MasonryGridView.count(
-                            padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16,
-                            shrinkWrap: true,
-                            itemBuilder: itemBuilder,
-                            itemCount: state.listSearch.isNotEmpty
-                                ? state.listSearch.length
-                                : state.listTrending.length,
-                          ),
-                        ),
-                      ),
-                      Visibility(
-                        visible: bloc.visible,
-                        child: Align(
-                          alignment: const Alignment(0, -0.9),
-                          child: GestureDetector(
-                            onTap: () => scrollToTop(context),
-                            child: AnimatedOpacity(
-                              opacity: bloc.visible ? 1.0 : 0.0,
-                              duration: const Duration(microseconds: 200),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: whiteColor,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: greyColor,
-                                      blurRadius: 2,
-                                    ),
-                                  ],
-                                ),
-                                child: RotatedBox(
-                                  quarterTurns: 45,
-                                  child: Icon(
-                                    Icons.arrow_circle_left_rounded,
-                                    color: darkBlueColor,
-                                    size: 50,
-                                  ),
-                                ),
+                          NotificationListener<ScrollNotification>(
+                            onNotification: (notification) => showHideButton(context),
+                            child: SmartRefresher(
+                              scrollController: bloc.scrollController,
+                              controller: bloc.refreshController,
+                              enablePullUp: enablePullUp(state.listSearch, state.listTrending),
+                              enablePullDown: enablePullUp(state.listSearch, state.listTrending),
+                              header: const Header(),
+                              footer: const Footer(
+                                height: 140,
+                                noMoreStatus: 'All results was loaded !',
+                                failedStatus: 'Failed to load results !',
+                              ),
+                              onRefresh: () => state.listSearch.isNotEmpty
+                                  ? fetchSearch(context, state.query)
+                                  : fetchTrending(context),
+                              onLoading: () => state.listSearch.isNotEmpty
+                                  ? loadMoreSearch(context, state.query)
+                                  : loadMoreTrending(context),
+                              child: MasonryGridView.count(
+                                padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16,
+                                shrinkWrap: true,
+                                itemBuilder: itemBuilder,
+                                itemCount: state.listSearch.isNotEmpty
+                                    ? state.listSearch.length
+                                    : state.listTrending.length,
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ],
+                          CustomScrollingButton(
+                            alignment:
+                                bloc.visible ? const Alignment(0, -0.9) : const Alignment(0, -1.0),
+                            opacity: bloc.visible ? 1.0 : 0.0,
+                            onTap: () => scrollToTop(context),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ],
@@ -145,6 +139,60 @@ class SearchPage extends StatelessWidget {
       ),
       imageUrl: AppUtils().getImageUrl(item.posterPath, item.profilePath),
     );
+  }
+
+  bool enablePullUp(List<MultipleMedia> listSearch, List<MultipleMedia> listTrending) {
+    if (listSearch.isEmpty && listTrending.isEmpty) {
+      return false;
+    } else {
+      if (listSearch.isEmpty && listTrending.isNotEmpty) {
+        return true;
+      } else if (listSearch.isNotEmpty && listTrending.isEmpty) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
+
+  fetchTrending(BuildContext context) {
+    final bloc = BlocProvider.of<SearchBloc>(context);
+    bloc.add(ScrollToTop());
+    bloc.add(FetchTrending(
+      language: 'en-US',
+      mediaType: 'all',
+      timeWindow: 'day',
+      includeAdult: true,
+    ));
+  }
+
+  loadMoreTrending(BuildContext context) {
+    final bloc = BlocProvider.of<SearchBloc>(context);
+    bloc.add(LoadMoreTrending(
+      language: 'en-US',
+      mediaType: 'all',
+      timeWindow: 'day',
+      includeAdult: true,
+    ));
+  }
+
+  fetchSearch(BuildContext context, String query) {
+    final bloc = BlocProvider.of<SearchBloc>(context);
+    bloc.add(ScrollToTop());
+    bloc.add(FetchSearch(
+      query: query,
+      includeAdult: true,
+      language: 'en-US',
+    ));
+  }
+
+  loadMoreSearch(BuildContext context, String query) {
+    final bloc = BlocProvider.of<SearchBloc>(context);
+    bloc.add(LoadMoreSearch(
+      query: query,
+      includeAdult: true,
+      language: 'en-US',
+    ));
   }
 
   bool showHideButton(BuildContext context) {
@@ -179,46 +227,6 @@ class SearchPage extends StatelessWidget {
         begin: const Offset(1, 0),
       ),
     );
-  }
-
-  fetchTrending(BuildContext context) {
-    final bloc = BlocProvider.of<SearchBloc>(context);
-    bloc.add(ScrollToTop());
-    bloc.add(FetchTrending(
-      language: 'en-US',
-      mediaType: 'all',
-      timeWindow: 'day',
-      includeAdult: true,
-    ));
-  }
-
-  fetchSearch(BuildContext context, String query) {
-    final bloc = BlocProvider.of<SearchBloc>(context);
-    bloc.add(ScrollToTop());
-    bloc.add(FetchSearch(
-      query: query,
-      includeAdult: true,
-      language: 'en-US',
-    ));
-  }
-
-  loadMoreTrending(BuildContext context) {
-    final bloc = BlocProvider.of<SearchBloc>(context);
-    bloc.add(LoadMoreTrending(
-      language: 'en-US',
-      mediaType: 'all',
-      timeWindow: 'day',
-      includeAdult: true,
-    ));
-  }
-
-  loadMoreSearch(BuildContext context, String query) {
-    final bloc = BlocProvider.of<SearchBloc>(context);
-    bloc.add(LoadMoreSearch(
-      query: query,
-      includeAdult: true,
-      language: 'en-US',
-    ));
   }
 
   showIndicator(BuildContext context) => showDialog(

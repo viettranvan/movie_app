@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +106,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         query: state.query,
       ));
     }
-    log(page.toString());
   }
 
   FutureOr<void> _onFetchSearch(FetchSearch event, Emitter<SearchState> emit) async {
@@ -190,12 +188,21 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   FutureOr<void> _onShowHideButton(ShowHideButton event, Emitter<SearchState> emit) {
-    scrollController
-        .addListener(() => scrollController.offset > 500 ? visible = true : visible = false);
-    emit(SearchSuccess(
-      listSearch: state.listSearch,
-      listTrending: state.listTrending,
-      query: state.query,
-    ));
+    if (state.listTrending.isNotEmpty) {
+      scrollController
+          .addListener(() => scrollController.offset > 930 ? visible = true : visible = false);
+      emit(SearchSuccess(
+        listSearch: state.listSearch,
+        listTrending: state.listTrending,
+        query: state.query,
+      ));
+    } else {
+      emit(SearchError(
+        errorMessage: 'An unexpected error occurred.',
+        listSearch: state.listSearch,
+        listTrending: state.listTrending,
+        query: state.query,
+      ));
+    }
   }
 }

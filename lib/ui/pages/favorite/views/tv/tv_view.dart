@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
@@ -35,13 +37,14 @@ class TvView extends StatelessWidget {
           var bloc = BlocProvider.of<TvBloc>(context);
           return SmartRefresher(
             controller: bloc.controller,
-            enablePullDown: true,
-            enablePullUp: true,
+            enablePullDown: state.listFavorite.isNotEmpty,
+            enablePullUp: state.listFavorite.isNotEmpty,
             primary: false,
             header: const Header(),
             footer: const Footer(
               height: 70,
-              loadingStatus: 'All Tv Shows was loaded !',
+              noMoreStatus: 'All Tv Shows was loaded !',
+              failedStatus: 'Failed to load Tv Shows !',
             ),
             onRefresh: () => bloc.add(FetchData(
               language: 'en-US',
@@ -68,6 +71,7 @@ class TvView extends StatelessWidget {
                       ? bloc.add(DropDown(isDropDown: true))
                       : bloc.add(DropDown(isDropDown: false)),
                   itemBuilder: (context, index) {
+                    log('---${state.listSort[index]}');
                     return CustomDropDownItem(
                       title: state.listSort[index],
                       colorSelected: state.indexSelected == index ? darkBlueColor : whiteColor,
@@ -86,13 +90,35 @@ class TvView extends StatelessWidget {
                     );
                   },
                 ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  controller: ScrollController(),
-                  padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
-                  itemBuilder: itemBuilder,
-                  separatorBuilder: separatorBuilder,
-                  itemCount: state.listFavorite.length,
+                BlocBuilder<TvBloc, TvState>(
+                  builder: (context, state) {
+                    if (state is TvInitial) {
+                      return const Expanded(
+                        child: Center(
+                          child: CustomIndicator(
+                            radius: 15,
+                          ),
+                        ),
+                      );
+                    }
+                    if (state is TvError) {
+                       return  Expanded(
+                        child: Center(
+                          child: Text(
+                            state.errorMessage
+                          ),
+                        ),
+                      );
+                    }
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      controller: ScrollController(),
+                      padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
+                      itemBuilder: itemBuilder,
+                      separatorBuilder: separatorBuilder,
+                      itemCount: state.listFavorite.length,
+                    );
+                  },
                 ),
               ],
             ),

@@ -35,13 +35,14 @@ class MovieView extends StatelessWidget {
           var bloc = BlocProvider.of<MovieBloc>(context);
           return SmartRefresher(
             controller: bloc.controller,
-            enablePullDown: true,
-            enablePullUp: true,
+            enablePullDown: state.listFavorite.isNotEmpty,
+            enablePullUp: state.listFavorite.isNotEmpty,
             primary: false,
             header: const Header(),
             footer: const Footer(
               height: 70,
-              loadingStatus: 'All Movies was loaded !',
+              noMoreStatus: 'All Movies was loaded !',
+              failedStatus: 'Failed to load Tv Shows !',
             ),
             onRefresh: () => bloc.add(FetchData(
               language: 'en-US',
@@ -88,14 +89,36 @@ class MovieView extends StatelessWidget {
                     );
                   },
                 ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  primary: false,
-                  controller: ScrollController(),
-                  padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
-                  itemBuilder: itemBuilder,
-                  separatorBuilder: separatorBuilder,
-                  itemCount: state.listFavorite.length,
+                BlocBuilder<MovieBloc, MovieState>(
+                  builder: (context, state) {
+                    if (state is MovieInitial) {
+                      return const Expanded(
+                        child: Center(
+                          child: CustomIndicator(
+                            radius: 15,
+                          ),
+                        ),
+                      );
+                    }
+                    if (state is MovieError) {
+                      return  Expanded(
+                        child: Center(
+                          child: Text(
+                            state.errorMessage
+                          ),
+                        ),
+                      );
+                    }
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      primary: false,
+                      controller: ScrollController(),
+                      padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
+                      itemBuilder: itemBuilder,
+                      separatorBuilder: separatorBuilder,
+                      itemCount: state.listFavorite.length,
+                    );
+                  },
                 ),
               ],
             ),
