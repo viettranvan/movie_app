@@ -37,7 +37,7 @@ class PopularView extends StatelessWidget {
                     state.listPopular.isNotEmpty ? (state.listPopular.length / 2).round() : 10,
                 options: CarouselOptions(
                   autoPlayAnimationDuration: const Duration(milliseconds: 500),
-                  // autoPlay: true,
+                  autoPlay: true,
                   viewportFraction: 1,
                   enableInfiniteScroll: true,
                   onPageChanged: (index, reason) => bloc.add(SlidePageView(selectedIndex: index)),

@@ -24,12 +24,14 @@ class Genreview extends StatelessWidget {
             );
           }
           return AnimatedCrossFade(
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 400),
             crossFadeState: isActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
             firstChild: SizedBox(
               height: 30,
               child: ListView.separated(
                 primary: true,
+                addAutomaticKeepAlives: false,
+                addRepaintBoundaries: false,
                 padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
@@ -42,6 +44,8 @@ class Genreview extends StatelessWidget {
               height: 30,
               child: ListView.separated(
                 primary: true,
+                addAutomaticKeepAlives: false,
+                addRepaintBoundaries: false,
                 padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,

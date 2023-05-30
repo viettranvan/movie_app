@@ -102,17 +102,17 @@ class TvView extends StatelessWidget {
                       );
                     }
                     if (state is TvError) {
-                       return  Expanded(
+                      return Expanded(
                         child: Center(
-                          child: Text(
-                            state.errorMessage
-                          ),
+                          child: Text(state.errorMessage),
                         ),
                       );
                     }
                     return ListView.separated(
                       shrinkWrap: true,
-                      controller: ScrollController(),
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: false,
+                      controller: ScrollController(keepScrollOffset: false),
                       padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
                       itemBuilder: itemBuilder,
                       separatorBuilder: separatorBuilder,

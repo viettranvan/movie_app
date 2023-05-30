@@ -2,43 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 
 class CustomScrollingButton extends StatelessWidget {
-  final AlignmentGeometry alignment;
+  final bool visible;
   final double opacity;
   final VoidCallback? onTap;
   const CustomScrollingButton({
     super.key,
-    required this.alignment,
     required this.opacity,
     this.onTap,
+    required this.visible,
   });
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedAlign(
-      alignment: alignment,
-      duration: const Duration(milliseconds: 500),
-      child: AnimatedOpacity(
-        duration: const Duration(milliseconds: 500),
-        opacity: opacity,
-        child: GestureDetector(
-          onTap: onTap,
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: whiteColor,
-              boxShadow: [
-                BoxShadow(
-                  color: greyColor,
-                  blurRadius: 2,
-                ),
-              ],
-            ),
-            child: RotatedBox(
-              quarterTurns: 45,
+    return Align(
+      alignment: const Alignment(0, -0.9),
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedOpacity(
+          opacity: visible ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 300),
+          child: Visibility(
+            visible: visible,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: whiteColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: greyColor,
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
               child: Icon(
-                Icons.arrow_circle_left_rounded,
+                Icons.arrow_upward,
                 color: darkBlueColor,
-                size: 50,
+                size: 20,
               ),
             ),
           ),

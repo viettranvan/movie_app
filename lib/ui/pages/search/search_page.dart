@@ -95,6 +95,8 @@ class SearchPage extends StatelessWidget {
                                   ? loadMoreSearch(context, state.query)
                                   : loadMoreTrending(context),
                               child: MasonryGridView.count(
+                                addAutomaticKeepAlives: false,
+                                addRepaintBoundaries: false,
                                 padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 16,
@@ -108,8 +110,7 @@ class SearchPage extends StatelessWidget {
                             ),
                           ),
                           CustomScrollingButton(
-                            alignment:
-                                bloc.visible ? const Alignment(0, -0.9) : const Alignment(0, -1.0),
+                            visible: bloc.visible,
                             opacity: bloc.visible ? 1.0 : 0.0,
                             onTap: () => scrollToTop(context),
                           ),

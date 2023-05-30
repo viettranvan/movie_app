@@ -36,6 +36,8 @@ class TrendingView extends StatelessWidget {
                 height: 215,
                 child: ListView.separated(
                   primary: true,
+                  addAutomaticKeepAlives: false,
+                  addRepaintBoundaries: false,
                   padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,

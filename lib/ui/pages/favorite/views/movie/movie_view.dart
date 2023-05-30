@@ -101,17 +101,17 @@ class MovieView extends StatelessWidget {
                       );
                     }
                     if (state is MovieError) {
-                      return  Expanded(
+                      return Expanded(
                         child: Center(
-                          child: Text(
-                            state.errorMessage
-                          ),
+                          child: Text(state.errorMessage),
                         ),
                       );
                     }
                     return ListView.separated(
                       shrinkWrap: true,
                       primary: false,
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: false,
                       controller: ScrollController(),
                       padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
                       itemBuilder: itemBuilder,
