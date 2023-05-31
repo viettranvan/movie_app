@@ -16,8 +16,6 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Debouncer debouncer = Debouncer();
-    final DebouncerScroll debouncerScroll = DebouncerScroll();
-
     return BlocProvider(
       create: (context) => SearchBloc()
         ..add(FetchData(
@@ -90,7 +88,7 @@ class SearchPage extends StatelessWidget {
                             },
                           ),
                           NotificationListener<ScrollNotification>(
-                            onNotification: (notification) => debouncerScroll.call(
+                            onNotification: (notification) => debouncer.callWithValue(
                               () => showHideButton(context),
                               true,
                             ),
@@ -122,7 +120,7 @@ class SearchPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          CustomScrollingButton(
+                          CustomScrollButton(
                             visible: bloc.visible,
                             opacity: bloc.visible ? 1.0 : 0.0,
                             onTap: () => scrollToTop(context),
