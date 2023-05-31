@@ -8,12 +8,11 @@ class CustomTextField extends StatelessWidget {
   final bool? obscureText;
   final bool? isAuthentication;
   final void Function(String)? onChanged;
-  final VoidCallback? onTapSuffixIcon;
   final VoidCallback? onTapFilter;
   final TextEditingController? controller;
+  final Widget? suffixIcon;
   const CustomTextField({
     super.key,
-    this.onTapSuffixIcon,
     this.visibleFiler,
     this.obscureText,
     this.onChanged,
@@ -21,6 +20,7 @@ class CustomTextField extends StatelessWidget {
     this.hintText,
     this.onTapFilter,
     this.controller,
+    this.suffixIcon,
   });
 
   @override
@@ -62,19 +62,20 @@ class CustomTextField extends StatelessWidget {
                           ),
                         ),
                       ),
-                suffixIcon: (isAuthentication ?? false)
-                    ? IconButton(
-                        onPressed: onTapSuffixIcon,
-                        icon: Image.asset(
-                          (obscureText ?? false)
-                              ? ImagesPath.eyeCloseIcon.assetName
-                              : ImagesPath.eyeOpenIcon.assetName,
-                          fit: BoxFit.scaleDown,
-                          color: darkBlueColor,
-                          scale: 1.2,
-                        ),
-                      )
-                    : null,
+                suffixIcon: suffixIcon,
+                // (isAuthentication ?? false)
+                //     ? IconButton(
+                //         onPressed: onTapSuffixIcon,
+                //         icon: Image.asset(
+                //           (obscureText ?? false)
+                //               ? ImagesPath.eyeCloseIcon.assetName
+                //               : ImagesPath.eyeOpenIcon.assetName,
+                //           fit: BoxFit.scaleDown,
+                //           color: darkBlueColor,
+                //           scale: 1.2,
+                //         ),
+                //       )
+                //     : null,
                 focusedBorder: outlineInputBorder,
                 enabledBorder: outlineInputBorder,
               ),

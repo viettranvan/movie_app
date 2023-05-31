@@ -7,6 +7,7 @@ import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/filter/filter_page.dart';
 import 'package:movie_app/ui/pages/search/bloc/search_bloc.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';
+import 'package:movie_app/utils/debouncer/debouncer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SearchPage extends StatelessWidget {
@@ -14,6 +15,7 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Debouncer debouncer = Debouncer();
     return BlocProvider(
       create: (context) => SearchBloc()
         ..add(FetchData(
@@ -54,14 +56,16 @@ class SearchPage extends StatelessWidget {
                   controller: bloc.textController,
                   hintText: 'Search for movies, tv shows, people...'.padLeft(14),
                   onTapFilter: () => goToFilterPage(context),
-                  onChanged: (value) {
-                    value.isEmpty ||
-                            value == '' ||
-                            bloc.textController.text.isEmpty ||
-                            bloc.textController.text == ''
-                        ? fetchData(context, '')
-                        : fetchData(context, value);
-                  },
+                  suffixIcon: bloc.textController.text.isNotEmpty
+                      ? IconButton(
+                          onPressed: () => fetchTrending(context),
+                          icon: Icon(
+                            Icons.cancel_rounded,
+                            color: lightGreyColor,
+                          ),
+                        )
+                      : null,
+                  onChanged: (value) => debouncer.call(() => fetchData(context, value)),
                 ),
                 Expanded(
                   child: BlocBuilder<SearchBloc, SearchState>(
@@ -183,6 +187,14 @@ class SearchPage extends StatelessWidget {
     ));
   }
 
+  fetchTrending(BuildContext context) {
+    final bloc = BlocProvider.of<SearchBloc>(context);
+    final state = bloc.state;
+    bloc.textController.clear();
+    state.listSearch.clear();
+    fetchData(context, '');
+  }
+
   bool showHideButton(BuildContext context) {
     final bloc = BlocProvider.of<SearchBloc>(context);
     bloc.add(ShowHideButton());
@@ -204,11 +216,7 @@ class SearchPage extends StatelessWidget {
   }
 
   goToFilterPage(BuildContext context) {
-    final bloc = BlocProvider.of<SearchBloc>(context);
-    final state = bloc.state;
-    bloc.textController.clear();
-    state.listSearch.clear();
-    fetchData(context, '');
+    fetchTrending(context);
     Navigator.of(context).push(
       CustomPageRoute(
         page: const FilterPage(),
