@@ -13,18 +13,7 @@ class Debouncer {
     _timer = Timer(duration, callback);
   }
 
-  dispose() {
-    _timer?.cancel();
-  }
-}
-
-class DebouncerScroll {
-  final Duration duration;
-  Timer? _timer;
-  DebouncerScroll({
-    this.duration = const Duration(milliseconds: 100),
-  });
-  bool call(VoidCallback callback,bool notification) {
+  bool callWithValue(VoidCallback callback, bool notification) {
     _timer?.cancel();
     _timer = Timer(duration, callback);
     return notification;
@@ -34,3 +23,15 @@ class DebouncerScroll {
     _timer?.cancel();
   }
 }
+
+// class DebouncerScroll {
+//   final Duration duration;
+//   Timer? _timer;
+//   DebouncerScroll({
+//     this.duration = const Duration(milliseconds: 500),
+//   });
+
+//   dispose() {
+//     _timer?.cancel();
+//   }
+// }

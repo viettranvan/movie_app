@@ -66,15 +66,11 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
         final paletteRemoveWhite = paletteColors
           ..removeWhere((element) => element.computeLuminance() > 0.8);
         final averageLuminance = await AppUtils().getLuminance(paletteColors);
-        if (state.paletteColors.isNotEmpty) {
-          return;
-        } else {
-          emit(NowPlayingSuccess(
-            averageLuminance: averageLuminance,
-            paletteColors: paletteRemoveWhite,
-            nowPlayingTv: state.nowPlayingTv,
-          ));
-        }
+        emit(NowPlayingSuccess(
+          averageLuminance: averageLuminance,
+          paletteColors: paletteRemoveWhite,
+          nowPlayingTv: state.nowPlayingTv,
+        ));
       }
     } catch (e) {
       emit(NowPlayingError(

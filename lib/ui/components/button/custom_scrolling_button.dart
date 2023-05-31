@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 
-class CustomScrollingButton extends StatelessWidget {
+class CustomScrollButton extends StatelessWidget {
   final bool visible;
   final double opacity;
   final VoidCallback? onTap;
-  const CustomScrollingButton({
+  const CustomScrollButton({
     super.key,
     required this.opacity,
     this.onTap,
@@ -20,7 +20,7 @@ class CustomScrollingButton extends StatelessWidget {
         onTap: onTap,
         child: AnimatedOpacity(
           opacity: visible ? 1.0 : 0.0,
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 100),
           child: Visibility(
             visible: visible,
             child: Container(

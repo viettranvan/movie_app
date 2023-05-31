@@ -208,6 +208,7 @@
 // }
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -257,6 +258,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           listTrending: state.listTrending,
         ));
       } else {
+        state.listSearch.clear();
         emit(SearchSuccess(
           listSearch: searchResult.list,
           query: event.query,
@@ -271,16 +273,17 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           includeAdult: event.includeAdult,
         );
         if (trendingResult.list.isNotEmpty) {
+          state.listSearch.clear();
           page++;
           emit(SearchSuccess(
             listSearch: state.listSearch,
-            query: state.query,
+            query: event.query,
             listTrending: trendingResult.list,
           ));
         } else {
           emit(SearchSuccess(
             listSearch: state.listSearch,
-            query: state.query,
+            query: event.query,
             listTrending: trendingResult.list,
           ));
         }
@@ -345,6 +348,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             query: state.query,
           ));
           refreshController.loadComplete();
+          log('---${state.query}');
         }
       }
     } catch (e) {
@@ -370,7 +374,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   FutureOr<void> _onShowHideButton(ShowHideButton event, Emitter<SearchState> emit) {
     if (state.listTrending.isNotEmpty) {
       scrollController
-          .addListener(() => scrollController.offset > 930 ? visible = true : visible = false);
+          .addListener(() => scrollController.offset > 900 ? visible = true : visible = false);
       emit(SearchSuccess(
         listSearch: state.listSearch,
         listTrending: state.listTrending,

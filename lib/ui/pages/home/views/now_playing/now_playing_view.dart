@@ -19,11 +19,15 @@ class NowPlayingView extends StatelessWidget {
           page: 1,
         )),
       child: BlocConsumer<NowPlayingBloc, NowPlayingState>(
-        listener: (context, state) => BlocProvider.of<NowPlayingBloc>(context).add(
-          ChangeColor(
-            imagePath: '${AppConstants.kImagePathPoster}${state.nowPlayingTv.posterPath}',
-          ),
-        ),
+        listener: (context, state) {
+          if (state.paletteColors.isEmpty) {
+            BlocProvider.of<NowPlayingBloc>(context).add(ChangeColor(
+              imagePath: '${AppConstants.kImagePathPoster}${state.nowPlayingTv.posterPath}',
+            ));
+          } else {
+            return;
+          }
+        },
         builder: (context, state) {
           if (state is NowPlayingInitial) {
             return const SizedBox(height: 172);
