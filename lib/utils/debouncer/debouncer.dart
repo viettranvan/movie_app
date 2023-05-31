@@ -17,3 +17,20 @@ class Debouncer {
     _timer?.cancel();
   }
 }
+
+class DebouncerScroll {
+  final Duration duration;
+  Timer? _timer;
+  DebouncerScroll({
+    this.duration = const Duration(milliseconds: 100),
+  });
+  bool call(VoidCallback callback,bool notification) {
+    _timer?.cancel();
+    _timer = Timer(duration, callback);
+    return notification;
+  }
+
+  dispose() {
+    _timer?.cancel();
+  }
+}
