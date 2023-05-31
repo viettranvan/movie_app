@@ -16,6 +16,8 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Debouncer debouncer = Debouncer();
+    final DebouncerScroll debouncerScroll = DebouncerScroll();
+
     return BlocProvider(
       create: (context) => SearchBloc()
         ..add(FetchData(
@@ -88,7 +90,10 @@ class SearchPage extends StatelessWidget {
                             },
                           ),
                           NotificationListener<ScrollNotification>(
-                            onNotification: (notification) => showHideButton(context),
+                            onNotification: (notification) => debouncerScroll.call(
+                              () => showHideButton(context),
+                              true,
+                            ),
                             child: SmartRefresher(
                               scrollController: bloc.scrollController,
                               controller: bloc.refreshController,
@@ -206,11 +211,11 @@ class SearchPage extends StatelessWidget {
     final state = bloc.state;
     showIndicator(context);
     Future.delayed(
-      const Duration(milliseconds: 500),
+      const Duration(milliseconds: 1000),
       () {
         Navigator.of(context).pop();
-        bloc.add(ScrollToTop());
         fetchData(context, state.query);
+        bloc.add(ScrollToTop());
       },
     );
   }
