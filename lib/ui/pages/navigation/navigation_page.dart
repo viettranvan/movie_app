@@ -48,7 +48,9 @@ class NavigationPage extends StatelessWidget {
                 ),
                 CustomNavigationBarItem(
                   imagePath: ImagesPath.searchIcon.assetName,
-                  onTap: () => bloc.add(NavigatePage(indexPage: 2)),
+                  onTap: () {
+                    bloc.add(NavigatePage(indexPage: 2));
+                  },
                 ),
                 CustomNavigationBarItem(
                   imagePath: ImagesPath.profileIcon.assetName,
