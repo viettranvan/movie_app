@@ -23,15 +23,3 @@ class Debouncer {
     _timer?.cancel();
   }
 }
-
-// class DebouncerScroll {
-//   final Duration duration;
-//   Timer? _timer;
-//   DebouncerScroll({
-//     this.duration = const Duration(milliseconds: 500),
-//   });
-
-//   dispose() {
-//     _timer?.cancel();
-//   }
-// }
