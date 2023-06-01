@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
@@ -8,7 +6,6 @@ import 'package:movie_app/ui/pages/favorite/views/tv/bloc/tv_bloc.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';
 import 'package:movie_app/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 class TvView extends StatelessWidget {
   const TvView({super.key});
 
@@ -71,21 +68,17 @@ class TvView extends StatelessWidget {
                       ? bloc.add(DropDown(isDropDown: true))
                       : bloc.add(DropDown(isDropDown: false)),
                   itemBuilder: (context, index) {
-                    log('---${state.listSort[index]}');
                     return CustomDropDownItem(
                       title: state.listSort[index],
                       colorSelected: state.indexSelected == index ? darkBlueColor : whiteColor,
                       colorTitle: state.indexSelected == index ? whiteColor : darkBlueColor,
                       onTapItem: state.indexSelected != index
-                          ? () {
-                              bloc.add(Sort(
-                                index: index,
-                                sortBy: state.listSort[index],
-                              ));
-                              state.isDropDown
-                                  ? bloc.add(DropDown(isDropDown: true))
-                                  : bloc.add(DropDown(isDropDown: false));
-                            }
+                          ? () => sortList(
+                                context,
+                                index,
+                                state.isDropDown,
+                                state.listSort[index],
+                              )
                           : null,
                     );
                   },
@@ -143,4 +136,28 @@ class TvView extends StatelessWidget {
   }
 
   Widget separatorBuilder(BuildContext context, int index) => const SizedBox(height: 18);
+
+  sortList(BuildContext context, int index, bool isDropDown, String sortBy) {
+    final bloc = BlocProvider.of<TvBloc>(context);
+    isDropDown ? bloc.add(DropDown(isDropDown: true)) : bloc.add(DropDown(isDropDown: false));
+    showIndicator(context);
+    Future.delayed(
+      const Duration(milliseconds: 300),
+      () {
+        Navigator.of(context).pop();
+        bloc.add(Sort(
+          index: index,
+          sortBy: sortBy,
+        ));
+      },
+    );
+  }
+
+  showIndicator(BuildContext context) => AppUtils().showCustomDialog(
+        context: context,
+        alignment: const Alignment(0, 0.3),
+        child: const CustomIndicator(
+          radius: 15,
+        ),
+      );
 }

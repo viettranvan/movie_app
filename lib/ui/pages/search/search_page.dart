@@ -228,18 +228,13 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  showIndicator(BuildContext context) => showDialog(
-        barrierDismissible: false,
-        barrierColor: Colors.transparent,
-        useSafeArea: true,
+  showIndicator(BuildContext context) => AppUtils().showCustomDialog(
         context: context,
-        builder: (context) {
-          return const Align(
-            alignment: Alignment(0, 0.2),
-            child: CustomIndicator(
-              radius: 15,
-            ),
-          );
-        },
+        alignment: const Alignment(0, 0.2),
+        child: const CustomIndicator(
+          radius: 15,
+        ),
       );
+
+
 }

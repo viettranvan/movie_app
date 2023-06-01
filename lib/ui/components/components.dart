@@ -8,7 +8,7 @@ export 'text_field/text_field.dart';
 export 'text/text.dart';
 export 'background/background.dart';
 export 'refresh/refresh.dart';
-export 'progress_indicator/progress_indicator.dart';
+export 'indicator/indicator.dart';
 export 'bottom_sheet/bottom_sheet.dart';
 export 'switch/switch.dart';
 export 'tab_bar/tab_bar.dart';

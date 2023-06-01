@@ -76,15 +76,12 @@ class MovieView extends StatelessWidget {
                       colorSelected: state.indexSelected == index ? darkBlueColor : whiteColor,
                       colorTitle: state.indexSelected == index ? whiteColor : darkBlueColor,
                       onTapItem: state.indexSelected != index
-                          ? () {
-                              bloc.add(Sort(
-                                index: index,
-                                sortBy: state.listSort[index],
-                              ));
-                              state.isDropDown
-                                  ? bloc.add(DropDown(isDropDown: true))
-                                  : bloc.add(DropDown(isDropDown: false));
-                            }
+                          ? () => sortList(
+                                context,
+                                index,
+                                state.isDropDown,
+                                state.listSort[index],
+                              )
                           : null,
                     );
                   },
@@ -143,6 +140,30 @@ class MovieView extends StatelessWidget {
   }
 
   Widget separatorBuilder(BuildContext context, int index) => const SizedBox(height: 18);
+
+  sortList(BuildContext context, int index, bool isDropDown, String sortBy) {
+    final bloc = BlocProvider.of<MovieBloc>(context);
+    isDropDown ? bloc.add(DropDown(isDropDown: true)) : bloc.add(DropDown(isDropDown: false));
+    showIndicator(context);
+    Future.delayed(
+      const Duration(milliseconds: 300),
+      () {
+        Navigator.of(context).pop();
+        bloc.add(Sort(
+          index: index,
+          sortBy: sortBy,
+        ));
+      },
+    );
+  }
+
+  showIndicator(BuildContext context) => AppUtils().showCustomDialog(
+        context: context,
+        alignment: const Alignment(0, 0.3),
+        child: const CustomIndicator(
+          radius: 15,
+        ),
+      );
 }
 
 // class MovieView extends StatefulWidget {
