@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
+import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/trending/bloc/trending_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
@@ -20,35 +21,48 @@ class TrendingView extends StatelessWidget {
           language: 'en-US',
           includeAdult: true,
         )),
-      child: BlocBuilder<TrendingBloc, TrendingState>(
-        builder: (context, state) {
-          if (state is TrendingInitial) {
-            return const SizedBox(
-              height: 213,
-            );
+      child: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state is HomeSuccess) {
+            BlocProvider.of<TrendingBloc>(context).add(FetchData(
+              mediaType: 'movie',
+              timeWindow: 'day',
+              page: 1,
+              language: 'en-US',
+              includeAdult: true,
+            ));
           }
-          return Stack(
-            children: [
-              const Positioned.fill(
-                child: PrimaryBackground(),
-              ),
-              SizedBox(
-                height: 215,
-                child: ListView.separated(
-                  primary: true,
-                  addAutomaticKeepAlives: false,
-                  addRepaintBoundaries: false,
-                  padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemBuilder: itemBuilder,
-                  separatorBuilder: separatorBuilder,
-                  itemCount: state.listTrending.isNotEmpty ? state.listTrending.length + 1 : 21,
-                ),
-              ),
-            ],
-          );
         },
+        child: BlocBuilder<TrendingBloc, TrendingState>(
+          builder: (context, state) {
+            if (state is TrendingInitial) {
+              return const SizedBox(
+                height: 213,
+              );
+            }
+            return Stack(
+              children: [
+                const Positioned.fill(
+                  child: PrimaryBackground(),
+                ),
+                SizedBox(
+                  height: 215,
+                  child: ListView.separated(
+                    primary: true,
+                    addAutomaticKeepAlives: false,
+                    addRepaintBoundaries: false,
+                    padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemBuilder: itemBuilder,
+                    separatorBuilder: separatorBuilder,
+                    itemCount: state.listTrending.isNotEmpty ? state.listTrending.length + 1 : 21,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

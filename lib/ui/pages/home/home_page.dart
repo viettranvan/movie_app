@@ -13,6 +13,7 @@ import 'package:movie_app/ui/pages/home/views/top_tv/index.dart';
 import 'package:movie_app/ui/pages/home/views/trending/index.dart';
 import 'package:movie_app/ui/pages/home/views/upcoming/index.dart';
 import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -21,7 +22,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeBloc()..add(SwitchType(isActive: false)),
-      child: BlocBuilder<HomeBloc, HomeState>(
+      child: BlocConsumer<HomeBloc, HomeState>(
+        listener: (context, state) {
+           if (state is HomeSuccess) {
+            BlocProvider.of<HomeBloc>(context).add(SwitchType(isActive: false));
+          }
+        },
         builder: (context, state) {
           var bloc = BlocProvider.of<HomeBloc>(context);
           return Scaffold(
@@ -53,8 +59,11 @@ class HomePage extends StatelessWidget {
                 NavigatePage(indexPage: 3),
               ),
             ),
-            body: SingleChildScrollView(
+            body: SmartRefresher(
+              controller:bloc.refreshController,
               primary: true,
+              header: const Header(),
+              onRefresh: () => bloc.add(RefreshData()),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,

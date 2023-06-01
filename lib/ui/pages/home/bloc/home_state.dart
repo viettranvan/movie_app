@@ -12,3 +12,10 @@ class HomeInitial extends HomeState {
     required super.isActive,
   });
 }
+
+
+class HomeSuccess extends HomeState {
+  HomeSuccess({
+    required super.isActive,
+  });
+}
