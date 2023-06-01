@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
+import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/upcoming/bloc/upcoming_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
@@ -19,25 +20,36 @@ class UpcomingView extends StatelessWidget {
           page: 1,
           region: '',
         )),
-      child: BlocBuilder<UpcomingBloc, UpcomingState>(
-        builder: (context, state) {
-          var bloc = BlocProvider.of<UpcomingBloc>(context);
-          if (state is UpcomingInitial) {
-            return const SizedBox(height: 365);
+      child: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state is HomeSuccess) {
+            BlocProvider.of<UpcomingBloc>(context).add(FetchData(
+              language: 'en-US',
+              page: 1,
+              region: '',
+            ));
           }
-          return CarouselSlider.builder(
-            carouselController: bloc.controller,
-            itemBuilder: itemBuilder,
-            itemCount: state.listUpcoming.length,
-            disableGesture: false,
-            options: CarouselOptions(
-              height: 365,
-              enlargeCenterPage: true,
-              enableInfiniteScroll: true,
-              viewportFraction: 0.8,
-            ),
-          );
         },
+        child: BlocBuilder<UpcomingBloc, UpcomingState>(
+          builder: (context, state) {
+            var bloc = BlocProvider.of<UpcomingBloc>(context);
+            if (state is UpcomingInitial) {
+              return const SizedBox(height: 365);
+            }
+            return CarouselSlider.builder(
+              carouselController: bloc.controller,
+              itemBuilder: itemBuilder,
+              itemCount: state.listUpcoming.length,
+              disableGesture: false,
+              options: CarouselOptions(
+                height: 400,
+                enlargeCenterPage: true,
+                enableInfiniteScroll: true,
+                viewportFraction: 0.8,
+              ),
+            );
+          },
+        ),
       ),
     );
   }

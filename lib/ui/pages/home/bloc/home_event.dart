@@ -8,3 +8,5 @@ class SwitchType extends HomeEvent {
     required this.isActive,
   });
 }
+
+class RefreshData extends HomeEvent {}

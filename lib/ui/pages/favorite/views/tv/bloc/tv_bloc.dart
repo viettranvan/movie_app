@@ -18,7 +18,7 @@ class TvBloc extends Bloc<TvEvent, TvState> {
           listFavorite: [],
           isDropDown: false,
           indexSelected: 0,
-          sortBy: '',
+          sortBy: 'created_at.desc',
         )) {
     on<FetchData>(_onFetchData);
     on<LoadMore>(_onLoadMore);

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
+import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/best_drama/bloc/best_drama_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
@@ -18,33 +19,44 @@ class BestDramaView extends StatelessWidget {
           page: 1,
           withGenres: [18],
         )),
-      child: BlocBuilder<BestDramaBloc, BestDramaState>(
-        builder: (context, state) {
-          if (state is BestDramaInitial) {
-            return const SizedBox(height: 213);
+      child: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state is HomeSuccess) {
+            BlocProvider.of<BestDramaBloc>(context).add(FetchData(
+              language: 'en-US',
+              page: 1,
+              withGenres: [18],
+            ));
           }
-          return Stack(
-            children: [
-              const Positioned.fill(
-                child: PrimaryBackground(),
-              ),
-              SizedBox(
-                height: 213,
-                child: ListView.separated(
-                  primary: true,
-                  addAutomaticKeepAlives: false,
-                  addRepaintBoundaries: false,
-                  padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemBuilder: itemBuilder,
-                  separatorBuilder: separatorBuilder,
-                  itemCount: state.listBestDrama.isNotEmpty ? state.listBestDrama.length + 1 : 21,
-                ),
-              ),
-            ],
-          );
         },
+        child: BlocBuilder<BestDramaBloc, BestDramaState>(
+          builder: (context, state) {
+            if (state is BestDramaInitial) {
+              return const SizedBox(height: 213);
+            }
+            return Stack(
+              children: [
+                const Positioned.fill(
+                  child: PrimaryBackground(),
+                ),
+                SizedBox(
+                  height: 213,
+                  child: ListView.separated(
+                    primary: true,
+                    addAutomaticKeepAlives: false,
+                    addRepaintBoundaries: false,
+                    padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemBuilder: itemBuilder,
+                    separatorBuilder: separatorBuilder,
+                    itemCount: state.listBestDrama.isNotEmpty ? state.listBestDrama.length + 1 : 21,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
