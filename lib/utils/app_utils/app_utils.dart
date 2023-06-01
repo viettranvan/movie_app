@@ -190,6 +190,23 @@ class AppUtils {
         }
     }
   }
+
+  showCustomDialog({
+    required BuildContext context,
+    required AlignmentGeometry alignment,
+    Widget? child,
+  }) {
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.transparent,
+      useSafeArea: true,
+      context: context,
+      builder: (context) => Align(
+        alignment: alignment,
+        child: child,
+      ),
+    );
+  }
 }
 
 
