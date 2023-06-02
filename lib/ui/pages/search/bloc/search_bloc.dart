@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -49,12 +48,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           listTrending: state.listTrending,
         ));
       } else {
-        state.listSearch.clear();
-        emit(SearchSuccess(
-          listSearch: searchResult.list,
-          query: event.query,
-          listTrending: state.listTrending,
-        ));
         page = 1;
         final trendingResult = await homeRepository.getTrendingMovie(
           mediaType: event.mediaType,
@@ -139,7 +132,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             query: state.query,
           ));
           refreshController.loadComplete();
-          log('---${state.query}');
         }
       }
     } catch (e) {

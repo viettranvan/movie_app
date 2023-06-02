@@ -22,152 +22,159 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeBloc()..add(SwitchType(isActive: false)),
-      child: BlocConsumer<HomeBloc, HomeState>(
+      child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
-           if (state is HomeSuccess) {
-            BlocProvider.of<HomeBloc>(context).add(SwitchType(isActive: false));
+          if (state is NavigationInitial) {
+            BlocProvider.of<HomeBloc>(context).scrollController.jumpTo(0);
           }
         },
-        builder: (context, state) {
-          var bloc = BlocProvider.of<HomeBloc>(context);
-          return Scaffold(
-            backgroundColor: whiteColor,
-            appBar: CustomAppBar(
-              centerTitle: true,
-              leading: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                child: CircleAvatar(
-                  backgroundImage: Image.asset(
-                    ImagesPath.primaryShortLogo.assetName,
-                  ).image,
-                ),
-              ),
-              title: Image.asset(
-                ImagesPath.primaryLongLogo.assetName,
-                filterQuality: FilterQuality.high,
-              ),
-              actions: const [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-                  child: Icon(
-                    Icons.notifications_sharp,
-                    size: 30,
+        child: BlocConsumer<HomeBloc, HomeState>(
+          listener: (context, state) {
+            if (state is HomeSuccess) {
+              BlocProvider.of<HomeBloc>(context).add(SwitchType(isActive: false));
+            }
+          },
+          builder: (context, state) {
+            var bloc = BlocProvider.of<HomeBloc>(context);
+            return Scaffold(
+              backgroundColor: whiteColor,
+              appBar: CustomAppBar(
+                centerTitle: true,
+                leading: Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  child: CircleAvatar(
+                    backgroundImage: Image.asset(
+                      ImagesPath.primaryShortLogo.assetName,
+                    ).image,
                   ),
                 ),
-              ],
-              onTapLeading: () => BlocProvider.of<NavigationBloc>(context).add(
-                NavigatePage(indexPage: 3),
-              ),
-            ),
-            body: SmartRefresher(
-              controller:bloc.refreshController,
-              primary: true,
-              header: const Header(),
-              onRefresh: () => bloc.add(RefreshData()),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(height: 20),
-                  SecondaryTitle(
-                    title: 'Popular Genres',
-                    leftWidget: CustomSwitch(
-                      isActive: state.isActive,
-                      onSwitchMovie: () => bloc.add(SwitchType(isActive: false)),
-                      onSwitchTV: () => bloc.add(SwitchType(isActive: true)),
+                title: Image.asset(
+                  ImagesPath.primaryLongLogo.assetName,
+                  filterQuality: FilterQuality.high,
+                ),
+                actions: const [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                    child: Icon(
+                      Icons.notifications_sharp,
+                      size: 30,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  Genreview(isActive: state.isActive),
-                  const SizedBox(height: 30),
-                  PrimaryTitle(
-                    visibleIcon: true,
-                    title: 'Popular',
-                    visibleViewAll: true,
-                    onTapViewAll: () {},
-                    icon: Icon(
-                      Icons.stars_outlined,
-                      color: greyColor,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  const PopularView(),
-                  const SizedBox(height: 30),
-                  PrimaryTitle(
-                    visibleIcon: true,
-                    title: 'Trending',
-                    visibleViewAll: true,
-                    onTapViewAll: () {},
-                    icon: SvgPicture.asset(
-                      ImagesPath.trendingIcon.assetName,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  const TrendingView(),
-                  const SizedBox(height: 30),
-                  PrimaryTitle(
-                    visibleIcon: true,
-                    title: 'Now Playing',
-                    visibleViewAll: true,
-                    onTapViewAll: () {},
-                    icon: Icon(
-                      Icons.smart_display_outlined,
-                      color: greyColor,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  const NowPlayingView(),
-                  const SizedBox(height: 30),
-                  PrimaryTitle(
-                    visibleIcon: true,
-                    title: 'Best Drama',
-                    visibleViewAll: true,
-                    onTapViewAll: () {},
-                    icon: SvgPicture.asset(
-                      ImagesPath.bestDramaIcon.assetName,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  const BestDramaView(),
-                  const SizedBox(height: 30),
-                  const SecondaryTitle(
-                    title: 'Popular Artists',
-                  ),
-                  const SizedBox(height: 12),
-                  const ArtistView(),
-                  const SizedBox(height: 30),
-                  PrimaryTitle(
-                    visibleIcon: true,
-                    title: 'Top TV Shows',
-                    visibleViewAll: true,
-                    onTapViewAll: () {},
-                    icon: SvgPicture.asset(
-                      ImagesPath.tvShowIcon.assetName,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  const TopTvView(),
-                  const SizedBox(height: 30),
-                  PrimaryTitle(
-                    visibleIcon: true,
-                    title: 'Upcoming',
-                    visibleViewAll: true,
-                    onTapViewAll: () {},
-                    icon: Image.asset(
-                      ImagesPath.upcomingIcon.assetName,
-                      filterQuality: FilterQuality.high,
-                      color: greyColor,
-                      scale: 2,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  const UpcomingView(),
-                  const SizedBox(height: 110),
                 ],
+                onTapLeading: () => BlocProvider.of<NavigationBloc>(context).add(
+                  NavigatePage(indexPage: 3),
+                ),
               ),
-            ),
-          );
-        },
+              body: SmartRefresher(
+                controller: bloc.refreshController,
+                scrollController: bloc.scrollController,
+                header: const Header(),
+                onRefresh: () => bloc.add(RefreshData()),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 20),
+                    SecondaryTitle(
+                      title: 'Popular Genres',
+                      leftWidget: CustomSwitch(
+                        isActive: state.isActive,
+                        onSwitchMovie: () => bloc.add(SwitchType(isActive: false)),
+                        onSwitchTV: () => bloc.add(SwitchType(isActive: true)),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Genreview(isActive: state.isActive),
+                    const SizedBox(height: 30),
+                    PrimaryTitle(
+                      visibleIcon: true,
+                      title: 'Popular',
+                      visibleViewAll: true,
+                      onTapViewAll: () {},
+                      icon: Icon(
+                        Icons.stars_outlined,
+                        color: greyColor,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    const PopularView(),
+                    const SizedBox(height: 30),
+                    PrimaryTitle(
+                      visibleIcon: true,
+                      title: 'Trending',
+                      visibleViewAll: true,
+                      onTapViewAll: () {},
+                      icon: SvgPicture.asset(
+                        ImagesPath.trendingIcon.assetName,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    const TrendingView(),
+                    const SizedBox(height: 30),
+                    PrimaryTitle(
+                      visibleIcon: true,
+                      title: 'Now Playing',
+                      visibleViewAll: true,
+                      onTapViewAll: () {},
+                      icon: Icon(
+                        Icons.smart_display_outlined,
+                        color: greyColor,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    const NowPlayingView(),
+                    const SizedBox(height: 30),
+                    PrimaryTitle(
+                      visibleIcon: true,
+                      title: 'Best Drama',
+                      visibleViewAll: true,
+                      onTapViewAll: () {},
+                      icon: SvgPicture.asset(
+                        ImagesPath.bestDramaIcon.assetName,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    const BestDramaView(),
+                    const SizedBox(height: 30),
+                    const SecondaryTitle(
+                      title: 'Popular Artists',
+                    ),
+                    const SizedBox(height: 12),
+                    const ArtistView(),
+                    const SizedBox(height: 30),
+                    PrimaryTitle(
+                      visibleIcon: true,
+                      title: 'Top TV Shows',
+                      visibleViewAll: true,
+                      onTapViewAll: () {},
+                      icon: SvgPicture.asset(
+                        ImagesPath.tvShowIcon.assetName,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    const TopTvView(),
+                    const SizedBox(height: 30),
+                    PrimaryTitle(
+                      visibleIcon: true,
+                      title: 'Upcoming',
+                      visibleViewAll: true,
+                      onTapViewAll: () {},
+                      icon: Image.asset(
+                        ImagesPath.upcomingIcon.assetName,
+                        filterQuality: FilterQuality.high,
+                        color: greyColor,
+                        scale: 2,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    const UpcomingView(),
+                    const SizedBox(height: 110),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
