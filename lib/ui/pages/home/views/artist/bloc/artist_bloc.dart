@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:movie_app/models/models.dart';
 import 'package:movie_app/ui/pages/home/index.dart';
 import 'package:movie_app/utils/utils.dart';
@@ -10,7 +11,7 @@ part 'artist_state.dart';
 
 class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
   final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
-
+  ScrollController scrollController = ScrollController();
   ArtistBloc() : super(ArtistInitial(listArtist: [])) {
     on<FetchData>(_onFetchData);
   }

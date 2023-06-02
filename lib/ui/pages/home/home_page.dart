@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
@@ -21,19 +20,14 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc()..add(SwitchType(isActive: false)),
+      create: (context) => HomeBloc(),
       child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
           if (state is NavigationInitial) {
             BlocProvider.of<HomeBloc>(context).scrollController.jumpTo(0);
           }
         },
-        child: BlocConsumer<HomeBloc, HomeState>(
-          listener: (context, state) {
-            if (state is HomeSuccess) {
-              BlocProvider.of<HomeBloc>(context).add(SwitchType(isActive: false));
-            }
-          },
+        child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             var bloc = BlocProvider.of<HomeBloc>(context);
             return Scaffold(
@@ -70,105 +64,27 @@ class HomePage extends StatelessWidget {
                 scrollController: bloc.scrollController,
                 header: const Header(),
                 onRefresh: () => bloc.add(RefreshData()),
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const SizedBox(height: 20),
-                    SecondaryTitle(
-                      title: 'Popular Genres',
-                      leftWidget: CustomSwitch(
-                        isActive: state.isActive,
-                        onSwitchMovie: () => bloc.add(SwitchType(isActive: false)),
-                        onSwitchTV: () => bloc.add(SwitchType(isActive: true)),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Genreview(isActive: state.isActive),
-                    const SizedBox(height: 30),
-                    PrimaryTitle(
-                      visibleIcon: true,
-                      title: 'Popular',
-                      visibleViewAll: true,
-                      onTapViewAll: () {},
-                      icon: Icon(
-                        Icons.stars_outlined,
-                        color: greyColor,
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    const PopularView(),
-                    const SizedBox(height: 30),
-                    PrimaryTitle(
-                      visibleIcon: true,
-                      title: 'Trending',
-                      visibleViewAll: true,
-                      onTapViewAll: () {},
-                      icon: SvgPicture.asset(
-                        ImagesPath.trendingIcon.assetName,
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    const TrendingView(),
-                    const SizedBox(height: 30),
-                    PrimaryTitle(
-                      visibleIcon: true,
-                      title: 'Now Playing',
-                      visibleViewAll: true,
-                      onTapViewAll: () {},
-                      icon: Icon(
-                        Icons.smart_display_outlined,
-                        color: greyColor,
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    const NowPlayingView(),
-                    const SizedBox(height: 30),
-                    PrimaryTitle(
-                      visibleIcon: true,
-                      title: 'Best Drama',
-                      visibleViewAll: true,
-                      onTapViewAll: () {},
-                      icon: SvgPicture.asset(
-                        ImagesPath.bestDramaIcon.assetName,
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    const BestDramaView(),
-                    const SizedBox(height: 30),
-                    const SecondaryTitle(
-                      title: 'Popular Artists',
-                    ),
-                    const SizedBox(height: 12),
-                    const ArtistView(),
-                    const SizedBox(height: 30),
-                    PrimaryTitle(
-                      visibleIcon: true,
-                      title: 'Top TV Shows',
-                      visibleViewAll: true,
-                      onTapViewAll: () {},
-                      icon: SvgPicture.asset(
-                        ImagesPath.tvShowIcon.assetName,
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    const TopTvView(),
-                    const SizedBox(height: 30),
-                    PrimaryTitle(
-                      visibleIcon: true,
-                      title: 'Upcoming',
-                      visibleViewAll: true,
-                      onTapViewAll: () {},
-                      icon: Image.asset(
-                        ImagesPath.upcomingIcon.assetName,
-                        filterQuality: FilterQuality.high,
-                        color: greyColor,
-                        scale: 2,
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    const UpcomingView(),
-                    const SizedBox(height: 110),
+                    SizedBox(height: 20),
+                    Genreview(),
+                    SizedBox(height: 30),
+                    PopularView(),
+                    SizedBox(height: 30),
+                    TrendingView(),
+                    SizedBox(height: 30),
+                    NowPlayingView(),
+                    SizedBox(height: 30),
+                    BestDramaView(),
+                    SizedBox(height: 30),
+                    ArtistView(),
+                    SizedBox(height: 30),
+                    TopTvView(),
+                    SizedBox(height: 30),
+                    UpcomingView(),
+                    SizedBox(height: 110),
                   ],
                 ),
               ),

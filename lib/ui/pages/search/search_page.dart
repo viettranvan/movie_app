@@ -28,8 +28,13 @@ class SearchPage extends StatelessWidget {
         )),
       child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
+          final bloc = BlocProvider.of<SearchBloc>(context);
           if (state is NavigationInitial) {
-            BlocProvider.of<SearchBloc>(context).scrollController.jumpTo(0);
+            bloc.scrollController.animateTo(
+              bloc.scrollController.position.minScrollExtent,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.linear,
+            );
           }
         },
         child: BlocConsumer<SearchBloc, SearchState>(

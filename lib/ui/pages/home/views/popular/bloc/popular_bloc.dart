@@ -11,8 +11,8 @@ part 'popular_event.dart';
 part 'popular_state.dart';
 
 class PopularBloc extends Bloc<PopularEvent, PopularState> {
-  final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
   CarouselController controller = CarouselController();
+  final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
   PopularBloc()
       : super(PopularInitial(
           listPopular: [],

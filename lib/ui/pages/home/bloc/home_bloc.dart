@@ -10,17 +10,12 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   RefreshController refreshController = RefreshController();
   ScrollController scrollController = ScrollController();
-  HomeBloc() : super(HomeInitial(isActive: false)) {
-    on<SwitchType>(_onSwitchType);
+  HomeBloc() : super(HomeInitial()) {
     on<RefreshData>(_onRefreshData);
   }
 
-  FutureOr<void> _onSwitchType(SwitchType event, Emitter<HomeState> emit) {
-    emit(HomeInitial(isActive: event.isActive));
-  }
-
   FutureOr<void> _onRefreshData(RefreshData event, Emitter<HomeState> emit) {
-    emit(HomeSuccess(isActive: state.isActive));
+    emit(HomeSuccess());
     refreshController.refreshCompleted();
   }
 }

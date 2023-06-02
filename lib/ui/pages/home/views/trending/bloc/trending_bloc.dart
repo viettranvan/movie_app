@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:movie_app/models/models.dart';
 import 'package:movie_app/ui/pages/home/index.dart';
 import 'package:movie_app/utils/utils.dart';
@@ -10,6 +11,7 @@ part 'trending_state.dart';
 
 class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
   final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
+  ScrollController scrollController = ScrollController();
   TrendingBloc() : super(TrendingInitial(listTrending: [])) {
     on<FetchData>(_onFetchData);
   }

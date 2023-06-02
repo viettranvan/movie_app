@@ -5,6 +5,7 @@ import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/artist/bloc/artist_bloc.dart';
+import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class ArtistView extends StatelessWidget {
@@ -18,35 +19,48 @@ class ArtistView extends StatelessWidget {
           language: 'en-US',
           page: 1,
         )),
-      child: BlocListener<HomeBloc, HomeState>(
+      child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
-          if (state is HomeSuccess) {
-            BlocProvider.of<ArtistBloc>(context).add(FetchData(
-              language: 'en-US',
-              page: 1,
-            ));
+          if (state is NavigationInitial) {
+            BlocProvider.of<ArtistBloc>(context).scrollController.jumpTo(0);
           }
         },
-        child: BlocBuilder<ArtistBloc, ArtistState>(
-          builder: (context, state) {
-            if (state is ArtistInitial) {
-              return const SizedBox(height: 150);
+        child: BlocListener<HomeBloc, HomeState>(
+          listener: (context, state) {
+            if (state is HomeSuccess) {
+              reloadState(context);
             }
-            return SizedBox(
-              height: 150,
-              child: ListView.separated(
-                primary: true,
-                addAutomaticKeepAlives: false,
-                addRepaintBoundaries: false,
-                padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemBuilder: itemBuilder,
-                separatorBuilder: separatorBuilder,
-                itemCount: state.listArtist.isNotEmpty ? state.listArtist.length + 1 : 21,
-              ),
-            );
           },
+          child: BlocBuilder<ArtistBloc, ArtistState>(
+            builder: (context, state) {
+              final bloc = BlocProvider.of<ArtistBloc>(context);
+              if (state is ArtistInitial) {
+                return const SizedBox(height: 150);
+              }
+              return Column(
+                children: [
+                  const SecondaryTitle(
+                    title: 'Popular Artists',
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: 150,
+                    child: ListView.separated(
+                      controller: bloc.scrollController,
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: false,
+                      padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemBuilder: itemBuilder,
+                      separatorBuilder: separatorBuilder,
+                      itemCount: state.listArtist.isNotEmpty ? state.listArtist.length + 1 : 21,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -81,7 +95,18 @@ class ArtistView extends StatelessWidget {
     }
   }
 
-  Widget separatorBuilder(BuildContext context, int index) {
-    return const SizedBox(width: 14);
+  Widget separatorBuilder(BuildContext context, int index) => const SizedBox(width: 14);
+
+  reloadState(BuildContext context) {
+    final bloc = BlocProvider.of<ArtistBloc>(context);
+    bloc.add(FetchData(
+      language: 'en-US',
+      page: 1,
+    ));
+    bloc.scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.linear,
+    );
   }
 }

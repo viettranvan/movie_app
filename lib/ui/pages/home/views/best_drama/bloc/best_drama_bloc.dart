@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:movie_app/models/models.dart';
 import 'package:movie_app/ui/pages/home/index.dart';
 import 'package:movie_app/utils/utils.dart';
@@ -10,6 +11,7 @@ part 'best_drama_state.dart';
 
 class BestDramaBloc extends Bloc<BestDramaEvent, BestDramaState> {
   final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
+  ScrollController scrollController = ScrollController();
   BestDramaBloc() : super(BestDramaInitial(listBestDrama: [])) {
     on<FetchData>(_onFetchData);
   }
