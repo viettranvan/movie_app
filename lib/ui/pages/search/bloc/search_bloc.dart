@@ -146,7 +146,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   FutureOr<void> _onScrollToTop(ScrollToTop event, Emitter<SearchState> emit) {
-    scrollController.jumpTo(0);
+    scrollController.animateTo(
+      scrollController.position.minScrollExtent,
+      duration: const Duration(seconds: 1),
+      curve: Curves.linear,
+    );
     emit(SearchSuccess(
       listSearch: state.listSearch,
       listTrending: state.listTrending,

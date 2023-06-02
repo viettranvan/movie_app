@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
@@ -22,10 +22,7 @@ class NowPlayingView extends StatelessWidget {
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state is HomeSuccess) {
-            BlocProvider.of<NowPlayingBloc>(context).add(FetchData(
-              language: 'en-US',
-              page: 1,
-            ));
+            reloadState(context);
           }
         },
         child: BlocConsumer<NowPlayingBloc, NowPlayingState>(
@@ -55,27 +52,47 @@ class NowPlayingView extends StatelessWidget {
             final overview =
                 state.nowPlayingTv.overview != '' ? state.nowPlayingTv.overview : 'Comming soon';
             final posterPath = state.nowPlayingTv.posterPath;
-            return ViewItem(
-              title: name,
-              season: seasonNumber,
-              episode: episode,
-              overview: overview,
-              textColor: state.averageLuminance > 0.5 ? brownColor : whiteColor,
-              imageUrl: posterPath != null
-                  ? '${AppConstants.kImagePathPoster}$posterPath'
-                  : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
-              colors: state.paletteColors,
-              stops: List.generate(state.paletteColors.length, (index) => index * 0.13),
-              onTap: () => Navigator.of(context).push(
-                CustomPageRoute(
-                  page: const DetailsPage(),
-                  begin: const Offset(1, 0),
+            return Column(
+              children: [
+                PrimaryTitle(
+                  visibleIcon: true,
+                  title: 'Now Playing',
+                  visibleViewAll: true,
+                  onTapViewAll: () {},
+                  icon: Icon(
+                    Icons.smart_display_outlined,
+                    color: greyColor,
+                  ),
                 ),
-              ),
+                const SizedBox(height: 15),
+                ViewItem(
+                  title: name,
+                  season: seasonNumber,
+                  episode: episode,
+                  overview: overview,
+                  textColor: state.averageLuminance > 0.5 ? brownColor : whiteColor,
+                  imageUrl: posterPath != null
+                      ? '${AppConstants.kImagePathPoster}$posterPath'
+                      : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+                  colors: state.paletteColors,
+                  stops: List.generate(state.paletteColors.length, (index) => index * 0.13),
+                  onTap: () => Navigator.of(context).push(
+                    CustomPageRoute(
+                      page: const DetailsPage(),
+                      begin: const Offset(1, 0),
+                    ),
+                  ),
+                ),
+              ],
             );
           },
         ),
       ),
     );
   }
+
+  reloadState(BuildContext context) => BlocProvider.of<NowPlayingBloc>(context).add(FetchData(
+        language: 'en-US',
+        page: 1,
+      ));
 }

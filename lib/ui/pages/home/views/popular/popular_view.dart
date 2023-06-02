@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/shared_ui/transitions/transitions.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
@@ -30,45 +30,58 @@ class PopularView extends StatelessWidget {
         child: BlocListener<HomeBloc, HomeState>(
           listener: (context, state) {
             if (state is HomeSuccess) {
-              BlocProvider.of<PopularBloc>(context).add(FetchData(
-                page: 1,
-                region: '',
-                language: 'en-US',
-              ));
+              reloadState(context);
             }
           },
           child: BlocBuilder<PopularBloc, PopularState>(
             builder: (context, state) {
-              var bloc = BlocProvider.of<PopularBloc>(context);
+              final bloc = BlocProvider.of<PopularBloc>(context);
               if (state is PopularInitial) {
                 return const SizedBox(
                   height: 200,
                 );
               }
-              return Stack(
-                alignment: Alignment.bottomCenter,
+              return Column(
                 children: [
-                  CarouselSlider.builder(
-                    carouselController: bloc.controller,
-                    itemBuilder: itemBuilder,
-                    itemCount:
-                        state.listPopular.isNotEmpty ? (state.listPopular.length / 2).round() : 10,
-                    options: CarouselOptions(
-                      autoPlayAnimationDuration: const Duration(milliseconds: 500),
-                      autoPlay: true,
-                      viewportFraction: 1,
-                      enableInfiniteScroll: true,
-                      onPageChanged: (index, reason) =>
-                          bloc.add(SlidePageView(selectedIndex: index)),
+                  PrimaryTitle(
+                    visibleIcon: true,
+                    title: 'Popular',
+                    visibleViewAll: true,
+                    onTapViewAll: () {},
+                    icon: Icon(
+                      Icons.stars_outlined,
+                      color: greyColor,
                     ),
                   ),
-                  SliderIndicator(
-                    indexIndicator: state.selectedIndex %
-                        (state.listPopular.isNotEmpty
+                  const SizedBox(height: 15),
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      CarouselSlider.builder(
+                        carouselController: bloc.controller,
+                        itemBuilder: itemBuilder,
+                        itemCount: state.listPopular.isNotEmpty
                             ? (state.listPopular.length / 2).round()
-                            : 10),
-                    length:
-                        state.listPopular.isNotEmpty ? (state.listPopular.length / 2).round() : 10,
+                            : 10,
+                        options: CarouselOptions(
+                          autoPlayAnimationDuration: const Duration(milliseconds: 500),
+                          autoPlay: true,
+                          viewportFraction: 1,
+                          enableInfiniteScroll: true,
+                          onPageChanged: (index, reason) =>
+                              bloc.add(SlidePageView(selectedIndex: index)),
+                        ),
+                      ),
+                      SliderIndicator(
+                        indexIndicator: state.selectedIndex %
+                            (state.listPopular.isNotEmpty
+                                ? (state.listPopular.length / 2).round()
+                                : 10),
+                        length: state.listPopular.isNotEmpty
+                            ? (state.listPopular.length / 2).round()
+                            : 10,
+                      ),
+                    ],
                   ),
                 ],
               );
@@ -100,5 +113,19 @@ class PopularView extends StatelessWidget {
         ),
       );
     }
+  }
+
+  reloadState(BuildContext context) {
+    final bloc = BlocProvider.of<PopularBloc>(context);
+    bloc.add(FetchData(
+      page: 1,
+      region: '',
+      language: 'en-US',
+    ));
+    bloc.controller.animateToPage(
+      0,
+      duration: const Duration(milliseconds: 700),
+      curve: Curves.linear,
+    );
   }
 }

@@ -1,11 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/shared_ui/transitions/transitions.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/upcoming/bloc/upcoming_bloc.dart';
+import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class UpcomingView extends StatelessWidget {
@@ -20,35 +21,53 @@ class UpcomingView extends StatelessWidget {
           page: 1,
           region: '',
         )),
-      child: BlocListener<HomeBloc, HomeState>(
+      child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
-          if (state is HomeSuccess) {
-            BlocProvider.of<UpcomingBloc>(context).add(FetchData(
-              language: 'en-US',
-              page: 1,
-              region: '',
-            ));
-          }
+          BlocProvider.of<UpcomingBloc>(context).controller.jumpToPage(0);
         },
-        child: BlocBuilder<UpcomingBloc, UpcomingState>(
-          builder: (context, state) {
-            var bloc = BlocProvider.of<UpcomingBloc>(context);
-            if (state is UpcomingInitial) {
-              return const SizedBox(height: 365);
+        child: BlocListener<HomeBloc, HomeState>(
+          listener: (context, state) {
+            if (state is HomeSuccess) {
+              reloadState(context);
             }
-            return CarouselSlider.builder(
-              carouselController: bloc.controller,
-              itemBuilder: itemBuilder,
-              itemCount: state.listUpcoming.length,
-              disableGesture: false,
-              options: CarouselOptions(
-                height: 400,
-                enlargeCenterPage: true,
-                enableInfiniteScroll: true,
-                viewportFraction: 0.8,
-              ),
-            );
           },
+          child: BlocBuilder<UpcomingBloc, UpcomingState>(
+            builder: (context, state) {
+              var bloc = BlocProvider.of<UpcomingBloc>(context);
+              if (state is UpcomingInitial) {
+                return const SizedBox(height: 365);
+              }
+              return Column(
+                children: [
+                  PrimaryTitle(
+                    visibleIcon: true,
+                    title: 'Upcoming',
+                    visibleViewAll: true,
+                    onTapViewAll: () {},
+                    icon: Image.asset(
+                      ImagesPath.upcomingIcon.assetName,
+                      filterQuality: FilterQuality.high,
+                      color: greyColor,
+                      scale: 2,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  CarouselSlider.builder(
+                    carouselController: bloc.controller,
+                    itemBuilder: itemBuilder,
+                    itemCount: state.listUpcoming.length,
+                    disableGesture: false,
+                    options: CarouselOptions(
+                      height: 400,
+                      enlargeCenterPage: true,
+                      enableInfiniteScroll: true,
+                      viewportFraction: 0.8,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -76,6 +95,20 @@ class UpcomingView extends StatelessWidget {
           begin: const Offset(1, 0),
         ),
       ),
+    );
+  }
+
+  reloadState(BuildContext context) {
+    final bloc = BlocProvider.of<UpcomingBloc>(context);
+    bloc.add(FetchData(
+      language: 'en-US',
+      page: 1,
+      region: '',
+    ));
+    bloc.controller.animateToPage(
+      0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.linear,
     );
   }
 }

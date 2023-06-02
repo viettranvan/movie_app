@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/shared_ui/transitions/transitions.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/best_drama/bloc/best_drama_bloc.dart';
+import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class BestDramaView extends StatelessWidget {
@@ -19,43 +21,62 @@ class BestDramaView extends StatelessWidget {
           page: 1,
           withGenres: [18],
         )),
-      child: BlocListener<HomeBloc, HomeState>(
+      child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
-          if (state is HomeSuccess) {
-            BlocProvider.of<BestDramaBloc>(context).add(FetchData(
-              language: 'en-US',
-              page: 1,
-              withGenres: [18],
-            ));
+          if (state is NavigationInitial) {
+            BlocProvider.of<BestDramaBloc>(context).scrollController.jumpTo(0);
           }
         },
-        child: BlocBuilder<BestDramaBloc, BestDramaState>(
-          builder: (context, state) {
-            if (state is BestDramaInitial) {
-              return const SizedBox(height: 213);
+        child: BlocListener<HomeBloc, HomeState>(
+          listener: (context, state) {
+            if (state is HomeSuccess) {
+              reloadState(context);
             }
-            return Stack(
-              children: [
-                const Positioned.fill(
-                  child: PrimaryBackground(),
-                ),
-                SizedBox(
-                  height: 213,
-                  child: ListView.separated(
-                    primary: true,
-                    addAutomaticKeepAlives: false,
-                    addRepaintBoundaries: false,
-                    padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemBuilder: itemBuilder,
-                    separatorBuilder: separatorBuilder,
-                    itemCount: state.listBestDrama.isNotEmpty ? state.listBestDrama.length + 1 : 21,
-                  ),
-                ),
-              ],
-            );
           },
+          child: BlocBuilder<BestDramaBloc, BestDramaState>(
+            builder: (context, state) {
+              final bloc = BlocProvider.of<BestDramaBloc>(context);
+              if (state is BestDramaInitial) {
+                return const SizedBox(height: 213);
+              }
+              return Column(
+                children: [
+                  PrimaryTitle(
+                    visibleIcon: true,
+                    title: 'Best Drama',
+                    visibleViewAll: true,
+                    onTapViewAll: () {},
+                    icon: SvgPicture.asset(
+                      ImagesPath.bestDramaIcon.assetName,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  Stack(
+                    children: [
+                      const Positioned.fill(
+                        child: PrimaryBackground(),
+                      ),
+                      SizedBox(
+                        height: 213,
+                        child: ListView.separated(
+                          controller: bloc.scrollController,
+                          addAutomaticKeepAlives: false,
+                          addRepaintBoundaries: false,
+                          padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemBuilder: itemBuilder,
+                          separatorBuilder: separatorBuilder,
+                          itemCount:
+                              state.listBestDrama.isNotEmpty ? state.listBestDrama.length + 1 : 21,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -92,5 +113,19 @@ class BestDramaView extends StatelessWidget {
 
   Widget separatorBuilder(BuildContext context, int index) {
     return const SizedBox(width: 14);
+  }
+
+  reloadState(BuildContext context) {
+    final bloc = BlocProvider.of<BestDramaBloc>(context);
+    BlocProvider.of<BestDramaBloc>(context).add(FetchData(
+      language: 'en-US',
+      page: 1,
+      withGenres: [18],
+    ));
+    bloc.scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.linear,
+    );
   }
 }

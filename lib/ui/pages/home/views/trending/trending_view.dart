@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/shared_ui/transitions/transitions.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/trending/bloc/trending_bloc.dart';
+import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class TrendingView extends StatelessWidget {
@@ -21,47 +23,64 @@ class TrendingView extends StatelessWidget {
           language: 'en-US',
           includeAdult: true,
         )),
-      child: BlocListener<HomeBloc, HomeState>(
+      child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
-          if (state is HomeSuccess) {
-            BlocProvider.of<TrendingBloc>(context).add(FetchData(
-              mediaType: 'movie',
-              timeWindow: 'day',
-              page: 1,
-              language: 'en-US',
-              includeAdult: true,
-            ));
+          if (state is NavigationInitial) {
+            BlocProvider.of<TrendingBloc>(context).scrollController.jumpTo(0);
           }
         },
-        child: BlocBuilder<TrendingBloc, TrendingState>(
-          builder: (context, state) {
-            if (state is TrendingInitial) {
-              return const SizedBox(
-                height: 213,
-              );
+        child: BlocListener<HomeBloc, HomeState>(
+          listener: (context, state) {
+            if (state is HomeSuccess) {
+              reloadState(context);
             }
-            return Stack(
-              children: [
-                const Positioned.fill(
-                  child: PrimaryBackground(),
-                ),
-                SizedBox(
-                  height: 215,
-                  child: ListView.separated(
-                    primary: true,
-                    addAutomaticKeepAlives: false,
-                    addRepaintBoundaries: false,
-                    padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemBuilder: itemBuilder,
-                    separatorBuilder: separatorBuilder,
-                    itemCount: state.listTrending.isNotEmpty ? state.listTrending.length + 1 : 21,
-                  ),
-                ),
-              ],
-            );
           },
+          child: BlocBuilder<TrendingBloc, TrendingState>(
+            builder: (context, state) {
+              final bloc = BlocProvider.of<TrendingBloc>(context);
+              if (state is TrendingInitial) {
+                return const SizedBox(
+                  height: 213,
+                );
+              }
+              return Column(
+                children: [
+                  PrimaryTitle(
+                    visibleIcon: true,
+                    title: 'Trending',
+                    visibleViewAll: true,
+                    onTapViewAll: () {},
+                    icon: SvgPicture.asset(
+                      ImagesPath.trendingIcon.assetName,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  Stack(
+                    children: [
+                      const Positioned.fill(
+                        child: PrimaryBackground(),
+                      ),
+                      SizedBox(
+                        height: 215,
+                        child: ListView.separated(
+                          controller: bloc.scrollController,
+                          addAutomaticKeepAlives: false,
+                          addRepaintBoundaries: false,
+                          padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemBuilder: itemBuilder,
+                          separatorBuilder: separatorBuilder,
+                          itemCount:
+                              state.listTrending.isNotEmpty ? state.listTrending.length + 1 : 21,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -98,5 +117,21 @@ class TrendingView extends StatelessWidget {
 
   Widget separatorBuilder(BuildContext context, int index) {
     return const SizedBox(width: 14);
+  }
+
+  reloadState(BuildContext context) {
+    final bloc = BlocProvider.of<TrendingBloc>(context);
+    bloc.add(FetchData(
+      mediaType: 'movie',
+      timeWindow: 'day',
+      page: 1,
+      language: 'en-US',
+      includeAdult: true,
+    ));
+    bloc.scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.linear,
+    );
   }
 }
