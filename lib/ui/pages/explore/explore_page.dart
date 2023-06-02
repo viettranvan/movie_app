@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class DiscoveryPage extends StatelessWidget {
-  const DiscoveryPage({super.key});
+class ExplorePage extends StatelessWidget {
+  const ExplorePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    RefreshController refreshController = RefreshController();
     return Scaffold(
       appBar: CustomAppBar(
         leadingWidth: 0,
         centerTitle: false,
         title: const CustomAppBarTitle(
-          titleAppBar: 'Discovery',
+          titleAppBar: 'Explore',
         ),
         actions: [
           Padding(
@@ -25,12 +27,17 @@ class DiscoveryPage extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Column(
+      body: SmartRefresher(
+        controller:refreshController,
+        header: const Header(),
+        onRefresh: () {
+          refreshController.refreshCompleted();
+        },
+        child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Discovery',
+              'Explore',
             ),
           ],
         ),

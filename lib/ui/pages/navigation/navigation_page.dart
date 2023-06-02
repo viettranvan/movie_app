@@ -40,21 +40,19 @@ class NavigationPage extends StatelessWidget {
               items: [
                 CustomNavigationBarItem(
                   imagePath: ImagesPath.homeIcon.assetName,
-                  onTap: () => bloc.add(NavigatePage(indexPage: 0)),
+                  onTap: () => state.indexPage != 0 ? bloc.add(NavigatePage(indexPage: 0)) : null,
                 ),
                 CustomNavigationBarItem(
                   imagePath: ImagesPath.favoriteIcon.assetName,
-                  onTap: () => bloc.add(NavigatePage(indexPage: 1)),
+                  onTap: () => state.indexPage != 1 ? bloc.add(NavigatePage(indexPage: 1)) : null,
                 ),
                 CustomNavigationBarItem(
                   imagePath: ImagesPath.searchIcon.assetName,
-                  onTap: () {
-                    bloc.add(NavigatePage(indexPage: 2));
-                  },
+                  onTap: () => state.indexPage != 2 ? bloc.add(NavigatePage(indexPage: 2)) : null,
                 ),
                 CustomNavigationBarItem(
                   imagePath: ImagesPath.profileIcon.assetName,
-                  onTap: () => bloc.add(NavigatePage(indexPage: 3)),
+                  onTap: () => state.indexPage != 3 ? bloc.add(NavigatePage(indexPage: 3)) : null,
                 ),
               ],
             ),

@@ -5,6 +5,7 @@ import 'package:movie_app/models/models.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/filter/filter_page.dart';
+import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/ui/pages/search/bloc/search_bloc.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';
 import 'package:movie_app/utils/debouncer/debouncer.dart';
@@ -25,115 +26,122 @@ class SearchPage extends StatelessWidget {
           timeWindow: 'day',
           includeAdult: true,
         )),
-      child: BlocConsumer<SearchBloc, SearchState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          var bloc = BlocProvider.of<SearchBloc>(context);
-          return Scaffold(
-            backgroundColor: darkWhiteColor,
-            appBar: CustomAppBar(
-              leadingWidth: 0,
-              centerTitle: false,
-              title: const CustomAppBarTitle(
-                titleAppBar: 'Search',
-              ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 8, 12, 8),
-                  child: Image.asset(
-                    ImagesPath.primaryShortLogo.assetName,
-                    scale: 4,
-                    filterQuality: FilterQuality.high,
-                  ),
-                ),
-              ],
-            ),
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CustomTextField(
-                  controller: bloc.textController,
-                  hintText: 'Search for movies, tv shows, people...'.padLeft(14),
-                  onTapFilter: () => goToFilterPage(context),
-                  suffixIcon: bloc.textController.text.isNotEmpty
-                      ? IconButton(
-                          onPressed: () => fetchTrending(context),
-                          icon: Icon(
-                            Icons.cancel_rounded,
-                            color: lightGreyColor,
-                          ),
-                        )
-                      : null,
-                  onChanged: (value) => debouncer.call(() => fetchData(context, value)),
-                ),
-                Expanded(
-                  child: BlocBuilder<SearchBloc, SearchState>(
-                    builder: (context, state) {
-                      if (state is SearchInitial) {
-                        return const CustomIndicator(
-                          radius: 20,
-                        );
-                      }
-                      return Stack(
-                        children: [
-                          BlocBuilder<SearchBloc, SearchState>(
-                            builder: (context, state) {
-                              if (state is SearchError) {
-                                return Center(
-                                  child: Text(state.errorMessage),
-                                );
-                              }
-                              return const SizedBox();
-                            },
-                          ),
-                          NotificationListener<ScrollNotification>(
-                            onNotification: (notification) => debouncer.callWithValue(
-                              () => showHideButton(context),
-                              true,
-                            ),
-                            child: SmartRefresher(
-                              scrollController: bloc.scrollController,
-                              controller: bloc.refreshController,
-                              enablePullUp: enablePullUp(state.listSearch, state.listTrending),
-                              enablePullDown: enablePullUp(state.listSearch, state.listTrending),
-                              header: const Header(),
-                              footer: const Footer(
-                                height: 140,
-                                noMoreStatus: 'All results was loaded !',
-                                failedStatus: 'Failed to load results !',
-                              ),
-                              onRefresh: () => fetchData(context, state.query),
-                              onLoading: () => loadMore(context, state.query),
-                              child: MasonryGridView.count(
-                                addAutomaticKeepAlives: false,
-                                addRepaintBoundaries: false,
-                                padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 16,
-                                mainAxisSpacing: 16,
-                                shrinkWrap: true,
-                                itemBuilder: itemBuilder,
-                                itemCount: state.listSearch.isNotEmpty
-                                    ? state.listSearch.length
-                                    : state.listTrending.length,
-                              ),
-                            ),
-                          ),
-                          CustomScrollButton(
-                            visible: bloc.visible,
-                            opacity: bloc.visible ? 1.0 : 0.0,
-                            onTap: () => scrollToTop(context),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
+      child: BlocListener<NavigationBloc, NavigationState>(
+        listener: (context, state) {
+          if (state is NavigationInitial) {
+            BlocProvider.of<SearchBloc>(context).scrollController.jumpTo(0);
+          }
         },
+        child: BlocConsumer<SearchBloc, SearchState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            var bloc = BlocProvider.of<SearchBloc>(context);
+            return Scaffold(
+              backgroundColor: darkWhiteColor,
+              appBar: CustomAppBar(
+                leadingWidth: 0,
+                centerTitle: false,
+                title: const CustomAppBarTitle(
+                  titleAppBar: 'Search',
+                ),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 12, 8),
+                    child: Image.asset(
+                      ImagesPath.primaryShortLogo.assetName,
+                      scale: 4,
+                      filterQuality: FilterQuality.high,
+                    ),
+                  ),
+                ],
+              ),
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomTextField(
+                    controller: bloc.textController,
+                    hintText: 'Search for movies, tv shows, people...'.padLeft(14),
+                    onTapFilter: () => goToFilterPage(context),
+                    suffixIcon: bloc.textController.text.isNotEmpty
+                        ? IconButton(
+                            onPressed: () => fetchTrending(context),
+                            icon: Icon(
+                              Icons.cancel_rounded,
+                              color: lightGreyColor,
+                            ),
+                          )
+                        : null,
+                    onChanged: (value) => debouncer.call(() => fetchData(context, value)),
+                  ),
+                  Expanded(
+                    child: BlocBuilder<SearchBloc, SearchState>(
+                      builder: (context, state) {
+                        if (state is SearchInitial) {
+                          return const CustomIndicator(
+                            radius: 20,
+                          );
+                        }
+                        return Stack(
+                          children: [
+                            BlocBuilder<SearchBloc, SearchState>(
+                              builder: (context, state) {
+                                if (state is SearchError) {
+                                  return Center(
+                                    child: Text(state.errorMessage),
+                                  );
+                                }
+                                return const SizedBox();
+                              },
+                            ),
+                            NotificationListener<ScrollNotification>(
+                              onNotification: (notification) => debouncer.callWithValue(
+                                () => showHideButton(context),
+                                true,
+                              ),
+                              child: SmartRefresher(
+                                scrollController: bloc.scrollController,
+                                controller: bloc.refreshController,
+                                enablePullUp: enablePullUp(state.listSearch, state.listTrending),
+                                enablePullDown: enablePullUp(state.listSearch, state.listTrending),
+                                header: const Header(),
+                                footer: const Footer(
+                                  height: 140,
+                                  noMoreStatus: 'All results was loaded !',
+                                  failedStatus: 'Failed to load results !',
+                                ),
+                                onRefresh: () => fetchData(context, state.query),
+                                onLoading: () => loadMore(context, state.query),
+                                child: MasonryGridView.count(
+                                  addAutomaticKeepAlives: false,
+                                  addRepaintBoundaries: false,
+                                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 16,
+                                  mainAxisSpacing: 16,
+                                  shrinkWrap: true,
+                                  itemBuilder: itemBuilder,
+                                  itemCount: state.listSearch.isNotEmpty
+                                      ? state.listSearch.length
+                                      : state.listTrending.length,
+                                ),
+                              ),
+                            ),
+                            CustomScrollButton(
+                              visible: bloc.visible,
+                              opacity: bloc.visible ? 1.0 : 0.0,
+                              onTap: () => scrollToTop(context),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -179,40 +187,34 @@ class SearchPage extends StatelessWidget {
     ));
   }
 
-  loadMore(BuildContext context, String query) {
-    final bloc = BlocProvider.of<SearchBloc>(context);
-    bloc.add(LoadMore(
-      query: query,
-      includeAdult: true,
-      language: 'en-US',
-      mediaType: 'all',
-      timeWindow: 'day',
-    ));
-  }
+  loadMore(BuildContext context, String query) => BlocProvider.of<SearchBloc>(context).add(
+        LoadMore(
+          query: query,
+          includeAdult: true,
+          language: 'en-US',
+          mediaType: 'all',
+          timeWindow: 'day',
+        ),
+      );
 
   fetchTrending(BuildContext context) {
-    final bloc = BlocProvider.of<SearchBloc>(context);
-    final state = bloc.state;
-    bloc.textController.clear();
-    state.listSearch.clear();
+    BlocProvider.of<SearchBloc>(context).textController.clear();
     fetchData(context, '');
   }
 
   bool showHideButton(BuildContext context) {
-    final bloc = BlocProvider.of<SearchBloc>(context);
-    bloc.add(ShowHideButton());
+    BlocProvider.of<SearchBloc>(context).add(ShowHideButton());
     return true;
   }
 
   scrollToTop(BuildContext context) {
     final bloc = BlocProvider.of<SearchBloc>(context);
-    final state = bloc.state;
     showIndicator(context);
     Future.delayed(
       const Duration(milliseconds: 1000),
       () {
         Navigator.of(context).pop();
-        fetchData(context, state.query);
+        fetchData(context, bloc.state.query);
         bloc.add(ScrollToTop());
       },
     );
@@ -235,6 +237,4 @@ class SearchPage extends StatelessWidget {
           radius: 15,
         ),
       );
-
-
 }

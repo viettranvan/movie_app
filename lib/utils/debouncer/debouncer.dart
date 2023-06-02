@@ -6,7 +6,7 @@ class Debouncer {
   final Duration duration;
   Timer? _timer;
   Debouncer({
-    this.duration = const Duration(milliseconds: 100),
+    this.duration = const Duration(milliseconds: 200),
   });
   call(VoidCallback callback) {
     _timer?.cancel();
