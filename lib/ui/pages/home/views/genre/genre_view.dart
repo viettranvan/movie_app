@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/genre/bloc/genre_bloc.dart';
+import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 
 class Genreview extends StatelessWidget {
   const Genreview({
@@ -13,12 +14,23 @@ class Genreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GenreBloc()..add(FetchData(language: 'en-US')),
-      child: BlocListener<HomeBloc, HomeState>(
-        listener: (context, state) {
-          if (state is HomeSuccess) {
-            reloadState(context);
-          }
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<NavigationBloc, NavigationState>(
+            listener: (context, state) {
+              if (state is NavigationInitial) {
+                switchMovie(context);
+              }
+            },
+          ),
+          BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) {
+              if (state is HomeSuccess) {
+                reloadState(context);
+              }
+            },
+          ),
+        ],
         child: BlocBuilder<GenreBloc, GenreState>(
           builder: (context, state) {
             final bloc = BlocProvider.of<GenreBloc>(context);
