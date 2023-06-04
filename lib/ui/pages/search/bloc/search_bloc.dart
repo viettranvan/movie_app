@@ -146,10 +146,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   FutureOr<void> _onScrollToTop(ScrollToTop event, Emitter<SearchState> emit) {
-    scrollController.animateTo(
+    scrollController.jumpTo(
       scrollController.position.minScrollExtent,
-      duration: const Duration(seconds: 1),
-      curve: Curves.linear,
     );
     emit(SearchSuccess(
       listSearch: state.listSearch,
@@ -160,8 +158,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   FutureOr<void> _onShowHideButton(ShowHideButton event, Emitter<SearchState> emit) {
     if (state.listTrending.isNotEmpty) {
-      scrollController
-          .addListener(() => scrollController.offset > 900 ? visible = true : visible = false);
+      scrollController.addListener(() {
+        scrollController.offset > 900 ? visible = true : visible = false;
+      });
       emit(SearchSuccess(
         listSearch: state.listSearch,
         listTrending: state.listTrending,

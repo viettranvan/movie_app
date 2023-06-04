@@ -21,12 +21,23 @@ class PopularView extends StatelessWidget {
           region: '',
           language: 'en-US',
         )),
-      child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) {
-          if (state is NavigationInitial) {
-            BlocProvider.of<PopularBloc>(context).controller.jumpToPage(0);
-          }
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<NavigationBloc, NavigationState>(
+            listener: (context, state) {
+              if (state is NavigationInitial) {
+                BlocProvider.of<PopularBloc>(context).controller.jumpToPage(0);
+              }
+            },
+          ),
+          BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) {
+              if (state is HomeSuccess) {
+                reloadState(context);
+              }
+            },
+          ),
+        ],
         child: BlocListener<HomeBloc, HomeState>(
           listener: (context, state) {
             if (state is HomeSuccess) {

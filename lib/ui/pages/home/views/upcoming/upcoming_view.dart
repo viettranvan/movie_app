@@ -21,16 +21,23 @@ class UpcomingView extends StatelessWidget {
           page: 1,
           region: '',
         )),
-      child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) {
-          BlocProvider.of<UpcomingBloc>(context).controller.jumpToPage(0);
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<NavigationBloc, NavigationState>(
+            listener: (context, state) {
+              BlocProvider.of<UpcomingBloc>(context).controller.jumpToPage(0);
+            },
+          ),
+          BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) {
+              if (state is HomeSuccess) {
+                reloadState(context);
+              }
+            },
+          ),
+        ],
         child: BlocListener<HomeBloc, HomeState>(
-          listener: (context, state) {
-            if (state is HomeSuccess) {
-              reloadState(context);
-            }
-          },
+          listener: (context, state) {},
           child: BlocBuilder<UpcomingBloc, UpcomingState>(
             builder: (context, state) {
               var bloc = BlocProvider.of<UpcomingBloc>(context);

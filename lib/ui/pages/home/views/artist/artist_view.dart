@@ -19,48 +19,52 @@ class ArtistView extends StatelessWidget {
           language: 'en-US',
           page: 1,
         )),
-      child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) {
-          if (state is NavigationInitial) {
-            BlocProvider.of<ArtistBloc>(context).scrollController.jumpTo(0);
-          }
-        },
-        child: BlocListener<HomeBloc, HomeState>(
-          listener: (context, state) {
-            if (state is HomeSuccess) {
-              reloadState(context);
-            }
-          },
-          child: BlocBuilder<ArtistBloc, ArtistState>(
-            builder: (context, state) {
-              final bloc = BlocProvider.of<ArtistBloc>(context);
-              if (state is ArtistInitial) {
-                return const SizedBox(height: 150);
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<NavigationBloc, NavigationState>(
+            listener: (context, state) {
+              if (state is NavigationInitial) {
+                BlocProvider.of<ArtistBloc>(context).scrollController.jumpTo(0);
               }
-              return Column(
-                children: [
-                  const SecondaryTitle(
-                    title: 'Popular Artists',
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    height: 150,
-                    child: ListView.separated(
-                      controller: bloc.scrollController,
-                      addAutomaticKeepAlives: false,
-                      addRepaintBoundaries: false,
-                      padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemBuilder: itemBuilder,
-                      separatorBuilder: separatorBuilder,
-                      itemCount: state.listArtist.isNotEmpty ? state.listArtist.length + 1 : 21,
-                    ),
-                  ),
-                ],
-              );
             },
           ),
+          BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) {
+              if (state is HomeSuccess) {
+                reloadState(context);
+              }
+            },
+          ),
+        ],
+        child: BlocBuilder<ArtistBloc, ArtistState>(
+          builder: (context, state) {
+            final bloc = BlocProvider.of<ArtistBloc>(context);
+            if (state is ArtistInitial) {
+              return const SizedBox(height: 150);
+            }
+            return Column(
+              children: [
+                const SecondaryTitle(
+                  title: 'Popular Artists',
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  height: 150,
+                  child: ListView.separated(
+                    controller: bloc.scrollController,
+                    addAutomaticKeepAlives: false,
+                    addRepaintBoundaries: false,
+                    padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemBuilder: itemBuilder,
+                    separatorBuilder: separatorBuilder,
+                    itemCount: state.listArtist.isNotEmpty ? state.listArtist.length + 1 : 21,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

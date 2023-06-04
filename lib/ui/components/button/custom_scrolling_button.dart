@@ -17,7 +17,7 @@ class CustomScrollButton extends StatelessWidget {
     return Align(
       alignment: const Alignment(0, -0.9),
       child: GestureDetector(
-        onTap: onTap,
+        onTap: visible ? onTap : null,
         child: AnimatedOpacity(
           opacity: visible ? 1.0 : 0.0,
           duration: const Duration(milliseconds: 100),

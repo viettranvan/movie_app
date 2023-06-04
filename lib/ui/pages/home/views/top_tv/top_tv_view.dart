@@ -20,18 +20,25 @@ class TopTvView extends StatelessWidget {
           language: 'en-US',
           page: 1,
         )),
-      child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) {
-          if (state is NavigationInitial) {
-            BlocProvider.of<TopTvBloc>(context).scrollController.jumpTo(0);
-          }
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<NavigationBloc, NavigationState>(
+            listener: (context, state) {
+              if (state is NavigationInitial) {
+                BlocProvider.of<TopTvBloc>(context).scrollController.jumpTo(0);
+              }
+            },
+          ),
+          BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) {
+              if (state is HomeSuccess) {
+                reloadState(context);
+              }
+            },
+          ),
+        ],
         child: BlocListener<HomeBloc, HomeState>(
-          listener: (context, state) {
-            if (state is HomeSuccess) {
-              reloadState(context);
-            }
-          },
+          listener: (context, state) {},
           child: BlocBuilder<TopTvBloc, TopTvState>(
             builder: (context, state) {
               final bloc = BlocProvider.of<TopTvBloc>(context);
