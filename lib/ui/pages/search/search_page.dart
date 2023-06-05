@@ -100,10 +100,23 @@ class SearchPage extends StatelessWidget {
                               },
                             ),
                             NotificationListener<ScrollNotification>(
-                              onNotification: (notification) => debouncer.callWithValue(
-                                () => showHideButton(context),
-                                true,
-                              ),
+                              onNotification: state.visible
+                                  ? (notification) {
+                                      if (bloc.scrollController.hasClients &&
+                                          bloc.scrollController.offset <= 2630) {
+                                        hideButton(context);
+                                        return true;
+                                      }
+                                      return false;
+                                    }
+                                  : (notification) {
+                                      if (bloc.scrollController.hasClients &&
+                                          bloc.scrollController.offset > 2630) {
+                                        showButton(context);
+                                        return true;
+                                      }
+                                      return false;
+                                    },
                               child: SmartRefresher(
                                 scrollController: bloc.scrollController,
                                 controller: bloc.refreshController,
@@ -133,9 +146,9 @@ class SearchPage extends StatelessWidget {
                               ),
                             ),
                             CustomScrollButton(
-                              visible: bloc.visible,
-                              opacity: bloc.visible ? 1.0 : 0.0,
-                              onTap: () => scrollToTop(context),
+                              visible: state.visible,
+                              opacity: state.visible ? 1.0 : 0.0,
+                              onTap: state.visible ? () => scrollToTop(context) : null,
                             ),
                           ],
                         );
@@ -207,8 +220,13 @@ class SearchPage extends StatelessWidget {
     fetchData(context, '');
   }
 
-  bool showHideButton(BuildContext context) {
-    BlocProvider.of<SearchBloc>(context).add(ShowHideButton());
+  bool showButton(BuildContext context) {
+    BlocProvider.of<SearchBloc>(context).add(ShowHideButton(visible: true));
+    return true;
+  }
+
+  bool hideButton(BuildContext context) {
+    BlocProvider.of<SearchBloc>(context).add(ShowHideButton(visible: false));
     return true;
   }
 

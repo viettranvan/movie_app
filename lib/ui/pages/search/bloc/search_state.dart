@@ -4,10 +4,12 @@ abstract class SearchState {
   final List<MultipleMedia> listSearch;
   final List<MultipleMedia> listTrending;
   final String query;
+  final bool visible;
   SearchState({
     required this.listSearch,
     required this.listTrending,
     required this.query,
+    required this.visible,
   });
 }
 
@@ -16,6 +18,7 @@ class SearchInitial extends SearchState {
     required super.listSearch,
     required super.query,
     required super.listTrending,
+    required super.visible,
   });
 }
 
@@ -24,6 +27,7 @@ class SearchSuccess extends SearchState {
     required super.listSearch,
     required super.query,
     required super.listTrending,
+    required super.visible,
   });
 }
 
@@ -34,5 +38,6 @@ class SearchError extends SearchState {
     required super.listSearch,
     required super.listTrending,
     required super.query,
+    required super.visible,
   });
 }

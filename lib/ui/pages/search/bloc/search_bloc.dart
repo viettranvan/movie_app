@@ -18,12 +18,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   TextEditingController textController = TextEditingController();
   ScrollController scrollController = ScrollController();
   int page = 1;
-  bool visible = false;
   SearchBloc()
       : super(SearchInitial(
           query: '',
           listSearch: [],
           listTrending: [],
+          visible: false,
         )) {
     on<FetchData>(_onFetchData);
     on<LoadMore>(_onLoadMore);
@@ -46,6 +46,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           listSearch: searchResult.list,
           query: event.query,
           listTrending: state.listTrending,
+          visible: state.visible,
         ));
       } else {
         page = 1;
@@ -63,12 +64,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             listSearch: state.listSearch,
             query: event.query,
             listTrending: trendingResult.list,
+            visible: state.visible,
           ));
         } else {
           emit(SearchSuccess(
             listSearch: state.listSearch,
             query: event.query,
             listTrending: trendingResult.list,
+            visible: state.visible,
           ));
         }
       }
@@ -81,6 +84,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         listSearch: state.listSearch,
         listTrending: state.listTrending,
         query: state.query,
+        visible: state.visible,
       ));
     }
   }
@@ -109,6 +113,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             listSearch: newList,
             listTrending: state.listTrending,
             query: event.query,
+            visible: state.visible,
           ));
           refreshController.loadComplete();
         }
@@ -130,6 +135,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             listSearch: state.listSearch,
             listTrending: newList,
             query: state.query,
+            visible: state.visible,
           ));
           refreshController.loadComplete();
         }
@@ -141,6 +147,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         listSearch: state.listSearch,
         listTrending: state.listTrending,
         query: state.query,
+        visible: state.visible,
       ));
     }
   }
@@ -153,18 +160,17 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       listSearch: state.listSearch,
       listTrending: state.listTrending,
       query: state.query,
+      visible: state.visible,
     ));
   }
 
   FutureOr<void> _onShowHideButton(ShowHideButton event, Emitter<SearchState> emit) {
     if (state.listTrending.isNotEmpty) {
-      scrollController.addListener(() {
-        scrollController.offset > 900 ? visible = true : visible = false;
-      });
       emit(SearchSuccess(
         listSearch: state.listSearch,
         listTrending: state.listTrending,
         query: state.query,
+        visible: event.visible,
       ));
     } else {
       emit(SearchError(
@@ -172,6 +178,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         listSearch: state.listSearch,
         listTrending: state.listTrending,
         query: state.query,
+        visible: state.visible,
       ));
     }
   }
