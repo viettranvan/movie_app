@@ -47,7 +47,7 @@ class TopTvView extends StatelessWidget {
               }
               return Column(
                 children: [
-                  PrimaryTitle(
+                  PrimaryText(
                     visibleIcon: true,
                     title: 'Top TV Shows',
                     visibleViewAll: true,

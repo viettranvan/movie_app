@@ -1,6 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/favorite/views/movie/bloc/movie_bloc.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';
@@ -33,6 +35,7 @@ class MovieView extends StatelessWidget {
         },
         builder: (context, state) {
           var bloc = BlocProvider.of<MovieBloc>(context);
+          log('---${bloc.state.runtimeType}');
           return SmartRefresher(
             controller: bloc.controller,
             enablePullDown: state.listFavorite.isNotEmpty,
@@ -59,7 +62,7 @@ class MovieView extends StatelessWidget {
               ));
             },
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 const SizedBox(height: 5),
                 CustomDropDown(
@@ -101,6 +104,13 @@ class MovieView extends StatelessWidget {
                       return Expanded(
                         child: Center(
                           child: Text(state.errorMessage),
+                        ),
+                      );
+                    }
+                    if (state.listFavorite.isEmpty) {
+                      return const Expanded(
+                        child: Center(
+                          child: Text('Press ⭐ to add to favorite'),
                         ),
                       );
                     }

@@ -29,7 +29,9 @@ class NowPlayingView extends StatelessWidget {
           listener: (context, state) {
             if (state.paletteColors.isEmpty) {
               BlocProvider.of<NowPlayingBloc>(context).add(ChangeColor(
-                imagePath: '${AppConstants.kImagePathPoster}${state.nowPlayingTv.posterPath}',
+                imagePath: (state.nowPlayingTv.posterPath ?? '').isEmpty
+                    ? 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg'
+                    : '${AppConstants.kImagePathPoster}${state.nowPlayingTv.posterPath}',
               ));
             } else {
               return;
@@ -54,7 +56,7 @@ class NowPlayingView extends StatelessWidget {
             final posterPath = state.nowPlayingTv.posterPath;
             return Column(
               children: [
-                PrimaryTitle(
+                PrimaryText(
                   visibleIcon: true,
                   title: 'Now Playing',
                   visibleViewAll: true,
