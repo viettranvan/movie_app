@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'search_bloc.dart';
 
 abstract class SearchEvent {}
@@ -32,7 +33,15 @@ class LoadMore extends SearchEvent {
   });
 }
 
-
 class ScrollToTop extends SearchEvent {}
 
-class ShowHideButton extends SearchEvent {}
+class ShowHideButton extends SearchEvent {
+  final bool visible;
+  ShowHideButton({
+    required this.visible,
+  });
+}
+
+// class HideButton extends SearchEvent {
+//   final bool visible;
+// }

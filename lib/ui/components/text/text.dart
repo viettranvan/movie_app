@@ -1,2 +1,2 @@
-export 'primary_title.dart';
-export 'secondary_title.dart';
+export 'primary_text.dart';
+export 'secondary_text.dart';

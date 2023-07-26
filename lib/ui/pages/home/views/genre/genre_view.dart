@@ -41,7 +41,7 @@ class Genreview extends StatelessWidget {
             }
             return Column(
               children: [
-                SecondaryTitle(
+                SecondaryText(
                   title: 'Popular Genres',
                   leftWidget: CustomSwitch(
                     isActive: state.isActive,

@@ -28,17 +28,16 @@ class ExplorePage extends StatelessWidget {
         ],
       ),
       body: SmartRefresher(
-        controller:refreshController,
+        controller: refreshController,
         header: const Header(),
         onRefresh: () {
           refreshController.refreshCompleted();
         },
         child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              'Explore',
-            ),
+            SizedBox(height: 20),
+            PrimaryText(title: 'Official Trailer'),
           ],
         ),
       ),

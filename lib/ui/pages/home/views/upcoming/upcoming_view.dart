@@ -46,7 +46,7 @@ class UpcomingView extends StatelessWidget {
               }
               return Column(
                 children: [
-                  PrimaryTitle(
+                  PrimaryText(
                     visibleIcon: true,
                     title: 'Upcoming',
                     visibleViewAll: true,

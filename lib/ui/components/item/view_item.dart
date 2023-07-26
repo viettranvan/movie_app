@@ -96,6 +96,7 @@ class ViewItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        const SizedBox(height: 10),
                         Text(
                           title ?? '',
                           overflow: TextOverflow.clip,
@@ -127,9 +128,7 @@ class ViewItem extends StatelessWidget {
                             fontSize: 12,
                           ),
                         ),
-                        SizedBox(
-                          height: (overview ?? '').contains('Comming soon') ? 59 : 18,
-                        ),
+                        const Spacer(),
                         Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -153,6 +152,7 @@ class ViewItem extends StatelessWidget {
                             ],
                           ),
                         ),
+                        const SizedBox(height: 10),
                       ],
                     ),
                   ),

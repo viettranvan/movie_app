@@ -10,10 +10,13 @@ part 'favorite_state.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   FavoriteBloc()
-      : super(FavoriteInitial(index: 0, views: [
-          const MovieView(),
-          const TvView(),
-        ])) {
+      : super(FavoriteInitial(
+          index: 0,
+          views: [
+            const MovieView(),
+            const TvView(),
+          ],
+        )) {
     on<ChangeTab>(_onChangeTab);
   }
 

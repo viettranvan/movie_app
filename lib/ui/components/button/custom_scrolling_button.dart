@@ -14,32 +14,30 @@ class CustomScrollButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: const Alignment(0, -0.9),
-      child: GestureDetector(
-        onTap: visible ? onTap : null,
-        child: AnimatedOpacity(
-          opacity: visible ? 1.0 : 0.0,
-          duration: const Duration(milliseconds: 100),
-          child: Visibility(
-            visible: visible,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: whiteColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: greyColor,
-                    blurRadius: 2,
-                  ),
-                ],
-              ),
-              child: Icon(
-                Icons.arrow_upward,
-                color: darkBlueColor,
-                size: 20,
-              ),
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedOpacity(
+        opacity: opacity,
+        duration: const Duration(milliseconds: 200),
+        child: AnimatedAlign(
+          duration: const Duration(milliseconds: 200),
+          alignment: visible ? const Alignment(0, -0.9) : const Alignment(0, -1.3),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: whiteColor,
+              boxShadow: [
+                BoxShadow(
+                  color: greyColor,
+                  blurRadius: 2,
+                ),
+              ],
+            ),
+            child: Icon(
+              Icons.arrow_upward,
+              color: darkBlueColor,
+              size: 20,
             ),
           ),
         ),

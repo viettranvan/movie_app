@@ -48,7 +48,7 @@ class BestDramaView extends StatelessWidget {
               }
               return Column(
                 children: [
-                  PrimaryTitle(
+                  PrimaryText(
                     visibleIcon: true,
                     title: 'Best Drama',
                     visibleViewAll: true,

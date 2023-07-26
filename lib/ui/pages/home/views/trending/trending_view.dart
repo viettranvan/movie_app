@@ -52,7 +52,7 @@ class TrendingView extends StatelessWidget {
               }
               return Column(
                 children: [
-                  PrimaryTitle(
+                  PrimaryText(
                     visibleIcon: true,
                     title: 'Trending',
                     visibleViewAll: true,

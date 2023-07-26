@@ -54,7 +54,7 @@ class PopularView extends StatelessWidget {
               }
               return Column(
                 children: [
-                  PrimaryTitle(
+                  PrimaryText(
                     visibleIcon: true,
                     title: 'Popular',
                     visibleViewAll: true,

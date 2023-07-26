@@ -44,7 +44,7 @@ class ArtistView extends StatelessWidget {
             }
             return Column(
               children: [
-                const SecondaryTitle(
+                const SecondaryText(
                   title: 'Popular Artists',
                 ),
                 const SizedBox(height: 12),

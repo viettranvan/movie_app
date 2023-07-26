@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 
-class SecondaryTitle extends StatelessWidget {
+class SecondaryText extends StatelessWidget {
   final String title;
   final Widget? leftWidget;
   final Widget? icon;
   final bool? visibleViewAll;
   final VoidCallback? onTapViewAll;
-  const SecondaryTitle({
+  const SecondaryText({
     super.key,
     this.icon,
     this.visibleViewAll,
