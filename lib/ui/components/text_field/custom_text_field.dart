@@ -63,19 +63,6 @@ class CustomTextField extends StatelessWidget {
                         ),
                       ),
                 suffixIcon: suffixIcon,
-                // (isAuthentication ?? false)
-                //     ? IconButton(
-                //         onPressed: onTapSuffixIcon,
-                //         icon: Image.asset(
-                //           (obscureText ?? false)
-                //               ? ImagesPath.eyeCloseIcon.assetName
-                //               : ImagesPath.eyeOpenIcon.assetName,
-                //           fit: BoxFit.scaleDown,
-                //           color: darkBlueColor,
-                //           scale: 1.2,
-                //         ),
-                //       )
-                //     : null,
                 focusedBorder: outlineInputBorder,
                 enabledBorder: outlineInputBorder,
               ),

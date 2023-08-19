@@ -24,14 +24,14 @@ class ArtistView extends StatelessWidget {
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
               if (state is NavigationInitial) {
-                BlocProvider.of<ArtistBloc>(context).scrollController.jumpTo(0);
+                reloadList(context);
               }
             },
           ),
           BlocListener<HomeBloc, HomeState>(
             listener: (context, state) {
               if (state is HomeSuccess) {
-                reloadState(context);
+                reloadList(context);
               }
             },
           ),
@@ -101,12 +101,9 @@ class ArtistView extends StatelessWidget {
 
   Widget separatorBuilder(BuildContext context, int index) => const SizedBox(width: 14);
 
-  reloadState(BuildContext context) {
+  reloadList(BuildContext context) {
     final bloc = BlocProvider.of<ArtistBloc>(context);
-    bloc.add(FetchData(
-      language: 'en-US',
-      page: 1,
-    ));
+    bloc.add(FetchData(language: 'en-US', page: 1));
     bloc.scrollController.animateTo(
       0,
       duration: const Duration(milliseconds: 500),

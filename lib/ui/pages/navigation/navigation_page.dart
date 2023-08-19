@@ -26,6 +26,8 @@ class NavigationPage extends StatelessWidget {
               children: state.pages,
             ),
             bottomNavigationBar: CustomNavigationBar(
+              visible: state.visible,
+              opacity: state.visible ? 1.0 : 0.0,
               background: const BlurBackground(
                 sigmaX: 3,
                 sigmaY: 3,

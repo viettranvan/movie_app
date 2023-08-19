@@ -45,7 +45,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         ));
       } else {
         emit(MovieSuccess(
-          listFavorite: state.listFavorite,
+          listFavorite: result.list,
           isDropDown: state.isDropDown,
           indexSelected: state.indexSelected,
           sortBy: event.sortBy ?? '',
@@ -102,21 +102,22 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   }
 
   FutureOr<void> _onDropDown(DropDown event, Emitter<MovieState> emit) {
-    // state.listFavorite.isEmpty
-    //     ? emit(MovieError(
-    //         errorMessage: 'An unexpected error occurred.',
-    //         listFavorite: state.listFavorite,
-    //         isDropDown: !event.isDropDown,
-    //         indexSelected: state.indexSelected,
-    //         sortBy: state.sortBy,
-    //       ))
-    //     :
-    emit(MovieSuccess(
-      listFavorite: state.listFavorite,
-      isDropDown: !event.isDropDown,
-      indexSelected: state.indexSelected,
-      sortBy: state.sortBy,
-    ));
+    if (state is MovieError && state.listFavorite.isEmpty) {
+      emit(MovieError(
+        errorMessage: 'An unexpected error occurred.',
+        listFavorite: state.listFavorite,
+        isDropDown: !event.isDropDown,
+        indexSelected: state.indexSelected,
+        sortBy: state.sortBy,
+      ));
+    } else {
+      emit(MovieSuccess(
+        listFavorite: state.listFavorite,
+        isDropDown: !event.isDropDown,
+        indexSelected: state.indexSelected,
+        sortBy: state.sortBy,
+      ));
+    }
   }
 
   FutureOr<void> _onSort(Sort event, Emitter<MovieState> emit) {

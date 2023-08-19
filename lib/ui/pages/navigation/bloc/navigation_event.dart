@@ -8,3 +8,10 @@ class NavigatePage extends NavigationEvent {
     required this.indexPage,
   });
 }
+
+class ShowHide extends NavigationEvent {
+  final bool visible;
+  ShowHide({
+    required this.visible,
+  });
+}

@@ -13,3 +13,4 @@ export 'bottom_sheet/bottom_sheet.dart';
 export 'switch/switch.dart';
 export 'tab_bar/tab_bar.dart';
 export 'bottom_navigation_bar/bottom_navigation_bar.dart';
+export 'text_rich/text_rich.dart';

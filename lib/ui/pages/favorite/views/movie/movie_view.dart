@@ -62,7 +62,7 @@ class MovieView extends StatelessWidget {
               ));
             },
             child: Column(
-              mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 5),
                 CustomDropDown(
@@ -78,7 +78,8 @@ class MovieView extends StatelessWidget {
                       title: state.listSort[index],
                       colorSelected: state.indexSelected == index ? darkBlueColor : whiteColor,
                       colorTitle: state.indexSelected == index ? whiteColor : darkBlueColor,
-                      onTapItem: state.indexSelected != index
+                      onTapItem: state.indexSelected != index ||
+                              (state.indexSelected == index && state.listFavorite.isEmpty)
                           ? () => sortList(
                                 context,
                                 index,
@@ -108,10 +109,11 @@ class MovieView extends StatelessWidget {
                       );
                     }
                     if (state.listFavorite.isEmpty) {
-                      return const Expanded(
-                        child: Center(
-                          child: Text('Press ⭐ to add to favorite'),
-                        ),
+                      return CustomTextRich(
+                        primaryText: 'Press',
+                        secondaryText: 'to add to favorite movies',
+                        icon: Icons.favorite,
+                        color: pinkColor,
                       );
                     }
                     return ListView.separated(

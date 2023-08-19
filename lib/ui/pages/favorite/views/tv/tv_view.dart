@@ -6,6 +6,7 @@ import 'package:movie_app/ui/pages/favorite/views/tv/bloc/tv_bloc.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';
 import 'package:movie_app/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 class TvView extends StatelessWidget {
   const TvView({super.key});
 
@@ -99,6 +100,14 @@ class TvView extends StatelessWidget {
                         child: Center(
                           child: Text(state.errorMessage),
                         ),
+                      );
+                    }
+                    if (state.listFavorite.isEmpty) {
+                      return CustomTextRich(
+                        primaryText: 'Press',
+                        secondaryText: 'to add to favorite tv shows',
+                        icon: Icons.favorite,
+                        color: pinkColor,
                       );
                     }
                     return ListView.separated(

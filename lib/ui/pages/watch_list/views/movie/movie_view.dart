@@ -12,7 +12,7 @@ class MovieView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        return BlocProvider(
+    return BlocProvider(
       create: (context) => MovieBloc()
         ..add(FetchData(
           language: 'en-US',
@@ -102,6 +102,14 @@ class MovieView extends StatelessWidget {
                         child: Center(
                           child: Text(state.errorMessage),
                         ),
+                      );
+                    }
+                    if (state.listWatchList.isEmpty) {
+                      return CustomTextRich(
+                        primaryText: 'Press',
+                        secondaryText: 'to add to watchlist movies',
+                        icon: Icons.bookmark,
+                        color: cyanColor,
                       );
                     }
                     return ListView.separated(
