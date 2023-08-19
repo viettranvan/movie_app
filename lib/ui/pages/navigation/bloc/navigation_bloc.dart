@@ -14,6 +14,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   NavigationBloc()
       : super(
           NavigationInitial(
+            visible: true,
             indexPage: 0,
             pages: [
               const HomePage(),
@@ -24,12 +25,22 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
           ),
         ) {
     on<NavigatePage>(_onNavigateScreen);
+    on<ShowHide>(_onShowHide);
   }
 
   FutureOr<void> _onNavigateScreen(NavigatePage event, Emitter<NavigationState> emit) {
     emit(NavigationInitial(
+      visible: state.visible,
       pages: state.pages,
       indexPage: event.indexPage,
+    ));
+  }
+
+  FutureOr<void> _onShowHide(ShowHide event, Emitter<NavigationState> emit) {
+     emit(NavigationSuccess(
+      visible: event.visible,
+      pages: state.pages,
+      indexPage: state.indexPage,
     ));
   }
 }

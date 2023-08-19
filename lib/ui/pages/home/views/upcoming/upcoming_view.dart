@@ -25,56 +25,55 @@ class UpcomingView extends StatelessWidget {
         listeners: [
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
-              BlocProvider.of<UpcomingBloc>(context).controller.jumpToPage(0);
+              if (state is NavigationInitial) {
+                reloadList(context);
+              }
             },
           ),
           BlocListener<HomeBloc, HomeState>(
             listener: (context, state) {
               if (state is HomeSuccess) {
-                reloadState(context);
+                reloadList(context);
               }
             },
           ),
         ],
-        child: BlocListener<HomeBloc, HomeState>(
-          listener: (context, state) {},
-          child: BlocBuilder<UpcomingBloc, UpcomingState>(
-            builder: (context, state) {
-              var bloc = BlocProvider.of<UpcomingBloc>(context);
-              if (state is UpcomingInitial) {
-                return const SizedBox(height: 365);
-              }
-              return Column(
-                children: [
-                  PrimaryText(
-                    visibleIcon: true,
-                    title: 'Upcoming',
-                    visibleViewAll: true,
-                    onTapViewAll: () {},
-                    icon: Image.asset(
-                      ImagesPath.upcomingIcon.assetName,
-                      filterQuality: FilterQuality.high,
-                      color: greyColor,
-                      scale: 2,
-                    ),
+        child: BlocBuilder<UpcomingBloc, UpcomingState>(
+          builder: (context, state) {
+            var bloc = BlocProvider.of<UpcomingBloc>(context);
+            if (state is UpcomingInitial) {
+              return const SizedBox(height: 365);
+            }
+            return Column(
+              children: [
+                PrimaryText(
+                  visibleIcon: true,
+                  title: 'Upcoming',
+                  visibleViewAll: true,
+                  onTapViewAll: () {},
+                  icon: Image.asset(
+                    ImagesPath.upcomingIcon.assetName,
+                    filterQuality: FilterQuality.high,
+                    color: greyColor,
+                    scale: 2,
                   ),
-                  const SizedBox(height: 15),
-                  CarouselSlider.builder(
-                    carouselController: bloc.controller,
-                    itemBuilder: itemBuilder,
-                    itemCount: state.listUpcoming.length,
-                    disableGesture: false,
-                    options: CarouselOptions(
-                      height: 400,
-                      enlargeCenterPage: true,
-                      enableInfiniteScroll: true,
-                      viewportFraction: 0.8,
-                    ),
+                ),
+                const SizedBox(height: 15),
+                CarouselSlider.builder(
+                  carouselController: bloc.controller,
+                  itemBuilder: itemBuilder,
+                  itemCount: state.listUpcoming.length,
+                  disableGesture: false,
+                  options: CarouselOptions(
+                    height: 400,
+                    enlargeCenterPage: true,
+                    enableInfiniteScroll: true,
+                    viewportFraction: 0.8,
                   ),
-                ],
-              );
-            },
-          ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -105,13 +104,9 @@ class UpcomingView extends StatelessWidget {
     );
   }
 
-  reloadState(BuildContext context) {
+  reloadList(BuildContext context) {
     final bloc = BlocProvider.of<UpcomingBloc>(context);
-    bloc.add(FetchData(
-      language: 'en-US',
-      page: 1,
-      region: '',
-    ));
+    bloc.add(FetchData(language: 'en-US', page: 1, region: ''));
     bloc.controller.animateToPage(
       0,
       duration: const Duration(milliseconds: 500),

@@ -25,63 +25,60 @@ class TopTvView extends StatelessWidget {
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
               if (state is NavigationInitial) {
-                BlocProvider.of<TopTvBloc>(context).scrollController.jumpTo(0);
+                reloadList(context);
               }
             },
           ),
           BlocListener<HomeBloc, HomeState>(
             listener: (context, state) {
               if (state is HomeSuccess) {
-                reloadState(context);
+                reloadList(context);
               }
             },
           ),
         ],
-        child: BlocListener<HomeBloc, HomeState>(
-          listener: (context, state) {},
-          child: BlocBuilder<TopTvBloc, TopTvState>(
-            builder: (context, state) {
-              final bloc = BlocProvider.of<TopTvBloc>(context);
-              if (state is TopTvInitial) {
-                return const SizedBox(height: 213);
-              }
-              return Column(
-                children: [
-                  PrimaryText(
-                    visibleIcon: true,
-                    title: 'Top TV Shows',
-                    visibleViewAll: true,
-                    onTapViewAll: () {},
-                    icon: SvgPicture.asset(
-                      ImagesPath.tvShowIcon.assetName,
+        child: BlocBuilder<TopTvBloc, TopTvState>(
+          builder: (context, state) {
+            final bloc = BlocProvider.of<TopTvBloc>(context);
+            if (state is TopTvInitial) {
+              return const SizedBox(height: 213);
+            }
+            return Column(
+              children: [
+                PrimaryText(
+                  visibleIcon: true,
+                  title: 'Top TV Shows',
+                  visibleViewAll: true,
+                  onTapViewAll: () {},
+                  icon: SvgPicture.asset(
+                    ImagesPath.tvShowIcon.assetName,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Stack(
+                  children: [
+                    const Positioned.fill(
+                      child: PrimaryBackground(),
                     ),
-                  ),
-                  const SizedBox(height: 15),
-                  Stack(
-                    children: [
-                      const Positioned.fill(
-                        child: PrimaryBackground(),
+                    SizedBox(
+                      height: 213,
+                      child: ListView.separated(
+                        controller: bloc.scrollController,
+                        addAutomaticKeepAlives: false,
+                        addRepaintBoundaries: false,
+                        padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemBuilder: itemBuilder,
+                        separatorBuilder: separatorBuilder,
+                        itemCount: state.listTopTv.isNotEmpty ? state.listTopTv.length + 1 : 21,
                       ),
-                      SizedBox(
-                        height: 213,
-                        child: ListView.separated(
-                          controller: bloc.scrollController,
-                          addAutomaticKeepAlives: false,
-                          addRepaintBoundaries: false,
-                          padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemBuilder: itemBuilder,
-                          separatorBuilder: separatorBuilder,
-                          itemCount: state.listTopTv.isNotEmpty ? state.listTopTv.length + 1 : 21,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            },
-          ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -118,7 +115,7 @@ class TopTvView extends StatelessWidget {
 
   Widget separatorBuilder(BuildContext context, int index) => const SizedBox(width: 14);
 
-  reloadState(BuildContext context) {
+  reloadList(BuildContext context) {
     final bloc = BlocProvider.of<TopTvBloc>(context);
     bloc.add(FetchData(
       language: 'en-US',

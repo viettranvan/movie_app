@@ -46,7 +46,7 @@ class TvBloc extends Bloc<TvEvent, TvState> {
         ));
       } else {
         emit(TvSuccess(
-          listFavorite: state.listFavorite,
+          listFavorite: result.list,
           isDropDown: state.isDropDown,
           indexSelected: state.indexSelected,
           sortBy: event.sortBy ?? '',

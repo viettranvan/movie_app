@@ -19,7 +19,7 @@ class Genreview extends StatelessWidget {
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
               if (state is NavigationInitial) {
-                switchMovie(context);
+                reloadState(context);
               }
             },
           ),

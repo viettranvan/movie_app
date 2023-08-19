@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
@@ -24,7 +25,7 @@ class HomePage extends StatelessWidget {
       child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
           if (state is NavigationInitial) {
-            BlocProvider.of<HomeBloc>(context).scrollController.jumpTo(0);
+            scrollToTop(context);
           }
         },
         child: BlocBuilder<HomeBloc, HomeState>(
@@ -55,37 +56,50 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ],
-                onTapLeading: () => BlocProvider.of<NavigationBloc>(context).add(
-                  NavigatePage(indexPage: 3),
-                ),
+                onTapLeading: () => navigateProfilePage(context),
               ),
-              body: SmartRefresher(
-                controller: bloc.refreshController,
-                scrollController: bloc.scrollController,
-                header: const Header(),
-                onRefresh: () => bloc.add(RefreshData()),
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(height: 20),
-                    Genreview(),
-                    SizedBox(height: 30),
-                    PopularView(),
-                    SizedBox(height: 30),
-                    TrendingView(),
-                    SizedBox(height: 30),
-                    NowPlayingView(),
-                    SizedBox(height: 30),
-                    BestDramaView(),
-                    SizedBox(height: 30),
-                    ArtistView(),
-                    SizedBox(height: 30),
-                    TopTvView(),
-                    SizedBox(height: 30),
-                    UpcomingView(),
-                    SizedBox(height: 110),
-                  ],
+              body: NotificationListener<UserScrollNotification>(
+                onNotification: (notification) {
+                  if (bloc.scrollController.position.userScrollDirection ==
+                      ScrollDirection.forward) {
+                    showNavigationBar(context);
+                    return false;
+                  }
+                  if (bloc.scrollController.position.userScrollDirection ==
+                      ScrollDirection.reverse) {
+                    hideNavigationBar(context);
+                    return false;
+                  }
+                  return true;
+                },
+                child: SmartRefresher(
+                  controller: bloc.refreshController,
+                  scrollController: bloc.scrollController,
+                  header: const Header(),
+                  onRefresh: () => bloc.add(RefreshData()),
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(height: 20),
+                      Genreview(),
+                      SizedBox(height: 30),
+                      PopularView(),
+                      SizedBox(height: 30),
+                      TrendingView(),
+                      SizedBox(height: 30),
+                      NowPlayingView(),
+                      SizedBox(height: 30),
+                      BestDramaView(),
+                      SizedBox(height: 30),
+                      ArtistView(),
+                      SizedBox(height: 30),
+                      TopTvView(),
+                      SizedBox(height: 30),
+                      UpcomingView(),
+                      SizedBox(height: 110),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -94,6 +108,19 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
+  scrollToTop(BuildContext context) => BlocProvider.of<HomeBloc>(context)
+      .scrollController
+      .jumpTo(BlocProvider.of<HomeBloc>(context).scrollController.position.minScrollExtent);
+
+  navigateProfilePage(BuildContext context) =>
+      BlocProvider.of<NavigationBloc>(context).add(NavigatePage(indexPage: 3));
+
+  showNavigationBar(BuildContext context) =>
+      BlocProvider.of<NavigationBloc>(context).add(ShowHide(visible: true));
+
+  hideNavigationBar(BuildContext context) =>
+      BlocProvider.of<NavigationBloc>(context).add(ShowHide(visible: false));
 }
 
 // void _incrementCounter() async {

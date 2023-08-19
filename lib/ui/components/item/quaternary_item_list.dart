@@ -111,6 +111,7 @@ class QuaternaryItemList extends StatelessWidget {
                               ),
                               const SizedBox(width: 3),
                               Container(
+                                width: 23,
                                 alignment: Alignment.center,
                                 padding: const EdgeInsets.all(3),
                                 decoration: BoxDecoration(
