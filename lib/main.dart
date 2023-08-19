@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/ui/pages/navigation/index.dart';
 
-import 'bloc_observer/bloc_observer.dart';
+import 'bloc_observer/index.dart';
 
 void main() async {
   Bloc.observer = SimpleBlocObserver();

@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
+import 'package:movie_app/ui/pages/explore/index.dart';
+import 'package:movie_app/ui/pages/home/index.dart';
 import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/ui/pages/navigation/widgets/index.dart';
+import 'package:movie_app/ui/pages/profile/index.dart';
+import 'package:movie_app/ui/pages/search/index.dart';
 
 class NavigationPage extends StatelessWidget {
   const NavigationPage({super.key});
@@ -23,7 +27,12 @@ class NavigationPage extends StatelessWidget {
             resizeToAvoidBottomInset: false,
             body: IndexedStack(
               index: state.indexPage,
-              children: state.pages,
+              children: const [
+                HomePage(),
+                ExplorePage(),
+                SearchPage(),
+                ProfilePage(),
+              ],
             ),
             bottomNavigationBar: CustomNavigationBar(
               visible: state.visible,
@@ -37,7 +46,7 @@ class NavigationPage extends StatelessWidget {
               ),
               margin: const EdgeInsets.fromLTRB(25, 0, 25, 23),
               padding: const EdgeInsets.fromLTRB(23, 7, 23, 7),
-              lengthPages: state.pages.length,
+              lengthPages: 4,
               indexPage: state.indexPage,
               items: [
                 CustomNavigationBarItem(

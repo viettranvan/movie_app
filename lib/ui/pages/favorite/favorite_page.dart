@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/favorite/bloc/favorite_bloc.dart';
+import 'package:movie_app/ui/pages/favorite/views/movie/index.dart';
+import 'package:movie_app/ui/pages/favorite/views/tv/index.dart';
 
 class FavoritePage extends StatelessWidget {
   const FavoritePage({super.key});
@@ -40,7 +42,10 @@ class FavoritePage extends StatelessWidget {
                   Expanded(
                     child: IndexedStack(
                       index: state.index,
-                      children: state.views,
+                      children: const [
+                        MovieView(),
+                        TvView(),
+                      ],
                     ),
                   ),
                 ],
