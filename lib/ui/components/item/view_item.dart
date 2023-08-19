@@ -6,8 +6,8 @@ import 'package:movie_app/shared_ui/shared_ui.dart';
 class ViewItem extends StatelessWidget {
   final VoidCallback? onTap;
   final String imageUrl;
-  final List<Color>? colors;
-  final List<double>? stops;
+  final List<Color> colors;
+  final List<double> stops;
   final Color? textColor;
   final String? title;
   final int? season;
@@ -17,12 +17,12 @@ class ViewItem extends StatelessWidget {
     super.key,
     this.onTap,
     required this.imageUrl,
-    this.colors,
+    required this.colors,
     this.title,
     this.season,
     this.episode,
     this.overview,
-    this.stops,
+    required this.stops,
     this.textColor,
   });
 
@@ -83,12 +83,14 @@ class ViewItem extends StatelessWidget {
                       topRight: Radius.circular(15),
                       bottomRight: Radius.circular(15),
                     ),
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      stops: stops,
-                      colors: colors ?? [],
-                    ),
+                    gradient: colors.length >= 2 && colors.length == stops.length
+                        ? LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            stops: stops,
+                            colors: colors,
+                          )
+                        : null,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(15, 0, 25, 0),
