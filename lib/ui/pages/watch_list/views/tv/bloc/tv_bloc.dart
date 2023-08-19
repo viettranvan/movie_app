@@ -10,7 +10,7 @@ part 'tv_event.dart';
 part 'tv_state.dart';
 
 class TvBloc extends Bloc<TvEvent, TvState> {
-  WatchListRepository favoriteRepository = WatchListRepository(restApiClient: RestApiClient());
+  WatchListRepository watchListRepository = WatchListRepository(restApiClient: RestApiClient());
   RefreshController controller = RefreshController();
   int page = 1;
   TvBloc()
@@ -29,7 +29,7 @@ class TvBloc extends Bloc<TvEvent, TvState> {
   FutureOr<void> _onFetchData(FetchData event, Emitter<TvState> emit) async {
     try {
       page = 1;
-      final result = await favoriteRepository.getWatchListTv(
+      final result = await watchListRepository.getWatchListTv(
         language: event.language,
         accountId: event.accountId,
         sessionId: event.sessionId,
@@ -69,7 +69,7 @@ class TvBloc extends Bloc<TvEvent, TvState> {
   FutureOr<void> _onLoadMore(LoadMore event, Emitter<TvState> emit) async {
     try {
       controller.requestLoading();
-      final result = await favoriteRepository.getWatchListTv(
+      final result = await watchListRepository.getWatchListTv(
         language: event.language,
         accountId: event.accountId,
         sessionId: event.sessionId,
