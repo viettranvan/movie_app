@@ -103,22 +103,20 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   }
 
   FutureOr<void> _onDropDown(DropDown event, Emitter<MovieState> emit) {
-    if (state is MovieError && state.listWatchList.isEmpty) {
-      emit(MovieError(
-        errorMessage: 'An unexpected error occurred.',
-        listWatchList: state.listWatchList,
-        isDropDown: !event.isDropDown,
-        indexSelected: state.indexSelected,
-        sortBy: state.sortBy,
-      ));
-    } else {
-      emit(MovieSuccess(
-        listWatchList: state.listWatchList,
-        isDropDown: !event.isDropDown,
-        indexSelected: state.indexSelected,
-        sortBy: state.sortBy,
-      ));
-    }
+    state is MovieError && state.listWatchList.isEmpty
+        ? emit(MovieError(
+            errorMessage: 'An unexpected error occurred.',
+            listWatchList: state.listWatchList,
+            isDropDown: !event.isDropDown,
+            indexSelected: state.indexSelected,
+            sortBy: state.sortBy,
+          ))
+        : emit(MovieSuccess(
+            listWatchList: state.listWatchList,
+            isDropDown: !event.isDropDown,
+            indexSelected: state.indexSelected,
+            sortBy: state.sortBy,
+          ));
   }
 
   FutureOr<void> _onSort(Sort event, Emitter<MovieState> emit) {

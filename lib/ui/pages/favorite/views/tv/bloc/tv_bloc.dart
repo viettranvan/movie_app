@@ -103,7 +103,7 @@ class TvBloc extends Bloc<TvEvent, TvState> {
   }
 
   FutureOr<void> _onDropDown(DropDown event, Emitter<TvState> emit) {
-    state.listFavorite.isEmpty
+    state is TvError && state.listFavorite.isEmpty
         ? emit(TvError(
             errorMessage: 'An unexpected error occurred.',
             listFavorite: state.listFavorite,

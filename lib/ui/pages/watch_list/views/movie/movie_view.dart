@@ -134,15 +134,15 @@ class MovieView extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    var itemFavorite = BlocProvider.of<MovieBloc>(context).state.listWatchList[index];
+    var itemWatchList = BlocProvider.of<MovieBloc>(context).state.listWatchList[index];
     return QuaternaryItemList(
-      title: itemFavorite.title ?? itemFavorite.name,
-      voteAverage: itemFavorite.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),
-      releaseDate: AppUtils().formatDate(itemFavorite.releaseDate ?? ''),
-      overview: itemFavorite.overview != '' ? itemFavorite.overview : 'Coming soon',
-      originalLanguage: itemFavorite.originalLanguage,
-      imageUrl: itemFavorite.posterPath != null
-          ? '${AppConstants.kImagePathPoster}/${itemFavorite.posterPath}'
+      title: itemWatchList.title ?? itemWatchList.name,
+      voteAverage: itemWatchList.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),
+      releaseDate: AppUtils().formatDate(itemWatchList.releaseDate ?? ''),
+      overview: itemWatchList.overview != '' ? itemWatchList.overview : 'Coming soon',
+      originalLanguage: itemWatchList.originalLanguage,
+      imageUrl: itemWatchList.posterPath != null
+          ? '${AppConstants.kImagePathPoster}/${itemWatchList.posterPath}'
           : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
     );
   }
