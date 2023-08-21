@@ -25,7 +25,7 @@ class UpcomingView extends StatelessWidget {
         listeners: [
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
-              if (state is NavigationInitial) {
+              if (state is NavigationSuccess) {
                 reloadList(context);
               }
             },
@@ -107,10 +107,12 @@ class UpcomingView extends StatelessWidget {
   reloadList(BuildContext context) {
     final bloc = BlocProvider.of<UpcomingBloc>(context);
     bloc.add(FetchData(language: 'en-US', page: 1, region: ''));
-    bloc.controller.animateToPage(
-      0,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.linear,
-    );
+    if (bloc.controller.ready) {
+      bloc.controller.animateToPage(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linear,
+      );
+    }
   }
 }

@@ -18,14 +18,14 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   }
 
   FutureOr<void> _onNavigateScreen(NavigatePage event, Emitter<NavigationState> emit) {
-    emit(NavigationInitial(
+    emit(NavigationSuccess(
       visible: state.visible,
       indexPage: event.indexPage,
     ));
   }
 
   FutureOr<void> _onShowHide(ShowHide event, Emitter<NavigationState> emit) {
-    emit(NavigationSuccess(
+    emit(NavigationScrollSuccess(
       visible: event.visible,
       indexPage: state.indexPage,
     ));

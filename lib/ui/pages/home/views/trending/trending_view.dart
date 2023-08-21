@@ -27,8 +27,8 @@ class TrendingView extends StatelessWidget {
         listeners: [
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
-              if (state is NavigationInitial) {
-               reloadList(context);
+              if (state is NavigationSuccess) {
+                reloadList(context);
               }
             },
           ),
@@ -132,10 +132,12 @@ class TrendingView extends StatelessWidget {
       language: 'en-US',
       includeAdult: true,
     ));
-    bloc.scrollController.animateTo(
-      0,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.linear,
-    );
+    if (bloc.scrollController.hasClients) {
+      bloc.scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linear,
+      );
+    }
   }
 }

@@ -25,7 +25,7 @@ class PopularView extends StatelessWidget {
         listeners: [
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
-              if (state is NavigationInitial) {
+              if (state is NavigationSuccess) {
                 reloadList(context);
               }
             },
@@ -70,7 +70,7 @@ class PopularView extends StatelessWidget {
                           : 10,
                       options: CarouselOptions(
                         autoPlayAnimationDuration: const Duration(milliseconds: 500),
-                        autoPlay: true,
+                        // autoPlay: true,
                         viewportFraction: 1,
                         enableInfiniteScroll: true,
                         onPageChanged: (index, reason) =>
@@ -126,10 +126,12 @@ class PopularView extends StatelessWidget {
       region: '',
       language: 'en-US',
     ));
-    bloc.controller.animateToPage(
-      0,
-      duration: const Duration(milliseconds: 700),
-      curve: Curves.linear,
-    );
+    if (bloc.controller.ready) {
+      bloc.controller.animateToPage(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linear,
+      );
+    }
   }
 }
