@@ -22,7 +22,7 @@ class NowPlayingView extends StatelessWidget {
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state is HomeSuccess) {
-            reloadState(context);
+            reloadItem(context);
           }
         },
         child: BlocConsumer<NowPlayingBloc, NowPlayingState>(
@@ -93,7 +93,7 @@ class NowPlayingView extends StatelessWidget {
     );
   }
 
-  reloadState(BuildContext context) => BlocProvider.of<NowPlayingBloc>(context).add(FetchData(
+  reloadItem(BuildContext context) => BlocProvider.of<NowPlayingBloc>(context).add(FetchData(
         language: 'en-US',
         page: 1,
       ));

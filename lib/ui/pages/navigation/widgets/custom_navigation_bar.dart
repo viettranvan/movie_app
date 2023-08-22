@@ -37,7 +37,7 @@ class CustomNavigationBar extends StatelessWidget {
                 double widthNavigation =
                     constraints.biggest.width - (margin.horizontal + padding.horizontal);
                 double widthCircle = widthNavigation / lengthPages;
-                double left = widthCircle * indexPage - widthCircle / 100;
+                double left = widthCircle * indexPage;
                 return Container(
                   height: 60,
                   margin: margin,

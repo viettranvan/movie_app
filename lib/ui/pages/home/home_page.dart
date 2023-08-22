@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
       create: (context) => HomeBloc(),
       child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
-          if (state is NavigationInitial) {
+          if (state is NavigationSuccess) {
             scrollToTop(context);
           }
         },
@@ -109,9 +109,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  scrollToTop(BuildContext context) => BlocProvider.of<HomeBloc>(context)
-      .scrollController
-      .jumpTo(BlocProvider.of<HomeBloc>(context).scrollController.position.minScrollExtent);
+  scrollToTop(BuildContext context) {
+    final bloc = BlocProvider.of<HomeBloc>(context);
+    if (bloc.scrollController.hasClients) {
+      bloc.scrollController.jumpTo(0);
+    }
+  }
 
   navigateProfilePage(BuildContext context) =>
       BlocProvider.of<NavigationBloc>(context).add(NavigatePage(indexPage: 3));

@@ -18,7 +18,7 @@ class Genreview extends StatelessWidget {
         listeners: [
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
-              if (state is NavigationInitial) {
+              if (state is NavigationSuccess) {
                 reloadState(context);
               }
             },
@@ -141,15 +141,19 @@ class Genreview extends StatelessWidget {
     final bloc = BlocProvider.of<GenreBloc>(context);
     bloc.add(FetchData(language: 'en-US'));
     bloc.add(SwitchType(isActive: false));
-    bloc.movieController.animateTo(
-      0,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.linear,
-    );
-    bloc.tvController.animateTo(
-      0,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.linear,
-    );
+    if (bloc.movieController.hasClients) {
+      bloc.movieController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linear,
+      );
+    }
+    if (bloc.tvController.hasClients) {
+      bloc.tvController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linear,
+      );
+    }
   }
 }

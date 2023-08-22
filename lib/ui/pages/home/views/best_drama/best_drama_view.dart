@@ -25,7 +25,7 @@ class BestDramaView extends StatelessWidget {
         listeners: [
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
-              if (state is NavigationInitial) {
+              if (state is NavigationSuccess) {
                 reloadList(context);
               }
             },
@@ -121,15 +121,17 @@ class BestDramaView extends StatelessWidget {
 
   reloadList(BuildContext context) {
     final bloc = BlocProvider.of<BestDramaBloc>(context);
-    BlocProvider.of<BestDramaBloc>(context).add(FetchData(
+    bloc.add(FetchData(
       language: 'en-US',
       page: 1,
       withGenres: [18],
     ));
-    bloc.scrollController.animateTo(
-      0,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.linear,
-    );
+    if (bloc.scrollController.hasClients) {
+      bloc.scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linear,
+      );
+    }
   }
 }

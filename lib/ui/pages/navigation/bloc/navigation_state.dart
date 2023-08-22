@@ -22,3 +22,12 @@ class NavigationSuccess extends NavigationState {
     required super.visible,
   });
 }
+
+class NavigationScrollSuccess extends NavigationState {
+  NavigationScrollSuccess({
+    required super.indexPage,
+    required super.visible,
+  });
+}
+
+

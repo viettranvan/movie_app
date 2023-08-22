@@ -24,7 +24,7 @@ class TopTvView extends StatelessWidget {
         listeners: [
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
-              if (state is NavigationInitial) {
+              if (state is NavigationSuccess) {
                 reloadList(context);
               }
             },
@@ -121,10 +121,12 @@ class TopTvView extends StatelessWidget {
       language: 'en-US',
       page: 1,
     ));
-    bloc.scrollController.animateTo(
-      0,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.linear,
-    );
+    if (bloc.scrollController.hasClients) {
+      bloc.scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linear,
+      );
+    }
   }
 }

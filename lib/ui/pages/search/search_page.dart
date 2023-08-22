@@ -29,7 +29,7 @@ class SearchPage extends StatelessWidget {
         )),
       child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
-          if (state is NavigationInitial) {
+          if (state is NavigationSuccess) {
             fetchTrending(context);
             BlocProvider.of<SearchBloc>(context).add(ScrollToTop());
           }
