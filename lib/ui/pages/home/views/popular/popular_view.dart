@@ -70,7 +70,7 @@ class PopularView extends StatelessWidget {
                           : 10,
                       options: CarouselOptions(
                         autoPlayAnimationDuration: const Duration(milliseconds: 500),
-                        // autoPlay: true,
+                        autoPlay: true,
                         viewportFraction: 1,
                         enableInfiniteScroll: true,
                         onPageChanged: (index, reason) =>
