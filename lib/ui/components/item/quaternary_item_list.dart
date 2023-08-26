@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/ui/components/components.dart';
 
@@ -31,7 +32,7 @@ class QuaternaryItemList extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: whiteColor,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
               boxShadow: [
                 BoxShadow(
                   color: greyColor,
@@ -46,7 +47,7 @@ class QuaternaryItemList extends StatelessWidget {
                 Flexible(
                   flex: 3,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 11, 6, 11),
+                    padding: EdgeInsets.fromLTRB(12.w, 11.h, 6.w, 11.h),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -55,35 +56,37 @@ class QuaternaryItemList extends StatelessWidget {
                           title ?? '',
                           maxLines: 1,
                           softWrap: true,
+                          textScaleFactor: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 21,
+                          style: TextStyle(
+                            fontSize: 21.sp,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        const SizedBox(height: 6),
+                        SizedBox(height: 6.h),
                         Text(
                           overview ?? 'Coming soon',
                           maxLines: 3,
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
+                          textScaleFactor: 1,
                           style: TextStyle(
                             color: greyColor,
-                            fontSize: 15,
+                            fontSize: 15.sp,
                             fontWeight: FontWeight.w300,
                           ),
                         ),
-                        SizedBox(height: overview!.contains('Coming soon') ? 45 : 10),
+                        overview!.contains('Coming soon') ? const Spacer() : SizedBox(height: 10.h),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(1, 0, 8, 0),
+                          padding: EdgeInsets.fromLTRB(1.w, 0, 8.w, 0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.access_time_rounded,
-                                size: 18,
+                                size: 18.sp,
                               ),
-                              const SizedBox(width: 2),
+                              SizedBox(width: 2.w),
                               Flexible(
                                 flex: 5,
                                 child: Text(
@@ -91,8 +94,9 @@ class QuaternaryItemList extends StatelessWidget {
                                   maxLines: 1,
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
+                                  textScaleFactor: 1,
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 15.sp,
                                     color: indigoColor,
                                   ),
                                 ),
@@ -100,26 +104,28 @@ class QuaternaryItemList extends StatelessWidget {
                               const Spacer(flex: 3),
                               Text(
                                 voteAverage ?? '',
+                                textScaleFactor: 1,
                                 style: TextStyle(
                                   color: yellowColor,
-                                  fontSize: 15,
+                                  fontSize: 15.sp,
                                 ),
                               ),
                               Icon(
                                 Icons.star_rounded,
                                 color: yellowColor,
                               ),
-                              const SizedBox(width: 3),
+                              SizedBox(width: 3.w),
                               Container(
-                                width: 23,
+                                width: 23.w,
                                 alignment: Alignment.center,
-                                padding: const EdgeInsets.all(3),
+                                padding: const EdgeInsets.all(3).w,
                                 decoration: BoxDecoration(
                                   color: gainsBoroColor,
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(5.r),
                                 ),
                                 child: Text(
                                   originalLanguage ?? '',
+                                  textScaleFactor: 1,
                                   style: TextStyle(
                                     color: whiteColor,
                                   ),
@@ -133,11 +139,11 @@ class QuaternaryItemList extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: 90,
+                  width: 90.w,
                   child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20.r),
+                      bottomRight: Radius.circular(20.r),
                     ),
                     child: CachedNetworkImage(
                       imageUrl: imageUrl ?? '',

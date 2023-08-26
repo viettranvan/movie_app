@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 
 class SecondaryText extends StatelessWidget {
@@ -23,13 +24,14 @@ class SecondaryText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(17, 0, 20, 0),
+          padding: EdgeInsets.fromLTRB(17.w, 0, 20.w, 0),
           child: Text(
             title,
+            textScaleFactor: 1,
             style: TextStyle(
               letterSpacing: 0.2,
               fontWeight: FontWeight.w500,
-              fontSize: 15,
+              fontSize: 15.sp,
               color: greyColor,
             ),
           ),

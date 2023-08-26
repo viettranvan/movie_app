@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
@@ -42,7 +43,7 @@ class UpcomingView extends StatelessWidget {
           builder: (context, state) {
             var bloc = BlocProvider.of<UpcomingBloc>(context);
             if (state is UpcomingInitial) {
-              return const SizedBox(height: 365);
+              return SizedBox(height: 365.h);
             }
             return Column(
               children: [
@@ -58,14 +59,14 @@ class UpcomingView extends StatelessWidget {
                     scale: 2,
                   ),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: 15.h),
                 CarouselSlider.builder(
                   carouselController: bloc.controller,
                   itemBuilder: itemBuilder,
                   itemCount: state.listUpcoming.length,
                   disableGesture: false,
                   options: CarouselOptions(
-                    height: 400,
+                    height: 400.h,
                     enlargeCenterPage: true,
                     enableInfiniteScroll: true,
                     viewportFraction: 0.8,
@@ -83,9 +84,9 @@ class UpcomingView extends StatelessWidget {
     var state = BlocProvider.of<UpcomingBloc>(context).state;
     var list = state.listUpcoming;
     if (state is UpcomingError) {
-      return const SizedBox(
-        height: 365,
-        child: CustomIndicator(),
+      return SizedBox(
+        height: 365.h,
+        child: const CustomIndicator(),
       );
     }
     return SliderItem(

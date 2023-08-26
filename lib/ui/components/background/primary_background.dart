@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 
 class PrimaryBackground extends StatelessWidget {
@@ -8,7 +9,7 @@ class PrimaryBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       ImagesPath.background.assetName,
-      height: 200,
+      height: 200.h,
       filterQuality: FilterQuality.high,
       fit: BoxFit.cover,
     );

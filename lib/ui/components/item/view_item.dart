@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 
@@ -32,11 +33,11 @@ class ViewItem extends StatelessWidget {
       onTap: onTap,
       child: RepaintBoundary(
         child: Container(
-          height: 172,
-          margin: const EdgeInsets.fromLTRB(17, 0, 17, 0),
+          height: 172.h,
+          margin: EdgeInsets.fromLTRB(17.w, 0, 17.w, 0),
           decoration: BoxDecoration(
             color: whiteColor,
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(15.r),
             boxShadow: [
               BoxShadow(
                 color: lightGreyColor,
@@ -50,17 +51,17 @@ class ViewItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  bottomLeft: Radius.circular(15),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.r),
+                  bottomLeft: Radius.circular(15.r),
                 ),
                 child: CachedNetworkImage(
-                  width: 115,
+                  width: 115.w,
                   imageUrl: imageUrl,
                   filterQuality: FilterQuality.high,
                   fit: BoxFit.fill,
                   progressIndicatorBuilder: (context, url, progress) => SizedBox(
-                    height: 172,
+                    height: 172.h,
                     child: Center(
                       child: CupertinoActivityIndicator(
                         color: darkBlueColor,
@@ -79,9 +80,9 @@ class ViewItem extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     color: whiteColor,
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(15),
-                      bottomRight: Radius.circular(15),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(15.r),
+                      bottomRight: Radius.circular(15.r),
                     ),
                     gradient: colors.length >= 2 && colors.length == stops.length
                         ? LinearGradient(
@@ -93,41 +94,44 @@ class ViewItem extends StatelessWidget {
                         : null,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 25, 0),
+                    padding: EdgeInsets.fromLTRB(15.w, 0, 25.w, 0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                         Text(
                           title ?? '',
                           overflow: TextOverflow.clip,
                           softWrap: false,
+                          textScaleFactor: 1,
                           style: TextStyle(
                             color: textColor,
-                            fontSize: 20,
+                            fontSize: 20.sp,
                           ),
                         ),
-                        const SizedBox(height: 1),
+                        SizedBox(height: 1.h),
                         Text(
                           'Season $season | Episode $episode',
                           overflow: TextOverflow.clip,
                           softWrap: false,
+                          textScaleFactor: 1,
                           style: TextStyle(
                             color: textColor,
-                            fontSize: 14,
+                            fontSize: 14.sp,
                           ),
                         ),
-                        const SizedBox(height: 11),
+                        SizedBox(height: 11.h),
                         Text(
                           overview ?? '',
                           maxLines: 4,
                           softWrap: false,
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
+                          textScaleFactor: 1,
                           style: TextStyle(
                             color: textColor,
-                            fontSize: 12,
+                            fontSize: 12.sp,
                           ),
                         ),
                         const Spacer(),
@@ -143,18 +147,19 @@ class ViewItem extends StatelessWidget {
                                   BlendMode.srcIn,
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              SizedBox(width: 8.w),
                               Text(
                                 'Watch now!',
+                                textScaleFactor: 1,
                                 style: TextStyle(
                                   color: textColor,
-                                  fontSize: 18,
+                                  fontSize: 18.sp,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                       ],
                     ),
                   ),

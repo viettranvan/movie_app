@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/components/components.dart';
@@ -39,13 +40,13 @@ class NowPlayingView extends StatelessWidget {
           },
           builder: (context, state) {
             if (state is NowPlayingInitial) {
-              return const SizedBox(height: 172);
+              return SizedBox(height: 172.h);
             }
             if (state is NowPlayingError) {
-              return const SizedBox(
-                height: 172,
+              return SizedBox(
+                height: 172.h,
                 width: double.infinity,
-                child: CustomIndicator(),
+                child: const CustomIndicator(),
               );
             }
             final name = state.nowPlayingTv.name;
@@ -66,7 +67,7 @@ class NowPlayingView extends StatelessWidget {
                     color: greyColor,
                   ),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: 15.h),
                 ViewItem(
                   title: name,
                   season: seasonNumber,

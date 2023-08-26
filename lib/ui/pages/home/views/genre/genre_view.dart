@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/genre/bloc/genre_bloc.dart';
@@ -35,9 +36,7 @@ class Genreview extends StatelessWidget {
           builder: (context, state) {
             final bloc = BlocProvider.of<GenreBloc>(context);
             if (state is GenreInitial) {
-              return const SizedBox(
-                height: 30,
-              );
+              return SizedBox(height: 30.h);
             }
             return Column(
               children: [
@@ -55,12 +54,12 @@ class Genreview extends StatelessWidget {
                   crossFadeState:
                       state.isActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                   firstChild: SizedBox(
-                    height: 30,
+                    height: 30.h,
                     child: ListView.separated(
                       controller: bloc.movieController,
                       addAutomaticKeepAlives: false,
                       addRepaintBoundaries: false,
-                      padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
+                      padding: EdgeInsets.fromLTRB(17.w, 0.h, 17.w, 0.h),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: itemBuilderMovie,
@@ -69,12 +68,12 @@ class Genreview extends StatelessWidget {
                     ),
                   ),
                   secondChild: SizedBox(
-                    height: 30,
+                    height: 30.h,
                     child: ListView.separated(
                       controller: bloc.tvController,
                       addAutomaticKeepAlives: false,
                       addRepaintBoundaries: false,
-                      padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
+                      padding: EdgeInsets.fromLTRB(17.w, 0.h, 17.w, 0.h),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: itemBuilderTv,
@@ -94,10 +93,10 @@ class Genreview extends StatelessWidget {
   Widget itemBuilderMovie(BuildContext context, int index) {
     var list = BlocProvider.of<GenreBloc>(context).state.listGenreMovie;
     if (list.isEmpty) {
-      return const SizedBox(
-        height: 30,
-        width: 53,
-        child: CustomIndicator(),
+      return SizedBox(
+        height: 30.h,
+        width: 53.w,
+        child: const CustomIndicator(),
       );
     } else {
       return PrimaryItemList(
@@ -110,10 +109,10 @@ class Genreview extends StatelessWidget {
   Widget itemBuilderTv(BuildContext context, int index) {
     var list = BlocProvider.of<GenreBloc>(context).state.listGenreTv;
     if (list.isEmpty) {
-      return const SizedBox(
-        height: 30,
-        width: 53,
-        child: CustomIndicator(),
+      return SizedBox(
+        height: 30.h,
+        width: 53.w,
+        child: const CustomIndicator(),
       );
     } else {
       return PrimaryItemList(
@@ -123,7 +122,7 @@ class Genreview extends StatelessWidget {
     }
   }
 
-  Widget separatorBuilder(BuildContext context, int index) => const SizedBox(width: 10);
+  Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 10.w);
 
   switchMovie(BuildContext context) {
     final bloc = BlocProvider.of<GenreBloc>(context);

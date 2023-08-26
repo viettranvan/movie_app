@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
@@ -42,7 +43,7 @@ class BestDramaView extends StatelessWidget {
           builder: (context, state) {
             final bloc = BlocProvider.of<BestDramaBloc>(context);
             if (state is BestDramaInitial) {
-              return const SizedBox(height: 213);
+              return SizedBox(height: 213.h);
             }
             return Column(
               children: [
@@ -55,19 +56,19 @@ class BestDramaView extends StatelessWidget {
                     ImagesPath.bestDramaIcon.assetName,
                   ),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: 15.h),
                 Stack(
                   children: [
                     const Positioned.fill(
                       child: PrimaryBackground(),
                     ),
                     SizedBox(
-                      height: 213,
+                      height: 213.h,
                       child: ListView.separated(
                         controller: bloc.scrollController,
                         addAutomaticKeepAlives: false,
                         addRepaintBoundaries: false,
-                        padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
+                        padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
                         itemBuilder: itemBuilder,
@@ -89,10 +90,10 @@ class BestDramaView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     var list = BlocProvider.of<BestDramaBloc>(context).state.listBestDrama;
     if (list.isEmpty) {
-      return const SizedBox(
-        height: 200,
-        width: 120,
-        child: CustomIndicator(),
+      return SizedBox(
+        height: 200.h,
+        width: 120.w,
+        child: const CustomIndicator(),
       );
     } else {
       String? name = index != list.length ? list[index].name : '';
@@ -115,9 +116,7 @@ class BestDramaView extends StatelessWidget {
     }
   }
 
-  Widget separatorBuilder(BuildContext context, int index) {
-    return const SizedBox(width: 14);
-  }
+  Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 14.w);
 
   reloadList(BuildContext context) {
     final bloc = BlocProvider.of<BestDramaBloc>(context);
