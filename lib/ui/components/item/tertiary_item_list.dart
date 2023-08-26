@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/ui/components/components.dart';
 
@@ -26,10 +27,10 @@ class TertiaryItemList extends StatelessWidget {
       onTap: index == itemCount ? onTapViewAll : onTapItem,
       child: RepaintBoundary(
         child: Container(
-          width: 120,
+          width: 120.w,
           decoration: BoxDecoration(
             color: whiteColor,
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(15.r),
             boxShadow: [
               BoxShadow(
                 color: lightGreyColor,
@@ -39,20 +40,17 @@ class TertiaryItemList extends StatelessWidget {
           ),
           child: index == itemCount
               ? ItemViewAll(
-                  width: 50,
-                  height: 50,
-                  style: TextStyle(
-                    color: darkBlueColor,
-                  ),
+                  width: 50.w,
+                  height: 50.h,
                 )
               : Column(
                   children: [
                     SizedBox(
-                      height: 171,
+                      height: 171.h,
                       child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15.r),
+                          topRight: Radius.circular(15.r),
                         ),
                         child: CachedNetworkImage(
                           imageUrl: imageUrl,
@@ -71,8 +69,9 @@ class TertiaryItemList extends StatelessWidget {
                         title ?? '',
                         maxLines: 1,
                         softWrap: false,
-                        style: const TextStyle(
-                          fontSize: 14.5,
+                        textScaleFactor: 1,
+                        style: TextStyle(
+                          fontSize: 14.5.sp,
                           overflow: TextOverflow.clip,
                         ),
                       ),

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/ui/components/components.dart';
 
@@ -28,11 +29,11 @@ class SecondaryItemList extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: 67,
-              height: 100,
+              width: 69.w,
+              height: 100.h,
               decoration: BoxDecoration(
                 color: whiteColor,
-                borderRadius: BorderRadius.circular(33.36),
+                borderRadius: BorderRadius.circular(30.r),
                 boxShadow: [
                   BoxShadow(
                     color: lightGreyColor,
@@ -42,19 +43,15 @@ class SecondaryItemList extends StatelessWidget {
               ),
               child: index == itemCount
                   ? ItemViewAll(
-                      width: 35,
-                      height: 35,
-                      style: TextStyle(
-                        color: darkBlueColor,
-                        fontSize: 12,
-                      ),
+                      width: 35.w,
+                      height: 35.h,
                     )
                   : ClipRRect(
-                      borderRadius: BorderRadius.circular(33.36),
+                      borderRadius: BorderRadius.circular(30.r),
                       child: CachedNetworkImage(
                         imageUrl: imageUrl,
-                        width: double.infinity,
-                        height: double.infinity,
+                        width: double.infinity.w,
+                        height: double.infinity.h,
                         filterQuality: FilterQuality.high,
                         fit: BoxFit.fill,
                         progressIndicatorBuilder: (context, url, progress) =>
@@ -63,16 +60,17 @@ class SecondaryItemList extends StatelessWidget {
                       ),
                     ),
             ),
-            const SizedBox(height: 7),
+            SizedBox(height: 7.h),
             SizedBox(
-              width: 67,
+              width: 67.w,
               child: Text(
                 title ?? '',
+                textScaleFactor: 1,
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 softWrap: true,
-                style: const TextStyle(
-                  fontSize: 12,
+                style: TextStyle(
+                  fontSize: 12.sp,
                 ),
               ),
             ),

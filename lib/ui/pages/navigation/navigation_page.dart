@@ -5,7 +5,6 @@ import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/explore/index.dart';
 import 'package:movie_app/ui/pages/home/index.dart';
 import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
-import 'package:movie_app/ui/pages/navigation/widgets/index.dart';
 import 'package:movie_app/ui/pages/profile/index.dart';
 import 'package:movie_app/ui/pages/search/index.dart';
 

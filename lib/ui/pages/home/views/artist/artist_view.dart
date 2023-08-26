@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
@@ -40,21 +41,21 @@ class ArtistView extends StatelessWidget {
           builder: (context, state) {
             final bloc = BlocProvider.of<ArtistBloc>(context);
             if (state is ArtistInitial) {
-              return const SizedBox(height: 150);
+              return SizedBox(height: 150.h);
             }
             return Column(
               children: [
                 const SecondaryText(
                   title: 'Popular Artists',
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 SizedBox(
-                  height: 150,
+                  height: 150.h,
                   child: ListView.separated(
                     controller: bloc.scrollController,
                     addAutomaticKeepAlives: false,
                     addRepaintBoundaries: false,
-                    padding: const EdgeInsets.fromLTRB(17, 5, 17, 5),
+                    padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     itemBuilder: itemBuilder,
@@ -73,10 +74,10 @@ class ArtistView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     var list = BlocProvider.of<ArtistBloc>(context).state.listArtist;
     if (list.isEmpty) {
-      return const SizedBox(
-        height: 140,
-        width: 67,
-        child: CustomIndicator(),
+      return SizedBox(
+        height: 140.h,
+        width: 67.w,
+        child: const CustomIndicator(),
       );
     } else {
       String? name = index != list.length ? list[index].name : '';
@@ -99,7 +100,7 @@ class ArtistView extends StatelessWidget {
     }
   }
 
-  Widget separatorBuilder(BuildContext context, int index) => const SizedBox(width: 14);
+  Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 14.h);
 
   reloadList(BuildContext context) {
     final bloc = BlocProvider.of<ArtistBloc>(context);

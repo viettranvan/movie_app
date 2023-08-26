@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 
 class PrimaryItemList extends StatelessWidget {
@@ -20,9 +21,9 @@ class PrimaryItemList extends StatelessWidget {
       onTap: onTap,
       child: Container(
         alignment: Alignment.center,
-        padding: const EdgeInsets.all(6),
+        padding: const EdgeInsets.all(6).w,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(5.r),
           gradient: LinearGradient(
             colors: colors ?? [lightGreyColor],
             stops: stops ?? [0],
@@ -30,7 +31,9 @@ class PrimaryItemList extends StatelessWidget {
         ),
         child: Text(
           title ?? '',
+          textScaleFactor: 1,
           style: TextStyle(
+            fontSize: 14.sp,
             color: whiteColor,
           ),
         ),

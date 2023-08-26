@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
@@ -42,9 +43,7 @@ class PopularView extends StatelessWidget {
           builder: (context, state) {
             final bloc = BlocProvider.of<PopularBloc>(context);
             if (state is PopularInitial) {
-              return const SizedBox(
-                height: 200,
-              );
+              return SizedBox(height: 200.h);
             }
             return Column(
               children: [
@@ -58,7 +57,7 @@ class PopularView extends StatelessWidget {
                     color: greyColor,
                   ),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: 15.h),
                 Stack(
                   alignment: Alignment.bottomCenter,
                   children: [
@@ -99,9 +98,9 @@ class PopularView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index, int realIndex) {
     var list = BlocProvider.of<PopularBloc>(context).state.listPopular;
     if (list.isEmpty) {
-      return const SizedBox(
-        height: 200,
-        child: CustomIndicator(),
+      return SizedBox(
+        height: 200.h,
+        child: const CustomIndicator(),
       );
     } else {
       return SliderItem(

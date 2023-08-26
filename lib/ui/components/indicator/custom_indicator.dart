@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 
 class CustomIndicator extends StatelessWidget {
@@ -12,7 +13,7 @@ class CustomIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoActivityIndicator(
       color: darkBlueColor,
-      radius: radius ?? 10,
+      radius: radius ?? 10.r,
     );
   }
 }

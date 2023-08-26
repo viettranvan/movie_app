@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/ui/components/components.dart';
 
@@ -38,11 +39,11 @@ class SliderItem extends StatelessWidget {
               )
             : Container(
                 width: double.infinity,
-                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 2.5),
+                margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 2.5.w),
                 decoration: BoxDecoration(
                   color: whiteColor,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(30),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(30.r),
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -54,8 +55,8 @@ class SliderItem extends StatelessWidget {
                 child: Stack(
                   children: [
                     ClipRRect(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(30),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(30.r),
                       ),
                       child: CachedNetworkImage(
                         imageUrl: imageUrlPoster ?? '',
@@ -69,27 +70,27 @@ class SliderItem extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(18),
+                      padding: EdgeInsets.all(18.r),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Stack(
                             children: [
-                              const BlurBackground(
-                                heightBackground: 53,
-                                radiusCorner: 15,
-                                width: 90,
+                              BlurBackground(
+                                heightBackground: 53.h,
+                                width: 90.w,
+                                radiusCorner: 15.r,
                               ),
                               Container(
-                                width: 90,
-                                height: 53,
+                                width: 90.w,
+                                height: 53.h,
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: whiteColor.withOpacity(0.4),
                                     strokeAlign: 1,
                                   ),
-                                  borderRadius: BorderRadius.circular(15),
+                                  borderRadius: BorderRadius.circular(15.r),
                                   color: const Color(0xffDADADA).withOpacity(0.3),
                                 ),
                                 child: Column(
@@ -97,12 +98,13 @@ class SliderItem extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 18),
+                                      padding: EdgeInsets.only(left: 18.w),
                                       child: Text(
                                         'IMDb',
+                                        textScaleFactor: 1,
                                         style: TextStyle(
                                           color: whiteColor,
-                                          fontSize: 12,
+                                          fontSize: 12.sp,
                                         ),
                                       ),
                                     ),
@@ -112,16 +114,17 @@ class SliderItem extends StatelessWidget {
                                         Icon(
                                           Icons.star_rounded,
                                           color: yellowColor,
-                                          size: 25,
+                                          size: 25.sp,
                                         ),
-                                        const SizedBox(
-                                          width: 10,
+                                        SizedBox(
+                                          width: 10.w,
                                         ),
                                         Text(
                                           '$voteAverage',
+                                          textScaleFactor: 1,
                                           style: TextStyle(
                                             color: whiteColor,
-                                            fontSize: 16,
+                                            fontSize: 16.sp,
                                           ),
                                         ),
                                       ],
@@ -133,30 +136,31 @@ class SliderItem extends StatelessWidget {
                           ),
                           Stack(
                             children: [
-                              const BlurBackground(
-                                heightBackground: 88,
-                                radiusCorner: 20,
+                              BlurBackground(
+                                heightBackground: 88.h,
+                                radiusCorner: 20.r,
                               ),
                               Container(
                                 width: double.infinity,
-                                height: 88,
+                                height: 88.h,
                                 alignment: Alignment.center,
-                                padding: const EdgeInsets.all(15),
+                                padding: EdgeInsets.all(15.r),
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     strokeAlign: 1,
                                     color: whiteColor.withOpacity(0.4),
                                   ),
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(20.r),
                                   color: const Color(0xffDADADA).withOpacity(0.3),
                                 ),
                                 child: Text(
                                   title ?? '',
                                   textAlign: TextAlign.center,
                                   maxLines: 3,
+                                  textScaleFactor: 1,
                                   style: TextStyle(
                                     color: whiteColor,
-                                    fontSize: 16,
+                                    fontSize: 16.sp,
                                   ),
                                 ),
                               ),

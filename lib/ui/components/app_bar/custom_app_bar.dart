@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -39,5 +40,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(65);
+  Size get preferredSize => Size.fromHeight(65.h);
 }

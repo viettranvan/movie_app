@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 
 class ItemViewAll extends StatelessWidget {
   final double? width;
   final double? height;
-  final TextStyle? style;
   const ItemViewAll({
     super.key,
     this.width,
     this.height,
-    this.style,
   });
 
   @override
@@ -28,7 +27,7 @@ class ItemViewAll extends StatelessWidget {
               ),
             ),
             Positioned.fill(
-              right: 10,
+              right: 10.w,
               child: Icon(
                 Icons.arrow_back_ios,
                 color: whiteColor,
@@ -37,12 +36,15 @@ class ItemViewAll extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 5),
+        SizedBox(height: 5.h),
         Text(
           'View all',
+          textScaleFactor: 1,
           textAlign: TextAlign.center,
           softWrap: true,
-          style: style,
+          style: TextStyle(
+            color: darkBlueColor,
+          ),
         ),
       ],
     );

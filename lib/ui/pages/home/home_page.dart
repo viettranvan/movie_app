@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
@@ -36,7 +37,7 @@ class HomePage extends StatelessWidget {
               appBar: CustomAppBar(
                 centerTitle: true,
                 leading: Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  padding: EdgeInsets.fromLTRB(15.w, 0, 0, 0),
                   child: CircleAvatar(
                     backgroundImage: Image.asset(
                       ImagesPath.primaryShortLogo.assetName,
@@ -47,12 +48,12 @@ class HomePage extends StatelessWidget {
                   ImagesPath.primaryLongLogo.assetName,
                   filterQuality: FilterQuality.high,
                 ),
-                actions: const [
+                actions: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                    padding: EdgeInsets.fromLTRB(0, 0, 15.w, 0),
                     child: Icon(
                       Icons.notifications_sharp,
-                      size: 30,
+                      size: 30.sp,
                     ),
                   ),
                 ],
@@ -77,27 +78,27 @@ class HomePage extends StatelessWidget {
                   scrollController: bloc.scrollController,
                   header: const Header(),
                   onRefresh: () => bloc.add(RefreshData()),
-                  child: const Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(height: 20),
-                      Genreview(),
-                      SizedBox(height: 30),
-                      PopularView(),
-                      SizedBox(height: 30),
-                      TrendingView(),
-                      SizedBox(height: 30),
-                      NowPlayingView(),
-                      SizedBox(height: 30),
-                      BestDramaView(),
-                      SizedBox(height: 30),
-                      ArtistView(),
-                      SizedBox(height: 30),
-                      TopTvView(),
-                      SizedBox(height: 30),
-                      UpcomingView(),
-                      SizedBox(height: 110),
+                      SizedBox(height: 20.h),
+                      const Genreview(),
+                      SizedBox(height: 30.h),
+                      const PopularView(),
+                      SizedBox(height: 30.h),
+                      const TrendingView(),
+                      SizedBox(height: 30.h),
+                      const NowPlayingView(),
+                      SizedBox(height: 30.h),
+                      const BestDramaView(),
+                      SizedBox(height: 30.h),
+                      const ArtistView(),
+                      SizedBox(height: 30.h),
+                      const TopTvView(),
+                      SizedBox(height: 30.h),
+                      const UpcomingView(),
+                      SizedBox(height: 110.h),
                     ],
                   ),
                 ),

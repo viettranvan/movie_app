@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(360, 667),
+      designSize: const Size(390, 669),
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'themoviedb',
