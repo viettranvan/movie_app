@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/explore/index.dart';
@@ -36,15 +37,15 @@ class NavigationPage extends StatelessWidget {
             bottomNavigationBar: CustomNavigationBar(
               visible: state.visible,
               opacity: state.visible ? 1.0 : 0.0,
-              background: const BlurBackground(
+              background: BlurBackground(
                 sigmaX: 3,
                 sigmaY: 3,
-                heightBackground: 60,
-                paddingHorizontal: 25,
-                radiusCorner: 30,
+                heightBackground: 60.h,
+                paddingHorizontal: 25.w,
+                radiusCorner: 30.r,
               ),
-              margin: const EdgeInsets.fromLTRB(25, 0, 25, 23),
-              padding: const EdgeInsets.fromLTRB(23, 7, 23, 7),
+              margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 23.h),
+              padding: EdgeInsets.fromLTRB(23.w, 7.h, 23.w, 7.h),
               lengthPages: 4,
               indexPage: state.indexPage,
               items: [

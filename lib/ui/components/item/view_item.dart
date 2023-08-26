@@ -128,7 +128,7 @@ class ViewItem extends StatelessWidget {
                           softWrap: false,
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
-                          textScaleFactor: 1,
+                          textScaleFactor: 1.1,
                           style: TextStyle(
                             color: textColor,
                             fontSize: 12.sp,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';
 
 class CustomDropDownItem extends StatelessWidget {
@@ -20,21 +21,20 @@ class CustomDropDownItem extends StatelessWidget {
       onTap: onTapItem,
       child: Container(
         alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
         decoration: BoxDecoration(
           color: colorSelected,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
         child: Text(
           AppUtils().getSortTitle(title),
+          textScaleFactor: 1,
           style: TextStyle(
             color: colorTitle,
-            fontSize: 14,
+            fontSize: 14.sp,
           ),
         ),
       ),
     );
   }
-
- 
 }

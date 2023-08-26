@@ -41,7 +41,7 @@ class TvView extends StatelessWidget {
             header: const Header(),
             footer: const Footer(
               height: 70,
-              noMoreStatus: 'All Tv Shows was loaded !',
+              noMoreStatus: 'All watchlist tv shows was loaded !',
               failedStatus: 'Failed to load Tv Shows !',
             ),
             onRefresh: () => bloc.add(FetchData(
@@ -73,7 +73,8 @@ class TvView extends StatelessWidget {
                       title: state.listSort[index],
                       colorSelected: state.indexSelected == index ? darkBlueColor : whiteColor,
                       colorTitle: state.indexSelected == index ? whiteColor : darkBlueColor,
-                      onTapItem: state.indexSelected != index
+                      onTapItem: state.indexSelected != index ||
+                              (state.indexSelected == index && state.listWatchList.isEmpty)
                           ? () => sortList(
                                 context,
                                 index,

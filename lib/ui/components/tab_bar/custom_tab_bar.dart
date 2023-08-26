@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 
 class CustomTabBar extends StatelessWidget {
@@ -20,9 +21,9 @@ class CustomTabBar extends StatelessWidget {
       builder: (context, constraints) {
         double paddingRight = const EdgeInsets.all(15).right;
         double paddingLeft = const EdgeInsets.all(15).left;
-        double width = (constraints.biggest.width - (paddingLeft + paddingRight)) / 2;
+        double width = (constraints.biggest.width - (paddingLeft + paddingRight)) / 2.w;
         return Padding(
-          padding: EdgeInsets.fromLTRB(paddingLeft, 15, paddingRight, 15),
+          padding: EdgeInsets.fromLTRB(paddingLeft.w, 15.h, paddingRight, 15.h),
           child: Stack(
             children: [
               Positioned.fill(
@@ -34,7 +35,7 @@ class CustomTabBar extends StatelessWidget {
                     width: width,
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(50),
+                      borderRadius: BorderRadius.circular(50.r),
                       color: darkBlueColor,
                     ),
                   ),
@@ -42,12 +43,12 @@ class CustomTabBar extends StatelessWidget {
               ),
               Container(
                 width: widthTabBar,
-                height: 40,
+                height: 40.h,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(22),
+                  borderRadius: BorderRadius.circular(22.r),
                   border: Border.all(
                     color: darkBlueColor,
-                    width: 2,
+                    width: 2.w,
                   ),
                 ),
                 child: Row(
@@ -57,17 +58,18 @@ class CustomTabBar extends StatelessWidget {
                       child: GestureDetector(
                         onTap: onTapMovie,
                         child: Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20),
+                              topLeft: Radius.circular(20.r),
+                              bottomLeft: Radius.circular(20.r),
                             ),
                           ),
                           alignment: Alignment.center,
                           child: Text(
                             'Movies',
+                            textScaleFactor: 1.1,
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 15.sp,
                               color: index == 0 ? whiteColor : darkBlueColor,
                             ),
                           ),
@@ -79,16 +81,17 @@ class CustomTabBar extends StatelessWidget {
                         onTap: onTapTv,
                         child: Container(
                           alignment: Alignment.center,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
+                              topRight: Radius.circular(20.r),
+                              bottomRight: Radius.circular(20.r),
                             ),
                           ),
                           child: Text(
                             'Tv Shows',
+                            textScaleFactor: 1.1,
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 15.sp,
                               color: index == 1 ? whiteColor : darkBlueColor,
                             ),
                           ),

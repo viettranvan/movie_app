@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -36,16 +37,18 @@ class Footer extends StatelessWidget {
       case LoadStatus.failed:
         body = Text(
           failedStatus ?? 'Failed to load data!',
-          style: const TextStyle(
-            fontSize: 15,
+          textScaleFactor: 1,
+          style: TextStyle(
+            fontSize: 15.sp,
           ),
         );
         break;
       case LoadStatus.noMore:
         body = Text(
           noMoreStatus ?? 'No more data!',
-          style: const TextStyle(
-            fontSize: 15,
+          textScaleFactor: 1,
+          style: TextStyle(
+            fontSize: 15.sp,
           ),
         );
         break;
@@ -54,7 +57,7 @@ class Footer extends StatelessWidget {
     }
     return Center(
         child: Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20).w,
       child: body,
     ));
   }
