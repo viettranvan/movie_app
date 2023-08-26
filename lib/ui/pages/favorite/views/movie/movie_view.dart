@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
@@ -35,7 +33,6 @@ class MovieView extends StatelessWidget {
         },
         builder: (context, state) {
           var bloc = BlocProvider.of<MovieBloc>(context);
-          log('---${bloc.state.runtimeType}');
           return SmartRefresher(
             controller: bloc.controller,
             enablePullDown: state.listFavorite.isNotEmpty,
@@ -44,7 +41,7 @@ class MovieView extends StatelessWidget {
             header: const Header(),
             footer: const Footer(
               height: 70,
-              noMoreStatus: 'All Movies was loaded !',
+              noMoreStatus: 'All favorite movies was loaded !',
               failedStatus: 'Failed to load Tv Shows !',
             ),
             onRefresh: () => bloc.add(FetchData(

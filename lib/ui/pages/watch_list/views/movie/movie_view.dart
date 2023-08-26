@@ -41,7 +41,7 @@ class MovieView extends StatelessWidget {
             header: const Header(),
             footer: const Footer(
               height: 70,
-              noMoreStatus: 'All Movies was loaded !',
+              noMoreStatus: 'All watchlist movies was loaded !',
               failedStatus: 'Failed to load Tv Shows !',
             ),
             onRefresh: () => bloc.add(FetchData(
@@ -75,7 +75,8 @@ class MovieView extends StatelessWidget {
                       title: state.listSort[index],
                       colorSelected: state.indexSelected == index ? darkBlueColor : whiteColor,
                       colorTitle: state.indexSelected == index ? whiteColor : darkBlueColor,
-                      onTapItem: state.indexSelected != index
+                      onTapItem: state.indexSelected != index ||
+                              (state.indexSelected == index && state.listWatchList.isEmpty)
                           ? () => sortList(
                                 context,
                                 index,

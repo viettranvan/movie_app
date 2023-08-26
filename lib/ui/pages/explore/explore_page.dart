@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -18,7 +19,7 @@ class ExplorePage extends StatelessWidget {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 12, 8),
+            padding: EdgeInsets.fromLTRB(0, 8.h, 12.w, 8.h),
             child: Image.asset(
               ImagesPath.primaryShortLogo.assetName,
               scale: 4,

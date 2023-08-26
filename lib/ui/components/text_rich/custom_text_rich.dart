@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextRich extends StatelessWidget {
   final String? primaryText;
@@ -24,7 +25,7 @@ class CustomTextRich extends StatelessWidget {
               WidgetSpan(
                 alignment: PlaceholderAlignment.middle,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
                   child: Icon(
                     icon,
                     color: color,
@@ -34,6 +35,7 @@ class CustomTextRich extends StatelessWidget {
               TextSpan(text: secondaryText),
             ],
           ),
+          textScaleFactor: 1.1,
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 
 class CustomScrollButton extends StatelessWidget {
@@ -23,7 +24,7 @@ class CustomScrollButton extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           alignment: visible ? const Alignment(0, -0.9) : const Alignment(0, -1.3),
           child: Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10).w,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: whiteColor,
@@ -37,7 +38,7 @@ class CustomScrollButton extends StatelessWidget {
             child: Icon(
               Icons.arrow_upward,
               color: darkBlueColor,
-              size: 20,
+              size: 20.sp,
             ),
           ),
         ),

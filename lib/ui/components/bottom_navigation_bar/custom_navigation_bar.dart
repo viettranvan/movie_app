@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 
 class CustomNavigationBar extends StatelessWidget {
@@ -35,15 +36,15 @@ class CustomNavigationBar extends StatelessWidget {
             LayoutBuilder(
               builder: (context, constraints) {
                 double widthNavigation =
-                    constraints.biggest.width - (margin.horizontal + padding.horizontal);
-                double widthCircle = widthNavigation / lengthPages;
-                double left = widthCircle * indexPage;
+                    constraints.biggest.width - (margin.horizontal.w + padding.horizontal.w);
+                double widthCircle = widthNavigation.w / lengthPages.w;
+                double left = widthCircle.w * indexPage;
                 return Container(
-                  height: 60,
+                  height: 60.h,
                   margin: margin,
                   padding: padding,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(30.r),
                     gradient: LinearGradient(
                       colors: [
                         lightGreenColor.withOpacity(0.97),
