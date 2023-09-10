@@ -6,7 +6,6 @@ class CustomNavigationBar extends StatelessWidget {
   final Widget background;
   final EdgeInsets margin;
   final EdgeInsets padding;
-  final int lengthPages;
   final int indexPage;
   final List<Widget> items;
   final double opacity;
@@ -16,7 +15,6 @@ class CustomNavigationBar extends StatelessWidget {
     required this.background,
     required this.margin,
     required this.padding,
-    required this.lengthPages,
     required this.indexPage,
     required this.items,
     required this.opacity,
@@ -36,9 +34,8 @@ class CustomNavigationBar extends StatelessWidget {
             LayoutBuilder(
               builder: (context, constraints) {
                 double widthNavigation =
-                    constraints.biggest.width - (margin.horizontal.w + padding.horizontal.w);
-                double widthCircle = widthNavigation.w / lengthPages.w;
-                double left = widthCircle.w * indexPage;
+                    constraints.biggest.width - (margin.horizontal + padding.horizontal);
+                double widthCircle = widthNavigation / items.length;
                 return Container(
                   height: 60.h,
                   margin: margin,
@@ -54,17 +51,18 @@ class CustomNavigationBar extends StatelessWidget {
                     ),
                   ),
                   child: Stack(
+                    fit: StackFit.passthrough,
                     alignment: Alignment.center,
                     children: [
                       AnimatedPositioned(
                         duration: const Duration(milliseconds: 150),
                         curve: Curves.decelerate,
-                        left: left,
-                        // right: right,
+                        left: widthCircle * indexPage,
                         top: 0,
                         bottom: 0,
                         width: widthCircle,
                         child: Container(
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: darkBlueColor.withOpacity(0.6),

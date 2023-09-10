@@ -37,19 +37,24 @@ class ArtistView extends StatelessWidget {
             },
           ),
         ],
-        child: BlocBuilder<ArtistBloc, ArtistState>(
-          builder: (context, state) {
-            final bloc = BlocProvider.of<ArtistBloc>(context);
-            if (state is ArtistInitial) {
-              return SizedBox(height: 150.h);
-            }
-            return Column(
-              children: [
-                const SecondaryText(
-                  title: 'Popular Artists',
-                ),
-                SizedBox(height: 12.h),
-                SizedBox(
+        child: Column(
+          children: [
+            const SecondaryText(
+              title: 'Popular Artists',
+            ),
+            SizedBox(height: 12.h),
+            BlocBuilder<ArtistBloc, ArtistState>(
+              builder: (context, state) {
+                final bloc = BlocProvider.of<ArtistBloc>(context);
+                if (state is ArtistError) {
+                  return SizedBox(
+                    height: 150.h,
+                    child: Center(
+                      child: Text(state.runtimeType.toString()),
+                    ),
+                  );
+                }
+                return SizedBox(
                   height: 150.h,
                   child: ListView.separated(
                     controller: bloc.scrollController,
@@ -62,18 +67,19 @@ class ArtistView extends StatelessWidget {
                     separatorBuilder: separatorBuilder,
                     itemCount: state.listArtist.isNotEmpty ? state.listArtist.length + 1 : 21,
                   ),
-                ),
-              ],
-            );
-          },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    var list = BlocProvider.of<ArtistBloc>(context).state.listArtist;
-    if (list.isEmpty) {
+    final state = BlocProvider.of<ArtistBloc>(context).state;
+    final list = state.listArtist;
+    if (state is ArtistInitial) {
       return SizedBox(
         height: 140.h,
         width: 67.w,

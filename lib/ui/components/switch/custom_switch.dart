@@ -16,7 +16,8 @@ class CustomSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 17.w, 0),
+      margin: EdgeInsets.fromLTRB(17.w, 0, 17.w, 0),
+      alignment: Alignment.center,
       width: 150.w,
       height: 22.h,
       decoration: BoxDecoration(
@@ -28,7 +29,7 @@ class CustomSwitch extends StatelessWidget {
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          double widthSwitch = constraints.biggest.width.w;
+          double widthSwitch = constraints.maxWidth;
           double widthTrack = widthSwitch / 2;
           return Stack(
             alignment: Alignment.center,
@@ -38,7 +39,7 @@ class CustomSwitch extends StatelessWidget {
                 alignment: isActive ? Alignment.centerRight : Alignment.centerLeft,
                 curve: Curves.decelerate,
                 child: Container(
-                  width: isActive ? widthTrack.w + 10.w : widthTrack.w - 8.w,
+                  width: isActive ? widthTrack : widthTrack,
                   height: double.infinity,
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
@@ -49,26 +50,33 @@ class CustomSwitch extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  GestureDetector(
-                    onTap: onSwitchMovie,
-                    child: Text(
-                      'Movies',
-                      textScaleFactor: 1,
-                      style: TextStyle(
-                        color: isActive ? blackColor : whiteColor,
-                        fontSize: 14.sp,
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: onSwitchMovie,
+                      child: Text(
+                        'Movies',
+                        textScaleFactor: 1,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: isActive ? blackColor : whiteColor,
+                          fontSize: 14.sp,
+                        ),
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: onSwitchTV,
-                    child: Text(
-                      'TV Shows',
-                      textScaleFactor: 1,
-                      style: TextStyle(
-                        color: isActive ? whiteColor : blackColor,
-                        fontSize: 14.sp,
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: onSwitchTV,
+                      child: Text(
+                        'TV Shows',
+                        textScaleFactor: 1,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: isActive ? whiteColor : blackColor,
+                          fontSize: 14.sp,
+                        ),
                       ),
                     ),
                   ),

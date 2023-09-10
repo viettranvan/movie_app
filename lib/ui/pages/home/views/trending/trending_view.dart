@@ -41,27 +41,30 @@ class TrendingView extends StatelessWidget {
             },
           ),
         ],
-        child: BlocBuilder<TrendingBloc, TrendingState>(
-          builder: (context, state) {
-            final bloc = BlocProvider.of<TrendingBloc>(context);
-            if (state is TrendingInitial) {
-              return SizedBox(
-                height: 213.h,
-              );
-            }
-            return Column(
-              children: [
-                PrimaryText(
-                  visibleIcon: true,
-                  title: 'Trending',
-                  visibleViewAll: true,
-                  onTapViewAll: () {},
-                  icon: SvgPicture.asset(
-                    ImagesPath.trendingIcon.assetName,
-                  ),
-                ),
-                SizedBox(height: 15.h),
-                Stack(
+        child: Column(
+          children: [
+            PrimaryText(
+              visibleIcon: true,
+              title: 'Trending',
+              visibleViewAll: true,
+              onTapViewAll: () {},
+              icon: SvgPicture.asset(
+                ImagesPath.trendingIcon.assetName,
+              ),
+            ),
+            SizedBox(height: 15.h),
+            BlocBuilder<TrendingBloc, TrendingState>(
+              builder: (context, state) {
+                final bloc = BlocProvider.of<TrendingBloc>(context);
+                if (state is TrendingError) {
+                  return SizedBox(
+                    height: 213.h,
+                    child: Center(
+                      child: Text(state.runtimeType.toString()),
+                    ),
+                  );
+                }
+                return Stack(
                   children: [
                     const Positioned.fill(
                       child: PrimaryBackground(),
@@ -82,18 +85,19 @@ class TrendingView extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
-              ],
-            );
-          },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    var list = BlocProvider.of<TrendingBloc>(context).state.listTrending;
-    if (list.isEmpty) {
+    final state = BlocProvider.of<TrendingBloc>(context).state;
+    final list = state.listTrending;
+    if (state is TrendingInitial) {
       return SizedBox(
         height: 200.h,
         width: 120.w,

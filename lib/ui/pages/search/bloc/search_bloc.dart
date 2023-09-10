@@ -70,7 +70,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           emit(SearchSuccess(
             listSearch: state.listSearch,
             query: event.query,
-            listTrending: trendingResult.list,
+            listTrending: state.listTrending,
             visible: state.visible,
           ));
         }
@@ -79,6 +79,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       refreshController.refreshCompleted();
     } catch (e) {
       refreshController.refreshFailed();
+      state.listSearch.clear();
+      state.listTrending.clear();
       emit(SearchError(
         errorMessage: e.toString(),
         listSearch: state.listSearch,
@@ -142,12 +144,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
     } catch (e) {
       refreshController.loadFailed();
+      state.listSearch.clear();
+      state.listTrending.clear();
       emit(SearchError(
         errorMessage: e.toString(),
         listSearch: state.listSearch,
         listTrending: state.listTrending,
         query: state.query,
-        visible: state.visible,
+        visible: false,
       ));
     }
   }
@@ -167,7 +171,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   FutureOr<void> _onShowHideButton(ShowHideButton event, Emitter<SearchState> emit) {
-    if (state.listTrending.isNotEmpty) {
+    if (state.listTrending.isNotEmpty || state.listSearch.isNotEmpty) {
       emit(SearchSuccess(
         listSearch: state.listSearch,
         listTrending: state.listTrending,

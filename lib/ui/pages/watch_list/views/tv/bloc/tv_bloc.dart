@@ -56,6 +56,7 @@ class TvBloc extends Bloc<TvEvent, TvState> {
       controller.refreshCompleted();
     } catch (e) {
       controller.refreshFailed();
+      state.listWatchList.clear();
       emit(TvError(
         errorMessage: e.toString(),
         listWatchList: state.listWatchList,
@@ -92,6 +93,7 @@ class TvBloc extends Bloc<TvEvent, TvState> {
       }
     } catch (e) {
       controller.loadFailed();
+      state.listWatchList.clear();
       emit(TvError(
         errorMessage: e.toString(),
         listWatchList: state.listWatchList,

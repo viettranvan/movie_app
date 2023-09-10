@@ -55,6 +55,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       controller.refreshCompleted();
     } catch (e) {
       controller.refreshFailed();
+      state.listFavorite.clear();
       emit(MovieError(
         errorMessage: e.toString(),
         listFavorite: state.listFavorite,
@@ -91,6 +92,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       }
     } catch (e) {
       controller.loadFailed();
+      state.listFavorite.clear();
       emit(MovieError(
         errorMessage: e.toString(),
         listFavorite: state.listFavorite,

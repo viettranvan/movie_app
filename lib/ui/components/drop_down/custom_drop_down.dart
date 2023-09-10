@@ -82,9 +82,6 @@ class CustomDropDown extends StatelessWidget {
                   Icon(
                     icon,
                     color: whiteColor,
-                    opticalSize: 10,
-                    weight: 30,
-                    fill: 1,
                   ),
                 ],
               ),

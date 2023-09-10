@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/favorite/views/tv/bloc/tv_bloc.dart';
@@ -32,15 +33,15 @@ class TvView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          var bloc = BlocProvider.of<TvBloc>(context);
+          final bloc = BlocProvider.of<TvBloc>(context);
           return SmartRefresher(
             controller: bloc.controller,
             enablePullDown: state.listFavorite.isNotEmpty,
             enablePullUp: state.listFavorite.isNotEmpty,
             primary: false,
             header: const Header(),
-            footer: const Footer(
-              height: 70,
+            footer: Footer(
+              height: 70.h,
               noMoreStatus: 'All favorite tv shows was loaded !',
               failedStatus: 'Failed to load Tv Shows !',
             ),
@@ -59,7 +60,7 @@ class TvView extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const SizedBox(height: 5),
+                SizedBox(height: 5.h),
                 CustomDropDown(
                   icon: state.isDropDown ? Icons.arrow_drop_up : Icons.arrow_drop_down,
                   isDropDown: state.isDropDown,
@@ -70,7 +71,7 @@ class TvView extends StatelessWidget {
                       : bloc.add(DropDown(isDropDown: false)),
                   itemBuilder: (context, index) {
                     return CustomDropDownItem(
-                      title: state.listSort[index],
+                      title: AppUtils().getSortTitle(state.listSort[index]),
                       colorSelected: state.indexSelected == index ? darkBlueColor : whiteColor,
                       colorTitle: state.indexSelected == index ? whiteColor : darkBlueColor,
                       onTapItem: state.indexSelected != index ||
@@ -103,7 +104,7 @@ class TvView extends StatelessWidget {
                         ),
                       );
                     }
-                    if (state.listFavorite.isEmpty) {
+                    if (state is TvSuccess && state.listFavorite.isEmpty) {
                       return CustomTextRich(
                         primaryText: 'Press',
                         secondaryText: 'to add to favorite tv shows',
@@ -132,11 +133,13 @@ class TvView extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    var itemFavorite = BlocProvider.of<TvBloc>(context).state.listFavorite[index];
+    final itemFavorite = BlocProvider.of<TvBloc>(context).state.listFavorite[index];
     return QuaternaryItemList(
       title: itemFavorite.title ?? itemFavorite.name,
       voteAverage: itemFavorite.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),
-      releaseDate: AppUtils().formatDate(itemFavorite.firstAirDate ?? ''),
+      releaseDate: itemFavorite.firstAirDate!.isNotEmpty
+          ? AppUtils().formatDate(itemFavorite.firstAirDate!)
+          : '00-00-0000',
       overview: itemFavorite.overview != '' ? itemFavorite.overview : 'Coming soon',
       originalLanguage: itemFavorite.originalLanguage,
       imageUrl: itemFavorite.posterPath != null

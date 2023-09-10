@@ -39,25 +39,30 @@ class BestDramaView extends StatelessWidget {
             },
           ),
         ],
-        child: BlocBuilder<BestDramaBloc, BestDramaState>(
-          builder: (context, state) {
-            final bloc = BlocProvider.of<BestDramaBloc>(context);
-            if (state is BestDramaInitial) {
-              return SizedBox(height: 213.h);
-            }
-            return Column(
-              children: [
-                PrimaryText(
-                  visibleIcon: true,
-                  title: 'Best Drama',
-                  visibleViewAll: true,
-                  onTapViewAll: () {},
-                  icon: SvgPicture.asset(
-                    ImagesPath.bestDramaIcon.assetName,
-                  ),
-                ),
-                SizedBox(height: 15.h),
-                Stack(
+        child: Column(
+          children: [
+            PrimaryText(
+              visibleIcon: true,
+              title: 'Best Drama',
+              visibleViewAll: true,
+              onTapViewAll: () {},
+              icon: SvgPicture.asset(
+                ImagesPath.bestDramaIcon.assetName,
+              ),
+            ),
+            SizedBox(height: 15.h),
+            BlocBuilder<BestDramaBloc, BestDramaState>(
+              builder: (context, state) {
+                final bloc = BlocProvider.of<BestDramaBloc>(context);
+                if (state is BestDramaError) {
+                  return SizedBox(
+                    height: 213.h,
+                    child: Center(
+                      child: Text(state.runtimeType.toString()),
+                    ),
+                  );
+                }
+                return Stack(
                   children: [
                     const Positioned.fill(
                       child: PrimaryBackground(),
@@ -78,18 +83,19 @@ class BestDramaView extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
-              ],
-            );
-          },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    var list = BlocProvider.of<BestDramaBloc>(context).state.listBestDrama;
-    if (list.isEmpty) {
+    final state = BlocProvider.of<BestDramaBloc>(context).state;
+    final list = state.listBestDrama;
+    if (state is BestDramaInitial) {
       return SizedBox(
         height: 200.h,
         width: 120.w,

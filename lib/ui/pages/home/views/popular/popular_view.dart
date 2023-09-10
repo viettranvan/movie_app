@@ -39,26 +39,31 @@ class PopularView extends StatelessWidget {
             },
           ),
         ],
-        child: BlocBuilder<PopularBloc, PopularState>(
-          builder: (context, state) {
-            final bloc = BlocProvider.of<PopularBloc>(context);
-            if (state is PopularInitial) {
-              return SizedBox(height: 200.h);
-            }
-            return Column(
-              children: [
-                PrimaryText(
-                  visibleIcon: true,
-                  title: 'Popular',
-                  visibleViewAll: true,
-                  onTapViewAll: () {},
-                  icon: Icon(
-                    Icons.stars_outlined,
-                    color: greyColor,
-                  ),
-                ),
-                SizedBox(height: 15.h),
-                Stack(
+        child: Column(
+          children: [
+            PrimaryText(
+              visibleIcon: true,
+              title: 'Popular',
+              visibleViewAll: true,
+              onTapViewAll: () {},
+              icon: Icon(
+                Icons.stars_outlined,
+                color: greyColor,
+              ),
+            ),
+            SizedBox(height: 15.h),
+            BlocBuilder<PopularBloc, PopularState>(
+              builder: (context, state) {
+                final bloc = BlocProvider.of<PopularBloc>(context);
+                if (state is PopularError) {
+                  return SizedBox(
+                    height: 200.h,
+                    child: Center(
+                      child: Text(state.runtimeType.toString()),
+                    ),
+                  );
+                }
+                return Stack(
                   alignment: Alignment.bottomCenter,
                   children: [
                     CarouselSlider.builder(
@@ -86,36 +91,35 @@ class PopularView extends StatelessWidget {
                           : 10,
                     ),
                   ],
-                ),
-              ],
-            );
-          },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget itemBuilder(BuildContext context, int index, int realIndex) {
-    var list = BlocProvider.of<PopularBloc>(context).state.listPopular;
-    if (list.isEmpty) {
-      return SizedBox(
-        height: 200.h,
-        child: const CustomIndicator(),
-      );
-    } else {
-      return SliderItem(
-        isBackdrop: true,
-        imageUrlBackdrop: list[index].backdropPath != null
-            ? '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}'
-            : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
-        onTap: () => Navigator.of(context).push(
-          CustomPageRoute(
-            page: const DetailsPage(),
-            begin: const Offset(1, 0),
-          ),
-        ),
-      );
-    }
+    final state = BlocProvider.of<PopularBloc>(context).state;
+    final list = state.listPopular;
+    return state is PopularInitial
+        ? SizedBox(
+            height: 200.h,
+            child: const CustomIndicator(),
+          )
+        : SliderItem(
+            isBackdrop: true,
+            imageUrlBackdrop: list[index].backdropPath != null
+                ? '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}'
+                : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+            onTap: () => Navigator.of(context).push(
+              CustomPageRoute(
+                page: const DetailsPage(),
+                begin: const Offset(1, 0),
+              ),
+            ),
+          );
   }
 
   reloadList(BuildContext context) {
@@ -125,7 +129,7 @@ class PopularView extends StatelessWidget {
       region: '',
       language: 'en-US',
     ));
-    if (bloc.controller.ready) {
+    if (bloc.controller.ready && bloc.state is PopularSuccess) {
       bloc.controller.animateToPage(
         0,
         duration: const Duration(milliseconds: 500),

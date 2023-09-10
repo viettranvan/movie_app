@@ -32,7 +32,7 @@ class TvView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          var bloc = BlocProvider.of<TvBloc>(context);
+          final bloc = BlocProvider.of<TvBloc>(context);
           return SmartRefresher(
             controller: bloc.controller,
             enablePullDown: state.listWatchList.isNotEmpty,
@@ -70,7 +70,7 @@ class TvView extends StatelessWidget {
                       : bloc.add(DropDown(isDropDown: false)),
                   itemBuilder: (context, index) {
                     return CustomDropDownItem(
-                      title: state.listSort[index],
+                      title: AppUtils().getSortTitle(state.listSort[index]),
                       colorSelected: state.indexSelected == index ? darkBlueColor : whiteColor,
                       colorTitle: state.indexSelected == index ? whiteColor : darkBlueColor,
                       onTapItem: state.indexSelected != index ||
@@ -103,7 +103,7 @@ class TvView extends StatelessWidget {
                         ),
                       );
                     }
-                    if (state.listWatchList.isEmpty) {
+                    if (state is TvSuccess && state.listWatchList.isEmpty) {
                       return CustomTextRich(
                         primaryText: 'Press',
                         secondaryText: 'to add to watchlist tv shows',
@@ -132,11 +132,13 @@ class TvView extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    var itemWatchList = BlocProvider.of<TvBloc>(context).state.listWatchList[index];
+    final itemWatchList = BlocProvider.of<TvBloc>(context).state.listWatchList[index];
     return QuaternaryItemList(
       title: itemWatchList.title ?? itemWatchList.name,
       voteAverage: itemWatchList.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),
-      releaseDate: AppUtils().formatDate(itemWatchList.firstAirDate ?? ''),
+      releaseDate: itemWatchList.firstAirDate!.isNotEmpty
+          ? AppUtils().formatDate(itemWatchList.firstAirDate ?? '')
+          : '00-00-0000',
       overview: itemWatchList.overview != '' ? itemWatchList.overview : 'Coming soon',
       originalLanguage: itemWatchList.originalLanguage,
       imageUrl: itemWatchList.posterPath != null

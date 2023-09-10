@@ -44,9 +44,8 @@ class NavigationPage extends StatelessWidget {
                 paddingHorizontal: 25.w,
                 radiusCorner: 30.r,
               ),
-              margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 23.h),
+              margin: EdgeInsets.fromLTRB(25.w, 0.h, 25.w, 23.h),
               padding: EdgeInsets.fromLTRB(23.w, 7.h, 23.w, 7.h),
-              lengthPages: 4,
               indexPage: state.indexPage,
               items: [
                 CustomNavigationBarItem(
