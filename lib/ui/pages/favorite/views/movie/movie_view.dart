@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/favorite/views/movie/bloc/movie_bloc.dart';
@@ -32,15 +35,15 @@ class MovieView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          var bloc = BlocProvider.of<MovieBloc>(context);
+          final bloc = BlocProvider.of<MovieBloc>(context);
           return SmartRefresher(
             controller: bloc.controller,
             enablePullDown: state.listFavorite.isNotEmpty,
             enablePullUp: state.listFavorite.isNotEmpty,
             primary: false,
             header: const Header(),
-            footer: const Footer(
-              height: 70,
+            footer: Footer(
+              height: 70.h,
               noMoreStatus: 'All favorite movies was loaded !',
               failedStatus: 'Failed to load Tv Shows !',
             ),
@@ -61,7 +64,7 @@ class MovieView extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const SizedBox(height: 5),
+                SizedBox(height: 5.h),
                 CustomDropDown(
                   icon: state.isDropDown ? Icons.arrow_drop_up : Icons.arrow_drop_down,
                   isDropDown: state.isDropDown,
@@ -72,7 +75,7 @@ class MovieView extends StatelessWidget {
                       : bloc.add(DropDown(isDropDown: false)),
                   itemBuilder: (context, index) {
                     return CustomDropDownItem(
-                      title: state.listSort[index],
+                      title: AppUtils().getSortTitle(state.listSort[index]),
                       colorSelected: state.indexSelected == index ? darkBlueColor : whiteColor,
                       colorTitle: state.indexSelected == index ? whiteColor : darkBlueColor,
                       onTapItem: state.indexSelected != index ||
@@ -97,6 +100,21 @@ class MovieView extends StatelessWidget {
                           ),
                         ),
                       );
+                      // return ListView.separated(
+                      //   shrinkWrap: true,
+                      //   primary: false,
+                      //   addAutomaticKeepAlives: false,
+                      //   addRepaintBoundaries: false,
+                      //   controller: ScrollController(),
+                      //   padding: EdgeInsets.fromLTRB(20.w, 18.h, 20.w, 0),
+                      //   itemBuilder: (context, index) => SizedBox(
+                      //     height: 152.w,
+                      //     width: 342.h,
+                      //     child: const CustomIndicator(),
+                      //   ),
+                      //   separatorBuilder: separatorBuilder,
+                      //   itemCount: 10,
+                      // );
                     }
                     if (state is MovieError) {
                       return Expanded(
@@ -105,7 +123,7 @@ class MovieView extends StatelessWidget {
                         ),
                       );
                     }
-                    if (state.listFavorite.isEmpty) {
+                    if (state is MovieSuccess && state.listFavorite.isEmpty) {
                       return CustomTextRich(
                         primaryText: 'Press',
                         secondaryText: 'to add to favorite movies',
@@ -119,7 +137,7 @@ class MovieView extends StatelessWidget {
                       addAutomaticKeepAlives: false,
                       addRepaintBoundaries: false,
                       controller: ScrollController(),
-                      padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
+                      padding: EdgeInsets.fromLTRB(20.w, 18.h, 20.w, 0),
                       itemBuilder: itemBuilder,
                       separatorBuilder: separatorBuilder,
                       itemCount: state.listFavorite.length,
@@ -135,11 +153,15 @@ class MovieView extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    var itemFavorite = BlocProvider.of<MovieBloc>(context).state.listFavorite[index];
+    final state = BlocProvider.of<MovieBloc>(context).state;
+    final itemFavorite = state.listFavorite[index];
+    log('Hello${state.runtimeType}');
     return QuaternaryItemList(
       title: itemFavorite.title ?? itemFavorite.name,
       voteAverage: itemFavorite.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),
-      releaseDate: AppUtils().formatDate(itemFavorite.releaseDate ?? ''),
+      releaseDate: itemFavorite.releaseDate!.isNotEmpty
+          ? AppUtils().formatDate(itemFavorite.releaseDate ?? '')
+          : '00-00-0000',
       overview: itemFavorite.overview != '' ? itemFavorite.overview : 'Coming soon',
       originalLanguage: itemFavorite.originalLanguage,
       imageUrl: itemFavorite.posterPath != null

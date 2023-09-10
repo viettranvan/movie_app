@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:movie_app/models/models.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
@@ -68,7 +69,7 @@ class SearchPage extends StatelessWidget {
                     hideNavigationBar(context);
                     return false;
                   }
-                  return true;
+                  return false;
                 },
                 child: Stack(
                   children: [
@@ -82,7 +83,7 @@ class SearchPage extends StatelessWidget {
                         return Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const SizedBox(height: 88),
+                            SizedBox(height: 88.h),
                             Expanded(
                               child: Stack(
                                 children: [
@@ -90,7 +91,12 @@ class SearchPage extends StatelessWidget {
                                     builder: (context, state) {
                                       if (state is SearchError) {
                                         return Center(
-                                          child: Text(state.errorMessage),
+                                          child: Text(
+                                            state.errorMessage,
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                            ),
+                                          ),
                                         );
                                       }
                                       return const SizedBox();
@@ -102,7 +108,7 @@ class SearchPage extends StatelessWidget {
                                             if (bloc.scrollController.hasClients &&
                                                 bloc.scrollController.offset <= 2000) {
                                               hideButton(context);
-                                              return true;
+                                              return false;
                                             }
                                             return false;
                                           }
@@ -110,20 +116,20 @@ class SearchPage extends StatelessWidget {
                                             if (bloc.scrollController.hasClients &&
                                                 bloc.scrollController.offset > 2000) {
                                               showButton(context);
-                                              return true;
+                                              return false;
                                             }
                                             return false;
                                           },
                                     child: SmartRefresher(
                                       scrollController: bloc.scrollController,
                                       controller: bloc.refreshController,
-                                      enablePullUp:
-                                          enablePullUp(state.listSearch, state.listTrending),
-                                      enablePullDown:
-                                          enablePullUp(state.listSearch, state.listTrending),
+                                      enablePullUp: enablePullUp(
+                                          state.listSearch, state.listTrending, context),
+                                      enablePullDown: enablePullUp(
+                                          state.listSearch, state.listTrending, context),
                                       header: const Header(),
-                                      footer: const Footer(
-                                        height: 140,
+                                      footer: Footer(
+                                        height: 140.h,
                                         noMoreStatus: 'All results was loaded !',
                                         failedStatus: 'Failed to load results !',
                                       ),
@@ -132,7 +138,7 @@ class SearchPage extends StatelessWidget {
                                       child: MasonryGridView.count(
                                         addAutomaticKeepAlives: false,
                                         addRepaintBoundaries: false,
-                                        padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+                                        padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 0),
                                         crossAxisCount: 2,
                                         crossAxisSpacing: 16,
                                         mainAxisSpacing: 16,
@@ -199,17 +205,15 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  bool enablePullUp(List<MultipleMedia> listSearch, List<MultipleMedia> listTrending) {
-    if (listSearch.isEmpty && listTrending.isEmpty) {
+  bool enablePullUp(
+      List<MultipleMedia> listSearch, List<MultipleMedia> listTrending, BuildContext context) {
+    final state = BlocProvider.of<SearchBloc>(context).state;
+    if (state is SearchError) {
       return false;
+    } else if (state is SearchSuccess) {
+      return true;
     } else {
-      if (listSearch.isEmpty && listTrending.isNotEmpty) {
-        return true;
-      } else if (listSearch.isNotEmpty && listTrending.isEmpty) {
-        return false;
-      } else {
-        return true;
-      }
+      return false;
     }
   }
 

@@ -26,57 +26,60 @@ class NowPlayingView extends StatelessWidget {
             reloadItem(context);
           }
         },
-        child: BlocConsumer<NowPlayingBloc, NowPlayingState>(
-          listener: (context, state) {
-            if (state.paletteColors.isEmpty) {
-              BlocProvider.of<NowPlayingBloc>(context).add(ChangeColor(
-                imagePath: (state.nowPlayingTv.posterPath ?? '').isEmpty
-                    ? 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg'
-                    : '${AppConstants.kImagePathPoster}${state.nowPlayingTv.posterPath}',
-              ));
-            } else {
-              return;
-            }
-          },
-          builder: (context, state) {
-            if (state is NowPlayingInitial) {
-              return SizedBox(height: 172.h);
-            }
-            if (state is NowPlayingError) {
-              return SizedBox(
-                height: 172.h,
-                width: double.infinity,
-                child: const CustomIndicator(),
-              );
-            }
-            final name = state.nowPlayingTv.name;
-            final seasonNumber = state.nowPlayingTv.lastEpisodeToAir?.seasonNumber;
-            final episode = state.nowPlayingTv.lastEpisodeToAir?.episodeNumber;
-            final overview =
-                state.nowPlayingTv.overview != '' ? state.nowPlayingTv.overview : 'Comming soon';
-            final posterPath = state.nowPlayingTv.posterPath;
-            return Column(
-              children: [
-                PrimaryText(
-                  visibleIcon: true,
-                  title: 'Now Playing',
-                  visibleViewAll: true,
-                  onTapViewAll: () {},
-                  icon: Icon(
-                    Icons.smart_display_outlined,
-                    color: greyColor,
-                  ),
-                ),
-                SizedBox(height: 15.h),
-                ViewItem(
+        child: Column(
+          children: [
+            PrimaryText(
+              visibleIcon: true,
+              title: 'Now Playing',
+              visibleViewAll: true,
+              onTapViewAll: () {},
+              icon: Icon(
+                Icons.smart_display_outlined,
+                color: greyColor,
+              ),
+            ),
+            SizedBox(height: 15.h),
+            BlocConsumer<NowPlayingBloc, NowPlayingState>(
+              listener: (context, state) {
+                if (state.paletteColors.isEmpty && state is NowPlayingSuccess) {
+                  BlocProvider.of<NowPlayingBloc>(context).add(ChangeColor(
+                    imagePath: (state.nowPlayingTv.posterPath ?? '').isEmpty
+                        ? 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg'
+                        : '${AppConstants.kImagePathPoster}${state.nowPlayingTv.posterPath}',
+                  ));
+                } else {
+                  return;
+                }
+              },
+              builder: (context, state) {
+                if (state is NowPlayingInitial) {
+                  return SizedBox(
+                    height: 172.h,
+                    child: const CustomIndicator(),
+                  );
+                }
+                if (state is NowPlayingError) {
+                  return SizedBox(
+                    height: 172.h,
+                    child: Center(
+                      child: Text(state.runtimeType.toString()),
+                    ),
+                  );
+                }
+                final name = state.nowPlayingTv.name;
+                final seasonNumber = state.nowPlayingTv.lastEpisodeToAir?.seasonNumber;
+                final episode = state.nowPlayingTv.lastEpisodeToAir?.episodeNumber;
+                final overview = state.nowPlayingTv.overview != ''
+                    ? state.nowPlayingTv.overview
+                    : 'Comming soon';
+                final posterPath = state.nowPlayingTv.posterPath;
+                return ViewItem(
                   title: name,
                   season: seasonNumber,
                   episode: episode,
                   overview: overview,
                   textColor: state.averageLuminance > 0.5 ? brownColor : whiteColor,
-                  imageUrl: posterPath != null
-                      ? '${AppConstants.kImagePathPoster}$posterPath'
-                      : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+                  imageUrl: '${AppConstants.kImagePathPoster}$posterPath',
                   colors: state.paletteColors,
                   stops: List.generate(state.paletteColors.length, (index) => index * 0.13),
                   onTap: () => Navigator.of(context).push(
@@ -85,10 +88,10 @@ class NowPlayingView extends StatelessWidget {
                       begin: const Offset(1, 0),
                     ),
                   ),
-                ),
-              ],
-            );
-          },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

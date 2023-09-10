@@ -39,28 +39,33 @@ class UpcomingView extends StatelessWidget {
             },
           ),
         ],
-        child: BlocBuilder<UpcomingBloc, UpcomingState>(
-          builder: (context, state) {
-            var bloc = BlocProvider.of<UpcomingBloc>(context);
-            if (state is UpcomingInitial) {
-              return SizedBox(height: 365.h);
-            }
-            return Column(
-              children: [
-                PrimaryText(
-                  visibleIcon: true,
-                  title: 'Upcoming',
-                  visibleViewAll: true,
-                  onTapViewAll: () {},
-                  icon: Image.asset(
-                    ImagesPath.upcomingIcon.assetName,
-                    filterQuality: FilterQuality.high,
-                    color: greyColor,
-                    scale: 2,
-                  ),
-                ),
-                SizedBox(height: 15.h),
-                CarouselSlider.builder(
+        child: Column(
+          children: [
+            PrimaryText(
+              visibleIcon: true,
+              title: 'Upcoming',
+              visibleViewAll: true,
+              onTapViewAll: () {},
+              icon: Image.asset(
+                ImagesPath.upcomingIcon.assetName,
+                filterQuality: FilterQuality.high,
+                color: greyColor,
+                scale: 2,
+              ),
+            ),
+            SizedBox(height: 15.h),
+            BlocBuilder<UpcomingBloc, UpcomingState>(
+              builder: (context, state) {
+                final bloc = BlocProvider.of<UpcomingBloc>(context);
+                if (state is UpcomingError) {
+                  return SizedBox(
+                    height: 365.h,
+                    child: Center(
+                      child: Text(state.runtimeType.toString()),
+                    ),
+                  );
+                }
+                return CarouselSlider.builder(
                   carouselController: bloc.controller,
                   itemBuilder: itemBuilder,
                   itemCount: state.listUpcoming.length,
@@ -71,44 +76,43 @@ class UpcomingView extends StatelessWidget {
                     enableInfiniteScroll: true,
                     viewportFraction: 0.8,
                   ),
-                ),
-              ],
-            );
-          },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget itemBuilder(BuildContext context, int index, int realIndex) {
-    var state = BlocProvider.of<UpcomingBloc>(context).state;
-    var list = state.listUpcoming;
-    if (state is UpcomingError) {
-      return SizedBox(
-        height: 365.h,
-        child: const CustomIndicator(),
-      );
-    }
-    return SliderItem(
-      isBackdrop: false,
-      title: list[index].title,
-      voteAverage: list[index].voteAverage?.toDouble(),
-      imageUrlPoster: list[index].posterPath != null
-          ? '${AppConstants.kImagePathPoster}${list[index].posterPath}'
-          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
-      onTap: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: const DetailsPage(),
-          begin: const Offset(1, 0),
-        ),
-      ),
-    );
+    final state = BlocProvider.of<UpcomingBloc>(context).state;
+    final list = state.listUpcoming;
+    return state is UpcomingInitial
+        ? SizedBox(
+            height: 365.h,
+            child: const CustomIndicator(),
+          )
+        : SliderItem(
+            isBackdrop: false,
+            title: list[index].title,
+            voteAverage: list[index].voteAverage?.toDouble(),
+            imageUrlPoster: list[index].posterPath != null
+                ? '${AppConstants.kImagePathPoster}${list[index].posterPath}'
+                : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+            onTap: () => Navigator.of(context).push(
+              CustomPageRoute(
+                page: const DetailsPage(),
+                begin: const Offset(1, 0),
+              ),
+            ),
+          );
   }
 
   reloadList(BuildContext context) {
     final bloc = BlocProvider.of<UpcomingBloc>(context);
     bloc.add(FetchData(language: 'en-US', page: 1, region: ''));
-    if (bloc.controller.ready) {
+    if (bloc.controller.ready && bloc.state is UpcomingSuccess) {
       bloc.controller.animateToPage(
         0,
         duration: const Duration(milliseconds: 500),

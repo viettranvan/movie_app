@@ -56,6 +56,7 @@ class TvBloc extends Bloc<TvEvent, TvState> {
       controller.refreshCompleted();
     } catch (e) {
       controller.refreshFailed();
+      state.listFavorite.clear();
       emit(TvError(
         errorMessage: e.toString(),
         listFavorite: state.listFavorite,
@@ -92,6 +93,7 @@ class TvBloc extends Bloc<TvEvent, TvState> {
       }
     } catch (e) {
       controller.loadFailed();
+      state.listFavorite.clear();
       emit(TvError(
         errorMessage: e.toString(),
         listFavorite: state.listFavorite,

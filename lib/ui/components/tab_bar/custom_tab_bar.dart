@@ -21,9 +21,9 @@ class CustomTabBar extends StatelessWidget {
       builder: (context, constraints) {
         double paddingRight = const EdgeInsets.all(15).right;
         double paddingLeft = const EdgeInsets.all(15).left;
-        double width = (constraints.biggest.width - (paddingLeft + paddingRight)) / 2.w;
+        double width = (constraints.maxWidth - (paddingRight.w + paddingLeft.w)) / 2;
         return Padding(
-          padding: EdgeInsets.fromLTRB(paddingLeft.w, 15.h, paddingRight, 15.h),
+          padding: EdgeInsets.fromLTRB(paddingLeft.w, 15.h, paddingRight.w, 15.h),
           child: Stack(
             children: [
               Positioned.fill(
@@ -52,6 +52,7 @@ class CustomTabBar extends StatelessWidget {
                   ),
                 ),
                 child: Row(
+                  mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(

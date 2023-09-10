@@ -71,6 +71,13 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
           paletteColors: paletteRemoveWhite,
           nowPlayingTv: state.nowPlayingTv,
         ));
+      } else {
+        emit(NowPlayingError(
+          errorMessage: '',
+          nowPlayingTv: state.nowPlayingTv,
+          paletteColors: state.paletteColors,
+          averageLuminance: state.averageLuminance,
+        ));
       }
     } catch (e) {
       emit(NowPlayingError(

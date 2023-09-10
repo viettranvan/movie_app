@@ -20,36 +20,48 @@ class Genreview extends StatelessWidget {
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
               if (state is NavigationSuccess) {
-                reloadState(context);
+                reloadList(context);
               }
             },
           ),
           BlocListener<HomeBloc, HomeState>(
             listener: (context, state) {
               if (state is HomeSuccess) {
-                reloadState(context);
+                reloadList(context);
               }
             },
           ),
         ],
-        child: BlocBuilder<GenreBloc, GenreState>(
-          builder: (context, state) {
-            final bloc = BlocProvider.of<GenreBloc>(context);
-            if (state is GenreInitial) {
-              return SizedBox(height: 30.h);
-            }
-            return Column(
-              children: [
-                SecondaryText(
-                  title: 'Popular Genres',
-                  leftWidget: CustomSwitch(
+        child: Column(
+          children: [
+            SecondaryText(
+              title: 'Popular Genres',
+              leftWidget: BlocBuilder<GenreBloc, GenreState>(
+                builder: (context, state) {
+                  if (state is GenreInitial || state is GenreError) {
+                    return SizedBox(height: 22.h);
+                  }
+                  return CustomSwitch(
                     isActive: state.isActive,
                     onSwitchMovie: () => switchMovie(context),
                     onSwitchTV: () => switchTv(context),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                AnimatedCrossFade(
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 20.h),
+            BlocBuilder<GenreBloc, GenreState>(
+              builder: (context, state) {
+                final bloc = BlocProvider.of<GenreBloc>(context);
+                if (state is GenreError) {
+                  return SizedBox(
+                    height: 30.h,
+                    child: Center(
+                      child: Text(state.runtimeType.toString()),
+                    ),
+                  );
+                }
+                return AnimatedCrossFade(
                   duration: const Duration(milliseconds: 400),
                   crossFadeState:
                       state.isActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
@@ -59,7 +71,7 @@ class Genreview extends StatelessWidget {
                       controller: bloc.movieController,
                       addAutomaticKeepAlives: false,
                       addRepaintBoundaries: false,
-                      padding: EdgeInsets.fromLTRB(17.w, 0.h, 17.w, 0.h),
+                      padding: EdgeInsets.fromLTRB(17.w, 0, 17.w, 0),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: itemBuilderMovie,
@@ -78,48 +90,46 @@ class Genreview extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: itemBuilderTv,
                       separatorBuilder: separatorBuilder,
-                      itemCount: state.listGenreTv.isNotEmpty ? state.listGenreTv.length : 21,
+                      itemCount: state.listGenreTv.isNotEmpty ? state.listGenreTv.length : 20,
                     ),
                   ),
-                ),
-              ],
-            );
-          },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget itemBuilderMovie(BuildContext context, int index) {
-    var list = BlocProvider.of<GenreBloc>(context).state.listGenreMovie;
-    if (list.isEmpty) {
-      return SizedBox(
-        height: 30.h,
-        width: 53.w,
-        child: const CustomIndicator(),
-      );
-    } else {
-      return PrimaryItemList(
-        title: list[index].name,
-        onTap: () {},
-      );
-    }
+    final state = BlocProvider.of<GenreBloc>(context).state;
+    final list = state.listGenreMovie;
+    return state is GenreInitial
+        ? SizedBox(
+            height: 30.h,
+            width: 53.w,
+            child: const CustomIndicator(),
+          )
+        : PrimaryItemList(
+            title: list[index].name,
+            onTap: () {},
+          );
   }
 
   Widget itemBuilderTv(BuildContext context, int index) {
-    var list = BlocProvider.of<GenreBloc>(context).state.listGenreTv;
-    if (list.isEmpty) {
-      return SizedBox(
-        height: 30.h,
-        width: 53.w,
-        child: const CustomIndicator(),
-      );
-    } else {
-      return PrimaryItemList(
-        title: list[index].name,
-        onTap: () {},
-      );
-    }
+    final state = BlocProvider.of<GenreBloc>(context).state;
+    final list = state.listGenreTv;
+    return state is GenreInitial
+        ? SizedBox(
+            height: 30.h,
+            width: 53.w,
+            child: const CustomIndicator(),
+          )
+        : PrimaryItemList(
+            title: list[index].name,
+            onTap: () {},
+          );
   }
 
   Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 10.w);
@@ -136,10 +146,10 @@ class Genreview extends StatelessWidget {
     bloc.tvController.jumpTo(0);
   }
 
-  reloadState(BuildContext context) {
+  reloadList(BuildContext context) {
     final bloc = BlocProvider.of<GenreBloc>(context);
     bloc.add(FetchData(language: 'en-US'));
-    bloc.add(SwitchType(isActive: false));
+    bloc.state is GenreSuccess ? bloc.add(SwitchType(isActive: false)) : null;
     if (bloc.movieController.hasClients) {
       bloc.movieController.animateTo(
         0,

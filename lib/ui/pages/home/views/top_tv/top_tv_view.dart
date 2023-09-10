@@ -38,25 +38,30 @@ class TopTvView extends StatelessWidget {
             },
           ),
         ],
-        child: BlocBuilder<TopTvBloc, TopTvState>(
-          builder: (context, state) {
-            final bloc = BlocProvider.of<TopTvBloc>(context);
-            if (state is TopTvInitial) {
-              return SizedBox(height: 213.h);
-            }
-            return Column(
-              children: [
-                PrimaryText(
-                  visibleIcon: true,
-                  title: 'Top TV Shows',
-                  visibleViewAll: true,
-                  onTapViewAll: () {},
-                  icon: SvgPicture.asset(
-                    ImagesPath.tvShowIcon.assetName,
-                  ),
-                ),
-                SizedBox(height: 15.h),
-                Stack(
+        child: Column(
+          children: [
+            PrimaryText(
+              visibleIcon: true,
+              title: 'Top TV Shows',
+              visibleViewAll: true,
+              onTapViewAll: () {},
+              icon: SvgPicture.asset(
+                ImagesPath.tvShowIcon.assetName,
+              ),
+            ),
+            SizedBox(height: 15.h),
+            BlocBuilder<TopTvBloc, TopTvState>(
+              builder: (context, state) {
+                final bloc = BlocProvider.of<TopTvBloc>(context);
+                if (state is TopTvError) {
+                  return SizedBox(
+                    height: 213.h,
+                    child: Center(
+                      child: Text(state.runtimeType.toString()),
+                    ),
+                  );
+                }
+                return Stack(
                   children: [
                     const Positioned.fill(
                       child: PrimaryBackground(),
@@ -76,18 +81,19 @@ class TopTvView extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
-              ],
-            );
-          },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    var list = BlocProvider.of<TopTvBloc>(context).state.listTopTv;
-    if (list.isEmpty) {
+    final state = BlocProvider.of<TopTvBloc>(context).state;
+    final list = state.listTopTv;
+    if (state is TopTvInitial) {
       return SizedBox(
         height: 200.h,
         width: 120.w,

@@ -56,6 +56,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       controller.refreshCompleted();
     } catch (e) {
       controller.refreshFailed();
+      state.listWatchList.clear();
       emit(MovieError(
         errorMessage: e.toString(),
         listWatchList: state.listWatchList,
@@ -92,6 +93,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       }
     } catch (e) {
       controller.loadFailed();
+      state.listWatchList.clear();
       emit(MovieError(
         errorMessage: e.toString(),
         listWatchList: state.listWatchList,

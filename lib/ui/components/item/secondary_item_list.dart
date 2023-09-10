@@ -29,7 +29,7 @@ class SecondaryItemList extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: 73.w,
+              width: 70.w,
               height: 100.h,
               decoration: BoxDecoration(
                 color: whiteColor,

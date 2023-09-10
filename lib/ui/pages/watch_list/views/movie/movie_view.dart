@@ -32,7 +32,7 @@ class MovieView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          var bloc = BlocProvider.of<MovieBloc>(context);
+          final bloc = BlocProvider.of<MovieBloc>(context);
           return SmartRefresher(
             controller: bloc.controller,
             enablePullDown: state.listWatchList.isNotEmpty,
@@ -72,7 +72,7 @@ class MovieView extends StatelessWidget {
                       : bloc.add(DropDown(isDropDown: false)),
                   itemBuilder: (context, index) {
                     return CustomDropDownItem(
-                      title: state.listSort[index],
+                      title: AppUtils().getSortTitle(state.listSort[index]),
                       colorSelected: state.indexSelected == index ? darkBlueColor : whiteColor,
                       colorTitle: state.indexSelected == index ? whiteColor : darkBlueColor,
                       onTapItem: state.indexSelected != index ||
@@ -105,7 +105,7 @@ class MovieView extends StatelessWidget {
                         ),
                       );
                     }
-                    if (state.listWatchList.isEmpty) {
+                    if (state is MovieSuccess && state.listWatchList.isEmpty) {
                       return CustomTextRich(
                         primaryText: 'Press',
                         secondaryText: 'to add to watchlist movies',
@@ -135,11 +135,13 @@ class MovieView extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    var itemWatchList = BlocProvider.of<MovieBloc>(context).state.listWatchList[index];
+    final itemWatchList = BlocProvider.of<MovieBloc>(context).state.listWatchList[index];
     return QuaternaryItemList(
       title: itemWatchList.title ?? itemWatchList.name,
       voteAverage: itemWatchList.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),
-      releaseDate: AppUtils().formatDate(itemWatchList.releaseDate ?? ''),
+      releaseDate: itemWatchList.releaseDate!.isNotEmpty
+          ? AppUtils().formatDate(itemWatchList.releaseDate ?? '')
+          : '00-00-0000',
       overview: itemWatchList.overview != '' ? itemWatchList.overview : 'Coming soon',
       originalLanguage: itemWatchList.originalLanguage,
       imageUrl: itemWatchList.posterPath != null
