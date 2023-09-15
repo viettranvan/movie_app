@@ -6,7 +6,6 @@ import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/artist/bloc/artist_bloc.dart';
-import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class ArtistView extends StatelessWidget {
@@ -20,24 +19,14 @@ class ArtistView extends StatelessWidget {
           language: 'en-US',
           page: 1,
         )),
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<NavigationBloc, NavigationState>(
-            listener: (context, state) {
-              if (state is NavigationSuccess) {
-                reloadList(context);
-              }
-            },
-          ),
-          BlocListener<HomeBloc, HomeState>(
-            listener: (context, state) {
-              if (state is HomeSuccess) {
-                reloadList(context);
-              }
-            },
-          ),
-        ],
+      child: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state is HomeSuccess) {
+            reloadList(context);
+          }
+        },
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             const SecondaryText(
               title: 'Popular Artists',
@@ -46,6 +35,12 @@ class ArtistView extends StatelessWidget {
             BlocBuilder<ArtistBloc, ArtistState>(
               builder: (context, state) {
                 final bloc = BlocProvider.of<ArtistBloc>(context);
+                if (state is ArtistInitial) {
+                  return SizedBox(
+                    height: 150.h,
+                    child: const CustomIndicator(),
+                  );
+                }
                 if (state is ArtistError) {
                   return SizedBox(
                     height: 150.h,
@@ -79,31 +74,24 @@ class ArtistView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     final state = BlocProvider.of<ArtistBloc>(context).state;
     final list = state.listArtist;
-    if (state is ArtistInitial) {
-      return SizedBox(
-        height: 140.h,
-        width: 67.w,
-        child: const CustomIndicator(),
-      );
-    } else {
-      String? name = index != list.length ? list[index].name : '';
-      String? profilePath = index != list.length ? list[index].profilePath : '';
-      return SecondaryItemList(
-        title: name,
-        imageUrl: profilePath != null
-            ? '${AppConstants.kImagePathPoster}$profilePath'
-            : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
-        index: index,
-        itemCount: list.length,
-        onTapItem: () => Navigator.of(context).push(
-          CustomPageRoute(
-            page: const DetailsPage(),
-            begin: const Offset(1, 0),
-          ),
+
+    String? name = index != list.length ? list[index].name : '';
+    String? profilePath = index != list.length ? list[index].profilePath : '';
+    return SecondaryItemList(
+      title: name,
+      imageUrl: profilePath != null
+          ? '${AppConstants.kImagePathPoster}$profilePath'
+          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+      index: index,
+      itemCount: list.length,
+      onTapItem: () => Navigator.of(context).push(
+        CustomPageRoute(
+          page: const DetailsPage(),
+          begin: const Offset(1, 0),
         ),
-        onTapViewAll: () {},
-      );
-    }
+      ),
+      onTapViewAll: () {},
+    );
   }
 
   Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 14.h);

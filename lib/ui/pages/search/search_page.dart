@@ -29,36 +29,31 @@ class SearchPage extends StatelessWidget {
           includeAdult: true,
         )),
       child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) {
-          if (state is NavigationSuccess) {
-            fetchTrending(context);
-            BlocProvider.of<SearchBloc>(context).add(ScrollToTop());
-          }
-        },
-        child: BlocConsumer<SearchBloc, SearchState>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            final bloc = BlocProvider.of<SearchBloc>(context);
-            return Scaffold(
-              backgroundColor: darkWhiteColor,
-              appBar: CustomAppBar(
-                leadingWidth: 0,
-                centerTitle: false,
-                title: const CustomAppBarTitle(
-                  titleAppBar: 'Search',
+        listener: (context, state) =>
+            state is NavigationSuccess && state.indexPage == 2 ? fetchTrending(context) : null,
+        child: Scaffold(
+          backgroundColor: darkWhiteColor,
+          appBar: CustomAppBar(
+            leadingWidth: 0,
+            centerTitle: false,
+            title: const CustomAppBarTitle(
+              titleAppBar: 'Search',
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 8, 12, 8),
+                child: Image.asset(
+                  ImagesPath.primaryShortLogo.assetName,
+                  scale: 4,
+                  filterQuality: FilterQuality.high,
                 ),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 12, 8),
-                    child: Image.asset(
-                      ImagesPath.primaryShortLogo.assetName,
-                      scale: 4,
-                      filterQuality: FilterQuality.high,
-                    ),
-                  ),
-                ],
               ),
-              body: NotificationListener<UserScrollNotification>(
+            ],
+          ),
+          body: BlocBuilder<SearchBloc, SearchState>(
+            builder: (context, state) {
+              final bloc = BlocProvider.of<SearchBloc>(context);
+              return NotificationListener<UserScrollNotification>(
                 onNotification: (notification) {
                   final scrollDirection = bloc.scrollController.position.userScrollDirection;
                   if (scrollDirection == ScrollDirection.forward) {
@@ -73,54 +68,51 @@ class SearchPage extends StatelessWidget {
                 },
                 child: Stack(
                   children: [
-                    BlocBuilder<SearchBloc, SearchState>(
-                      builder: (context, state) {
-                        if (state is SearchInitial) {
-                          return const CustomIndicator(
-                            radius: 20,
-                          );
-                        }
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(height: 88.h),
-                            Expanded(
-                              child: Stack(
-                                children: [
-                                  BlocBuilder<SearchBloc, SearchState>(
-                                    builder: (context, state) {
-                                      if (state is SearchError) {
-                                        return Center(
-                                          child: Text(
-                                            state.errorMessage,
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                            ),
-                                          ),
-                                        );
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(height: 88.h),
+                        Expanded(
+                          child: Stack(
+                            children: [
+                              NotificationListener<ScrollNotification>(
+                                onNotification: state.visible
+                                    ? (notification) {
+                                        if (bloc.scrollController.hasClients &&
+                                            bloc.scrollController.offset <= 2000) {
+                                          hideButton(context);
+                                          return false;
+                                        }
+                                        return false;
                                       }
-                                      return const SizedBox();
-                                    },
-                                  ),
-                                  NotificationListener<ScrollNotification>(
-                                    onNotification: state.visible
-                                        ? (notification) {
-                                            if (bloc.scrollController.hasClients &&
-                                                bloc.scrollController.offset <= 2000) {
-                                              hideButton(context);
-                                              return false;
-                                            }
-                                            return false;
-                                          }
-                                        : (notification) {
-                                            if (bloc.scrollController.hasClients &&
-                                                bloc.scrollController.offset > 2000) {
-                                              showButton(context);
-                                              return false;
-                                            }
-                                            return false;
-                                          },
-                                    child: SmartRefresher(
+                                    : (notification) {
+                                        if (bloc.scrollController.hasClients &&
+                                            bloc.scrollController.offset > 2000) {
+                                          showButton(context);
+                                          return false;
+                                        }
+                                        return false;
+                                      },
+                                child: BlocBuilder<SearchBloc, SearchState>(
+                                  builder: (context, state) {
+                                    if (state is SearchInitial) {
+                                      return const Center(
+                                        child: CustomIndicator(
+                                          radius: 10,
+                                        ),
+                                      );
+                                    }
+                                    if (state is SearchError) {
+                                      return Center(
+                                        child: Text(
+                                          state.errorMessage,
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    return SmartRefresher(
                                       scrollController: bloc.scrollController,
                                       controller: bloc.refreshController,
                                       enablePullUp: enablePullUp(
@@ -148,19 +140,19 @@ class SearchPage extends StatelessWidget {
                                             ? state.listSearch.length
                                             : state.listTrending.length,
                                       ),
-                                    ),
-                                  ),
-                                  CustomScrollButton(
-                                    visible: state.visible,
-                                    opacity: state.visible ? 1.0 : 0.0,
-                                    onTap: state.visible ? () => scrollToTop(context) : null,
-                                  ),
-                                ],
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
-                        );
-                      },
+                              CustomScrollButton(
+                                visible: state.visible,
+                                opacity: state.visible ? 1.0 : 0.0,
+                                onTap: state.visible ? () => scrollToTop(context) : null,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                     Container(
                       color: darkWhiteColor,
@@ -177,14 +169,17 @@ class SearchPage extends StatelessWidget {
                                 ),
                               )
                             : null,
-                        onChanged: (value) => debouncer.call(() => fetchSearch(context, value)),
+                        onChanged: (value) {
+                          bloc.add(LoadShimmer());
+                          debouncer.call(() => fetchSearch(context, value));
+                        },
                       ),
                     ),
                   ],
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
@@ -219,7 +214,6 @@ class SearchPage extends StatelessWidget {
 
   fetchSearch(BuildContext context, String query) {
     final bloc = BlocProvider.of<SearchBloc>(context);
-    bloc.add(ScrollToTop());
     bloc.add(FetchData(
       query: query,
       includeAdult: true,
@@ -240,7 +234,9 @@ class SearchPage extends StatelessWidget {
       );
 
   fetchTrending(BuildContext context) {
-    BlocProvider.of<SearchBloc>(context).textController.clear();
+    final bloc = BlocProvider.of<SearchBloc>(context);
+    bloc.textController.clear();
+    bloc.add(ScrollToTop());
     fetchSearch(context, '');
   }
 
@@ -262,6 +258,7 @@ class SearchPage extends StatelessWidget {
       const Duration(milliseconds: 1000),
       () {
         Navigator.of(context).pop();
+        bloc.add(ScrollToTop());
         fetchSearch(context, bloc.state.query);
         navigationBloc.add(ShowHide(visible: true));
       },

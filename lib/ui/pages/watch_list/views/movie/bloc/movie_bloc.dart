@@ -24,6 +24,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     on<LoadMore>(_onLoadMore);
     on<DropDown>(_onDropDown);
     on<Sort>(_onSort);
+    on<LoadShimmer>(_onLoadShimmer);
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<MovieState> emit) async {
@@ -128,6 +129,15 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       isDropDown: state.isDropDown,
       indexSelected: event.index,
       sortBy: event.sortBy,
+    ));
+  }
+
+  FutureOr<void> _onLoadShimmer(LoadShimmer event, Emitter<MovieState> emit) {
+    emit(MovieInitial(
+      listWatchList: state.listWatchList,
+      isDropDown: state.isDropDown,
+      indexSelected: state.indexSelected,
+      sortBy: state.sortBy,
     ));
   }
 }

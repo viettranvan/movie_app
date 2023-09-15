@@ -39,7 +39,7 @@ class CustomDropDown extends StatelessWidget {
                   width: 1.w,
                 ),
               ),
-              duration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 400),
               curve: Curves.fastOutSlowIn,
               child: ListView.separated(
                 padding: EdgeInsets.fromLTRB(0, 36.h, 0, 5.h),

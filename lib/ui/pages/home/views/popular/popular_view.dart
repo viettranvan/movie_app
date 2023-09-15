@@ -7,7 +7,6 @@ import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/popular/bloc/popular_bloc.dart';
-import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class PopularView extends StatelessWidget {
@@ -22,24 +21,14 @@ class PopularView extends StatelessWidget {
           region: '',
           language: 'en-US',
         )),
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<NavigationBloc, NavigationState>(
-            listener: (context, state) {
-              if (state is NavigationSuccess) {
-                reloadList(context);
-              }
-            },
-          ),
-          BlocListener<HomeBloc, HomeState>(
-            listener: (context, state) {
-              if (state is HomeSuccess) {
-                reloadList(context);
-              }
-            },
-          ),
-        ],
+      child: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state is HomeSuccess) {
+            reloadList(context);
+          }
+        },
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             PrimaryText(
               visibleIcon: true,
@@ -55,6 +44,12 @@ class PopularView extends StatelessWidget {
             BlocBuilder<PopularBloc, PopularState>(
               builder: (context, state) {
                 final bloc = BlocProvider.of<PopularBloc>(context);
+                if (state is PopularInitial) {
+                  return SizedBox(
+                    height: 200.h,
+                    child: const CustomIndicator(),
+                  );
+                }
                 if (state is PopularError) {
                   return SizedBox(
                     height: 200.h,
@@ -75,6 +70,7 @@ class PopularView extends StatelessWidget {
                       options: CarouselOptions(
                         autoPlayAnimationDuration: const Duration(milliseconds: 500),
                         autoPlay: true,
+                        height: 200.h,
                         viewportFraction: 1,
                         enableInfiniteScroll: true,
                         onPageChanged: (index, reason) =>
@@ -103,23 +99,18 @@ class PopularView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index, int realIndex) {
     final state = BlocProvider.of<PopularBloc>(context).state;
     final list = state.listPopular;
-    return state is PopularInitial
-        ? SizedBox(
-            height: 200.h,
-            child: const CustomIndicator(),
-          )
-        : SliderItem(
-            isBackdrop: true,
-            imageUrlBackdrop: list[index].backdropPath != null
-                ? '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}'
-                : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
-            onTap: () => Navigator.of(context).push(
-              CustomPageRoute(
-                page: const DetailsPage(),
-                begin: const Offset(1, 0),
-              ),
-            ),
-          );
+    return SliderItem(
+      isBackdrop: true,
+      imageUrlBackdrop: list[index].backdropPath != null
+          ? '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}'
+          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+      onTap: () => Navigator.of(context).push(
+        CustomPageRoute(
+          page: const DetailsPage(),
+          begin: const Offset(1, 0),
+        ),
+      ),
+    );
   }
 
   reloadList(BuildContext context) {
@@ -130,11 +121,7 @@ class PopularView extends StatelessWidget {
       language: 'en-US',
     ));
     if (bloc.controller.ready && bloc.state is PopularSuccess) {
-      bloc.controller.animateToPage(
-        0,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.linear,
-      );
+      bloc.controller.jumpToPage(0);
     }
   }
 }

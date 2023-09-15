@@ -7,7 +7,6 @@ import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/trending/bloc/trending_bloc.dart';
-import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class TrendingView extends StatelessWidget {
@@ -24,24 +23,14 @@ class TrendingView extends StatelessWidget {
           language: 'en-US',
           includeAdult: true,
         )),
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<NavigationBloc, NavigationState>(
-            listener: (context, state) {
-              if (state is NavigationSuccess) {
-                reloadList(context);
-              }
-            },
-          ),
-          BlocListener<HomeBloc, HomeState>(
-            listener: (context, state) {
-              if (state is HomeSuccess) {
-                reloadList(context);
-              }
-            },
-          ),
-        ],
+      child: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state is HomeSuccess) {
+            reloadList(context);
+          }
+        },
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             PrimaryText(
               visibleIcon: true,
@@ -56,6 +45,12 @@ class TrendingView extends StatelessWidget {
             BlocBuilder<TrendingBloc, TrendingState>(
               builder: (context, state) {
                 final bloc = BlocProvider.of<TrendingBloc>(context);
+                if (state is TrendingInitial) {
+                  return SizedBox(
+                    height: 200.h,
+                    child: const CustomIndicator(),
+                  );
+                }
                 if (state is TrendingError) {
                   return SizedBox(
                     height: 213.h,
@@ -97,31 +92,23 @@ class TrendingView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     final state = BlocProvider.of<TrendingBloc>(context).state;
     final list = state.listTrending;
-    if (state is TrendingInitial) {
-      return SizedBox(
-        height: 200.h,
-        width: 120.w,
-        child: const CustomIndicator(),
-      );
-    } else {
-      String? title = index != list.length ? (list[index].title ?? list[index].name) : '';
-      String? posterPath = index != list.length ? list[index].posterPath : '';
-      return TertiaryItemList(
-        title: title,
-        index: index,
-        itemCount: list.length,
-        imageUrl: posterPath != null
-            ? '${AppConstants.kImagePathPoster}$posterPath'
-            : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
-        onTapViewAll: () {},
-        onTapItem: () => Navigator.of(context).push(
-          CustomPageRoute(
-            page: const DetailsPage(),
-            begin: const Offset(1, 0),
-          ),
+    String? title = index != list.length ? (list[index].title ?? list[index].name) : '';
+    String? posterPath = index != list.length ? list[index].posterPath : '';
+    return TertiaryItemList(
+      title: title,
+      index: index,
+      itemCount: list.length,
+      imageUrl: posterPath != null
+          ? '${AppConstants.kImagePathPoster}$posterPath'
+          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+      onTapViewAll: () {},
+      onTapItem: () => Navigator.of(context).push(
+        CustomPageRoute(
+          page: const DetailsPage(),
+          begin: const Offset(1, 0),
         ),
-      );
-    }
+      ),
+    );
   }
 
   Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 14.w);

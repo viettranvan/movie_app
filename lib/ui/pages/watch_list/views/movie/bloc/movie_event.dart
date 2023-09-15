@@ -44,3 +44,5 @@ class Sort extends MovieEvent {
     required this.index,
   });
 }
+
+class LoadShimmer extends MovieEvent {}
