@@ -24,6 +24,7 @@ class TvBloc extends Bloc<TvEvent, TvState> {
     on<LoadMore>(_onLoadMore);
     on<DropDown>(_onDropDown);
     on<Sort>(_onSort);
+    on<LoadShimmer>(_onLoadShimmer);
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<TvState> emit) async {
@@ -128,6 +129,15 @@ class TvBloc extends Bloc<TvEvent, TvState> {
       isDropDown: state.isDropDown,
       indexSelected: event.index,
       sortBy: event.sortBy,
+    ));
+  }
+
+  FutureOr<void> _onLoadShimmer(LoadShimmer event, Emitter<TvState> emit) {
+    emit(TvInitial(
+      listWatchList: state.listWatchList,
+      isDropDown: state.isDropDown,
+      indexSelected: state.indexSelected,
+      sortBy: state.sortBy,
     ));
   }
 }

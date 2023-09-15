@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/genre/bloc/genre_bloc.dart';
-import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 
 class Genreview extends StatelessWidget {
   const Genreview({
@@ -15,24 +14,14 @@ class Genreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GenreBloc()..add(FetchData(language: 'en-US')),
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<NavigationBloc, NavigationState>(
-            listener: (context, state) {
-              if (state is NavigationSuccess) {
-                reloadList(context);
-              }
-            },
-          ),
-          BlocListener<HomeBloc, HomeState>(
-            listener: (context, state) {
-              if (state is HomeSuccess) {
-                reloadList(context);
-              }
-            },
-          ),
-        ],
+      child: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state is HomeSuccess) {
+            reloadList(context);
+          }
+        },
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             SecondaryText(
               title: 'Popular Genres',
@@ -53,6 +42,12 @@ class Genreview extends StatelessWidget {
             BlocBuilder<GenreBloc, GenreState>(
               builder: (context, state) {
                 final bloc = BlocProvider.of<GenreBloc>(context);
+                if (state is GenreInitial) {
+                  return SizedBox(
+                    height: 30.h,
+                    child: const CustomIndicator(),
+                  );
+                }
                 if (state is GenreError) {
                   return SizedBox(
                     height: 30.h,
@@ -105,31 +100,19 @@ class Genreview extends StatelessWidget {
   Widget itemBuilderMovie(BuildContext context, int index) {
     final state = BlocProvider.of<GenreBloc>(context).state;
     final list = state.listGenreMovie;
-    return state is GenreInitial
-        ? SizedBox(
-            height: 30.h,
-            width: 53.w,
-            child: const CustomIndicator(),
-          )
-        : PrimaryItemList(
-            title: list[index].name,
-            onTap: () {},
-          );
+    return PrimaryItemList(
+      title: list[index].name,
+      onTap: () {},
+    );
   }
 
   Widget itemBuilderTv(BuildContext context, int index) {
     final state = BlocProvider.of<GenreBloc>(context).state;
     final list = state.listGenreTv;
-    return state is GenreInitial
-        ? SizedBox(
-            height: 30.h,
-            width: 53.w,
-            child: const CustomIndicator(),
-          )
-        : PrimaryItemList(
-            title: list[index].name,
-            onTap: () {},
-          );
+    return PrimaryItemList(
+      title: list[index].name,
+      onTap: () {},
+    );
   }
 
   Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 10.w);

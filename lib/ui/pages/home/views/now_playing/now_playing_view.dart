@@ -27,6 +27,7 @@ class NowPlayingView extends StatelessWidget {
           }
         },
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             PrimaryText(
               visibleIcon: true,

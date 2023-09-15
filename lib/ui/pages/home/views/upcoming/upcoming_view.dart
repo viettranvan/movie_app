@@ -7,7 +7,6 @@ import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/upcoming/bloc/upcoming_bloc.dart';
-import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class UpcomingView extends StatelessWidget {
@@ -22,24 +21,14 @@ class UpcomingView extends StatelessWidget {
           page: 1,
           region: '',
         )),
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<NavigationBloc, NavigationState>(
-            listener: (context, state) {
-              if (state is NavigationSuccess) {
-                reloadList(context);
-              }
-            },
-          ),
-          BlocListener<HomeBloc, HomeState>(
-            listener: (context, state) {
-              if (state is HomeSuccess) {
-                reloadList(context);
-              }
-            },
-          ),
-        ],
+      child: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state is HomeSuccess) {
+            reloadList(context);
+          }
+        },
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             PrimaryText(
               visibleIcon: true,
@@ -57,6 +46,12 @@ class UpcomingView extends StatelessWidget {
             BlocBuilder<UpcomingBloc, UpcomingState>(
               builder: (context, state) {
                 final bloc = BlocProvider.of<UpcomingBloc>(context);
+                if (state is UpcomingInitial) {
+                  return SizedBox(
+                    height: 365.h,
+                    child: const CustomIndicator(),
+                  );
+                }
                 if (state is UpcomingError) {
                   return SizedBox(
                     height: 365.h,
@@ -88,25 +83,20 @@ class UpcomingView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index, int realIndex) {
     final state = BlocProvider.of<UpcomingBloc>(context).state;
     final list = state.listUpcoming;
-    return state is UpcomingInitial
-        ? SizedBox(
-            height: 365.h,
-            child: const CustomIndicator(),
-          )
-        : SliderItem(
-            isBackdrop: false,
-            title: list[index].title,
-            voteAverage: list[index].voteAverage?.toDouble(),
-            imageUrlPoster: list[index].posterPath != null
-                ? '${AppConstants.kImagePathPoster}${list[index].posterPath}'
-                : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
-            onTap: () => Navigator.of(context).push(
-              CustomPageRoute(
-                page: const DetailsPage(),
-                begin: const Offset(1, 0),
-              ),
-            ),
-          );
+    return SliderItem(
+      isBackdrop: false,
+      title: list[index].title,
+      voteAverage: list[index].voteAverage?.toDouble(),
+      imageUrlPoster: list[index].posterPath != null
+          ? '${AppConstants.kImagePathPoster}${list[index].posterPath}'
+          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+      onTap: () => Navigator.of(context).push(
+        CustomPageRoute(
+          page: const DetailsPage(),
+          begin: const Offset(1, 0),
+        ),
+      ),
+    );
   }
 
   reloadList(BuildContext context) {

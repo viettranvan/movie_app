@@ -20,7 +20,7 @@ class SliderIndicator extends StatelessWidget {
         (index) => AnimatedContainer(
           curve: Curves.linear,
           margin: const EdgeInsets.all(5),
-          duration: const Duration(milliseconds: 250),
+          duration: const Duration(milliseconds: 200),
           height: 8,
           width: indexIndicator == index ? 30 : 8,
           decoration: BoxDecoration(

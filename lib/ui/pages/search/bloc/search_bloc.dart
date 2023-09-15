@@ -29,6 +29,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<LoadMore>(_onLoadMore);
     on<ScrollToTop>(_onScrollToTop);
     on<ShowHideButton>(_onShowHideButton);
+    on<LoadShimmer>(_onLoadShimmer);
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<SearchState> emit) async {
@@ -187,5 +188,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         visible: state.visible,
       ));
     }
+  }
+
+  FutureOr<void> _onLoadShimmer(LoadShimmer event, Emitter<SearchState> emit) {
+    emit(SearchInitial(
+      query: '',
+      listSearch: [],
+      listTrending: [],
+      visible: false,
+    ));
   }
 }

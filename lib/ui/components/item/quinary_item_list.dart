@@ -26,7 +26,6 @@ class QuinaryItemList extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              // height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25.r),
                 boxShadow: [
@@ -43,7 +42,6 @@ class QuinaryItemList extends StatelessWidget {
                   filterQuality: FilterQuality.high,
                   fit: BoxFit.fill,
                   width: 280.w,
-                  // height: 130.h,
                   progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
                   errorWidget: (context, url, error) => const CustomIndicator(),
                 ),

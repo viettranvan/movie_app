@@ -24,11 +24,8 @@ class HomePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeBloc(),
       child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) {
-          if (state is NavigationSuccess) {
-            scrollToTop(context);
-          }
-        },
+        listener: (context, state) =>
+            state is NavigationSuccess && state.indexPage == 0 ? reloadPage(context) : null,
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             var bloc = BlocProvider.of<HomeBloc>(context);
@@ -71,7 +68,7 @@ class HomePage extends StatelessWidget {
                     hideNavigationBar(context);
                     return false;
                   }
-                  return true;
+                  return false;
                 },
                 child: SmartRefresher(
                   controller: bloc.refreshController,
@@ -110,8 +107,9 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  scrollToTop(BuildContext context) {
+  reloadPage(BuildContext context) {
     final bloc = BlocProvider.of<HomeBloc>(context);
+    bloc.add(RefreshData());
     if (bloc.scrollController.hasClients) {
       bloc.scrollController.jumpTo(0);
     }

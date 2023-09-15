@@ -22,8 +22,10 @@ class MovieView extends StatelessWidget {
         )),
       child: BlocConsumer<MovieBloc, MovieState>(
         listener: (context, state) {
+          final bloc = BlocProvider.of<MovieBloc>(context);
           if (state is MovieSortSuccess) {
-            BlocProvider.of<MovieBloc>(context).add(FetchData(
+            bloc.add(LoadShimmer());
+            bloc.add(FetchData(
               language: 'en-US',
               accountId: 11429392,
               sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
@@ -91,10 +93,8 @@ class MovieView extends StatelessWidget {
                   builder: (context, state) {
                     if (state is MovieInitial) {
                       return const Expanded(
-                        child: Center(
-                          child: CustomIndicator(
-                            radius: 15,
-                          ),
+                        child: CustomIndicator(
+                          radius: 15,
                         ),
                       );
                     }
@@ -155,24 +155,9 @@ class MovieView extends StatelessWidget {
   sortList(BuildContext context, int index, bool isDropDown, String sortBy) {
     final bloc = BlocProvider.of<MovieBloc>(context);
     isDropDown ? bloc.add(DropDown(isDropDown: true)) : bloc.add(DropDown(isDropDown: false));
-    showIndicator(context);
-    Future.delayed(
-      const Duration(milliseconds: 300),
-      () {
-        Navigator.of(context).pop();
-        bloc.add(Sort(
-          index: index,
-          sortBy: sortBy,
-        ));
-      },
-    );
+    bloc.add(Sort(
+      index: index,
+      sortBy: sortBy,
+    ));
   }
-
-  showIndicator(BuildContext context) => AppUtils().showCustomDialog(
-        context: context,
-        alignment: const Alignment(0, 0.3),
-        child: const CustomIndicator(
-          radius: 15,
-        ),
-      );
 }

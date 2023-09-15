@@ -44,3 +44,5 @@ class Sort extends TvEvent {
     required this.index,
   });
 }
+
+class LoadShimmer extends TvEvent {}
