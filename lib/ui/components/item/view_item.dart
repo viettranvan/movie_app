@@ -51,30 +51,30 @@ class ViewItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15.r),
-                  bottomLeft: Radius.circular(15.r),
-                ),
-                child: CachedNetworkImage(
-                  width: 115.w,
-                  imageUrl: imageUrl,
-                  filterQuality: FilterQuality.high,
-                  fit: BoxFit.fill,
-                  progressIndicatorBuilder: (context, url, progress) => SizedBox(
-                    height: 172.h,
-                    child: Center(
-                      child: CupertinoActivityIndicator(
-                        color: darkBlueColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15.r),
+                    bottomLeft: Radius.circular(15.r),
+                  ),
+                  child: CachedNetworkImage(
+                    width: 115.w,
+                    imageUrl: imageUrl,
+                    filterQuality: FilterQuality.high,
+                    fit: BoxFit.fill,
+                    progressIndicatorBuilder: (context, url, progress) => SizedBox(
+                      height: 172.h,
+                      child: Center(
+                        child: CupertinoActivityIndicator(
+                          color: darkBlueColor,
+                        ),
                       ),
                     ),
-                  ),
-                  errorWidget: (context, url, error) => Center(
-                    child: CupertinoActivityIndicator(
-                      color: darkBlueColor,
+                    errorWidget: (context, url, error) => Image.asset(
+                      ImagesPath.noImage.assetName,
+                      width: 115.w,
+                      filterQuality: FilterQuality.high,
+                      fit: BoxFit.fill,
                     ),
-                  ),
-                ),
-              ),
+                  )),
               Expanded(
                 flex: 3,
                 child: Container(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
+import 'package:movie_app/shared_ui/paths/images_path.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
@@ -22,9 +23,8 @@ class NowPlayingView extends StatelessWidget {
         )),
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
-          if (state is HomeSuccess) {
-            reloadItem(context);
-          }
+          final bloc = BlocProvider.of<NowPlayingBloc>(context);
+          state is HomeSuccess && bloc.state.paletteColors.isNotEmpty ? reloadItem(context) : null;
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -42,15 +42,14 @@ class NowPlayingView extends StatelessWidget {
             SizedBox(height: 15.h),
             BlocConsumer<NowPlayingBloc, NowPlayingState>(
               listener: (context, state) {
-                if (state.paletteColors.isEmpty && state is NowPlayingSuccess) {
-                  BlocProvider.of<NowPlayingBloc>(context).add(ChangeColor(
-                    imagePath: (state.nowPlayingTv.posterPath ?? '').isEmpty
-                        ? 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg'
-                        : '${AppConstants.kImagePathPoster}${state.nowPlayingTv.posterPath}',
-                  ));
-                } else {
-                  return;
-                }
+                final bloc = BlocProvider.of<NowPlayingBloc>(context);
+                state.paletteColors.isEmpty && state is NowPlayingSuccess
+                    ? bloc.add(ChangeColor(
+                        posterPath: (state.nowPlayingTv.posterPath ?? '').isNotEmpty
+                            ? '${AppConstants.kImagePathPoster}${state.nowPlayingTv.posterPath}'
+                            : ImagesPath.noImage.assetName,
+                      ))
+                    : null;
               },
               builder: (context, state) {
                 if (state is NowPlayingInitial) {
@@ -61,9 +60,9 @@ class NowPlayingView extends StatelessWidget {
                 }
                 if (state is NowPlayingError) {
                   return SizedBox(
-                    height: 172.h,
+                    height: 300.h,
                     child: Center(
-                      child: Text(state.runtimeType.toString()),
+                      child: Text(state.errorMessage),
                     ),
                   );
                 }
@@ -79,7 +78,9 @@ class NowPlayingView extends StatelessWidget {
                   season: seasonNumber,
                   episode: episode,
                   overview: overview,
-                  textColor: state.averageLuminance > 0.5 ? brownColor : whiteColor,
+                  textColor: state.averageLuminance > 0.5 || state.nowPlayingTv.posterPath == null
+                      ? blackColor
+                      : whiteColor,
                   imageUrl: '${AppConstants.kImagePathPoster}$posterPath',
                   colors: state.paletteColors,
                   stops: List.generate(state.paletteColors.length, (index) => index * 0.13),

@@ -144,9 +144,7 @@ class MovieView extends StatelessWidget {
           : '00-00-0000',
       overview: itemWatchList.overview != '' ? itemWatchList.overview : 'Coming soon',
       originalLanguage: itemWatchList.originalLanguage,
-      imageUrl: itemWatchList.posterPath != null
-          ? '${AppConstants.kImagePathPoster}/${itemWatchList.posterPath}'
-          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+      imageUrl: '${AppConstants.kImagePathPoster}/${itemWatchList.posterPath}',
     );
   }
 

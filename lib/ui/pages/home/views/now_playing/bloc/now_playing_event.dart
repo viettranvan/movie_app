@@ -12,8 +12,8 @@ class FetchData extends NowPlayingEvent {
 }
 
 class ChangeColor extends NowPlayingEvent {
-  final String imagePath;
+  final String posterPath;
   ChangeColor({
-    required this.imagePath,
+    required this.posterPath,
   });
 }

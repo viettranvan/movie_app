@@ -53,3 +53,5 @@ flutter:
     - lib/shared_ui/assets/images/primary_long_logo.png
     - lib/shared_ui/assets/images/primary_short_logo.png
     - lib/shared_ui/assets/images/background.png
+    - lib/shared_ui/assets/images/no_image.png
+    - lib/shared_ui/assets/animations/loading_animation.json

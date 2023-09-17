@@ -16,9 +16,11 @@ class Genreview extends StatelessWidget {
       create: (context) => GenreBloc()..add(FetchData(language: 'en-US')),
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
-          if (state is HomeSuccess) {
-            reloadList(context);
-          }
+          final bloc = BlocProvider.of<GenreBloc>(context);
+          state is HomeSuccess &&
+                  (bloc.state.listGenreMovie.isNotEmpty || bloc.state.listGenreMovie.isNotEmpty)
+              ? reloadList(context)
+              : null;
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,

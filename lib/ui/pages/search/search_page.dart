@@ -190,12 +190,12 @@ class SearchPage extends StatelessWidget {
     final item = state.listSearch.isNotEmpty ? state.listSearch[index] : state.listTrending[index];
     return GridItem(
       title: item.title ?? item.name,
-      releaseYear: AppUtils().getYearReleaseOrDepartment(
+      releaseYear: '(${AppUtils().getYearReleaseOrDepartment(
         item.releaseDate,
         item.firstAirDate,
         item.mediaType ?? '',
         item.knownForDepartment,
-      ),
+      )})',
       imageUrl: AppUtils().getImageUrl(item.posterPath, item.profilePath),
     );
   }

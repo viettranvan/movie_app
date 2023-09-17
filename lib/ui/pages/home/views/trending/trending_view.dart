@@ -25,9 +25,8 @@ class TrendingView extends StatelessWidget {
         )),
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
-          if (state is HomeSuccess) {
-            reloadList(context);
-          }
+          final bloc = BlocProvider.of<TrendingBloc>(context);
+          state is HomeSuccess && bloc.state.listTrending.isNotEmpty ? reloadList(context) : null;
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -98,9 +97,7 @@ class TrendingView extends StatelessWidget {
       title: title,
       index: index,
       itemCount: list.length,
-      imageUrl: posterPath != null
-          ? '${AppConstants.kImagePathPoster}$posterPath'
-          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+      imageUrl: '${AppConstants.kImagePathPoster}$posterPath',
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(

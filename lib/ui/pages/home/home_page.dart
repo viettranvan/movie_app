@@ -24,8 +24,9 @@ class HomePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeBloc(),
       child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) =>
-            state is NavigationSuccess && state.indexPage == 0 ? reloadPage(context) : null,
+        listener: (context, state) {
+          state is NavigationSuccess && state.indexPage == 0 ? reloadPage(context) : null;
+        },
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             var bloc = BlocProvider.of<HomeBloc>(context);

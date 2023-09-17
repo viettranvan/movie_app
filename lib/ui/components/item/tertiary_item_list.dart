@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 
 class TertiaryItemList extends StatelessWidget {
@@ -56,10 +56,17 @@ class TertiaryItemList extends StatelessWidget {
                           imageUrl: imageUrl,
                           filterQuality: FilterQuality.high,
                           width: double.infinity,
+                          height: double.infinity,
                           fit: BoxFit.fill,
                           progressIndicatorBuilder: (context, url, progress) =>
                               const CustomIndicator(),
-                          errorWidget: (context, url, error) => const CustomIndicator(),
+                          errorWidget: (context, url, error) => Image.asset(
+                            ImagesPath.noImage.assetName,
+                            width: double.infinity,
+                            height: double.infinity,
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
                     ),

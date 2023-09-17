@@ -21,9 +21,8 @@ class ArtistView extends StatelessWidget {
         )),
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
-          if (state is HomeSuccess) {
-            reloadList(context);
-          }
+          final bloc = BlocProvider.of<ArtistBloc>(context);
+          state is HomeSuccess && bloc.state.listArtist.isNotEmpty ? reloadList(context) : null;
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -74,14 +73,11 @@ class ArtistView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     final state = BlocProvider.of<ArtistBloc>(context).state;
     final list = state.listArtist;
-
     String? name = index != list.length ? list[index].name : '';
     String? profilePath = index != list.length ? list[index].profilePath : '';
     return SecondaryItemList(
       title: name,
-      imageUrl: profilePath != null
-          ? '${AppConstants.kImagePathPoster}$profilePath'
-          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+      imageUrl: '${AppConstants.kImagePathPoster}$profilePath',
       index: index,
       itemCount: list.length,
       onTapItem: () => Navigator.of(context).push(

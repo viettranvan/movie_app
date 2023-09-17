@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 
 class QuaternaryItemList extends StatelessWidget {
@@ -150,7 +150,11 @@ class QuaternaryItemList extends StatelessWidget {
                       filterQuality: FilterQuality.high,
                       fit: BoxFit.fill,
                       progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
-                      errorWidget: (context, url, error) => const CustomIndicator(),
+                      errorWidget: (context, url, error) => Image.asset(
+                        ImagesPath.noImage.assetName,
+                        filterQuality: FilterQuality.high,
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ),
