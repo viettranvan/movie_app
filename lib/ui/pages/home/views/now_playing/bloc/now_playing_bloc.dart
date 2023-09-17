@@ -55,16 +55,19 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
 
   FutureOr<void> _onChangeColor(ChangeColor event, Emitter<NowPlayingState> emit) async {
     try {
-      if (event.imagePath.isNotEmpty) {
-        final baseUrl = await compute(Uri.parse, event.imagePath);
-        final loadImage = await compute(NetworkAssetBundle(baseUrl).load, event.imagePath);
+      if (event.posterPath.isNotEmpty) {
+        final baseUrl = await compute(Uri.parse, event.posterPath);
+        final loadImage = state.nowPlayingTv.posterPath != null
+            ? await compute(NetworkAssetBundle(baseUrl).load, event.posterPath)
+            : await rootBundle.load(event.posterPath);
         final imageBytes = loadImage.buffer.asUint8List(); // load the image
         final colors = await AppUtils().extractColors(imageBytes);
         final paletteColors = await AppUtils().generatePalette(
           {'palette': colors, 'numberOfItemsPixel': 16},
         );
-        final paletteRemoveWhite = paletteColors
-          ..removeWhere((element) => element.computeLuminance() > 0.8);
+        final paletteRemoveWhite = state.nowPlayingTv.posterPath != null
+            ? (paletteColors..removeWhere((element) => element.computeLuminance() > 0.8))
+            : paletteColors;
         final averageLuminance = await AppUtils().getLuminance(paletteColors);
         emit(NowPlayingSuccess(
           averageLuminance: averageLuminance,
@@ -72,12 +75,7 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
           nowPlayingTv: state.nowPlayingTv,
         ));
       } else {
-        emit(NowPlayingError(
-          errorMessage: '',
-          nowPlayingTv: state.nowPlayingTv,
-          paletteColors: state.paletteColors,
-          averageLuminance: state.averageLuminance,
-        ));
+        return;
       }
     } catch (e) {
       emit(NowPlayingError(

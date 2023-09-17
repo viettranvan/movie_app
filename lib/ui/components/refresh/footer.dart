@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/ui/components/components.dart';
+import 'package:lottie/lottie.dart';
+import 'package:movie_app/shared_ui/paths/animations_path.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class Footer extends StatelessWidget {
@@ -23,42 +25,83 @@ class Footer extends StatelessWidget {
   }
 
   Widget builder(BuildContext context, LoadStatus? mode) {
-    Widget body;
     switch (mode) {
       case LoadStatus.idle:
-        body = const SizedBox();
-        break;
+        return const SizedBox();
       case LoadStatus.canLoading:
-        body = const CustomIndicator();
-        break;
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20).w,
+            child: ShaderMask(
+              blendMode: BlendMode.srcIn,
+              shaderCallback: (bounds) => LinearGradient(
+                colors: [
+                  lightGreenColor,
+                  darkBlueColor,
+                ],
+              ).createShader(bounds),
+              child: Lottie.asset(
+                AnimationsPath.loadingAnimation.assetName,
+                height: 30.h,
+                repeat: true,
+                addRepaintBoundary: true,
+                filterQuality: FilterQuality.high,
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        );
       case LoadStatus.loading:
-        body = const CustomIndicator();
-        break;
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20).w,
+            child: ShaderMask(
+              blendMode: BlendMode.srcIn,
+              shaderCallback: (bounds) => LinearGradient(
+                colors: [
+                  lightGreenColor,
+                  lightBlueColor,
+                ],
+              ).createShader(bounds),
+              child: Lottie.asset(
+                AnimationsPath.loadingAnimation.assetName,
+                height: 30.h,
+                repeat: true,
+                addRepaintBoundary: true,
+                filterQuality: FilterQuality.high,
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        );
       case LoadStatus.failed:
-        body = Text(
-          failedStatus ?? 'Failed to load data!',
-          textScaleFactor: 1,
-          style: TextStyle(
-            fontSize: 15.sp,
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20).w,
+            child: Text(
+              failedStatus ?? 'Failed to load data!',
+              textScaleFactor: 1,
+              style: TextStyle(
+                fontSize: 15.sp,
+              ),
+            ),
           ),
         );
-        break;
       case LoadStatus.noMore:
-        body = Text(
-          noMoreStatus ?? 'No more data!',
-          textScaleFactor: 1,
-          style: TextStyle(
-            fontSize: 15.sp,
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20).w,
+            child: Text(
+              noMoreStatus ?? 'No more data!',
+              textScaleFactor: 1,
+              style: TextStyle(
+                fontSize: 15.sp,
+              ),
+            ),
           ),
         );
-        break;
       default:
-        body = const SizedBox();
+        return const SizedBox();
     }
-    return Center(
-        child: Padding(
-      padding: const EdgeInsets.all(20).w,
-      child: body,
-    ));
   }
 }

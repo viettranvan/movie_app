@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 
 class SecondaryItemList extends StatelessWidget {
@@ -50,13 +50,19 @@ class SecondaryItemList extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30.r),
                       child: CachedNetworkImage(
                         imageUrl: imageUrl,
-                        width: double.infinity.w,
-                        height: double.infinity.h,
+                        width: double.infinity,
+                        height: double.infinity,
                         filterQuality: FilterQuality.high,
                         fit: BoxFit.fill,
                         progressIndicatorBuilder: (context, url, progress) =>
                             const CustomIndicator(),
-                        errorWidget: (context, url, error) => const CustomIndicator(),
+                        errorWidget: (context, url, error) => Image.asset(
+                          ImagesPath.noImage.assetName,
+                          width: double.infinity,
+                          height: double.infinity,
+                          filterQuality: FilterQuality.high,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
             ),

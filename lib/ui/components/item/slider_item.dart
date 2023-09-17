@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
+import 'package:movie_app/shared_ui/paths/images_path.dart';
 import 'package:movie_app/ui/components/components.dart';
 
 class SliderItem extends StatelessWidget {
@@ -27,14 +28,17 @@ class SliderItem extends StatelessWidget {
       onTap: onTap,
       child: RepaintBoundary(
         child: isBackdrop
-            ? SizedBox(
-                child: CachedNetworkImage(
-                  imageUrl: imageUrlBackdrop ?? '',
+            ? CachedNetworkImage(
+                imageUrl: imageUrlBackdrop ?? '',
+                width: double.infinity,
+                filterQuality: FilterQuality.high,
+                fit: BoxFit.fill,
+                progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
+                errorWidget: (context, url, error) => Image.asset(
+                  ImagesPath.noImage.assetName,
                   width: double.infinity,
                   filterQuality: FilterQuality.high,
-                  fit: BoxFit.cover,
-                  progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
-                  errorWidget: (context, url, error) => const CustomIndicator(),
+                  fit: BoxFit.fill,
                 ),
               )
             : Container(
@@ -63,10 +67,16 @@ class SliderItem extends StatelessWidget {
                         width: double.infinity,
                         height: double.infinity,
                         filterQuality: FilterQuality.high,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                         progressIndicatorBuilder: (context, url, progress) =>
                             const CustomIndicator(),
-                        errorWidget: (context, url, error) => const CustomIndicator(),
+                        errorWidget: (context, url, error) => Image.asset(
+                          ImagesPath.noImage.assetName,
+                          width: double.infinity,
+                          height: double.infinity,
+                          filterQuality: FilterQuality.high,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                     Padding(

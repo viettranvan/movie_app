@@ -23,9 +23,8 @@ class UpcomingView extends StatelessWidget {
         )),
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
-          if (state is HomeSuccess) {
-            reloadList(context);
-          }
+          final bloc = BlocProvider.of<UpcomingBloc>(context);
+          state is HomeSuccess && bloc.state.listUpcoming.isNotEmpty ? reloadList(context) : null;
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -87,9 +86,7 @@ class UpcomingView extends StatelessWidget {
       isBackdrop: false,
       title: list[index].title,
       voteAverage: list[index].voteAverage?.toDouble(),
-      imageUrlPoster: list[index].posterPath != null
-          ? '${AppConstants.kImagePathPoster}${list[index].posterPath}'
-          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+      imageUrlPoster: '${AppConstants.kImagePathPoster}${list[index].posterPath}',
       onTap: () => Navigator.of(context).push(
         CustomPageRoute(
           page: const DetailsPage(),

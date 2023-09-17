@@ -142,9 +142,7 @@ class TvView extends StatelessWidget {
           : '00-00-0000',
       overview: itemFavorite.overview != '' ? itemFavorite.overview : 'Coming soon',
       originalLanguage: itemFavorite.originalLanguage,
-      imageUrl: itemFavorite.posterPath != null
-          ? '${AppConstants.kImagePathPoster}/${itemFavorite.posterPath}'
-          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+      imageUrl: '${AppConstants.kImagePathPoster}/${itemFavorite.posterPath}',
     );
   }
 

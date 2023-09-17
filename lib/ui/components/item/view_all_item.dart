@@ -15,26 +15,24 @@ class ItemViewAll extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Stack(
-          children: [
-            Container(
-              width: width,
-              height: height,
-              decoration: BoxDecoration(
-                color: darkBlueColor,
-                shape: BoxShape.circle,
-              ),
+        Container(
+          width: width,
+          height: height,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: darkBlueColor,
+            shape: BoxShape.circle,
+          ),
+          child: SizedBox(
+            width: 13.w,
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: whiteColor,
+              textDirection: TextDirection.rtl,
             ),
-            Positioned.fill(
-              right: 10.w,
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: whiteColor,
-                textDirection: TextDirection.rtl,
-              ),
-            ),
-          ],
+          ),
         ),
         SizedBox(height: 5.h),
         Text(
@@ -44,6 +42,7 @@ class ItemViewAll extends StatelessWidget {
           softWrap: true,
           style: TextStyle(
             color: darkBlueColor,
+            fontSize: 14.sp,
           ),
         ),
       ],

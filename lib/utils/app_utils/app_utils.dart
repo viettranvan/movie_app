@@ -128,11 +128,7 @@ class AppUtils {
   }
 
   String getSortTitle(String sortBy) {
-    if (sortBy.contains('created_at.desc')) {
-      return 'Newest';
-    } else {
-      return 'Oldest';
-    }
+    return sortBy.contains('created_at.desc') ? 'Newest' : 'Oldest';
   }
 
   String formatDate(String date) {
@@ -143,13 +139,9 @@ class AppUtils {
   }
 
   String getImageUrl(String? posterPath, String? profilePath) {
-    if (posterPath != null) {
-      return '${AppConstants.kImagePathPoster}$posterPath';
-    } else if (profilePath != null) {
-      return '${AppConstants.kImagePathPoster}$profilePath';
-    } else {
-      return 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg';
-    }
+    return posterPath != null
+        ? '${AppConstants.kImagePathPoster}$posterPath'
+        : '${AppConstants.kImagePathPoster}$profilePath';
   }
 
   String getYearReleaseOrDepartment(
@@ -161,28 +153,18 @@ class AppUtils {
     switch (mediaType) {
       case 'movie':
         {
-          if (releaseDate != '') {
-            return '(${(releaseDate ?? '').substring(0, 4)})';
-          } else {
-            return '';
-          }
+          return releaseDate != '' ? (releaseDate ?? '').substring(0, 4) : '';
         }
 
       case 'tv':
         {
-          if (firstAirDate != '') {
-            return '(${(firstAirDate ?? '').substring(0, 4)})';
-          } else {
-            return '';
-          }
+          return firstAirDate != '' ? (firstAirDate ?? '').substring(0, 4) : '';
         }
       case 'person':
         {
-          if (knownForDepartment != '' && knownForDepartment != null) {
-            return '(${(knownForDepartment)})';
-          } else {
-            return '';
-          }
+          return knownForDepartment != '' || knownForDepartment != null
+              ? '${(knownForDepartment)}'
+              : '';
         }
       default:
         {

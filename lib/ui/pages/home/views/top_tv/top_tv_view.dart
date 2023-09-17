@@ -22,9 +22,8 @@ class TopTvView extends StatelessWidget {
         )),
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
-          if (state is HomeSuccess) {
-            reloadList(context);
-          }
+          final bloc = BlocProvider.of<TopTvBloc>(context);
+          state is HomeSuccess && bloc.state.listTopTv.isNotEmpty ? reloadList(context) : null;
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -94,9 +93,7 @@ class TopTvView extends StatelessWidget {
       title: name,
       index: index,
       itemCount: list.length,
-      imageUrl: posterPath != null
-          ? '${AppConstants.kImagePathPoster}$posterPath'
-          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+      imageUrl: '${AppConstants.kImagePathPoster}$posterPath',
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(

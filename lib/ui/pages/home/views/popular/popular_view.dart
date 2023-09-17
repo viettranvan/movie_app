@@ -23,9 +23,8 @@ class PopularView extends StatelessWidget {
         )),
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
-          if (state is HomeSuccess) {
-            reloadList(context);
-          }
+          final bloc = BlocProvider.of<PopularBloc>(context);
+          state is HomeSuccess && bloc.state.listPopular.isNotEmpty ? reloadList(context) : null;
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -101,9 +100,7 @@ class PopularView extends StatelessWidget {
     final list = state.listPopular;
     return SliderItem(
       isBackdrop: true,
-      imageUrlBackdrop: list[index].backdropPath != null
-          ? '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}'
-          : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+      imageUrlBackdrop: '${AppConstants.kImagePathBackdrop}${list[index].backdropPath}',
       onTap: () => Navigator.of(context).push(
         CustomPageRoute(
           page: const DetailsPage(),
