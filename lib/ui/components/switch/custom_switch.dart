@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 
 class CustomSwitch extends StatelessWidget {
-  final bool isActive;
+  final bool? isActive;
   final VoidCallback? onSwitchMovie;
   final VoidCallback? onSwitchTV;
   const CustomSwitch({
     super.key,
-    required this.isActive,
+    this.isActive,
     this.onSwitchMovie,
     this.onSwitchTV,
   });
@@ -16,7 +16,6 @@ class CustomSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(17.w, 0, 17.w, 0),
       alignment: Alignment.center,
       width: 150.w,
       height: 22.h,
@@ -36,10 +35,10 @@ class CustomSwitch extends StatelessWidget {
             children: [
               AnimatedAlign(
                 duration: const Duration(milliseconds: 300),
-                alignment: isActive ? Alignment.centerRight : Alignment.centerLeft,
+                alignment: isActive ?? false ? Alignment.centerRight : Alignment.centerLeft,
                 curve: Curves.decelerate,
                 child: Container(
-                  width: isActive ? widthTrack : widthTrack,
+                  width: isActive ?? false ? widthTrack : widthTrack,
                   height: double.infinity,
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
@@ -60,7 +59,7 @@ class CustomSwitch extends StatelessWidget {
                         textScaleFactor: 1,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: isActive ? blackColor : whiteColor,
+                          color: isActive ?? false ? blackColor : whiteColor,
                           fontSize: 14.sp,
                         ),
                       ),
@@ -74,7 +73,7 @@ class CustomSwitch extends StatelessWidget {
                         textScaleFactor: 1,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: isActive ? whiteColor : blackColor,
+                          color: isActive ?? false ? whiteColor : blackColor,
                           fontSize: 14.sp,
                         ),
                       ),

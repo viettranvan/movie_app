@@ -51,4 +51,34 @@ class MovieRequest {
           'region': region,
         },
       );
+
+  static APIRequest getTopRatedMovie({
+    required String language,
+    required int page,
+    required String region,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/movie/top_rated',
+        parameters: {
+          'language': language,
+          'page': page,
+          'region': region,
+        },
+      );
+
+  static APIRequest getNowPlayingMovie({
+    required String language,
+    required int page,
+    required String region,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/movie/now_playing',
+        parameters: {
+          'language': language,
+          'page': page,
+          'region': region,
+        },
+      );
 }

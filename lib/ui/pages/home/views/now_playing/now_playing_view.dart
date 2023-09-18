@@ -30,9 +30,7 @@ class NowPlayingView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             PrimaryText(
-              visibleIcon: true,
-              title: 'Now Playing',
-              visibleViewAll: true,
+              title: 'Now Playing',         
               onTapViewAll: () {},
               icon: Icon(
                 Icons.smart_display_outlined,
@@ -60,7 +58,7 @@ class NowPlayingView extends StatelessWidget {
                 }
                 if (state is NowPlayingError) {
                   return SizedBox(
-                    height: 300.h,
+                    height: 172.h,
                     child: Center(
                       child: Text(state.errorMessage),
                     ),

@@ -29,9 +29,7 @@ class TopTvView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             PrimaryText(
-              visibleIcon: true,
-              title: 'Top TV Shows',
-              visibleViewAll: true,
+              title: 'Top TV Shows',              
               onTapViewAll: () {},
               icon: SvgPicture.asset(
                 ImagesPath.tvShowIcon.assetName,

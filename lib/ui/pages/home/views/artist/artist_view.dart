@@ -27,8 +27,9 @@ class ArtistView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SecondaryText(
-              title: 'Popular Artists',
+            SecondaryText(
+              title: 'Popular Artist',
+              onTapViewAll: () {},
             ),
             SizedBox(height: 12.h),
             BlocBuilder<ArtistBloc, ArtistState>(

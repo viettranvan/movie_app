@@ -30,9 +30,7 @@ class UpcomingView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             PrimaryText(
-              visibleIcon: true,
               title: 'Upcoming',
-              visibleViewAll: true,
               onTapViewAll: () {},
               icon: Image.asset(
                 ImagesPath.upcomingIcon.assetName,

@@ -30,9 +30,7 @@ class PopularView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             PrimaryText(
-              visibleIcon: true,
               title: 'Popular',
-              visibleViewAll: true,
               onTapViewAll: () {},
               icon: Icon(
                 Icons.stars_outlined,
