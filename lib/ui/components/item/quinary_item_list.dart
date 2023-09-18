@@ -27,6 +27,7 @@ class QuinaryItemList extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
+                color: whiteColor,
                 borderRadius: BorderRadius.circular(25.r),
                 boxShadow: [
                   BoxShadow(

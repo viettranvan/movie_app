@@ -4,12 +4,11 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:intl/intl.dart';
-import 'package:movie_app/utils/utils.dart';
 
 class AppUtils {
-  static final AppUtils _instance = AppUtils._();
-  AppUtils._();
-  factory AppUtils() => _instance;
+  // static final AppUtils _instance = AppUtils._();
+  // AppUtils._();
+  // factory AppUtils() => _instance;
   int pixelsPerAxis = 8;
   Color getAverageColor(List<Color> colors) {
     int r = 0, g = 0, b = 0, a = 0;
@@ -136,12 +135,6 @@ class AppUtils {
     var outputDate = outputFormat.parse(date);
     var outputDateTime = DateFormat('dd-MM-yyyy').format(outputDate);
     return outputDateTime;
-  }
-
-  String getImageUrl(String? posterPath, String? profilePath) {
-    return posterPath != null
-        ? '${AppConstants.kImagePathPoster}$posterPath'
-        : '${AppConstants.kImagePathPoster}$profilePath';
   }
 
   String getYearReleaseOrDepartment(

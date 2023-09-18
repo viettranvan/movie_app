@@ -25,20 +25,16 @@ class Genreview extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SecondaryText(
-              title: 'Popular Genres',
-              leftWidget: BlocBuilder<GenreBloc, GenreState>(
-                builder: (context, state) {
-                  if (state is GenreInitial || state is GenreError) {
-                    return SizedBox(height: 22.h);
-                  }
-                  return CustomSwitch(
-                    isActive: state.isActive,
-                    onSwitchMovie: () => switchMovie(context),
-                    onSwitchTV: () => switchTv(context),
-                  );
-                },
-              ),
+            BlocBuilder<GenreBloc, GenreState>(
+              builder: (context, state) {
+                return PrimaryText(
+                  title: 'Popular Genres',
+                  hasSwitch: true,
+                  isActive: state.isActive,
+                  onSwitchMovie: () => switchMovie(context),
+                  onSwitchTV: () => switchTv(context),
+                );
+              },
             ),
             SizedBox(height: 20.h),
             BlocBuilder<GenreBloc, GenreState>(
@@ -122,13 +118,17 @@ class Genreview extends StatelessWidget {
   switchMovie(BuildContext context) {
     final bloc = BlocProvider.of<GenreBloc>(context);
     bloc.add(SwitchType(isActive: false));
-    bloc.movieController.jumpTo(0);
+    if (bloc.movieController.hasClients) {
+      bloc.movieController.jumpTo(0);
+    }
   }
 
   switchTv(BuildContext context) {
     final bloc = BlocProvider.of<GenreBloc>(context);
     bloc.add(SwitchType(isActive: true));
-    bloc.tvController.jumpTo(0);
+    if (bloc.tvController.hasClients) {
+      bloc.tvController.jumpTo(0);
+    }
   }
 
   reloadList(BuildContext context) {

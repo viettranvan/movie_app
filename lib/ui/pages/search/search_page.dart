@@ -11,6 +11,7 @@ import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/ui/pages/search/bloc/search_bloc.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';
 import 'package:movie_app/utils/debouncer/debouncer.dart';
+import 'package:movie_app/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SearchPage extends StatelessWidget {
@@ -196,7 +197,9 @@ class SearchPage extends StatelessWidget {
         item.mediaType ?? '',
         item.knownForDepartment,
       )})',
-      imageUrl: AppUtils().getImageUrl(item.posterPath, item.profilePath),
+      imageUrl: item.posterPath != null
+          ? '${AppConstants.kImagePathPoster}${item.posterPath}'
+          : '${AppConstants.kImagePathPoster}${item.profilePath}',
     );
   }
 

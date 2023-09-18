@@ -4,17 +4,13 @@ import 'package:movie_app/shared_ui/colors/color.dart';
 
 class SecondaryText extends StatelessWidget {
   final String title;
-  final Widget? leftWidget;
   final Widget? icon;
-  final bool? visibleViewAll;
   final VoidCallback? onTapViewAll;
   const SecondaryText({
     super.key,
     this.icon,
-    this.visibleViewAll,
     this.onTapViewAll,
     required this.title,
-    this.leftWidget,
   });
 
   @override
@@ -31,13 +27,41 @@ class SecondaryText extends StatelessWidget {
             style: TextStyle(
               letterSpacing: 0.2,
               fontWeight: FontWeight.w500,
-              fontSize: 15.sp,
+              fontSize: 20.sp,
               color: greyColor,
             ),
           ),
         ),
         const Spacer(),
-        leftWidget ?? const SizedBox(),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GestureDetector(
+              onTap: onTapViewAll,
+              child: Text(
+                'View all',
+                textScaleFactor: 1,
+                style: TextStyle(
+                  letterSpacing: 0.2,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14.sp,
+                  color: greyColor,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 17.w, 0),
+              child: RotatedBox(
+                quarterTurns: 2,
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  size: 10.sp,
+                  color: greyColor,
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

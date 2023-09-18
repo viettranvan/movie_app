@@ -57,4 +57,36 @@ class MovieService {
         response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
+
+  Future<ListResponse<MultipleMedia>> getTopRatedMovie({
+    required String language,
+    required int page,
+    required String region,
+  }) async {
+    final request = MovieRequest.getTopRatedMovie(
+      language: language,
+      page: page,
+      region: region,
+    );
+    final response = await apiClient.execute(request: request);
+    final listResponse =
+        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
+    return ListResponse(list: listResponse);
+  }
+
+  Future<ListResponse<MultipleMedia>> getNowPlayingMovie({
+    required String language,
+    required int page,
+    required String region,
+  }) async {
+    final request = MovieRequest.getNowPlayingMovie(
+      language: language,
+      page: page,
+      region: region,
+    );
+    final response = await apiClient.execute(request: request);
+    final listResponse =
+        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
+    return ListResponse(list: listResponse);
+  }
 }
