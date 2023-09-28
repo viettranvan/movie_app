@@ -13,11 +13,16 @@ class Debouncer {
     _timer = Timer(duration, callback);
   }
 
-  bool callWithValue(VoidCallback callback, bool notification) {
+  slowCall(VoidCallback callback) {
     _timer?.cancel();
-    _timer = Timer(duration, callback);
-    return notification;
+    _timer = Timer(const Duration(seconds: 1), callback);
   }
+
+  // bool callWithValue(VoidCallback callback, bool notification) {
+  //   _timer?.cancel();
+  //   _timer = Timer(duration, callback);
+  //   return notification;
+  // }
 
   dispose() {
     _timer?.cancel();

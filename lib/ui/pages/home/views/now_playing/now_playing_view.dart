@@ -30,7 +30,8 @@ class NowPlayingView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             PrimaryText(
-              title: 'Now Playing',         
+              title: 'Now Playing',
+              visibleIcon: true,
               onTapViewAll: () {},
               icon: Icon(
                 Icons.smart_display_outlined,

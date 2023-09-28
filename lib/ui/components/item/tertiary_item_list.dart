@@ -28,6 +28,7 @@ class TertiaryItemList extends StatelessWidget {
       child: RepaintBoundary(
         child: Container(
           width: 120.w,
+          clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: whiteColor,
             borderRadius: BorderRadius.circular(15.r),
@@ -47,26 +48,20 @@ class TertiaryItemList extends StatelessWidget {
                   children: [
                     SizedBox(
                       height: 171.h,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15.r),
-                          topRight: Radius.circular(15.r),
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: imageUrl,
-                          filterQuality: FilterQuality.high,
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        filterQuality: FilterQuality.high,
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.fill,
+                        progressIndicatorBuilder: (context, url, progress) =>
+                            const CustomIndicator(),
+                        errorWidget: (context, url, error) => Image.asset(
+                          ImagesPath.noImage.assetName,
                           width: double.infinity,
                           height: double.infinity,
+                          filterQuality: FilterQuality.high,
                           fit: BoxFit.fill,
-                          progressIndicatorBuilder: (context, url, progress) =>
-                              const CustomIndicator(),
-                          errorWidget: (context, url, error) => Image.asset(
-                            ImagesPath.noImage.assetName,
-                            width: double.infinity,
-                            height: double.infinity,
-                            filterQuality: FilterQuality.high,
-                            fit: BoxFit.fill,
-                          ),
                         ),
                       ),
                     ),

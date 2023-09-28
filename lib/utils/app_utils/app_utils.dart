@@ -4,6 +4,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:intl/intl.dart';
+import 'package:movie_app/models/models.dart';
+import 'package:movie_app/ui/pages/explore/explore_repository.dart';
+import 'package:movie_app/utils/utils.dart';
 
 class AppUtils {
   // static final AppUtils _instance = AppUtils._();
@@ -181,6 +184,84 @@ class AppUtils {
         child: child,
       ),
     );
+  }
+
+  Future<List<MediaTrailer>> getTrailersMovie(Map<String, dynamic> params) async {
+    final receivePort = ReceivePort();
+    final isolate = await Isolate.spawn(
+      getListTrailerMovie,
+      [receivePort.sendPort, params],
+    );
+    final listTrailer = await receivePort.first as List<MediaTrailer>;
+    receivePort.close();
+    isolate.kill();
+    return listTrailer;
+  }
+
+  void getListTrailerMovie(List<dynamic> arguments) async {
+    ExploreRepository exploreRepository = ExploreRepository(restApiClient: RestApiClient());
+    List<List<MediaTrailer>> listOfListTrailerMovie = [];
+    SendPort sendPort = arguments[0];
+    Map<String, dynamic> params = arguments[1];
+    for (int i = 0; i < params['list_movie'].length; i++) {
+      final resultsTrailerMovie = await exploreRepository.getTrailerMovie(
+        movieId: params['list_movie'][i].id ?? 0,
+        language: params['language'],
+      );
+      if (resultsTrailerMovie.list.isEmpty) {
+        listOfListTrailerMovie.insert(i, []);
+        continue;
+      } else {
+        listOfListTrailerMovie.add(resultsTrailerMovie.list);
+      }
+    }
+    final listTrailerMovie = listOfListTrailerMovie.map<MediaTrailer>((e) {
+      if (e.isNotEmpty) {
+        return e.first;
+      } else {
+        return MediaTrailer(key: '');
+      }
+    }).toList();
+    sendPort.send(listTrailerMovie);
+  }
+
+  Future<List<MediaTrailer>> getTrailersTv(Map<String, dynamic> params) async {
+    final receivePort = ReceivePort();
+    final isolate = await Isolate.spawn(
+      getListTrailerTv,
+      [receivePort.sendPort, params],
+    );
+    final listTrailer = await receivePort.first as List<MediaTrailer>;
+    receivePort.close();
+    isolate.kill();
+    return listTrailer;
+  }
+
+  void getListTrailerTv(List<dynamic> arguments) async {
+    ExploreRepository exploreRepository = ExploreRepository(restApiClient: RestApiClient());
+    List<List<MediaTrailer>> listOfListTrailerTv = [];
+    SendPort sendPort = arguments[0];
+    Map<String, dynamic> params = arguments[1];
+    for (int i = 0; i < params['list_tv'].length; i++) {
+      final resultsTrailerTv = await exploreRepository.getTrailerTv(
+        seriesId: params['list_tv'][i].id ?? 0,
+        language: params['language'],
+      );
+      if (resultsTrailerTv.list.isEmpty) {
+        listOfListTrailerTv.insert(i, []);
+        continue;
+      } else {
+        listOfListTrailerTv.add(resultsTrailerTv.list);
+      }
+    }
+    final listTrailerTv = listOfListTrailerTv.map<MediaTrailer>((e) {
+      if (e.isNotEmpty) {
+        return e.first;
+      } else {
+        return MediaTrailer(key: '');
+      }
+    }).toList();
+    sendPort.send(listTrailerTv);
   }
 }
 

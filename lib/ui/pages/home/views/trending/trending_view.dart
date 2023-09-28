@@ -32,7 +32,8 @@ class TrendingView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             PrimaryText(
-              title: 'Trending',              
+              title: 'Trending',
+              visibleIcon: true,
               onTapViewAll: () {},
               icon: SvgPicture.asset(
                 ImagesPath.trendingIcon.assetName,

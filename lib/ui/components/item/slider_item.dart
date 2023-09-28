@@ -44,6 +44,7 @@ class SliderItem extends StatelessWidget {
             : Container(
                 width: double.infinity,
                 margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 2.5.w),
+                clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   color: whiteColor,
                   borderRadius: BorderRadius.all(
@@ -58,25 +59,19 @@ class SliderItem extends StatelessWidget {
                 ),
                 child: Stack(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30.r),
-                      ),
-                      child: CachedNetworkImage(
-                        imageUrl: imageUrlPoster ?? '',
+                    CachedNetworkImage(
+                      imageUrl: imageUrlPoster ?? '',
+                      width: double.infinity,
+                      height: double.infinity,
+                      filterQuality: FilterQuality.high,
+                      fit: BoxFit.fill,
+                      progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
+                      errorWidget: (context, url, error) => Image.asset(
+                        ImagesPath.noImage.assetName,
                         width: double.infinity,
                         height: double.infinity,
                         filterQuality: FilterQuality.high,
                         fit: BoxFit.fill,
-                        progressIndicatorBuilder: (context, url, progress) =>
-                            const CustomIndicator(),
-                        errorWidget: (context, url, error) => Image.asset(
-                          ImagesPath.noImage.assetName,
-                          width: double.infinity,
-                          height: double.infinity,
-                          filterQuality: FilterQuality.high,
-                          fit: BoxFit.fill,
-                        ),
                       ),
                     ),
                     Padding(

@@ -34,6 +34,7 @@ class ViewItem extends StatelessWidget {
       child: RepaintBoundary(
         child: Container(
           height: 172.h,
+          clipBehavior: Clip.antiAlias,
           margin: EdgeInsets.fromLTRB(17.w, 0, 17.w, 0),
           decoration: BoxDecoration(
             color: whiteColor,
@@ -50,31 +51,26 @@ class ViewItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15.r),
-                    bottomLeft: Radius.circular(15.r),
+              CachedNetworkImage(
+                width: 115.w,
+                imageUrl: imageUrl,
+                filterQuality: FilterQuality.high,
+                fit: BoxFit.fill,
+                progressIndicatorBuilder: (context, url, progress) => SizedBox(
+                  height: 172.h,
+                  child: Center(
+                    child: CupertinoActivityIndicator(
+                      color: darkBlueColor,
+                    ),
                   ),
-                  child: CachedNetworkImage(
-                    width: 115.w,
-                    imageUrl: imageUrl,
-                    filterQuality: FilterQuality.high,
-                    fit: BoxFit.fill,
-                    progressIndicatorBuilder: (context, url, progress) => SizedBox(
-                      height: 172.h,
-                      child: Center(
-                        child: CupertinoActivityIndicator(
-                          color: darkBlueColor,
-                        ),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => Image.asset(
-                      ImagesPath.noImage.assetName,
-                      width: 115.w,
-                      filterQuality: FilterQuality.high,
-                      fit: BoxFit.fill,
-                    ),
-                  )),
+                ),
+                errorWidget: (context, url, error) => Image.asset(
+                  ImagesPath.noImage.assetName,
+                  width: 115.w,
+                  filterQuality: FilterQuality.high,
+                  fit: BoxFit.fill,
+                ),
+              ),
               Expanded(
                 flex: 3,
                 child: Container(
