@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/explore/views/latest_trailer/index.dart.dart';
+import 'package:movie_app/ui/pages/explore/views/trailer/index.dart.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ExplorePage extends StatelessWidget {
@@ -32,13 +32,13 @@ class ExplorePage extends StatelessWidget {
       body: SmartRefresher(
         controller: refreshController,
         header: const Header(),
-        onRefresh: () {},
+        onRefresh: () => refreshController.refreshCompleted(),
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(height: 20),
-            LatestTrailerView(),
+            TrailerView(),
           ],
         ),
       ),

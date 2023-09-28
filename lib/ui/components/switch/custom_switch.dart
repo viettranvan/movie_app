@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 
 class CustomSwitch extends StatelessWidget {
+  final String? firstTitle;
+  final String? secondTitle;
   final bool? isActive;
   final VoidCallback? onSwitchMovie;
   final VoidCallback? onSwitchTV;
@@ -11,6 +13,8 @@ class CustomSwitch extends StatelessWidget {
     this.isActive,
     this.onSwitchMovie,
     this.onSwitchTV,
+    this.firstTitle,
+    this.secondTitle,
   });
 
   @override
@@ -55,7 +59,7 @@ class CustomSwitch extends StatelessWidget {
                     child: GestureDetector(
                       onTap: onSwitchMovie,
                       child: Text(
-                        'Movies',
+                        firstTitle ?? '',
                         textScaleFactor: 1,
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -69,7 +73,7 @@ class CustomSwitch extends StatelessWidget {
                     child: GestureDetector(
                       onTap: onSwitchTV,
                       child: Text(
-                        'TV Shows',
+                        secondTitle ?? '',
                         textScaleFactor: 1,
                         textAlign: TextAlign.center,
                         style: TextStyle(

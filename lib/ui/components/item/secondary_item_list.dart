@@ -31,6 +31,7 @@ class SecondaryItemList extends StatelessWidget {
             Container(
               width: 70.w,
               height: 100.h,
+              clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 color: whiteColor,
                 borderRadius: BorderRadius.circular(30.r),
@@ -46,23 +47,19 @@ class SecondaryItemList extends StatelessWidget {
                       width: 35.w,
                       height: 35.h,
                     )
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(30.r),
-                      child: CachedNetworkImage(
-                        imageUrl: imageUrl,
+                  : CachedNetworkImage(
+                      imageUrl: imageUrl,
+                      width: double.infinity,
+                      height: double.infinity,
+                      filterQuality: FilterQuality.high,
+                      fit: BoxFit.fill,
+                      progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
+                      errorWidget: (context, url, error) => Image.asset(
+                        ImagesPath.noImage.assetName,
                         width: double.infinity,
                         height: double.infinity,
                         filterQuality: FilterQuality.high,
                         fit: BoxFit.fill,
-                        progressIndicatorBuilder: (context, url, progress) =>
-                            const CustomIndicator(),
-                        errorWidget: (context, url, error) => Image.asset(
-                          ImagesPath.noImage.assetName,
-                          width: double.infinity,
-                          height: double.infinity,
-                          filterQuality: FilterQuality.high,
-                          fit: BoxFit.fill,
-                        ),
                       ),
                     ),
             ),

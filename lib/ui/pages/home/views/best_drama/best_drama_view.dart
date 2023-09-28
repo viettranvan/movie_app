@@ -30,7 +30,8 @@ class BestDramaView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             PrimaryText(
-              title: 'Best Drama',    
+              title: 'Best Drama',
+              visibleIcon: true,
               onTapViewAll: () {},
               icon: SvgPicture.asset(
                 ImagesPath.bestDramaIcon.assetName,

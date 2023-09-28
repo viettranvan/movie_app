@@ -30,9 +30,20 @@ class Genreview extends StatelessWidget {
                 return PrimaryText(
                   title: 'Popular Genres',
                   hasSwitch: true,
-                  isActive: state.isActive,
-                  onSwitchMovie: () => switchMovie(context),
-                  onSwitchTV: () => switchTv(context),
+                  child: BlocBuilder<GenreBloc, GenreState>(
+                    builder: (context, state) {
+                      if (state is GenreError) {
+                        return SizedBox(height: 22.h);
+                      }
+                      return CustomSwitch(
+                        firstTitle: 'Movies',
+                        secondTitle: 'Tv Shows',
+                        isActive: state.isActive,
+                        onSwitchMovie: () => switchMovie(context),
+                        onSwitchTV: () => switchTv(context),
+                      );
+                    },
+                  ),
                 );
               },
             ),

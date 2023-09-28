@@ -30,6 +30,7 @@ class QuaternaryItemList extends StatelessWidget {
       child: RepaintBoundary(
         child: IntrinsicHeight(
           child: Container(
+            clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: whiteColor,
               borderRadius: BorderRadius.circular(20.r),
@@ -138,24 +139,16 @@ class QuaternaryItemList extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                CachedNetworkImage(
+                  imageUrl: imageUrl ?? '',
+                  filterQuality: FilterQuality.high,
                   width: 90.w,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20.r),
-                      bottomRight: Radius.circular(20.r),
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: imageUrl ?? '',
-                      filterQuality: FilterQuality.high,
-                      fit: BoxFit.fill,
-                      progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
-                      errorWidget: (context, url, error) => Image.asset(
-                        ImagesPath.noImage.assetName,
-                        filterQuality: FilterQuality.high,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
+                  fit: BoxFit.fill,
+                  progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
+                  errorWidget: (context, url, error) => Image.asset(
+                    ImagesPath.noImage.assetName,
+                    filterQuality: FilterQuality.high,
+                    fit: BoxFit.fill,
                   ),
                 ),
               ],

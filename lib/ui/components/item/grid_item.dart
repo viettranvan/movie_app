@@ -29,6 +29,7 @@ class GridItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
+                  clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     color: darkWhiteColor,
                     borderRadius: BorderRadius.circular(20.r),
@@ -39,22 +40,19 @@ class GridItem extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.r),
-                    child: CachedNetworkImage(
-                      imageUrl: imageUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    filterQuality: FilterQuality.high,
+                    fit: BoxFit.fill,
+                    height: 240.h,
+                    width: double.infinity,
+                    progressIndicatorBuilder: (context, url, prgress) => const CustomIndicator(),
+                    errorWidget: (context, url, error) => Image.asset(
+                      ImagesPath.noImage.assetName,
+                      width: double.infinity,
+                      height: 240.h,
                       filterQuality: FilterQuality.high,
                       fit: BoxFit.fill,
-                      height: 240.h,
-                      width: double.infinity,
-                      progressIndicatorBuilder: (context, url, prgress) => const CustomIndicator(),
-                      errorWidget: (context, url, error) => Image.asset(
-                        ImagesPath.noImage.assetName,
-                        width: double.infinity,
-                        height: 240.h,
-                        filterQuality: FilterQuality.high,
-                        fit: BoxFit.fill,
-                      ),
                     ),
                   ),
                 ),
