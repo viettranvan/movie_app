@@ -65,10 +65,10 @@ class QuinaryItemList extends StatelessWidget {
                         key: youtubeKey,
                         controller: controller ?? YoutubePlayerController(initialVideoId: ''),
                         thumbnail: Stack(
-                          alignment: Alignment.center,
                           children: [
                             Positioned.fill(
                               child: CachedNetworkImage(
+                                width: 300.w,
                                 imageUrl: imageUrl,
                                 filterQuality: FilterQuality.high,
                                 fit: BoxFit.fill,
@@ -96,10 +96,10 @@ class QuinaryItemList extends StatelessWidget {
                   Visibility(
                     visible: !visibleVideo,
                     child: Stack(
-                      alignment: Alignment.center,
                       children: [
                         Positioned(
                           child: CachedNetworkImage(
+                            width: 300.w,
                             imageUrl: imageUrl,
                             filterQuality: FilterQuality.high,
                             fit: BoxFit.fill,

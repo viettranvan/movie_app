@@ -29,12 +29,14 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           tvControllers: [],
           currentIndexMovie: -1,
           currentIndexTv: -1,
-          visibleVideoMovie: List.generate(20, (index) => false),
-          visibleVideoTv: List.generate(20, (index) => false),
+          visibleVideoMovie: List.filled(20, false),
+          visibleVideoTv: List.filled(20, false),
         )) {
     on<FetchData>(_onFetchData);
     on<SwitchType>(_onSwitchType);
-    on<ShowMovieVideo>(_onShowMovieVideo);
+    on<ShowVideo>(_onShowVideo);
+    on<HideVideo>(_onHideVideo);
+
     on<PlayTrailer>(_onPlayTrailer);
   }
 
@@ -101,23 +103,23 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
       isActive: event.isActive,
       currentIndexMovie: state.currentIndexMovie,
       currentIndexTv: state.currentIndexTv,
-      visibleVideoMovie: List.generate(20, (index) => false),
-      visibleVideoTv: List.generate(20, (index) => false),
+      visibleVideoMovie: List.filled(20, false),
+      visibleVideoTv: List.filled(20, false),
     ));
   }
 
-  FutureOr<void> _onShowMovieVideo(ShowMovieVideo event, Emitter<TrailerState> emit) {
+  FutureOr<void> _onShowVideo(ShowVideo event, Emitter<TrailerState> emit) {
     try {
       if (!state.isActive) {
-        if (state.currentIndexMovie != event.currentIndexMovie) {
-          if (state.currentIndexMovie != -1) {
-            event.visibleVideoMovie[state.currentIndexMovie] = false;
+        if (event.currentIndexMovie != event.indexMovie) {
+          if (event.currentIndexMovie != -1) {
+            event.visibleVideoMovie[event.currentIndexMovie ?? 0] = false;
           }
-          state.currentIndexMovie = event.currentIndexMovie ?? 0;
-          event.visibleVideoMovie[event.currentIndexMovie ?? 0] = true;
+          state.currentIndexMovie = event.indexMovie ?? 0;
+          event.visibleVideoMovie[event.indexMovie ?? 0] = true;
         } else {
-          event.visibleVideoMovie[event.currentIndexMovie ?? 0] =
-              !event.visibleVideoMovie[event.currentIndexMovie ?? 0];
+          event.visibleVideoMovie[event.indexMovie ?? 0] =
+              !event.visibleVideoMovie[event.indexMovie ?? 0];
           emit(TrailerSuccess(
             listMovie: state.listMovie,
             listTv: state.listTv,
@@ -126,22 +128,21 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
             movieControllers: state.movieControllers,
             tvControllers: state.tvControllers,
             isActive: state.isActive,
-            currentIndexMovie: state.currentIndexMovie,
+            currentIndexMovie: event.currentIndexMovie ?? 0,
             currentIndexTv: state.currentIndexTv,
             visibleVideoMovie: event.visibleVideoMovie,
             visibleVideoTv: state.visibleVideoTv,
           ));
         }
       } else {
-        if (state.currentIndexTv != event.currentIndexTv) {
-          if (state.currentIndexTv != -1) {
-            event.visibleVideoTv[state.currentIndexTv] = false;
+        if (event.currentIndexTv != event.indexTv) {
+          if (event.currentIndexTv != -1) {
+            event.visibleVideoTv[event.currentIndexTv ?? 0] = false;
           }
-          state.currentIndexTv = event.currentIndexTv ?? 0;
-          event.visibleVideoTv[event.currentIndexTv ?? 0] = true;
+          state.currentIndexTv = event.indexTv ?? 0;
+          event.visibleVideoTv[event.indexTv ?? 0] = true;
         } else {
-          event.visibleVideoTv[event.currentIndexTv ?? 0] =
-              !event.visibleVideoTv[event.currentIndexTv ?? 0];
+          event.visibleVideoTv[event.indexTv ?? 0] = !event.visibleVideoTv[event.indexTv ?? 0];
           emit(TrailerSuccess(
             listMovie: state.listMovie,
             listTv: state.listTv,
@@ -151,7 +152,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
             tvControllers: state.tvControllers,
             isActive: state.isActive,
             currentIndexMovie: state.currentIndexMovie,
-            currentIndexTv: state.currentIndexTv,
+            currentIndexTv: event.currentIndexTv ?? 0,
             visibleVideoMovie: event.visibleVideoTv,
             visibleVideoTv: state.visibleVideoTv,
           ));
@@ -236,6 +237,22 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
       currentIndexTv: state.currentIndexTv,
       visibleVideoMovie: state.visibleVideoMovie,
       visibleVideoTv: state.visibleVideoTv,
+    ));
+  }
+
+  FutureOr<void> _onHideVideo(HideVideo event, Emitter<TrailerState> emit) {
+    emit(TrailerSuccess(
+      listMovie: state.listMovie,
+      listTv: state.listTv,
+      listTrailerMovie: state.listTrailerMovie,
+      listTrailerTv: state.listTrailerTv,
+      movieControllers: state.movieControllers,
+      tvControllers: state.tvControllers,
+      isActive: state.isActive,
+      currentIndexMovie: state.currentIndexMovie,
+      currentIndexTv: state.currentIndexTv,
+      visibleVideoMovie: List.filled(20, false),
+      visibleVideoTv: List.filled(20, false),
     ));
   }
 }

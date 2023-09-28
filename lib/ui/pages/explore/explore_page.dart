@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
+import 'package:movie_app/ui/pages/explore/bloc/explore_bloc.dart';
 import 'package:movie_app/ui/pages/explore/views/trailer/index.dart.dart';
+import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ExplorePage extends StatelessWidget {
@@ -10,38 +14,81 @@ class ExplorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RefreshController refreshController = RefreshController();
-    return Scaffold(
-      appBar: CustomAppBar(
-        leadingWidth: 0,
-        centerTitle: false,
-        title: const CustomAppBarTitle(
-          titleAppBar: 'Explore',
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 8.h, 12.w, 8.h),
-            child: Image.asset(
-              ImagesPath.primaryShortLogo.assetName,
-              scale: 4,
-              filterQuality: FilterQuality.high,
-            ),
-          ),
-        ],
-      ),
-      body: SmartRefresher(
-        controller: refreshController,
-        header: const Header(),
-        onRefresh: () => refreshController.refreshCompleted(),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(height: 20),
-            TrailerView(),
-          ],
+    return BlocProvider(
+      create: (context) => ExploreBloc(),
+      child: BlocListener<NavigationBloc, NavigationState>(
+        listener: (context, state) {
+          state is NavigationSuccess && state.indexPage == 1 ? reloadPage(context) : null;
+        },
+        child: BlocBuilder<ExploreBloc, ExploreState>(
+          builder: (context, state) {
+            final bloc = BlocProvider.of<ExploreBloc>(context);
+            return Scaffold(
+              appBar: CustomAppBar(
+                leadingWidth: 0,
+                centerTitle: false,
+                title: const CustomAppBarTitle(
+                  titleAppBar: 'Explore',
+                ),
+                actions: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 8.h, 12.w, 8.h),
+                    child: Image.asset(
+                      ImagesPath.primaryShortLogo.assetName,
+                      scale: 4,
+                      filterQuality: FilterQuality.high,
+                    ),
+                  ),
+                ],
+              ),
+              body: NotificationListener(
+                onNotification: (notification) {
+                  if (bloc.scrollController.position.userScrollDirection ==
+                      ScrollDirection.forward) {
+                    showNavigationBar(context);
+                    return false;
+                  }
+                  if (bloc.scrollController.position.userScrollDirection ==
+                      ScrollDirection.reverse) {
+                    hideNavigationBar(context);
+                    return false;
+                  }
+                  return false;
+                },
+                child: SmartRefresher(
+                  controller: bloc.refreshController,
+                  scrollController: bloc.scrollController,
+                  header: const Header(),
+                  onRefresh: () => bloc.add(RefreshData()),
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(height: 20),
+                      TrailerView(),
+                      SizedBox(height: 1000),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
   }
+
+  reloadPage(BuildContext context) {
+    final bloc = BlocProvider.of<ExploreBloc>(context);
+    bloc.add(RefreshData());
+    if (bloc.scrollController.hasClients) {
+      bloc.scrollController.jumpTo(0);
+    }
+  }
+
+  showNavigationBar(BuildContext context) =>
+      BlocProvider.of<NavigationBloc>(context).add(ShowHide(visible: true));
+
+  hideNavigationBar(BuildContext context) =>
+      BlocProvider.of<NavigationBloc>(context).add(ShowHide(visible: false));
 }

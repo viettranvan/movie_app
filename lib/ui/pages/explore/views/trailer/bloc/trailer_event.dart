@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'trailer_bloc.dart';
 
 abstract class TrailerEvent {}
@@ -23,19 +22,25 @@ class SwitchType extends TrailerEvent {
   });
 }
 
-class ShowMovieVideo extends TrailerEvent {
+class ShowVideo extends TrailerEvent {
+  final int? indexMovie;
+  final int? indexTv;
   final int? currentIndexMovie;
   final int? currentIndexTv;
   final List<bool> visibleVideoMovie;
   final List<bool> visibleVideoTv;
 
-  ShowMovieVideo({
+  ShowVideo({
+    this.indexMovie,
+    this.indexTv,
     this.currentIndexMovie,
     this.currentIndexTv,
     required this.visibleVideoMovie,
     required this.visibleVideoTv,
   });
 }
+
+class HideVideo extends TrailerEvent {}
 
 class PlayTrailer extends TrailerEvent {
   final int? currentIndexMovie;
