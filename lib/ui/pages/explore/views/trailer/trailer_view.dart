@@ -140,12 +140,7 @@ class _TrailerViewState extends State<TrailerView> {
       title: item.title,
       nameOfTrailer: itemTrailer.name ?? 'Official Trailer',
       imageUrl: '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
-      onEnded: (metdaData) => bloc.add(ShowVideo(
-        indexMovie: index,
-        currentIndexMovie: (bloc.state as TrailerSuccess).currentIndexMovie,
-        visibleVideoMovie: (bloc.state as TrailerSuccess).visibleVideoMovie,
-        visibleVideoTv: bloc.state.visibleVideoTv,
-      )),
+      onEnded: (metdaData) => bloc.add(HideVideo()),
       onTap: () {
         bloc.add(HideVideo());
         Navigator.of(context).push(
@@ -180,12 +175,7 @@ class _TrailerViewState extends State<TrailerView> {
       title: item.name,
       nameOfTrailer: itemTrailer.name ?? 'Official Trailer',
       imageUrl: '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
-      onEnded: (metdaData) => bloc.add(ShowVideo(
-        indexTv: index,
-        currentIndexTv: (bloc.state as TrailerSuccess).currentIndexTv,
-        visibleVideoTv: (bloc.state as TrailerSuccess).visibleVideoTv,
-        visibleVideoMovie: bloc.state.visibleVideoMovie,
-      )),
+      onEnded: (metdaData) => bloc.add(HideVideo()),
       onTap: () {
         bloc.add(HideVideo());
         Navigator.of(context).push(
