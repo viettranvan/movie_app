@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
         },
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
-            var bloc = BlocProvider.of<HomeBloc>(context);
+            final bloc = BlocProvider.of<HomeBloc>(context);
             return Scaffold(
               backgroundColor: whiteColor,
               appBar: CustomAppBar(
@@ -77,7 +77,7 @@ class HomePage extends StatelessWidget {
                   header: const Header(),
                   onRefresh: () => bloc.add(RefreshData()),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(height: 20.h),

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/details_page.dart';
+import 'package:movie_app/ui/pages/explore/bloc/explore_bloc.dart';
 import 'package:movie_app/ui/pages/explore/views/trailer/bloc/trailer_bloc.dart';
 import 'package:movie_app/utils/constants/constants.dart';
 
@@ -24,59 +25,59 @@ class _TrailerViewState extends State<TrailerView> {
           page: 1,
           region: '',
         )),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          PrimaryText(
-            title: 'Latest Trailer',
-            visibleIcon: true,
-            hasSwitch: true,
-            icon: Icon(
-              Icons.play_circle_outline,
-              color: greyColor,
-            ),
-            child: BlocBuilder<TrailerBloc, TrailerState>(
-              builder: (context, state) {
-                if (state is TrailerError) {
-                  return SizedBox(height: 22.h);
-                }
-                return CustomSwitch(
-                  firstTitle: 'Theaters',
-                  secondTitle: 'TV',
-                  isActive: state.isActive,
-                  onSwitchMovie: () {
-                    switchTheater(context);
-                  },
-                  onSwitchTV: () {
-                    switchTv(context);
-                  },
-                );
-              },
-            ),
-          ),
-          BlocBuilder<TrailerBloc, TrailerState>(
-            builder: (context, state) {
-              final bloc = BlocProvider.of<TrailerBloc>(context);
-              if (state is TrailerInitial) {
-                return SizedBox(
-                  height: 250.h,
-                  child: const CustomIndicator(radius: 10),
-                );
-              }
-              if (state is TrailerError) {
-                return SizedBox(
-                  height: 250.h,
-                  child: Text(
-                    state.errorMessage,
-                  ),
-                );
-              }
-              return NotificationListener<ScrollNotification>(
-                onNotification: (notification) {
-                  return false;
+      child: BlocListener<ExploreBloc, ExploreState>(
+        listener: (context, state) {
+          final bloc = BlocProvider.of<TrailerBloc>(context);
+          state is ExploreSuccess &&
+                  (bloc.state.listTrailerMovie.isNotEmpty || bloc.state.listTrailerTv.isNotEmpty)
+              ? reloadList(context)
+              : null;
+        },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            PrimaryText(
+              title: 'Latest Trailer',
+              visibleIcon: true,
+              hasSwitch: true,
+              icon: Icon(
+                Icons.play_circle_outline,
+                color: greyColor,
+              ),
+              child: BlocBuilder<TrailerBloc, TrailerState>(
+                builder: (context, state) {
+                  if (state is TrailerError) {
+                    return SizedBox(height: 22.h);
+                  }
+                  return CustomSwitch(
+                    firstTitle: 'Theaters',
+                    secondTitle: 'TV',
+                    isActive: state.isActive,
+                    onSwitchMovie: () => switchTheater(context),
+                    onSwitchTV: () => switchTv(context),
+                  );
                 },
-                child: AnimatedCrossFade(
+              ),
+            ),
+            BlocBuilder<TrailerBloc, TrailerState>(
+              builder: (context, state) {
+                final bloc = BlocProvider.of<TrailerBloc>(context);
+                if (state is TrailerInitial) {
+                  return SizedBox(
+                    height: 250.h,
+                    child: const CustomIndicator(radius: 10),
+                  );
+                }
+                if (state is TrailerError) {
+                  return SizedBox(
+                    height: 250.h,
+                    child: Text(
+                      state.errorMessage,
+                    ),
+                  );
+                }
+                return AnimatedCrossFade(
                   duration: const Duration(milliseconds: 400),
                   crossFadeState:
                       state.isActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
@@ -108,11 +109,11 @@ class _TrailerViewState extends State<TrailerView> {
                       itemCount: state.listTv.length,
                     ),
                   ),
-                ),
-              );
-            },
-          ),
-        ],
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -139,17 +140,14 @@ class _TrailerViewState extends State<TrailerView> {
       title: item.title,
       nameOfTrailer: itemTrailer.name ?? 'Official Trailer',
       imageUrl: '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
-      onEnded: (metdaData) => bloc.add(ShowMovieVideo(
-        currentIndexMovie: index,
-        visibleVideoMovie: bloc.state.visibleVideoMovie,
+      onEnded: (metdaData) => bloc.add(ShowVideo(
+        indexMovie: index,
+        currentIndexMovie: (bloc.state as TrailerSuccess).currentIndexMovie,
+        visibleVideoMovie: (bloc.state as TrailerSuccess).visibleVideoMovie,
         visibleVideoTv: bloc.state.visibleVideoTv,
       )),
       onTap: () {
-        bloc.add(ShowMovieVideo(
-          currentIndexMovie: index,
-          visibleVideoMovie: bloc.state.visibleVideoMovie,
-          visibleVideoTv: bloc.state.visibleVideoTv,
-        ));
+        bloc.add(HideVideo());
         Navigator.of(context).push(
           CustomPageRoute(
             page: const DetailsPage(),
@@ -158,9 +156,10 @@ class _TrailerViewState extends State<TrailerView> {
         );
       },
       onLongPress: () {
-        bloc.add(ShowMovieVideo(
-          currentIndexMovie: index,
-          visibleVideoMovie: bloc.state.visibleVideoMovie,
+        bloc.add(ShowVideo(
+          indexMovie: index,
+          currentIndexMovie: (bloc.state as TrailerSuccess).currentIndexMovie,
+          visibleVideoMovie: (bloc.state as TrailerSuccess).visibleVideoMovie,
           visibleVideoTv: bloc.state.visibleVideoTv,
         ));
         bloc.add(PlayTrailer(
@@ -181,17 +180,14 @@ class _TrailerViewState extends State<TrailerView> {
       title: item.name,
       nameOfTrailer: itemTrailer.name ?? 'Official Trailer',
       imageUrl: '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
-      onEnded: (metdaData) => bloc.add(ShowMovieVideo(
-        currentIndexMovie: index,
+      onEnded: (metdaData) => bloc.add(ShowVideo(
+        indexTv: index,
+        currentIndexTv: (bloc.state as TrailerSuccess).currentIndexTv,
+        visibleVideoTv: (bloc.state as TrailerSuccess).visibleVideoTv,
         visibleVideoMovie: bloc.state.visibleVideoMovie,
-        visibleVideoTv: bloc.state.visibleVideoTv,
       )),
       onTap: () {
-        bloc.add(ShowMovieVideo(
-          currentIndexTv: index,
-          visibleVideoMovie: bloc.state.visibleVideoMovie,
-          visibleVideoTv: bloc.state.visibleVideoTv,
-        ));
+        bloc.add(HideVideo());
         Navigator.of(context).push(
           CustomPageRoute(
             page: const DetailsPage(),
@@ -200,10 +196,11 @@ class _TrailerViewState extends State<TrailerView> {
         );
       },
       onLongPress: () {
-        bloc.add(ShowMovieVideo(
-          currentIndexTv: index,
+        bloc.add(ShowVideo(
+          indexTv: index,
+          currentIndexTv: (bloc.state as TrailerSuccess).currentIndexTv,
+          visibleVideoTv: (bloc.state as TrailerSuccess).visibleVideoTv,
           visibleVideoMovie: bloc.state.visibleVideoMovie,
-          visibleVideoTv: bloc.state.visibleVideoTv,
         ));
         bloc.add(PlayTrailer(
           trailerKey: itemTrailer.key ?? '',
@@ -217,6 +214,7 @@ class _TrailerViewState extends State<TrailerView> {
 
   switchTheater(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
+    bloc.add(FetchData(language: 'en-US', page: 1, region: ''));
     bloc.add(SwitchType(isActive: false));
     if (bloc.theaterController.hasClients) {
       bloc.theaterController.jumpTo(0);
@@ -225,9 +223,30 @@ class _TrailerViewState extends State<TrailerView> {
 
   switchTv(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
+    bloc.add(FetchData(language: 'en-US', page: 1, region: ''));
     bloc.add(SwitchType(isActive: true));
     if (bloc.tvController.hasClients) {
       bloc.tvController.jumpTo(0);
+    }
+  }
+
+  reloadList(BuildContext context) {
+    final bloc = BlocProvider.of<TrailerBloc>(context);
+    bloc.add(FetchData(language: 'en-US', page: 1, region: ''));
+    bloc.state is TrailerSuccess ? bloc.add(SwitchType(isActive: false)) : null;
+    if (bloc.theaterController.hasClients) {
+      bloc.theaterController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linear,
+      );
+    }
+    if (bloc.tvController.hasClients) {
+      bloc.tvController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linear,
+      );
     }
   }
 }
