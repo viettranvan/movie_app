@@ -63,7 +63,19 @@ class QuinaryItemList extends StatelessWidget {
                         width: 300.w,
                         onEnded: onEnded,
                         key: youtubeKey,
-                        controller: controller ?? YoutubePlayerController(initialVideoId: ''),
+                        controller: controller ??
+                            YoutubePlayerController(
+                              initialVideoId: '',
+                              flags: const YoutubePlayerFlags(
+                                hideControls: true,
+                                autoPlay: false,
+                                mute: true,
+                                disableDragSeek: true,
+                                enableCaption: false,
+                                useHybridComposition: true,
+                                forceHD: false,
+                              ),
+                            ),
                         thumbnail: Stack(
                           children: [
                             Positioned.fill(
