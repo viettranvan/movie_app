@@ -19,8 +19,16 @@ class ExplorePage extends StatelessWidget {
       child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
           state is NavigationSuccess ? reloadPage(context) : null;
+          state is NavigationScrollSuccess ? reloadPage(context) : null;
         },
         child: BlocBuilder<ExploreBloc, ExploreState>(
+          buildWhen: (previous, current) {
+            if (current is ExplorePlaySuccess || current is ExploreStopSuccess) {
+              return false;
+            } else {
+              return true;
+            }
+          },
           builder: (context, state) {
             final bloc = BlocProvider.of<ExploreBloc>(context);
             return Scaffold(
@@ -41,7 +49,7 @@ class ExplorePage extends StatelessWidget {
                   ),
                 ],
               ),
-              body: NotificationListener(
+              body: NotificationListener<UserScrollNotification>(
                 onNotification: (notification) {
                   if (bloc.scrollController.position.userScrollDirection ==
                       ScrollDirection.forward) {
@@ -53,6 +61,7 @@ class ExplorePage extends StatelessWidget {
                     hideNavigationBar(context);
                     return false;
                   }
+                  bloc.add(PlayVideo());
                   return false;
                 },
                 child: SmartRefresher(
@@ -80,7 +89,6 @@ class ExplorePage extends StatelessWidget {
 
   reloadPage(BuildContext context) {
     final bloc = BlocProvider.of<ExploreBloc>(context);
-    bloc.add(RefreshData());
     if (bloc.scrollController.hasClients) {
       bloc.scrollController.jumpTo(0);
     }

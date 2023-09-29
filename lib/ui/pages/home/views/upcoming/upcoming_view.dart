@@ -95,15 +95,6 @@ class UpcomingView extends StatelessWidget {
     );
   }
 
-  reloadList(BuildContext context) {
-    final bloc = BlocProvider.of<UpcomingBloc>(context);
-    bloc.add(FetchData(language: 'en-US', page: 1, region: ''));
-    if (bloc.controller.ready && bloc.state is UpcomingSuccess) {
-      bloc.controller.animateToPage(
-        0,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.linear,
-      );
-    }
-  }
+  reloadList(BuildContext context) =>
+      BlocProvider.of<UpcomingBloc>(context).add(FetchData(language: 'en-US', page: 1, region: ''));
 }

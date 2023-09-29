@@ -6,6 +6,7 @@ import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/explore/bloc/explore_bloc.dart';
 import 'package:movie_app/ui/pages/explore/views/trailer/bloc/trailer_bloc.dart';
+import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/utils/constants/constants.dart';
 import 'package:movie_app/utils/debouncer/debouncer.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -29,14 +30,28 @@ class _TrailerViewState extends State<TrailerView> {
           page: 1,
           region: '',
         )),
-      child: BlocListener<ExploreBloc, ExploreState>(
-        listener: (context, state) {
-          final bloc = BlocProvider.of<TrailerBloc>(context);
-          state is ExploreSuccess &&
-                  (bloc.state.listTrailerMovie.isNotEmpty || bloc.state.listTrailerTv.isNotEmpty)
-              ? reloadList(context)
-              : null;
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<NavigationBloc, NavigationState>(
+            listener: (context, state) {
+              if (state is NavigationSuccess || state is NavigationScrollSuccess) {
+                state.indexPage == 1 ? playTrailer(context) : stopTrailer(context);
+              } else {
+                return;
+              }
+            },
+          ),
+          BlocListener<ExploreBloc, ExploreState>(
+            listener: (context, state) {
+              if (state is ExplorePlaySuccess) {
+                playTrailerAtPosition(context);
+              }
+              if (state is ExploreStopSuccess) {
+                stopTrailer(context);
+              }
+            },
+          ),
+        ],
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -83,7 +98,7 @@ class _TrailerViewState extends State<TrailerView> {
                 }
                 return NotificationListener<UserScrollNotification>(
                   onNotification: (notification) {
-                    scrollToPlay(context);
+                    playTrailerAtPosition(context);
                     return false;
                   },
                   child: AnimatedCrossFade(
@@ -158,7 +173,7 @@ class _TrailerViewState extends State<TrailerView> {
       title: item.title,
       nameOfTrailer: itemTrailer.name ?? 'Coming soon',
       imageUrl: '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
-      onEnded: (metdaData) => bloc.add(SwitchType(isActive: bloc.state.isActive)),
+      onEnded: (metdaData) => bloc.add(StopTrailer()),
       onTap: () => navigateDetailPage(context),
       onLongPress: () => bloc.add(PlayTrailer(
         indexMovie: index,
@@ -192,7 +207,7 @@ class _TrailerViewState extends State<TrailerView> {
       title: item.name,
       nameOfTrailer: itemTrailer.name ?? 'Coming soon',
       imageUrl: '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
-      onEnded: (metdaData) => bloc.add(SwitchType(isActive: bloc.state.isActive)),
+      onEnded: (metdaData) => bloc.add(StopTrailer()),
       onTap: () => navigateDetailPage(context),
       onLongPress: () => bloc.add(PlayTrailer(
         indexTv: index,
@@ -207,22 +222,15 @@ class _TrailerViewState extends State<TrailerView> {
   switchTheater(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     bloc.add(SwitchType(isActive: false));
-    if (bloc.theaterController.hasClients) {
-      bloc.theaterController.jumpTo(0);
-    }
   }
 
   switchTv(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     bloc.add(SwitchType(isActive: true));
-    if (bloc.tvController.hasClients) {
-      bloc.tvController.jumpTo(0);
-    }
   }
 
   navigateDetailPage(BuildContext context) {
-    final bloc = BlocProvider.of<TrailerBloc>(context);
-    bloc.add(SwitchType(isActive: bloc.state.isActive));
+    stopTrailer(context);
     Navigator.of(context).push(
       CustomPageRoute(
         page: const DetailsPage(),
@@ -231,7 +239,7 @@ class _TrailerViewState extends State<TrailerView> {
     );
   }
 
-  scrollToPlay(BuildContext context) {
+  playTrailerAtPosition(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     if (bloc.state.isActive) {
       double currentPosition = bloc.tvController.position.pixels;
@@ -260,23 +268,38 @@ class _TrailerViewState extends State<TrailerView> {
     }
   }
 
+  playTrailer(BuildContext context) {
+    final bloc = BlocProvider.of<TrailerBloc>(context);
+    if (bloc.state.isActive) {
+      double currentPosition = bloc.tvController.position.pixels;
+      int currentIndex = (currentPosition / 310.w).round();
+      bloc.state.visibleVideoMovie[currentIndex]
+          ? null
+          : bloc.add(PlayTrailer(
+              indexTv: currentIndex,
+              visibleVideoMovie: bloc.state.visibleVideoMovie,
+              visibleVideoTv: bloc.state.visibleVideoTv,
+            ));
+    } else {
+      double currentPosition = bloc.theaterController.position.pixels;
+      int currentIndex = (currentPosition / 310.w).round();
+      bloc.state.visibleVideoMovie[currentIndex]
+          ? null
+          : bloc.add(PlayTrailer(
+              indexMovie: currentIndex,
+              visibleVideoMovie: bloc.state.visibleVideoMovie,
+              visibleVideoTv: bloc.state.visibleVideoTv,
+            ));
+    }
+  }
+
+  stopTrailer(BuildContext context) {
+    final bloc = BlocProvider.of<TrailerBloc>(context);
+    bloc.add(StopTrailer());
+  }
+
   reloadList(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     bloc.add(FetchData(language: 'en-US', page: 1, region: ''));
-    bloc.state is TrailerSuccess ? bloc.add(SwitchType(isActive: false)) : null;
-    if (bloc.theaterController.hasClients) {
-      bloc.theaterController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.linear,
-      );
-    }
-    if (bloc.tvController.hasClients) {
-      bloc.tvController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.linear,
-      );
-    }
   }
 }

@@ -217,7 +217,7 @@ class AppUtils {
     }
     final listTrailerMovie = listOfListTrailerMovie.map<MediaTrailer>((e) {
       if (e.isNotEmpty) {
-        return (e..shuffle()).first;
+        return e.first;
       } else {
         return MediaTrailer(key: '');
       }
@@ -256,7 +256,7 @@ class AppUtils {
     }
     final listTrailerTv = listOfListTrailerTv.map<MediaTrailer>((e) {
       if (e.isNotEmpty) {
-        return (e..shuffle()).first;
+        return e.first;
       } else {
         return MediaTrailer(key: '');
       }
