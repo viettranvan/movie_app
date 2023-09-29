@@ -37,7 +37,7 @@ class Footer extends StatelessWidget {
               shaderCallback: (bounds) => LinearGradient(
                 colors: [
                   lightGreenColor,
-                  darkBlueColor,
+                  lightBlueColor,
                 ],
               ).createShader(bounds),
               child: Lottie.asset(

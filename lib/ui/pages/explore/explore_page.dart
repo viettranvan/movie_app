@@ -18,7 +18,7 @@ class ExplorePage extends StatelessWidget {
       create: (context) => ExploreBloc(),
       child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
-          state is NavigationSuccess && state.indexPage == 1 ? reloadPage(context) : null;
+          state is NavigationSuccess ? reloadPage(context) : null;
         },
         child: BlocBuilder<ExploreBloc, ExploreState>(
           builder: (context, state) {

@@ -6,12 +6,8 @@ abstract class TrailerState {
   final List<MultipleMedia> listTv;
   final List<MediaTrailer> listTrailerMovie;
   final List<MediaTrailer> listTrailerTv;
-  final List<YoutubePlayerController> movieControllers;
-  final List<YoutubePlayerController> tvControllers;
   final List<bool> visibleVideoMovie;
   final List<bool> visibleVideoTv;
-  int currentIndexMovie;
-  int currentIndexTv;
 
   TrailerState({
     required this.isActive,
@@ -19,12 +15,8 @@ abstract class TrailerState {
     required this.listTv,
     required this.listTrailerMovie,
     required this.listTrailerTv,
-    required this.movieControllers,
-    required this.tvControllers,
     required this.visibleVideoMovie,
     required this.visibleVideoTv,
-    required this.currentIndexMovie,
-    required this.currentIndexTv,
   });
 }
 
@@ -35,12 +27,8 @@ class TrailerInitial extends TrailerState {
     required super.listTv,
     required super.listTrailerMovie,
     required super.listTrailerTv,
-    required super.movieControllers,
-    required super.tvControllers,
     required super.visibleVideoTv,
     required super.visibleVideoMovie,
-    required super.currentIndexMovie,
-    required super.currentIndexTv,
   });
 }
 
@@ -51,12 +39,8 @@ class TrailerSuccess extends TrailerState {
     required super.listTv,
     required super.listTrailerMovie,
     required super.listTrailerTv,
-    required super.movieControllers,
-    required super.tvControllers,
-    required super.currentIndexMovie,
     required super.visibleVideoMovie,
     required super.visibleVideoTv,
-    required super.currentIndexTv,
   });
 }
 
@@ -69,11 +53,7 @@ class TrailerError extends TrailerState {
     required super.listTv,
     required super.listTrailerMovie,
     required super.listTrailerTv,
-    required super.movieControllers,
-    required super.tvControllers,
-    required super.currentIndexMovie,
     required super.visibleVideoMovie,
     required super.visibleVideoTv,
-    required super.currentIndexTv,
   });
 }

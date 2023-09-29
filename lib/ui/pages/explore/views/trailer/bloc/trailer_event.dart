@@ -22,33 +22,16 @@ class SwitchType extends TrailerEvent {
   });
 }
 
-class ShowVideo extends TrailerEvent {
+class PlayTrailer extends TrailerEvent {
   final int? indexMovie;
   final int? indexTv;
-  final int? currentIndexMovie;
-  final int? currentIndexTv;
   final List<bool> visibleVideoMovie;
   final List<bool> visibleVideoTv;
 
-  ShowVideo({
+  PlayTrailer({
     this.indexMovie,
     this.indexTv,
-    this.currentIndexMovie,
-    this.currentIndexTv,
     required this.visibleVideoMovie,
     required this.visibleVideoTv,
-  });
-}
-
-class HideVideo extends TrailerEvent {}
-
-class PlayTrailer extends TrailerEvent {
-  final int? currentIndexMovie;
-  final int? currentIndexTv;
-  final String trailerKey;
-  PlayTrailer({
-    this.currentIndexMovie,
-    this.currentIndexTv,
-    required this.trailerKey,
   });
 }

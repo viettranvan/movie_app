@@ -72,4 +72,3 @@ class NavigationPage extends StatelessWidget {
     );
   }
 }
-// Icon(Icons.arrow_back_ios),
