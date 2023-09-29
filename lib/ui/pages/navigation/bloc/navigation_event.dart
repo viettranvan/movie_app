@@ -15,3 +15,5 @@ class ShowHide extends NavigationEvent {
     required this.visible,
   });
 }
+
+class ScrollTop extends NavigationEvent {}

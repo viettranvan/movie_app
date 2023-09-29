@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
       create: (context) => HomeBloc(),
       child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
-          state is NavigationSuccess && state.indexPage == 0 ? reloadPage(context) : null;
+          state is NavigationScrollSuccess ? reloadPage(context) : null;
         },
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
@@ -110,9 +110,12 @@ class HomePage extends StatelessWidget {
 
   reloadPage(BuildContext context) {
     final bloc = BlocProvider.of<HomeBloc>(context);
-    bloc.add(RefreshData());
     if (bloc.scrollController.hasClients) {
-      bloc.scrollController.jumpTo(0);
+      bloc.scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.decelerate,
+      );
     }
   }
 

@@ -105,18 +105,8 @@ class TopTvView extends StatelessWidget {
 
   Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 14.w);
 
-  reloadList(BuildContext context) {
-    final bloc = BlocProvider.of<TopTvBloc>(context);
-    bloc.add(FetchData(
-      language: 'en-US',
-      page: 1,
-    ));
-    if (bloc.scrollController.hasClients) {
-      bloc.scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.linear,
-      );
-    }
-  }
+  reloadList(BuildContext context) => BlocProvider.of<TopTvBloc>(context).add(FetchData(
+        language: 'en-US',
+        page: 1,
+      ));
 }

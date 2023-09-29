@@ -44,6 +44,18 @@ class TrailerSuccess extends TrailerState {
   });
 }
 
+class TrailerPlaySuccess extends TrailerState {
+  TrailerPlaySuccess({
+    required super.listMovie,
+    required super.isActive,
+    required super.listTv,
+    required super.listTrailerMovie,
+    required super.listTrailerTv,
+    required super.visibleVideoMovie,
+    required super.visibleVideoTv,
+  });
+}
+
 class TrailerError extends TrailerState {
   final String errorMessage;
   TrailerError({

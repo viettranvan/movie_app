@@ -129,17 +129,11 @@ class Genreview extends StatelessWidget {
   switchMovie(BuildContext context) {
     final bloc = BlocProvider.of<GenreBloc>(context);
     bloc.add(SwitchType(isActive: false));
-    if (bloc.movieController.hasClients) {
-      bloc.movieController.jumpTo(0);
-    }
   }
 
   switchTv(BuildContext context) {
     final bloc = BlocProvider.of<GenreBloc>(context);
     bloc.add(SwitchType(isActive: true));
-    if (bloc.tvController.hasClients) {
-      bloc.tvController.jumpTo(0);
-    }
   }
 
   reloadList(BuildContext context) {

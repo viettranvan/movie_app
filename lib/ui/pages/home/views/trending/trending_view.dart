@@ -109,21 +109,11 @@ class TrendingView extends StatelessWidget {
 
   Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 14.w);
 
-  reloadList(BuildContext context) {
-    final bloc = BlocProvider.of<TrendingBloc>(context);
-    bloc.add(FetchData(
-      mediaType: 'movie',
-      timeWindow: 'day',
-      page: 1,
-      language: 'en-US',
-      includeAdult: true,
-    ));
-    if (bloc.scrollController.hasClients) {
-      bloc.scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.linear,
-      );
-    }
-  }
+  reloadList(BuildContext context) => BlocProvider.of<TrendingBloc>(context).add(FetchData(
+        mediaType: 'movie',
+        timeWindow: 'day',
+        page: 1,
+        language: 'en-US',
+        includeAdult: true,
+      ));
 }

@@ -29,6 +29,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
     on<FetchData>(_onFetchData);
     on<SwitchType>(_onSwitchType);
     on<PlayTrailer>(_onPlayTrailer);
+    on<StopTrailer>(_onStopTrailer);
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<TrailerState> emit) async {
@@ -118,7 +119,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           }
         }
       }
-
       emit(TrailerSuccess(
         listMovie: state.listMovie,
         listTv: state.listTv,
@@ -140,5 +140,17 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         visibleVideoTv: state.visibleVideoTv,
       ));
     }
+  }
+
+  FutureOr<void> _onStopTrailer(StopTrailer event, Emitter<TrailerState> emit) {
+    emit(TrailerSuccess(
+      listMovie: state.listMovie,
+      listTv: state.listTv,
+      listTrailerMovie: state.listTrailerMovie,
+      listTrailerTv: state.listTrailerTv,
+      isActive: state.isActive,
+      visibleVideoMovie: List.filled(20, false),
+      visibleVideoTv: List.filled(20, false),
+    ));
   }
 }

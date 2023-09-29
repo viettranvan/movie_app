@@ -35,3 +35,5 @@ class PlayTrailer extends TrailerEvent {
     required this.visibleVideoTv,
   });
 }
+
+class StopTrailer extends TrailerEvent {}
