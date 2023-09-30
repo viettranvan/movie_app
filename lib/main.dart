@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/ui/pages/navigation/index.dart';
 
@@ -9,6 +10,7 @@ import 'bloc_observer/index.dart';
 void main() async {
   Bloc.observer = SimpleBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
+  await FlutterConfig.loadEnvVariables();
   await ScreenUtil.ensureScreenSize();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
