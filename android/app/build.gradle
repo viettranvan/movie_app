@@ -25,6 +25,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+project.ext.envConfigFiles = [
+        development       : '.env.development',
+        production        : '.env.production',
+        staging           : '.env.staging'
+] // setting environment
+apply from: project(':flutter_config').projectDir.getPath() + '/dotenv.gradle' // setting environment
+
 android {
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
@@ -38,22 +45,42 @@ android {
         jvmTarget = '1.8'
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+        disable 'InvalidPackage'
+    }// setting flutter lints
+
+    flavorDimensions 'environment' // setting environment
+    productFlavors {
+        development {
+            dimension 'environment'
+        }
+        production {
+            dimension 'environment'
+        }
+        staging {
+            dimension 'environment'
+        }
+    }
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
     defaultConfig {
-        applicationId 'com.flutter.movie_app'
-        minSdkVersion 19
+        applicationId project.env.get('APP_ID') // setting environment
+        versionCode project.env.get('VER_CODE').toInteger() // setting environment
+        versionName project.env.get('VER_NAME') //setting environment
+        minSdkVersion 19 // force minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true // setting multiDex enabled
+        resValue 'string', 'build_config_package', 'com.flutter.movie_app' // setting environment
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
     }
