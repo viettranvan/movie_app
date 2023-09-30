@@ -35,7 +35,9 @@ class _TrailerViewState extends State<TrailerView> {
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
               if (state is NavigationSuccess || state is NavigationScrollSuccess) {
-                state.indexPage == 1 ? playTrailer(context) : stopTrailer(context);
+                state.indexPage == 1
+                    ? playTrailerImediately(context)
+                    : stopTrailerImediately(context);
               } else {
                 return;
               }
@@ -43,11 +45,14 @@ class _TrailerViewState extends State<TrailerView> {
           ),
           BlocListener<ExploreBloc, ExploreState>(
             listener: (context, state) {
+              final bloc = BlocProvider.of<TrailerBloc>(context);
               if (state is ExplorePlaySuccess) {
-                playTrailerAtPosition(context);
+                bloc.state.isActive
+                    ? playTrailerTvAtPosition(context)
+                    : playTrailerTheaterAtPosition(context);
               }
               if (state is ExploreStopSuccess) {
-                stopTrailer(context);
+                stopTrailerImediately(context);
               }
             },
           ),
@@ -98,7 +103,9 @@ class _TrailerViewState extends State<TrailerView> {
                 }
                 return NotificationListener<UserScrollNotification>(
                   onNotification: (notification) {
-                    playTrailerAtPosition(context);
+                    bloc.state.isActive
+                        ? playTrailerTvAtPosition(context)
+                        : playTrailerTheaterAtPosition(context);
                     return false;
                   },
                   child: AnimatedCrossFade(
@@ -222,15 +229,17 @@ class _TrailerViewState extends State<TrailerView> {
   switchTheater(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     bloc.add(SwitchType(isActive: false));
+    playTrailerTheaterAtPosition(context);
   }
 
   switchTv(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     bloc.add(SwitchType(isActive: true));
+    playTrailerTvAtPosition(context);
   }
 
   navigateDetailPage(BuildContext context) {
-    stopTrailer(context);
+    stopTrailerImediately(context);
     Navigator.of(context).push(
       CustomPageRoute(
         page: const DetailsPage(),
@@ -239,36 +248,38 @@ class _TrailerViewState extends State<TrailerView> {
     );
   }
 
-  playTrailerAtPosition(BuildContext context) {
+  playTrailerTheaterAtPosition(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
-    if (bloc.state.isActive) {
-      double currentPosition = bloc.tvController.position.pixels;
-      int currentIndex = (currentPosition / 310.w).round();
-      debouncer.slowCall(
-        () => bloc.state.visibleVideoTv[currentIndex]
-            ? null
-            : bloc.add(PlayTrailer(
-                indexTv: currentIndex,
-                visibleVideoMovie: bloc.state.visibleVideoMovie,
-                visibleVideoTv: bloc.state.visibleVideoTv,
-              )),
-      );
-    } else {
-      double currentPosition = bloc.theaterController.position.pixels;
-      int currentIndex = (currentPosition / 310.w).round();
-      debouncer.slowCall(
-        () => bloc.state.visibleVideoMovie[currentIndex]
-            ? null
-            : bloc.add(PlayTrailer(
-                indexMovie: currentIndex,
-                visibleVideoMovie: bloc.state.visibleVideoMovie,
-                visibleVideoTv: bloc.state.visibleVideoTv,
-              )),
-      );
-    }
+    double currentPosition = bloc.theaterController.position.pixels;
+    int currentIndex = (currentPosition / 310.w).round();
+    debouncer.slowCall(
+      () => bloc.state.visibleVideoMovie[currentIndex]
+          ? null
+          : bloc.add(PlayTrailer(
+              indexMovie: currentIndex,
+              visibleVideoMovie: bloc.state.visibleVideoMovie,
+              visibleVideoTv: bloc.state.visibleVideoTv,
+            )),
+    );
   }
 
-  playTrailer(BuildContext context) {
+  playTrailerTvAtPosition(BuildContext context) {
+    final bloc = BlocProvider.of<TrailerBloc>(context);
+    double currentPosition = bloc.tvController.position.pixels;
+    int currentIndex = (currentPosition / 310.w).round();
+    debouncer.slowCall(
+      () => bloc.state.visibleVideoTv[currentIndex]
+          ? null
+          : bloc.add(PlayTrailer(
+              indexTv: currentIndex,
+              visibleVideoMovie: bloc.state.visibleVideoMovie,
+              visibleVideoTv: bloc.state.visibleVideoTv,
+            )),
+    );
+  }
+
+
+  playTrailerImediately(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     if (bloc.state.isActive) {
       double currentPosition = bloc.tvController.position.pixels;
@@ -293,7 +304,7 @@ class _TrailerViewState extends State<TrailerView> {
     }
   }
 
-  stopTrailer(BuildContext context) {
+  stopTrailerImediately(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     bloc.add(StopTrailer());
   }
