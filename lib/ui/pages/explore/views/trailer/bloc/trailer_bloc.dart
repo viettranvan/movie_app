@@ -103,20 +103,20 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
 
   FutureOr<void> _onPlayTrailer(PlayTrailer event, Emitter<TrailerState> emit) {
     try {
-      if (!state.isActive) {
+      if (event.isActive) {
+        event.visibleVideoTv[event.indexTv ?? 0] = !event.visibleVideoTv[event.indexTv ?? 0];
+        for (int i = 0; i < event.visibleVideoTv.length; i++) {
+          if (i != event.indexTv) {
+            event.visibleVideoTv[i] = false;
+          } 
+        }
+      } else {
         event.visibleVideoMovie[event.indexMovie ?? 0] =
             !event.visibleVideoMovie[event.indexMovie ?? 0];
         for (int i = 0; i < event.visibleVideoMovie.length; i++) {
           if (i != event.indexMovie) {
             event.visibleVideoMovie[i] = false;
-          }
-        }
-      } else {
-        event.visibleVideoTv[event.indexTv ?? 0] = !event.visibleVideoTv[event.indexTv ?? 0];
-        for (int i = 0; i < event.visibleVideoTv.length; i++) {
-          if (i != event.indexTv) {
-            event.visibleVideoTv[i] = false;
-          }
+          } 
         }
       }
       emit(TrailerSuccess(

@@ -184,6 +184,7 @@ class _TrailerViewState extends State<TrailerView> {
       onTap: () => navigateDetailPage(context),
       onLongPress: () => bloc.add(PlayTrailer(
         indexMovie: index,
+        isActive: bloc.state.isActive,
         visibleVideoMovie: bloc.state.visibleVideoMovie,
         visibleVideoTv: bloc.state.visibleVideoTv,
       )),
@@ -218,6 +219,7 @@ class _TrailerViewState extends State<TrailerView> {
       onTap: () => navigateDetailPage(context),
       onLongPress: () => bloc.add(PlayTrailer(
         indexTv: index,
+        isActive: bloc.state.isActive,
         visibleVideoMovie: bloc.state.visibleVideoMovie,
         visibleVideoTv: bloc.state.visibleVideoTv,
       )),
@@ -256,6 +258,7 @@ class _TrailerViewState extends State<TrailerView> {
       () => bloc.state.visibleVideoMovie[currentIndex]
           ? null
           : bloc.add(PlayTrailer(
+              isActive: bloc.state.isActive,
               indexMovie: currentIndex,
               visibleVideoMovie: bloc.state.visibleVideoMovie,
               visibleVideoTv: bloc.state.visibleVideoTv,
@@ -271,13 +274,13 @@ class _TrailerViewState extends State<TrailerView> {
       () => bloc.state.visibleVideoTv[currentIndex]
           ? null
           : bloc.add(PlayTrailer(
+              isActive: bloc.state.isActive,
               indexTv: currentIndex,
               visibleVideoMovie: bloc.state.visibleVideoMovie,
               visibleVideoTv: bloc.state.visibleVideoTv,
             )),
     );
   }
-
 
   playTrailerImediately(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
@@ -288,6 +291,7 @@ class _TrailerViewState extends State<TrailerView> {
           ? null
           : bloc.add(PlayTrailer(
               indexTv: currentIndex,
+              isActive: bloc.state.isActive,
               visibleVideoMovie: bloc.state.visibleVideoMovie,
               visibleVideoTv: bloc.state.visibleVideoTv,
             ));
@@ -298,6 +302,7 @@ class _TrailerViewState extends State<TrailerView> {
           ? null
           : bloc.add(PlayTrailer(
               indexMovie: currentIndex,
+              isActive: bloc.state.isActive,
               visibleVideoMovie: bloc.state.visibleVideoMovie,
               visibleVideoTv: bloc.state.visibleVideoTv,
             ));
