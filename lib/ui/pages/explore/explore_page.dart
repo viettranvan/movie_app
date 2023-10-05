@@ -18,7 +18,6 @@ class ExplorePage extends StatelessWidget {
       create: (context) => ExploreBloc(),
       child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) {
-          state is NavigationSuccess ? reloadPage(context) : null;
           state is NavigationScrollSuccess ? reloadPage(context) : null;
         },
         child: BlocBuilder<ExploreBloc, ExploreState>(
@@ -90,7 +89,11 @@ class ExplorePage extends StatelessWidget {
   reloadPage(BuildContext context) {
     final bloc = BlocProvider.of<ExploreBloc>(context);
     if (bloc.scrollController.hasClients) {
-      bloc.scrollController.jumpTo(0);
+      bloc.scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.decelerate,
+      );
     }
   }
 

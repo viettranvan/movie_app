@@ -34,7 +34,18 @@ class _TrailerViewState extends State<TrailerView> {
         listeners: [
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
-              if (state is NavigationSuccess || state is NavigationScrollSuccess) {
+              if (state is NavigationSuccess) {
+                if (state.indexPage == 1) {
+                  final exploreBloc = BlocProvider.of<ExploreBloc>(context);
+                  if (exploreBloc.scrollController.position.extentBefore != 0) {
+                  } else {
+                    playTrailerImediately(context);
+                  }
+                } else {
+                  return;
+                }
+              }
+              if (state is NavigationScrollSuccess) {
                 state.indexPage == 1
                     ? playTrailerImediately(context)
                     : stopTrailerImediately(context);

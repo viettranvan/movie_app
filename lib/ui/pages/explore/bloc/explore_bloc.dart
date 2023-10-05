@@ -22,7 +22,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
   FutureOr<void> _onPlayVideo(PlayVideo event, Emitter<ExploreState> emit) {
     if (scrollController.hasClients) {
-      if (scrollController.position.pixels == 0) {
+      if (scrollController.position.extentBefore == 0) {
         emit(ExplorePlaySuccess());
       } else {
         emit(ExploreStopSuccess());
