@@ -6,7 +6,7 @@ class MediaGenre {
   });
 
   factory MediaGenre.fromJson(Map<String, dynamic> json) => MediaGenre(
-        genres: json["genres"] == null
+        genres: json['genres'] == null
             ? []
             : List<Genre>.from(json['genres'].map((x) => Genre.fromJson(x))),
       );

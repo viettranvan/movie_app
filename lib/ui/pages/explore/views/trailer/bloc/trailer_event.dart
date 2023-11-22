@@ -25,12 +25,14 @@ class SwitchType extends TrailerEvent {
 class PlayTrailer extends TrailerEvent {
   final int? indexMovie;
   final int? indexTv;
+  final bool isActive;
   final List<bool> visibleVideoMovie;
   final List<bool> visibleVideoTv;
 
   PlayTrailer({
     this.indexMovie,
     this.indexTv,
+    required this.isActive,
     required this.visibleVideoMovie,
     required this.visibleVideoTv,
   });

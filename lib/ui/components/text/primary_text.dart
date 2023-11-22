@@ -26,7 +26,8 @@ class PrimaryText extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(17.w, 0, 17.w, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Visibility(
             visible: visibleIcon ?? false,
@@ -48,31 +49,32 @@ class PrimaryText extends StatelessWidget {
           const Spacer(),
           hasSwitch ?? false
               ? child ?? const SizedBox()
-              : Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    GestureDetector(
-                      onTap: onTapViewAll,
-                      child: Text(
-                        'View all',
-                        textScaleFactor: 1,
-                        style: TextStyle(
-                          letterSpacing: 0.2,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14.sp,
-                          color: greyColor,
+              : GestureDetector(
+                  onTap: onTapViewAll,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'View all',
+                          textScaleFactor: 1,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                            color: greyColor,
+                          ),
                         ),
-                      ),
+                        Icon(
+                          Icons.arrow_back_ios,
+                          size: 10.sp,
+                          color: greyColor,
+                          textDirection: TextDirection.rtl,
+                        ),
+                      ],
                     ),
-                    RotatedBox(
-                      quarterTurns: 2,
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 10.sp,
-                        color: greyColor,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
         ],
       ),
