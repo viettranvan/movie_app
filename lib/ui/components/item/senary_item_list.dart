@@ -1,17 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 
-class TertiaryItemList extends StatelessWidget {
+class SenaryItemList extends StatelessWidget {
   final int itemCount;
   final int index;
   final VoidCallback? onTapItem;
   final VoidCallback? onTapViewAll;
   final String imageUrl;
   final String? title;
-  const TertiaryItemList({
+  const SenaryItemList({
     super.key,
     required this.itemCount,
     required this.index,
@@ -27,7 +27,7 @@ class TertiaryItemList extends StatelessWidget {
       onTap: index == itemCount ? onTapViewAll : onTapItem,
       child: RepaintBoundary(
         child: Container(
-          width: 120.w,
+          width: 220.w,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: whiteColor,
@@ -46,12 +46,13 @@ class TertiaryItemList extends StatelessWidget {
                 )
               : Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CachedNetworkImage(
                       imageUrl: imageUrl,
                       filterQuality: FilterQuality.high,
                       width: double.infinity,
-                      height: 171.h,
+                      height: 180.h,
                       fit: BoxFit.fill,
                       progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
                       errorWidget: (context, url, error) => Image.asset(
@@ -63,18 +64,35 @@ class TertiaryItemList extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(7),
+                      padding: const EdgeInsets.all(10),
                       child: Text(
                         title ?? '',
                         maxLines: 1,
                         softWrap: false,
                         textScaleFactor: 1,
                         style: TextStyle(
-                          fontSize: 14.5.sp,
-                          overflow: TextOverflow.clip,
+                          color: greyColor,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
+                    const Row(
+                      children: [],
+                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(10),
+                    //   child: Text(
+                    //     title ?? '',
+                    //     maxLines: 1,
+                    //     softWrap: false,
+                    //     textScaleFactor: 1,
+                    //     style: TextStyle(
+                    //       fontSize: 14.5.sp,
+                    //       overflow: TextOverflow.clip,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
         ),

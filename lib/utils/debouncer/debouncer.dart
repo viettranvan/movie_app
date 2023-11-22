@@ -15,7 +15,7 @@ class Debouncer {
 
   slowCall(VoidCallback callback) {
     _timer?.cancel();
-    _timer = Timer(const Duration(milliseconds: 800), callback);
+    _timer = Timer(const Duration(milliseconds: 500), callback);
   }
 
   // bool callWithValue(VoidCallback callback, bool notification) {

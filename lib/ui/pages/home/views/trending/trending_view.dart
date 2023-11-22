@@ -37,6 +37,7 @@ class TrendingView extends StatelessWidget {
               onTapViewAll: () {},
               icon: SvgPicture.asset(
                 ImagesPath.trendingIcon.assetName,
+                fit: BoxFit.cover,
               ),
             ),
             SizedBox(height: 15.h),

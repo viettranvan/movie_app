@@ -4,6 +4,6 @@ abstract class ExploreEvent {}
 
 class RefreshData extends ExploreEvent {}
 
-class PlayVideo extends ExploreEvent {}
+class PlayPauseVideo extends ExploreEvent {}
 
 

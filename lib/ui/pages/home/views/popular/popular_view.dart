@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
@@ -33,9 +34,8 @@ class PopularView extends StatelessWidget {
               title: 'Popular',
               visibleIcon: true,
               onTapViewAll: () {},
-              icon: Icon(
-                Icons.stars_outlined,
-                color: greyColor,
+              icon: SvgPicture.asset(
+                ImagesPath.popularIcon.assetName,
               ),
             ),
             SizedBox(height: 15.h),

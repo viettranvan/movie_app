@@ -84,7 +84,7 @@ class UpcomingView extends StatelessWidget {
     return SliderItem(
       isBackdrop: false,
       title: list[index].title,
-      voteAverage: list[index].voteAverage?.toDouble(),
+      voteAverage: double.parse(list[index].voteAverage?.toStringAsFixed(1) ?? ''),
       imageUrlPoster: '${AppConstants.kImagePathPoster}${list[index].posterPath}',
       onTap: () => Navigator.of(context).push(
         CustomPageRoute(

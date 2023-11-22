@@ -5,9 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/explore/bloc/explore_bloc.dart';
-import 'package:movie_app/ui/pages/explore/views/trailer/index.dart.dart';
+import 'package:movie_app/ui/pages/explore/views/top_rated/index.dart';
+import 'package:movie_app/ui/pages/explore/views/trailer/index.dart';
 import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ExplorePage extends StatelessWidget {
   const ExplorePage({super.key});
@@ -17,17 +17,8 @@ class ExplorePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ExploreBloc(),
       child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) {
-          state is NavigationScrollSuccess ? reloadPage(context) : null;
-        },
+        listener: (context, state) => state is NavigationScrollSuccess ? reloadPage(context) : null,
         child: BlocBuilder<ExploreBloc, ExploreState>(
-          buildWhen: (previous, current) {
-            if (current is ExplorePlaySuccess || current is ExploreStopSuccess) {
-              return false;
-            } else {
-              return true;
-            }
-          },
           builder: (context, state) {
             final bloc = BlocProvider.of<ExploreBloc>(context);
             return Scaffold(
@@ -60,21 +51,20 @@ class ExplorePage extends StatelessWidget {
                     hideNavigationBar(context);
                     return false;
                   }
-                  bloc.add(PlayVideo());
+                  bloc.add(PlayPauseVideo());
                   return false;
                 },
-                child: SmartRefresher(
-                  controller: bloc.refreshController,
-                  scrollController: bloc.scrollController,
-                  header: const Header(),
-                  onRefresh: () => bloc.add(RefreshData()),
-                  child: const Column(
+                child: SingleChildScrollView(
+                  controller: bloc.scrollController,
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(height: 20),
-                      TrailerView(),
-                      SizedBox(height: 1000),
+                      SizedBox(height: 20.h),
+                      const TrailerView(),
+                      SizedBox(height: 20.h),
+                      const TopRatedView(),
+                      SizedBox(height: 1000.h),
                     ],
                   ),
                 ),

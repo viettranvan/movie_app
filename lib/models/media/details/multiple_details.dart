@@ -125,16 +125,16 @@ class MultipleDetails {
         video: json['video'],
         voteAverage: json['vote_average'].toDouble(),
         voteCount: json['vote_count'],
-        createdBy: json["created_by"] == null
+        createdBy: json['created_by'] == null
             ? []
-            : List<CreatedBy>.from(json["created_by"].map((x) => CreatedBy.fromJson(x))),
-        episodeRunTime: json["episode_run_time"] == null
+            : List<CreatedBy>.from(json['created_by'].map((x) => CreatedBy.fromJson(x))),
+        episodeRunTime: json['episode_run_time'] == null
             ? []
-            : List<int>.from(json["episode_run_time"].map((x) => x)),
+            : List<int>.from(json['episode_run_time'].map((x) => x)),
         firstAirDate: json['first_air_date'],
         inProduction: json['in_production'],
         languages:
-            json["languages"] == null ? [] : List<String>.from(json["languages"].map((x) => x)),
+            json['languages'] == null ? [] : List<String>.from(json['languages'].map((x) => x)),
         lastAirDate: json['last_air_date'],
         lastEpisodeToAir: json['last_episode_to_air'] == null
             ? null
@@ -143,18 +143,18 @@ class MultipleDetails {
         nextEpisodeToAir: json['next_episode_to_air'] == null
             ? null
             : NextEpisodeToAir.fromJson(json['next_episode_to_air']),
-        networks: json["networks"] == null
+        networks: json['networks'] == null
             ? []
-            : List<Network>.from(json["networks"].map((x) => Network.fromJson(x))),
+            : List<Network>.from(json['networks'].map((x) => Network.fromJson(x))),
         numberOfEpisodes: json['number_of_episodes'],
         numberOfSeasons: json['number_of_seasons'],
-        originCountry: json["origin_country"] == null
+        originCountry: json['origin_country'] == null
             ? []
-            : List<String>.from(json["origin_country"].map((x) => x)),
+            : List<String>.from(json['origin_country'].map((x) => x)),
         originalName: json['original_name'],
-        seasons: json["seasons"] == null
+        seasons: json['seasons'] == null
             ? []
-            : List<Season>.from(json["seasons"].map((x) => Season.fromJson(x))),
+            : List<Season>.from(json['seasons'].map((x) => Season.fromJson(x))),
         type: json['type'],
       );
 }

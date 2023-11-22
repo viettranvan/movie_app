@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/shared_ui/paths/images_path.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
@@ -33,9 +34,8 @@ class NowPlayingView extends StatelessWidget {
               title: 'Now Playing',
               visibleIcon: true,
               onTapViewAll: () {},
-              icon: Icon(
-                Icons.smart_display_outlined,
-                color: greyColor,
+              icon: SvgPicture.asset(
+                ImagesPath.nowPlayingIcon.assetName,
               ),
             ),
             SizedBox(height: 15.h),
