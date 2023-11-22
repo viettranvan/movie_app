@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/ui/pages/navigation/index.dart';
 
 import 'bloc_observer/index.dart';
-//a
+
 void main() async {
   Bloc.observer = SimpleBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
