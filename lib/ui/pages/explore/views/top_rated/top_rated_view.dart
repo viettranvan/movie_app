@@ -15,7 +15,7 @@ class TopRatedView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         PrimaryText(
-          title: 'Top rated',
+          title: 'Top rating',
           visibleIcon: true,
           onTapViewAll: () {},
           icon: SvgPicture.asset(
@@ -23,8 +23,9 @@ class TopRatedView extends StatelessWidget {
           ),
         ),
         SizedBox(height: 15.h),
-        SizedBox(
-          height: 300.h,
+        Container(
+          color: Colors.white,
+          height: 392.h,
           child: ListView.separated(
             // controller: bloc.scrollController,
             addAutomaticKeepAlives: false,
@@ -34,7 +35,7 @@ class TopRatedView extends StatelessWidget {
             shrinkWrap: true,
             itemBuilder: itemBuilder,
             separatorBuilder: separatorBuilder,
-            itemCount: 11,
+            itemCount: 10,
           ),
         ),
       ],
@@ -47,17 +48,20 @@ class TopRatedView extends StatelessWidget {
     // String? title = index != list.length ? (list[index].title ?? list[index].name) : '';
     // String? posterPath = index != list.length ? list[index].posterPath : '';
     return SenaryItemList(
-      title: (index + 1).toString(),
-      index: index,
-      itemCount: 10,
-      imageUrl: '${AppConstants.kImagePathPoster}/egg7KFi18TSQc1s24RMmR9i2zO6.jpg',
-      onTapViewAll: () {},
-      onTapItem: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: const DetailsPage(),
-          begin: const Offset(1, 0),
-        ),
-      ),
+      title: 'Wonder woman',
+      rank: '${index + 1}',
+      voteAverage: '6.5',
+      initialRating: 6.5,
+      imageUrl: '${AppConstants.kImagePathPoster}/qJ2tW6WMUDux911r6m7haRef0WH.jpg',
+      onTapBanner: () {},
+      onTapItem: () {
+        Navigator.of(context).push(
+          CustomPageRoute(
+            page: const DetailsPage(),
+            begin: const Offset(1, 0),
+          ),
+        );
+      },
     );
   }
 

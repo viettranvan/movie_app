@@ -33,35 +33,63 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<TrailerState> emit) async {
+    final resultMovie = await exploreRepository.getNowPlayingMovie(
+      language: event.language,
+      page: event.page,
+      region: event.region,
+    );
+    final resultTv = await homeRepository.getNowPlayingTv(
+      language: event.language,
+      page: event.page,
+    );
+    // call API trailer movie
+    final listTrailerMovie = await AppUtils().getTrailersMovie({
+      'list_movie': resultMovie.list,
+      'language': event.language,
+    });
+    // call API trailer tv
+    final listTrailerTv = await AppUtils().getTrailersTv({
+      'list_tv': resultTv.list,
+      'language': event.language,
+    });
+    emit(TrailerSuccess(
+      listMovie: resultMovie.list,
+      listTv: resultTv.list,
+      listTrailerMovie: listTrailerMovie,
+      listTrailerTv: listTrailerTv,
+      isActive: state.isActive,
+      visibleVideoMovie: state.visibleVideoMovie,
+      visibleVideoTv: state.visibleVideoTv,
+    ));
     try {
-      final resultMovie = await exploreRepository.getNowPlayingMovie(
-        language: event.language,
-        page: event.page,
-        region: event.region,
-      );
-      final resultTv = await homeRepository.getNowPlayingTv(
-        language: event.language,
-        page: event.page,
-      );
-      // call API trailer movie
-      final listTrailerMovie = await AppUtils().getTrailersMovie({
-        'list_movie': resultMovie.list,
-        'language': event.language,
-      });
-      // call API trailer tv
-      final listTrailerTv = await AppUtils().getTrailersTv({
-        'list_tv': resultTv.list,
-        'language': event.language,
-      });
-      emit(TrailerSuccess(
-        listMovie: resultMovie.list,
-        listTv: resultTv.list,
-        listTrailerMovie: listTrailerMovie,
-        listTrailerTv: listTrailerTv,
-        isActive: state.isActive,
-        visibleVideoMovie: state.visibleVideoMovie,
-        visibleVideoTv: state.visibleVideoTv,
-      ));
+      // final resultMovie = await exploreRepository.getNowPlayingMovie(
+      //   language: event.language,
+      //   page: event.page,
+      //   region: event.region,
+      // );
+      // final resultTv = await homeRepository.getNowPlayingTv(
+      //   language: event.language,
+      //   page: event.page,
+      // );
+      // // call API trailer movie
+      // final listTrailerMovie = await AppUtils().getTrailersMovie({
+      //   'list_movie': resultMovie.list,
+      //   'language': event.language,
+      // });
+      // // call API trailer tv
+      // final listTrailerTv = await AppUtils().getTrailersTv({
+      //   'list_tv': resultTv.list,
+      //   'language': event.language,
+      // });
+      // emit(TrailerSuccess(
+      //   listMovie: resultMovie.list,
+      //   listTv: resultTv.list,
+      //   listTrailerMovie: listTrailerMovie,
+      //   listTrailerTv: listTrailerTv,
+      //   isActive: state.isActive,
+      //   visibleVideoMovie: state.visibleVideoMovie,
+      //   visibleVideoTv: state.visibleVideoTv,
+      // ));
     } catch (e) {
       emit(TrailerError(
         errorMessage: e.toString(),
@@ -102,32 +130,57 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
   }
 
   FutureOr<void> _onPlayTrailer(PlayTrailer event, Emitter<TrailerState> emit) {
-    try {
-      if (event.isActive) {
-        event.visibleVideoTv[event.indexTv ?? 0] = !event.visibleVideoTv[event.indexTv ?? 0];
-        for (int i = 0; i < event.visibleVideoTv.length; i++) {
-          if (i != event.indexTv) {
-            event.visibleVideoTv[i] = false;
-          } 
-        }
-      } else {
-        event.visibleVideoMovie[event.indexMovie ?? 0] =
-            !event.visibleVideoMovie[event.indexMovie ?? 0];
-        for (int i = 0; i < event.visibleVideoMovie.length; i++) {
-          if (i != event.indexMovie) {
-            event.visibleVideoMovie[i] = false;
-          } 
+    if (event.isActive) {
+      event.visibleVideoTv[event.indexTv ?? 0] = !event.visibleVideoTv[event.indexTv ?? 0];
+      for (int i = 0; i < event.visibleVideoTv.length; i++) {
+        if (i != event.indexTv) {
+          event.visibleVideoTv[i] = false;
         }
       }
-      emit(TrailerSuccess(
-        listMovie: state.listMovie,
-        listTv: state.listTv,
-        listTrailerMovie: state.listTrailerMovie,
-        listTrailerTv: state.listTrailerTv,
-        isActive: state.isActive,
-        visibleVideoMovie: event.visibleVideoMovie,
-        visibleVideoTv: event.visibleVideoTv,
-      ));
+    } else {
+      event.visibleVideoMovie[event.indexMovie ?? 0] =
+          !event.visibleVideoMovie[event.indexMovie ?? 0];
+      for (int i = 0; i < event.visibleVideoMovie.length; i++) {
+        if (i != event.indexMovie) {
+          event.visibleVideoMovie[i] = false;
+        }
+      }
+    }
+    emit(TrailerSuccess(
+      listMovie: state.listMovie,
+      listTv: state.listTv,
+      listTrailerMovie: state.listTrailerMovie,
+      listTrailerTv: state.listTrailerTv,
+      isActive: state.isActive,
+      visibleVideoMovie: event.visibleVideoMovie,
+      visibleVideoTv: event.visibleVideoTv,
+    ));
+    try {
+      // if (event.isActive) {
+      //   event.visibleVideoTv[event.indexTv ?? 0] = !event.visibleVideoTv[event.indexTv ?? 0];
+      //   for (int i = 0; i < event.visibleVideoTv.length; i++) {
+      //     if (i != event.indexTv) {
+      //       event.visibleVideoTv[i] = false;
+      //     }
+      //   }
+      // } else {
+      //   event.visibleVideoMovie[event.indexMovie ?? 0] =
+      //       !event.visibleVideoMovie[event.indexMovie ?? 0];
+      //   for (int i = 0; i < event.visibleVideoMovie.length; i++) {
+      //     if (i != event.indexMovie) {
+      //       event.visibleVideoMovie[i] = false;
+      //     }
+      //   }
+      // }
+      // emit(TrailerSuccess(
+      //   listMovie: state.listMovie,
+      //   listTv: state.listTv,
+      //   listTrailerMovie: state.listTrailerMovie,
+      //   listTrailerTv: state.listTrailerTv,
+      //   isActive: state.isActive,
+      //   visibleVideoMovie: event.visibleVideoMovie,
+      //   visibleVideoTv: event.visibleVideoTv,
+      // ));
     } catch (e) {
       emit(TrailerError(
         errorMessage: e.toString(),

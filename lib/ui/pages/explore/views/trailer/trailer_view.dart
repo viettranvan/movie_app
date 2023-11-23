@@ -38,16 +38,18 @@ class _TrailerViewState extends State<TrailerView> {
               if (state is NavigationSuccess && exploreBloc.scrollController.hasClients) {
                 if (state.indexPage == 1) {
                   if (exploreBloc.scrollController.position.extentBefore == 0) {
-                    playTrailer(context);
+                    debouncer.slowCall(() => playTrailer(context));
                   } else {
-                    stopTrailer(context);
+                    debouncer.slowCall(() => stopTrailer(context));
                   }
                 } else {
-                  stopTrailer(context);
+                  debouncer.slowCall(() => stopTrailer(context));
                 }
               }
               if (state is NavigationScrollSuccess) {
-                state.indexPage == 1 ? playTrailer(context) : stopTrailer(context);
+                state.indexPage == 1
+                    ? debouncer.slowCall(() => playTrailer(context))
+                    : debouncer.slowCall(() => stopTrailer(context));
               } else {
                 return;
               }
@@ -56,9 +58,9 @@ class _TrailerViewState extends State<TrailerView> {
           BlocListener<ExploreBloc, ExploreState>(
             listener: (context, state) {
               if (state is ExplorePlaySuccess) {
-                playTrailer(context);
+                debouncer.slowCall(() => playTrailer(context));
               } else if (state is ExploreStopSuccess) {
-                stopTrailer(context);
+                debouncer.slowCall(() => stopTrailer(context));
               } else {
                 return;
               }
@@ -184,7 +186,7 @@ class _TrailerViewState extends State<TrailerView> {
         useHybridComposition: true,
         forceHD: false,
       ),
-    );
+    )..setPlaybackRate(1);
     return QuinaryItemList(
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
@@ -192,7 +194,9 @@ class _TrailerViewState extends State<TrailerView> {
       visibleVideo: bloc.state.visibleVideoMovie[index],
       title: item.title,
       nameOfTrailer: itemTrailer.name ?? 'Coming soon',
-      imageUrl: '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
+      imageUrl: item.backdropPath == null
+          ? 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTxZYNhrWgfQyqlnGPwzVDe5xv5oPVljnimLLixVAADAItCD6lu'
+          : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
       onEnded: (metdaData) => stopTrailer(context),
       onTap: () => navigateDetailPage(context),
       onLongPress: () => bloc.add(PlayTrailer(
@@ -219,7 +223,7 @@ class _TrailerViewState extends State<TrailerView> {
         useHybridComposition: true,
         forceHD: false,
       ),
-    );
+    )..setPlaybackRate(1);
     return QuinaryItemList(
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
@@ -227,7 +231,9 @@ class _TrailerViewState extends State<TrailerView> {
       visibleVideo: bloc.state.visibleVideoTv[index],
       title: item.name,
       nameOfTrailer: itemTrailer.name ?? 'Coming soon',
-      imageUrl: '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
+      imageUrl: item.backdropPath == null
+          ? 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTxZYNhrWgfQyqlnGPwzVDe5xv5oPVljnimLLixVAADAItCD6lu'
+          : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
       onEnded: (metdaData) => stopTrailer(context),
       onTap: () => navigateDetailPage(context),
       onLongPress: () => bloc.add(PlayTrailer(

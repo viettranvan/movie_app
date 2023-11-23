@@ -62,7 +62,7 @@ class ExplorePage extends StatelessWidget {
                     children: [
                       SizedBox(height: 20.h),
                       const TrailerView(),
-                      SizedBox(height: 20.h),
+                      SizedBox(height: 5.h),
                       const TopRatedView(),
                       SizedBox(height: 1000.h),
                     ],
