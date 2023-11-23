@@ -42,7 +42,7 @@ class PrimaryText extends StatelessWidget {
             style: TextStyle(
               letterSpacing: 0.2,
               fontWeight: FontWeight.w500,
-              fontSize: 20.sp,
+              fontSize: 18.5.sp,
               color: greyColor,
             ),
           ),
@@ -63,13 +63,13 @@ class PrimaryText extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 14.sp,
-                            color: greyColor,
+                            color: darkBlueColor,
                           ),
                         ),
                         Icon(
                           Icons.arrow_back_ios,
                           size: 10.sp,
-                          color: greyColor,
+                          color: darkBlueColor,
                           textDirection: TextDirection.rtl,
                         ),
                       ],

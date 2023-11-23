@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
-import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/top_tv/bloc/top_tv_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
@@ -20,66 +19,60 @@ class TopTvView extends StatelessWidget {
           language: 'en-US',
           page: 1,
         )),
-      child: BlocListener<HomeBloc, HomeState>(
-        listener: (context, state) {
-          final bloc = BlocProvider.of<TopTvBloc>(context);
-          state is HomeSuccess && bloc.state.listTopTv.isNotEmpty ? reloadList(context) : null;
-        },
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            PrimaryText(
-              title: 'Top TV Shows',
-              visibleIcon: true,
-              onTapViewAll: () {},
-              icon: SvgPicture.asset(
-                ImagesPath.tvShowIcon.assetName,
-                width: 24,
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          PrimaryText(
+            title: 'Most TV Shows watched',
+            visibleIcon: true,
+            onTapViewAll: () {},
+            icon: SvgPicture.asset(
+              ImagesPath.tvShowIcon.assetName,
+              width: 24,
             ),
-            SizedBox(height: 15.h),
-            BlocBuilder<TopTvBloc, TopTvState>(
-              builder: (context, state) {
-                final bloc = BlocProvider.of<TopTvBloc>(context);
-                if (state is TopTvInitial) {
-                  return SizedBox(
-                    height: 200.h,
-                    child: const CustomIndicator(),
-                  );
-                }
-                if (state is TopTvError) {
-                  return SizedBox(
-                    height: 213.h,
-                    child: Center(
-                      child: Text(state.runtimeType.toString()),
-                    ),
-                  );
-                }
-                return Stack(
-                  children: [
-                    const Positioned.fill(
-                      child: PrimaryBackground(),
-                    ),
-                    SizedBox(
-                      height: 213.h,
-                      child: ListView.separated(
-                        controller: bloc.scrollController,
-                        addAutomaticKeepAlives: false,
-                        addRepaintBoundaries: false,
-                        padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemBuilder: itemBuilder,
-                        separatorBuilder: separatorBuilder,
-                        itemCount: state.listTopTv.isNotEmpty ? state.listTopTv.length + 1 : 21,
-                      ),
-                    ),
-                  ],
+          ),
+          SizedBox(height: 15.h),
+          BlocBuilder<TopTvBloc, TopTvState>(
+            builder: (context, state) {
+              final bloc = BlocProvider.of<TopTvBloc>(context);
+              if (state is TopTvInitial) {
+                return SizedBox(
+                  height: 200.h,
+                  child: const CustomIndicator(),
                 );
-              },
-            ),
-          ],
-        ),
+              }
+              if (state is TopTvError) {
+                return SizedBox(
+                  height: 213.h,
+                  child: Center(
+                    child: Text(state.runtimeType.toString()),
+                  ),
+                );
+              }
+              return Stack(
+                children: [
+                  const Positioned.fill(
+                    child: PrimaryBackground(),
+                  ),
+                  SizedBox(
+                    height: 213.h,
+                    child: ListView.separated(
+                      controller: bloc.scrollController,
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: false,
+                      padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemBuilder: itemBuilder,
+                      separatorBuilder: separatorBuilder,
+                      itemCount: state.listTopTv.isNotEmpty ? state.listTopTv.length + 1 : 21,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }

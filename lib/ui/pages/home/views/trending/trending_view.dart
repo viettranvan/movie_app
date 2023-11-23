@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
-import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/trending/bloc/trending_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
@@ -23,67 +22,60 @@ class TrendingView extends StatelessWidget {
           language: 'en-US',
           includeAdult: true,
         )),
-      child: BlocListener<HomeBloc, HomeState>(
-        listener: (context, state) {
-          final bloc = BlocProvider.of<TrendingBloc>(context);
-          state is HomeSuccess && bloc.state.listTrending.isNotEmpty ? reloadList(context) : null;
-        },
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            PrimaryText(
-              title: 'Trending',
-              visibleIcon: true,
-              onTapViewAll: () {},
-              icon: SvgPicture.asset(
-                ImagesPath.trendingIcon.assetName,
-                fit: BoxFit.cover,
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          PrimaryText(
+            title: 'Trending',
+            visibleIcon: true,
+            onTapViewAll: () {},
+            icon: SvgPicture.asset(
+              ImagesPath.trendingIcon.assetName,
+              fit: BoxFit.cover,
             ),
-            SizedBox(height: 15.h),
-            BlocBuilder<TrendingBloc, TrendingState>(
-              builder: (context, state) {
-                final bloc = BlocProvider.of<TrendingBloc>(context);
-                if (state is TrendingInitial) {
-                  return SizedBox(
-                    height: 200.h,
-                    child: const CustomIndicator(),
-                  );
-                }
-                if (state is TrendingError) {
-                  return SizedBox(
-                    height: 213.h,
-                    child: Center(
-                      child: Text(state.runtimeType.toString()),
-                    ),
-                  );
-                }
-                return Stack(
-                  children: [
-                    const Positioned.fill(
-                      child: PrimaryBackground(),
-                    ),
-                    SizedBox(
-                      height: 213.h,
-                      child: ListView.separated(
-                        controller: bloc.scrollController,
-                        addAutomaticKeepAlives: false,
-                        addRepaintBoundaries: false,
-                        padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemBuilder: itemBuilder,
-                        separatorBuilder: separatorBuilder,
-                        itemCount:
-                            state.listTrending.isNotEmpty ? state.listTrending.length + 1 : 21,
-                      ),
-                    ),
-                  ],
+          ),
+          SizedBox(height: 15.h),
+          BlocBuilder<TrendingBloc, TrendingState>(
+            builder: (context, state) {
+              final bloc = BlocProvider.of<TrendingBloc>(context);
+              if (state is TrendingInitial) {
+                return SizedBox(
+                  height: 200.h,
+                  child: const CustomIndicator(),
                 );
-              },
-            ),
-          ],
-        ),
+              }
+              if (state is TrendingError) {
+                return SizedBox(
+                  height: 213.h,
+                  child: Center(
+                    child: Text(state.runtimeType.toString()),
+                  ),
+                );
+              }
+              return Stack(
+                children: [
+                  const Positioned.fill(
+                    child: PrimaryBackground(),
+                  ),
+                  SizedBox(
+                    height: 213.h,
+                    child: ListView.separated(
+                      controller: bloc.scrollController,
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: false,
+                      padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemBuilder: itemBuilder,
+                      separatorBuilder: separatorBuilder,
+                      itemCount: state.listTrending.isNotEmpty ? state.listTrending.length + 1 : 21,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }
