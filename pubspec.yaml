@@ -19,7 +19,7 @@ dependencies:
   flutter_config: ^2.0.2
   carousel_slider: ^4.2.1
   image: ^3.0.2
-  cached_network_image: ^3.2.1
+  cached_network_image: ^3.3.0
   flutter_svg: ^2.0.5
   pull_to_refresh: ^2.0.0
   flutter_launcher_icons: ^0.11.0
@@ -53,6 +53,7 @@ flutter:
     - lib/shared_ui/assets/icons/now_playing_icon.svg
     - lib/shared_ui/assets/icons/trailer_icon.svg
     - lib/shared_ui/assets/icons/filter_icon.svg
+    - lib/shared_ui/assets/icons/watch_list_icon.svg
     - lib/shared_ui/assets/icons/eye_open_icon.png
     - lib/shared_ui/assets/icons/eye_close_icon.png
     - lib/shared_ui/assets/images/primary_long_logo.png

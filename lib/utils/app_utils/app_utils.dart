@@ -244,7 +244,7 @@ class AppUtils {
     Map<String, dynamic> params = arguments[1];
     for (int i = 0; i < params['list_tv'].length; i++) {
       final resultsTrailerTv = await exploreRepository.getTrailerTv(
-        seriesId: params['list_tv'][i].id ?? 0,
+        seriesId: params['list_tv'][i].id as int ,
         language: params['language'],
       );
       if (resultsTrailerTv.list.isEmpty) {

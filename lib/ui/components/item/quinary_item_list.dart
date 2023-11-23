@@ -43,6 +43,7 @@ class QuinaryItemList extends StatelessWidget {
       child: RepaintBoundary(
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               width: 300.w,
@@ -67,6 +68,7 @@ class QuinaryItemList extends StatelessWidget {
                         key: youtubeKey,
                         controller: controller,
                         thumbnail: Stack(
+                          alignment: Alignment.center,
                           children: [
                             Positioned.fill(
                               child: CachedNetworkImage(
@@ -79,16 +81,20 @@ class QuinaryItemList extends StatelessWidget {
                                   ImagesPath.noImage.assetName,
                                   filterQuality: FilterQuality.high,
                                   fit: BoxFit.fill,
+                                  width: double.infinity,
+                                  height: double.infinity,
                                 ),
                               ),
                             ),
-                            Positioned.fill(
+                            Positioned(
                               child: videoId.isNotEmpty
                                   ? Lottie.asset(AnimationsPath.loadingAnimation.assetName,
                                       repeat: true,
                                       addRepaintBoundary: true,
                                       filterQuality: FilterQuality.high,
                                       fit: BoxFit.scaleDown,
+                                      height: 50,
+                                      width: 80,
                                       delegates: LottieDelegates(
                                         values: [
                                           ValueDelegate.color(
@@ -163,29 +169,10 @@ class QuinaryItemList extends StatelessWidget {
             ),
             SizedBox(height: 10.h),
             SizedBox(
-              width: 250.w,
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: title,
-                    ),
-                    WidgetSpan(
-                      child: SizedBox(
-                        width: 5.w,
-                      ),
-                    ),
-                    TextSpan(
-                      text: '($nameOfTrailer)',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: greyColor,
-                      ),
-                    ),
-                  ],
-                ),
+              width: 300.w,
+              child: Text(
+                title ?? '',
                 softWrap: true,
-                maxLines: 2,
                 textScaleFactor: 1,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -194,6 +181,52 @@ class QuinaryItemList extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(
+              width: 300.w,
+              child: Text(
+                '($nameOfTrailer)',
+                textScaleFactor: 1,
+                softWrap: true,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: greyColor,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+            // SizedBox(
+            //   width: 250.w,
+            //   child: Text.rich(
+            //     TextSpan(
+            //       children: [
+            //         TextSpan(
+            //           text: title,
+            //         ),
+            //         WidgetSpan(
+            //           child: SizedBox(
+            //             width: 5.w,
+            //           ),
+            //         ),
+            //         TextSpan(
+            //           text: '($nameOfTrailer)',
+            // style: TextStyle(
+            //   fontSize: 14.sp,
+            //   color: greyColor,
+            // ),
+            //         ),
+            //       ],
+            //     ),
+            //     softWrap: true,
+            //     maxLines: 2,
+            //   textScaleFactor: 1,
+            //   textAlign: TextAlign.center,
+            //   style: TextStyle(
+            // fontSize: 14.5.sp,
+            // overflow: TextOverflow.ellipsis,
+            //   ),
+            // ),
+            // ),
           ],
         ),
       ),

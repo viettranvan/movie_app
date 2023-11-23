@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/ui/components/components.dart';
 
 class DetailsPage extends StatelessWidget {
@@ -18,31 +17,31 @@ class DetailsPage extends StatelessWidget {
           ),
         ),
         title: const CustomAppBarTitle(titleAppBar: 'Details'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 10, 8),
-            child: Icon(
-              Icons.star_outline_rounded,
-              color: yellowColor,
-              size: 25,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 10, 8),
-            child: Icon(
-              Icons.favorite_border_outlined,
-              color: pinkColor,
-              size: 25,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 10, 8),
-            child: Icon(
-              Icons.bookmark_outline_rounded,
-              color: cyanColor,
-              size: 25,
-            ),
-          ),
+        actions: const [
+          // Padding(
+          //   padding: const EdgeInsets.fromLTRB(0, 8, 10, 8),
+          //   child: Icon(
+          //     Icons.star_outline_rounded,
+          //     color: yellowColor,
+          //     size: 25,
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.fromLTRB(0, 8, 10, 8),
+          //   child: Icon(
+          //     Icons.favorite_border_outlined,
+          //     color: pinkColor,
+          //     size: 25,
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.fromLTRB(0, 8, 10, 8),
+          //   child: Icon(
+          //     Icons.bookmark_outline_rounded,
+          //     color: cyanColor,
+          //     size: 25,
+          //   ),
+          // ),
         ],
         onTapLeading: () => Navigator.of(context).pop(),
       ),

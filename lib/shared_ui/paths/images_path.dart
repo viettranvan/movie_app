@@ -12,6 +12,7 @@ enum ImagesPath {
   nowPlayingIcon('lib/shared_ui/assets/icons/now_playing_icon.svg'),
   topRatedIcon('lib/shared_ui/assets/icons/top_rated_icon.svg'),
   trailerIcon('lib/shared_ui/assets/icons/trailer_icon.svg'),
+  watchListIcon('lib/shared_ui/assets/icons/watch_list_icon.svg'),
   eyeOpenIcon('lib/shared_ui/assets/icons/eye_open_icon.png'),
   eyeCloseIcon('lib/shared_ui/assets/icons/eye_close_icon.png'),
   primaryLongLogo('lib/shared_ui/assets/images/primary_long_logo.png'),
