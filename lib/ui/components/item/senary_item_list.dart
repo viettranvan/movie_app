@@ -132,30 +132,28 @@ class SenaryItemList extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: -3,
-              left: 5,
+              width: 55.w,
+              height: 55.h,
+              top: -2.h,
+              left: 5.w,
               child: GestureDetector(
                 onTap: onTapBanner,
                 child: Stack(
                   children: [
                     SvgPicture.asset(
                       ImagesPath.watchListIcon.assetName,
-                      height: 55.h,
+                      height: 60.h,
                       fit: BoxFit.fill,
                       colorFilter: ColorFilter.mode(
-                        blackColor.withOpacity(0.5),
+                        lightBlueColor.withOpacity(0.6),
                         BlendMode.srcIn,
                       ),
                     ),
-                    Positioned(
-                      top: 5.h,
-                      bottom: 10.h,
-                      left: 10.w,
-                      right: 10.w,
+                    Positioned.fill(
                       child: Icon(
                         Icons.add,
                         color: whiteColor,
-                        size: 30.sp,
+                        size: 22.sp,
                       ),
                     ),
                   ],

@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class BlurBackground extends StatelessWidget {
-  final double? heightBackground;
+  final double? height;
   final double? radiusCorner;
   final double? paddingHorizontal;
   final double? width;
@@ -11,7 +11,7 @@ class BlurBackground extends StatelessWidget {
   final double? sigmaY;
   const BlurBackground({
     super.key,
-    this.heightBackground,
+    this.height,
     this.radiusCorner,
     this.paddingHorizontal,
     this.width,
@@ -23,7 +23,7 @@ class BlurBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: paddingHorizontal ?? 0),
-      height: heightBackground,
+      height: height,
       width: width,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(radiusCorner ?? 0),
