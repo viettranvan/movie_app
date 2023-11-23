@@ -195,38 +195,6 @@ class QuinaryItemList extends StatelessWidget {
                 ),
               ),
             ),
-            // SizedBox(
-            //   width: 250.w,
-            //   child: Text.rich(
-            //     TextSpan(
-            //       children: [
-            //         TextSpan(
-            //           text: title,
-            //         ),
-            //         WidgetSpan(
-            //           child: SizedBox(
-            //             width: 5.w,
-            //           ),
-            //         ),
-            //         TextSpan(
-            //           text: '($nameOfTrailer)',
-            // style: TextStyle(
-            //   fontSize: 14.sp,
-            //   color: greyColor,
-            // ),
-            //         ),
-            //       ],
-            //     ),
-            //     softWrap: true,
-            //     maxLines: 2,
-            //   textScaleFactor: 1,
-            //   textAlign: TextAlign.center,
-            //   style: TextStyle(
-            // fontSize: 14.5.sp,
-            // overflow: TextOverflow.ellipsis,
-            //   ),
-            // ),
-            // ),
           ],
         ),
       ),

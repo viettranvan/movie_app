@@ -83,7 +83,7 @@ class SliderItem extends StatelessWidget {
                           Stack(
                             children: [
                               BlurBackground(
-                                heightBackground: 53.h,
+                                height: 53.h,
                                 width: 90.w,
                                 radiusCorner: 15.r,
                               ),
@@ -142,7 +142,7 @@ class SliderItem extends StatelessWidget {
                           Stack(
                             children: [
                               BlurBackground(
-                                heightBackground: 88.h,
+                                height: 88.h,
                                 radiusCorner: 20.r,
                               ),
                               Container(

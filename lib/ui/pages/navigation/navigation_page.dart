@@ -40,7 +40,7 @@ class NavigationPage extends StatelessWidget {
               background: BlurBackground(
                 sigmaX: 3,
                 sigmaY: 3,
-                heightBackground: 60.h,
+                height: 60.h,
                 paddingHorizontal: 25.w,
                 radiusCorner: 30.r,
               ),
