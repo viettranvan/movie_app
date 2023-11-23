@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/transitions/transitions.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
-import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/artist/bloc/artist_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
@@ -19,54 +19,53 @@ class ArtistView extends StatelessWidget {
           language: 'en-US',
           page: 1,
         )),
-      child: BlocListener<HomeBloc, HomeState>(
-        listener: (context, state) {
-          final bloc = BlocProvider.of<ArtistBloc>(context);
-          state is HomeSuccess && bloc.state.listArtist.isNotEmpty ? reloadList(context) : null;
-        },
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SecondaryText(
-              title: 'Popular Artist',
-              onTapViewAll: () {},
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          PrimaryText(
+            title: 'Most popular celebrities',
+            visibleIcon: true,
+            onTapViewAll: () {},
+            icon: SvgPicture.asset(
+              ImagesPath.artistIcon.assetName,
+              width: 24,
             ),
-            SizedBox(height: 12.h),
-            BlocBuilder<ArtistBloc, ArtistState>(
-              builder: (context, state) {
-                final bloc = BlocProvider.of<ArtistBloc>(context);
-                if (state is ArtistInitial) {
-                  return SizedBox(
-                    height: 150.h,
-                    child: const CustomIndicator(),
-                  );
-                }
-                if (state is ArtistError) {
-                  return SizedBox(
-                    height: 150.h,
-                    child: Center(
-                      child: Text(state.runtimeType.toString()),
-                    ),
-                  );
-                }
+          ),
+          SizedBox(height: 12.h),
+          BlocBuilder<ArtistBloc, ArtistState>(
+            builder: (context, state) {
+              final bloc = BlocProvider.of<ArtistBloc>(context);
+              if (state is ArtistInitial) {
                 return SizedBox(
                   height: 150.h,
-                  child: ListView.separated(
-                    controller: bloc.scrollController,
-                    addAutomaticKeepAlives: false,
-                    addRepaintBoundaries: false,
-                    padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemBuilder: itemBuilder,
-                    separatorBuilder: separatorBuilder,
-                    itemCount: state.listArtist.isNotEmpty ? state.listArtist.length + 1 : 21,
+                  child: const CustomIndicator(),
+                );
+              }
+              if (state is ArtistError) {
+                return SizedBox(
+                  height: 150.h,
+                  child: Center(
+                    child: Text(state.runtimeType.toString()),
                   ),
                 );
-              },
-            ),
-          ],
-        ),
+              }
+              return SizedBox(
+                height: 150.h,
+                child: ListView.separated(
+                  controller: bloc.scrollController,
+                  addAutomaticKeepAlives: false,
+                  addRepaintBoundaries: false,
+                  padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemBuilder: itemBuilder,
+                  separatorBuilder: separatorBuilder,
+                  itemCount: state.listArtist.isNotEmpty ? state.listArtist.length + 1 : 21,
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

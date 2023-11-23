@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
-import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/best_drama/bloc/best_drama_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
@@ -21,66 +20,60 @@ class BestDramaView extends StatelessWidget {
           page: 1,
           withGenres: [18],
         )),
-      child: BlocListener<HomeBloc, HomeState>(
-        listener: (context, state) {
-          final bloc = BlocProvider.of<BestDramaBloc>(context);
-          state is HomeSuccess && bloc.state.listBestDrama.isNotEmpty ? reloadList(context) : null;
-        },
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            PrimaryText(
-              title: 'Best Drama',
-              visibleIcon: true,
-              onTapViewAll: () {},
-              icon: SvgPicture.asset(
-                ImagesPath.bestDramaIcon.assetName,
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          PrimaryText(
+            title: 'Special Dramas',
+            visibleIcon: true,
+            onTapViewAll: () {},
+            icon: SvgPicture.asset(
+              ImagesPath.bestDramaIcon.assetName,
             ),
-            SizedBox(height: 15.h),
-            BlocBuilder<BestDramaBloc, BestDramaState>(
-              builder: (context, state) {
-                final bloc = BlocProvider.of<BestDramaBloc>(context);
-                if (state is BestDramaInitial) {
-                  return SizedBox(
-                    height: 200.h,
-                    child: const CustomIndicator(),
-                  );
-                }
-                if (state is BestDramaError) {
-                  return SizedBox(
-                    height: 213.h,
-                    child: Center(
-                      child: Text(state.runtimeType.toString()),
-                    ),
-                  );
-                }
-                return Stack(
-                  children: [
-                    const Positioned.fill(
-                      child: PrimaryBackground(),
-                    ),
-                    SizedBox(
-                      height: 213.h,
-                      child: ListView.separated(
-                        controller: bloc.scrollController,
-                        addAutomaticKeepAlives: false,
-                        addRepaintBoundaries: false,
-                        padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemBuilder: itemBuilder,
-                        separatorBuilder: separatorBuilder,
-                        itemCount:
-                            state.listBestDrama.isNotEmpty ? state.listBestDrama.length + 1 : 21,
-                      ),
-                    ),
-                  ],
+          ),
+          SizedBox(height: 15.h),
+          BlocBuilder<BestDramaBloc, BestDramaState>(
+            builder: (context, state) {
+              final bloc = BlocProvider.of<BestDramaBloc>(context);
+              if (state is BestDramaInitial) {
+                return SizedBox(
+                  height: 200.h,
+                  child: const CustomIndicator(),
                 );
-              },
-            ),
-          ],
-        ),
+              }
+              if (state is BestDramaError) {
+                return SizedBox(
+                  height: 213.h,
+                  child: Center(
+                    child: Text(state.runtimeType.toString()),
+                  ),
+                );
+              }
+              return Stack(
+                children: [
+                  const Positioned.fill(
+                    child: PrimaryBackground(),
+                  ),
+                  SizedBox(
+                    height: 213.h,
+                    child: ListView.separated(
+                      controller: bloc.scrollController,
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: false,
+                      padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemBuilder: itemBuilder,
+                      separatorBuilder: separatorBuilder,
+                      itemCount:
+                          state.listBestDrama.isNotEmpty ? state.listBestDrama.length + 1 : 21,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }

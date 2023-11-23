@@ -72,7 +72,7 @@ class _TrailerViewState extends State<TrailerView> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             PrimaryText(
-              title: 'Latest Trailer',
+              title: 'TMDB Originals',
               visibleIcon: true,
               hasSwitch: true,
               icon: Icon(
