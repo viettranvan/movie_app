@@ -64,8 +64,9 @@ class PopularView extends StatelessWidget {
                       height: 200.h,
                       viewportFraction: 1,
                       enableInfiniteScroll: true,
-                      onPageChanged: (index, reason) =>
-                          bloc.add(SlidePageView(selectedIndex: index)),
+                      onPageChanged: (index, reason) {
+                        bloc.add(SlidePageView(selectedIndex: index));
+                      },
                     ),
                   ),
                   SliderIndicator(
@@ -98,17 +99,5 @@ class PopularView extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  reloadList(BuildContext context) {
-    final bloc = BlocProvider.of<PopularBloc>(context);
-    bloc.add(FetchData(
-      page: 1,
-      region: '',
-      language: 'en-US',
-    ));
-    if (bloc.controller.ready && bloc.state is PopularSuccess) {
-      bloc.controller.jumpToPage(0);
-    }
   }
 }

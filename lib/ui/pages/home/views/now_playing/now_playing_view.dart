@@ -89,9 +89,4 @@ class NowPlayingView extends StatelessWidget {
       ),
     );
   }
-
-  reloadItem(BuildContext context) => BlocProvider.of<NowPlayingBloc>(context).add(FetchData(
-        language: 'en-US',
-        page: 1,
-      ));
 }

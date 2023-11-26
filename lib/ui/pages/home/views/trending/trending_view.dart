@@ -26,7 +26,7 @@ class TrendingView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           PrimaryText(
-            title: 'Trending',
+            title: 'Trending today',
             visibleIcon: true,
             onTapViewAll: () {},
             icon: SvgPicture.asset(
@@ -101,12 +101,4 @@ class TrendingView extends StatelessWidget {
   }
 
   Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 14.w);
-
-  reloadList(BuildContext context) => BlocProvider.of<TrendingBloc>(context).add(FetchData(
-        mediaType: 'movie',
-        timeWindow: 'day',
-        page: 1,
-        language: 'en-US',
-        includeAdult: true,
-      ));
 }

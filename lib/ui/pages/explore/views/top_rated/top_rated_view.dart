@@ -52,6 +52,7 @@ class TopRatedView extends StatelessWidget {
               return SizedBox(
                 height: 392.h,
                 child: ListView.separated(
+                  physics: const PageScrollPhysics(),
                   addAutomaticKeepAlives: false,
                   addRepaintBoundaries: false,
                   padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),

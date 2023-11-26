@@ -26,7 +26,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   }
 
   FutureOr<void> _onShowHide(ShowHide event, Emitter<NavigationState> emit) {
-    emit(NavigationShowHideSuccess(
+    emit(NavigationSuccess(
       visible: event.visible,
       indexPage: state.indexPage,
     ));

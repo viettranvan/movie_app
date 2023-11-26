@@ -98,9 +98,4 @@ class TopTvView extends StatelessWidget {
   }
 
   Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 14.w);
-
-  reloadList(BuildContext context) => BlocProvider.of<TopTvBloc>(context).add(FetchData(
-        language: 'en-US',
-        page: 1,
-      ));
 }

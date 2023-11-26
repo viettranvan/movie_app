@@ -87,7 +87,4 @@ class UpcomingView extends StatelessWidget {
       ),
     );
   }
-
-  reloadList(BuildContext context) =>
-      BlocProvider.of<UpcomingBloc>(context).add(FetchData(language: 'en-US', page: 1, region: ''));
 }

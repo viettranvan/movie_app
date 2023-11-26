@@ -37,6 +37,7 @@ class QuinaryItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = 320.w;
     return GestureDetector(
       onTap: onTap,
       onLongPress: onLongPress,
@@ -46,8 +47,8 @@ class QuinaryItemList extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: 300.w,
-              height: 156.h,
+              width: width,
+              height: 180.h,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 color: whiteColor,
@@ -63,7 +64,7 @@ class QuinaryItemList extends StatelessWidget {
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(20.r),
                       child: YoutubePlayer(
-                        width: 300.w,
+                        width: width,
                         onEnded: onEnded,
                         key: youtubeKey,
                         controller: controller,
@@ -169,7 +170,7 @@ class QuinaryItemList extends StatelessWidget {
             ),
             SizedBox(height: 10.h),
             SizedBox(
-              width: 300.w,
+              width: width,
               child: Text(
                 title ?? '',
                 softWrap: true,
@@ -182,7 +183,7 @@ class QuinaryItemList extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 300.w,
+              width: width,
               child: Text(
                 '($nameOfTrailer)',
                 textScaleFactor: 1,

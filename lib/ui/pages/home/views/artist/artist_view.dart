@@ -91,9 +91,4 @@ class ArtistView extends StatelessWidget {
   }
 
   Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 14.h);
-
-  reloadList(BuildContext context) {
-    final bloc = BlocProvider.of<ArtistBloc>(context);
-    bloc.add(FetchData(language: 'en-US', page: 1));
-  }
 }
