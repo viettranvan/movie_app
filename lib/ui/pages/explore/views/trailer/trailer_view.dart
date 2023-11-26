@@ -72,7 +72,7 @@ class _TrailerViewState extends State<TrailerView> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             PrimaryText(
-              title: 'TMDB Originals',
+              title: 'TMDb originals',
               visibleIcon: true,
               hasSwitch: true,
               icon: Icon(
@@ -100,13 +100,13 @@ class _TrailerViewState extends State<TrailerView> {
                 final bloc = BlocProvider.of<TrailerBloc>(context);
                 if (state is TrailerInitial) {
                   return SizedBox(
-                    height: 250.h,
+                    height: 240.h,
                     child: const CustomIndicator(radius: 10),
                   );
                 }
                 if (state is TrailerError) {
                   return SizedBox(
-                    height: 250.h,
+                    height: 240.h,
                     child: Text(
                       state.errorMessage,
                     ),
@@ -128,8 +128,9 @@ class _TrailerViewState extends State<TrailerView> {
                     crossFadeState:
                         state.isActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                     firstChild: SizedBox(
-                      height: 230.h,
+                      height: 240.h,
                       child: ListView.separated(
+                        physics: const BouncingScrollPhysics(),
                         addRepaintBoundaries: false,
                         addAutomaticKeepAlives: true,
                         controller: bloc.theaterController,
@@ -142,8 +143,9 @@ class _TrailerViewState extends State<TrailerView> {
                       ),
                     ),
                     secondChild: SizedBox(
-                      height: 230.h,
+                      height: 240.h,
                       child: ListView.separated(
+                        physics: const BouncingScrollPhysics(),
                         addRepaintBoundaries: false,
                         addAutomaticKeepAlives: true,
                         controller: bloc.tvController,
@@ -186,7 +188,12 @@ class _TrailerViewState extends State<TrailerView> {
         useHybridComposition: true,
         forceHD: false,
       ),
-    )..setPlaybackRate(1);
+    )
+      ..setPlaybackRate(1)
+      ..value.copyWith(
+        isReady: true,
+        playbackRate: 1,
+      );
     return QuinaryItemList(
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
@@ -223,7 +230,12 @@ class _TrailerViewState extends State<TrailerView> {
         useHybridComposition: true,
         forceHD: false,
       ),
-    )..setPlaybackRate(1);
+    )
+      ..setPlaybackRate(1)
+      ..value.copyWith(
+        isReady: true,
+        playbackRate: 1,
+      );
     return QuinaryItemList(
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
@@ -245,7 +257,7 @@ class _TrailerViewState extends State<TrailerView> {
     );
   }
 
-  Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 15.w);
+  Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 20.w);
 
   switchTheater(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
@@ -274,8 +286,8 @@ class _TrailerViewState extends State<TrailerView> {
     if (bloc.state.isActive) {
       if (bloc.tvController.hasClients) {
         double currentPosition = bloc.tvController.position.pixels;
-        int currentIndex = (currentPosition / 310.w).round();
-        bloc.state.visibleVideoMovie[currentIndex]
+        int currentIndex = (currentPosition / 335.w).round();
+        bloc.state.visibleVideoTv[currentIndex]
             ? null
             : bloc.add(PlayTrailer(
                 indexTv: currentIndex,
@@ -287,7 +299,7 @@ class _TrailerViewState extends State<TrailerView> {
     } else {
       if (bloc.theaterController.hasClients) {
         double currentPosition = bloc.theaterController.position.pixels;
-        int currentIndex = (currentPosition / 310.w).round();
+        int currentIndex = (currentPosition / 335.w).round();
         bloc.state.visibleVideoMovie[currentIndex]
             ? null
             : bloc.add(PlayTrailer(

@@ -125,24 +125,4 @@ class Genreview extends StatelessWidget {
     final bloc = BlocProvider.of<GenreBloc>(context);
     bloc.add(SwitchType(isActive: true));
   }
-
-  reloadList(BuildContext context) {
-    final bloc = BlocProvider.of<GenreBloc>(context);
-    bloc.add(FetchData(language: 'en-US'));
-    bloc.state is GenreSuccess ? bloc.add(SwitchType(isActive: false)) : null;
-    if (bloc.movieController.hasClients) {
-      bloc.movieController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.linear,
-      );
-    }
-    if (bloc.tvController.hasClients) {
-      bloc.tvController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.linear,
-      );
-    }
-  }
 }

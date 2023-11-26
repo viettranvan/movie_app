@@ -23,13 +23,11 @@ class HomePage extends StatelessWidget {
     return BlocListener<NavigationBloc, NavigationState>(
       listener: (context, state) {
         if (state is NavigationScrollSuccess) {
-          if (controller.hasClients) {
-            controller.animateTo(
-              0,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.decelerate,
-            );
-          }
+          controller.animateTo(
+            0,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.decelerate,
+          );
         } else {
           null;
         }
@@ -75,7 +73,9 @@ class HomePage extends StatelessWidget {
           },
           child: SingleChildScrollView(
             controller: controller,
-            physics: const BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(
+              decelerationRate: ScrollDecelerationRate.fast,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,

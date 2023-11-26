@@ -99,10 +99,4 @@ class BestDramaView extends StatelessWidget {
   }
 
   Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 14.w);
-
-  reloadList(BuildContext context) => BlocProvider.of<BestDramaBloc>(context).add(FetchData(
-        language: 'en-US',
-        page: 1,
-        withGenres: [18],
-      ));
 }

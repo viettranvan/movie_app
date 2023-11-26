@@ -55,6 +55,7 @@ class ExplorePage extends StatelessWidget {
                   return false;
                 },
                 child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   controller: bloc.scrollController,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -62,7 +63,7 @@ class ExplorePage extends StatelessWidget {
                     children: [
                       SizedBox(height: 20.h),
                       const TrailerView(),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: 20.h),
                       const TopRatedView(),
                       SizedBox(height: 1000.h),
                     ],

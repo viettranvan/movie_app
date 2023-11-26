@@ -30,11 +30,6 @@ class NavigationScrollSuccess extends NavigationState {
   });
 }
 
-class NavigationShowHideSuccess extends NavigationState {
-  NavigationShowHideSuccess({
-    required super.indexPage,
-    required super.visible,
-  });
-}
+
 
 
