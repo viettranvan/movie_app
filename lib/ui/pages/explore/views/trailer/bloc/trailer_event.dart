@@ -15,6 +15,19 @@ class FetchData extends TrailerEvent {
   });
 }
 
+class FetchDataTrailer extends TrailerEvent {
+  final String language;
+  final int page;
+  final String region;
+  final String? includeVideoLanguage;
+  FetchDataTrailer({
+    required this.language,
+    required this.page,
+    required this.region,
+    this.includeVideoLanguage,
+  });
+}
+
 class SwitchType extends TrailerEvent {
   final bool isActive;
   SwitchType({
@@ -37,5 +50,8 @@ class PlayTrailer extends TrailerEvent {
     required this.visibleVideoTv,
   });
 }
+
+class RefreshState extends TrailerEvent {}
+
 
 class StopTrailer extends TrailerEvent {}

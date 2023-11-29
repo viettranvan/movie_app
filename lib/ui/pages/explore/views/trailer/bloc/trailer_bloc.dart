@@ -53,6 +53,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         'list_tv': resultTv.list,
         'language': event.language,
       });
+
       emit(TrailerSuccess(
         listMovie: resultMovie.list,
         listTv: resultTv.list,
@@ -119,15 +120,27 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           }
         }
       }
-      emit(TrailerSuccess(
-        listMovie: state.listMovie,
-        listTv: state.listTv,
-        listTrailerMovie: state.listTrailerMovie,
-        listTrailerTv: state.listTrailerTv,
-        isActive: state.isActive,
-        visibleVideoMovie: event.visibleVideoMovie,
-        visibleVideoTv: event.visibleVideoTv,
-      ));
+      if (state.listTrailerMovie.isEmpty && state.listTrailerTv.isEmpty) {
+        emit(TrailerInitial(
+          listMovie: state.listMovie,
+          listTv: state.listTv,
+          listTrailerMovie: state.listTrailerMovie,
+          listTrailerTv: state.listTrailerTv,
+          isActive: state.isActive,
+          visibleVideoMovie: state.visibleVideoMovie,
+          visibleVideoTv: state.visibleVideoTv,
+        ));
+      } else {
+        emit(TrailerSuccess(
+          listMovie: state.listMovie,
+          listTv: state.listTv,
+          listTrailerMovie: state.listTrailerMovie,
+          listTrailerTv: state.listTrailerTv,
+          isActive: state.isActive,
+          visibleVideoMovie: event.visibleVideoMovie,
+          visibleVideoTv: event.visibleVideoTv,
+        ));
+      }
     } catch (e) {
       emit(TrailerError(
         errorMessage: e.toString(),

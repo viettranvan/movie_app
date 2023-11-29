@@ -32,8 +32,6 @@ class LoadMore extends SearchEvent {
   });
 }
 
-class ScrollToTop extends SearchEvent {}
-
 class ShowHideButton extends SearchEvent {
   final bool visible;
   ShowHideButton({

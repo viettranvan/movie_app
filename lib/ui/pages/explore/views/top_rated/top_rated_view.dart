@@ -43,7 +43,7 @@ class TopRatedView extends StatelessWidget {
               }
               if (state is TopRatedError) {
                 return SizedBox(
-                  height: 213.h,
+                  height: 392.h,
                   child: Center(
                     child: Text(state.runtimeType.toString()),
                   ),
@@ -52,7 +52,7 @@ class TopRatedView extends StatelessWidget {
               return SizedBox(
                 height: 392.h,
                 child: ListView.separated(
-                  physics: const PageScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   addAutomaticKeepAlives: false,
                   addRepaintBoundaries: false,
                   padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),

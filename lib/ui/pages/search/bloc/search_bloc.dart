@@ -27,7 +27,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         )) {
     on<FetchData>(_onFetchData);
     on<LoadMore>(_onLoadMore);
-    on<ScrollToTop>(_onScrollToTop);
     on<ShowHideButton>(_onShowHideButton);
     on<LoadShimmer>(_onLoadShimmer);
   }
@@ -155,20 +154,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         visible: false,
       ));
     }
-  }
-
-  FutureOr<void> _onScrollToTop(ScrollToTop event, Emitter<SearchState> emit) {
-    if (scrollController.hasClients) {
-      scrollController.jumpTo(
-        scrollController.position.minScrollExtent,
-      );
-    }
-    emit(SearchSuccess(
-      listSearch: state.listSearch,
-      listTrending: state.listTrending,
-      query: state.query,
-      visible: state.visible,
-    ));
   }
 
   FutureOr<void> _onShowHideButton(ShowHideButton event, Emitter<SearchState> emit) {

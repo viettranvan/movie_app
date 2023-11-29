@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,7 @@ class SearchPage extends StatelessWidget {
         )),
       child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) =>
-            state is NavigationSuccess && state.indexPage == 2 ? fetchTrending(context) : null,
+            state is NavigationScrollSuccess && state.indexPage == 2 ? reloadPage(context) : null,
         child: Scaffold(
           backgroundColor: darkWhiteColor,
           appBar: CustomAppBar(
@@ -113,33 +114,36 @@ class SearchPage extends StatelessWidget {
                                         ),
                                       );
                                     }
-                                    return SmartRefresher(
-                                      scrollController: bloc.scrollController,
-                                      controller: bloc.refreshController,
-                                      enablePullUp: enablePullUp(
-                                          state.listSearch, state.listTrending, context),
-                                      enablePullDown: enablePullUp(
-                                          state.listSearch, state.listTrending, context),
-                                      header: const Header(),
-                                      footer: Footer(
-                                        height: 140.h,
-                                        noMoreStatus: 'All results was loaded !',
-                                        failedStatus: 'Failed to load results !',
-                                      ),
-                                      onRefresh: () => fetchSearch(context, state.query),
-                                      onLoading: () => loadMore(context, state.query),
-                                      child: MasonryGridView.count(
-                                        addAutomaticKeepAlives: false,
-                                        addRepaintBoundaries: false,
-                                        padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 0),
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing: 16,
-                                        mainAxisSpacing: 16,
-                                        shrinkWrap: true,
-                                        itemBuilder: itemBuilder,
-                                        itemCount: state.listSearch.isNotEmpty
-                                            ? state.listSearch.length
-                                            : state.listTrending.length,
+                                    return ScrollConfiguration(
+                                      behavior: const CupertinoScrollBehavior(),
+                                      child: SmartRefresher(
+                                        scrollController: bloc.scrollController,
+                                        controller: bloc.refreshController,
+                                        enablePullUp: enablePullUp(
+                                            state.listSearch, state.listTrending, context),
+                                        enablePullDown: enablePullUp(
+                                            state.listSearch, state.listTrending, context),
+                                        header: const Header(),
+                                        footer: Footer(
+                                          height: 140.h,
+                                          noMoreStatus: 'All results was loaded !',
+                                          failedStatus: 'Failed to load results !',
+                                        ),
+                                        onRefresh: () => fetchSearch(context, state.query),
+                                        onLoading: () => loadMore(context, state.query),
+                                        child: MasonryGridView.count(
+                                          addAutomaticKeepAlives: false,
+                                          addRepaintBoundaries: false,
+                                          padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 0),
+                                          crossAxisCount: 2,
+                                          crossAxisSpacing: 16,
+                                          mainAxisSpacing: 16,
+                                          shrinkWrap: true,
+                                          itemBuilder: itemBuilder,
+                                          itemCount: state.listSearch.isNotEmpty
+                                              ? state.listSearch.length
+                                              : state.listTrending.length,
+                                        ),
                                       ),
                                     );
                                   },
@@ -148,7 +152,7 @@ class SearchPage extends StatelessWidget {
                               CustomScrollButton(
                                 visible: state.visible,
                                 opacity: state.visible ? 1.0 : 0.0,
-                                onTap: state.visible ? () => scrollToTop(context) : null,
+                                onTap: state.visible ? () => reloadPage(context) : null,
                               ),
                             ],
                           ),
@@ -199,7 +203,9 @@ class SearchPage extends StatelessWidget {
       )})',
       imageUrl: item.posterPath != null
           ? '${AppConstants.kImagePathPoster}${item.posterPath}'
-          : '${AppConstants.kImagePathPoster}${item.profilePath}',
+          : (item.profilePath != null
+              ? '${AppConstants.kImagePathPoster}${item.profilePath}'
+              : 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTxZYNhrWgfQyqlnGPwzVDe5xv5oPVljnimLLixVAADAItCD6lu'),
     );
   }
 
@@ -215,16 +221,14 @@ class SearchPage extends StatelessWidget {
     }
   }
 
-  fetchSearch(BuildContext context, String query) {
-    final bloc = BlocProvider.of<SearchBloc>(context);
-    bloc.add(FetchData(
-      query: query,
-      includeAdult: true,
-      language: 'en-US',
-      mediaType: 'all',
-      timeWindow: 'day',
-    ));
-  }
+  fetchSearch(BuildContext context, String query) =>
+      BlocProvider.of<SearchBloc>(context).add(FetchData(
+        query: query,
+        includeAdult: true,
+        language: 'en-US',
+        mediaType: 'all',
+        timeWindow: 'day',
+      ));
 
   loadMore(BuildContext context, String query) => BlocProvider.of<SearchBloc>(context).add(
         LoadMore(
@@ -239,8 +243,10 @@ class SearchPage extends StatelessWidget {
   fetchTrending(BuildContext context) {
     final bloc = BlocProvider.of<SearchBloc>(context);
     bloc.textController.clear();
-    bloc.add(ScrollToTop());
-    fetchSearch(context, '');
+    fetchSearch(context, bloc.textController.text);
+    if (bloc.scrollController.hasClients) {
+      bloc.scrollController.jumpTo(0);
+    }
   }
 
   bool showButton(BuildContext context) {
@@ -253,19 +259,18 @@ class SearchPage extends StatelessWidget {
     return true;
   }
 
-  scrollToTop(BuildContext context) {
+  reloadPage(BuildContext context) {
     final bloc = BlocProvider.of<SearchBloc>(context);
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
-    showIndicator(context);
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-      () {
-        Navigator.of(context).pop();
-        bloc.add(ScrollToTop());
-        fetchSearch(context, bloc.state.query);
-        navigationBloc.add(ShowHide(visible: true));
-      },
-    );
+    bloc.state.query.isNotEmpty ? fetchSearch(context, bloc.state.query) : fetchSearch(context, '');
+    if (bloc.scrollController.hasClients) {
+      bloc.scrollController.animateTo(
+        bloc.scrollController.position.minScrollExtent,
+        curve: Curves.linear,
+        duration: const Duration(milliseconds: 500),
+      );
+    }
+    navigationBloc.add(ShowHide(visible: true));
   }
 
   goToFilterPage(BuildContext context) {
