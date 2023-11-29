@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,12 +13,14 @@ class MovieView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String sessionId = '566e05bbb7e5ce24132f9aa1b1e2cdf3cb0bf1fb';
+    int accountId = 11429392;
     return BlocProvider(
       create: (context) => MovieBloc()
         ..add(FetchData(
           language: 'en-US',
-          accountId: 11429392,
-          sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
+          accountId: accountId,
+          sessionId: sessionId,
           sortBy: 'created_at.desc',
         )),
       child: BlocConsumer<MovieBloc, MovieState>(
@@ -30,8 +30,8 @@ class MovieView extends StatelessWidget {
             bloc.add(LoadShimmer());
             bloc.add(FetchData(
               language: 'en-US',
-              accountId: 11429392,
-              sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
+              accountId: accountId,
+              sessionId: sessionId,
               sortBy: state.sortBy,
             ));
           }
@@ -51,15 +51,15 @@ class MovieView extends StatelessWidget {
             ),
             onRefresh: () => bloc.add(FetchData(
               language: 'en-US',
-              accountId: 11429392,
-              sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
+              accountId: accountId,
+              sessionId: sessionId,
               sortBy: state.sortBy,
             )),
             onLoading: () {
               bloc.add(LoadMore(
                 language: 'en-US',
-                accountId: 11429392,
-                sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
+                accountId: accountId,
+                sessionId: sessionId,
                 sortBy: state.sortBy,
               ));
             },
@@ -140,7 +140,6 @@ class MovieView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     final state = BlocProvider.of<MovieBloc>(context).state;
     final itemFavorite = state.listFavorite[index];
-    log('Hello${state.runtimeType}');
     return QuaternaryItemList(
       title: itemFavorite.title ?? itemFavorite.name,
       voteAverage: itemFavorite.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),

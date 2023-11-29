@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
+import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/artist/index.dart';
 import 'package:movie_app/ui/pages/home/views/best_drama/index.dart';
 import 'package:movie_app/ui/pages/home/views/genre/index.dart';
@@ -19,86 +20,85 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScrollController controller = ScrollController();
-    return BlocListener<NavigationBloc, NavigationState>(
-      listener: (context, state) {
-        if (state is NavigationScrollSuccess) {
-          controller.animateTo(
-            0,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.decelerate,
-          );
-        } else {
-          null;
-        }
-      },
-      child: Scaffold(
-        backgroundColor: whiteColor,
-        appBar: CustomAppBar(
-          centerTitle: true,
-          leading: Padding(
-            padding: EdgeInsets.fromLTRB(15.w, 0, 0, 0),
-            child: CircleAvatar(
-              backgroundImage: Image.asset(
-                ImagesPath.primaryShortLogo.assetName,
-              ).image,
-            ),
-          ),
-          title: Image.asset(
-            ImagesPath.primaryLongLogo.assetName,
-            filterQuality: FilterQuality.high,
-          ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 15.w, 0),
-              child: Icon(
-                Icons.notifications_sharp,
-                size: 30.sp,
+    return BlocProvider(
+      create: (context) => HomeBloc(),
+      child: BlocListener<NavigationBloc, NavigationState>(
+        listener: (context, state) => state is NavigationScrollSuccess ? reloadPage(context) : null,
+        child: Scaffold(
+          backgroundColor: whiteColor,
+          appBar: CustomAppBar(
+            centerTitle: true,
+            leading: Padding(
+              padding: EdgeInsets.fromLTRB(15.w, 0, 0, 0),
+              child: CircleAvatar(
+                backgroundImage: Image.asset(
+                  ImagesPath.primaryShortLogo.assetName,
+                ).image,
               ),
             ),
-          ],
-          onTapLeading: () => navigateProfilePage(context),
-        ),
-        body: NotificationListener<UserScrollNotification>(
-          onNotification: (notification) {
-            if (controller.position.userScrollDirection == ScrollDirection.forward) {
-              showNavigationBar(context);
-              return false;
-            }
-            if (controller.position.userScrollDirection == ScrollDirection.reverse) {
-              hideNavigationBar(context);
-              return false;
-            }
-            return false;
-          },
-          child: SingleChildScrollView(
-            controller: controller,
-            physics: const BouncingScrollPhysics(
-              decelerationRate: ScrollDecelerationRate.fast,
+            title: Image.asset(
+              ImagesPath.primaryLongLogo.assetName,
+              filterQuality: FilterQuality.high,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: 20.h),
-                const Genreview(),
-                SizedBox(height: 30.h),
-                const PopularView(),
-                SizedBox(height: 30.h),
-                const TrendingView(),
-                SizedBox(height: 30.h),
-                const NowPlayingView(),
-                SizedBox(height: 30.h),
-                const BestDramaView(),
-                SizedBox(height: 30.h),
-                const ArtistView(),
-                SizedBox(height: 30.h),
-                const TopTvView(),
-                SizedBox(height: 30.h),
-                const UpcomingView(),
-                SizedBox(height: 110.h),
-              ],
-            ),
+            actions: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 15.w, 0),
+                child: Icon(
+                  Icons.notifications_sharp,
+                  size: 30.sp,
+                ),
+              ),
+            ],
+            onTapLeading: () => navigateProfilePage(context),
+          ),
+          body: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              final bloc = BlocProvider.of<HomeBloc>(context);
+              return NotificationListener<UserScrollNotification>(
+                onNotification: (notification) {
+                  if (bloc.scrollController.position.userScrollDirection ==
+                      ScrollDirection.forward) {
+                    showNavigationBar(context);
+                    return false;
+                  }
+                  if (bloc.scrollController.position.userScrollDirection ==
+                      ScrollDirection.reverse) {
+                    hideNavigationBar(context);
+                    return false;
+                  }
+                  return false;
+                },
+                child: SingleChildScrollView(
+                  controller: bloc.scrollController,
+                  physics: const BouncingScrollPhysics(
+                    decelerationRate: ScrollDecelerationRate.fast,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(height: 20.h),
+                      const Genreview(),
+                      SizedBox(height: 30.h),
+                      const PopularView(),
+                      SizedBox(height: 30.h),
+                      const TrendingView(),
+                      SizedBox(height: 30.h),
+                      const NowPlayingView(),
+                      SizedBox(height: 30.h),
+                      const BestDramaView(),
+                      SizedBox(height: 30.h),
+                      const ArtistView(),
+                      SizedBox(height: 30.h),
+                      const TopTvView(),
+                      SizedBox(height: 30.h),
+                      const UpcomingView(),
+                      SizedBox(height: 110.h),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -113,6 +113,17 @@ class HomePage extends StatelessWidget {
 
   hideNavigationBar(BuildContext context) =>
       BlocProvider.of<NavigationBloc>(context).add(ShowHide(visible: false));
+
+  reloadPage(BuildContext context) {
+    final bloc = BlocProvider.of<HomeBloc>(context);
+    if (bloc.scrollController.hasClients) {
+      bloc.scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.decelerate,
+      );
+    }
+  }
 }
 
 // void _incrementCounter() async {

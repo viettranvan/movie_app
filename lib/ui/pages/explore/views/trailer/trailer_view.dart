@@ -34,35 +34,39 @@ class _TrailerViewState extends State<TrailerView> {
         listeners: [
           BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
-              final exploreBloc = BlocProvider.of<ExploreBloc>(context);
-              if (state is NavigationSuccess && exploreBloc.scrollController.hasClients) {
-                if (state.indexPage == 1) {
-                  if (exploreBloc.scrollController.position.extentBefore == 0) {
-                    debouncer.slowCall(() => playTrailer(context));
-                  } else {
-                    debouncer.slowCall(() => stopTrailer(context));
-                  }
-                } else {
-                  debouncer.slowCall(() => stopTrailer(context));
-                }
-              }
-              if (state is NavigationScrollSuccess) {
-                state.indexPage == 1
-                    ? debouncer.slowCall(() => playTrailer(context))
-                    : debouncer.slowCall(() => stopTrailer(context));
-              } else {
-                return;
+              final bloc = BlocProvider.of<TrailerBloc>(context);
+              switch (state.runtimeType) {
+                case NavigationSuccess:
+                  state.indexPage == 1
+                      ? bloc.state is TrailerSuccess
+                          ? debouncer.slowCall(() => playTrailer(context))
+                          : debouncer.slowCall(() => stopTrailer(context))
+                      : debouncer.slowCall(() => stopTrailer(context));
+                  break;
+                case NavigationScrollSuccess:
+                  state.indexPage == 1
+                      ? bloc.state is TrailerSuccess
+                          ? debouncer.slowCall(() => playTrailer(context))
+                          : debouncer.slowCall(() => stopTrailer(context))
+                      : debouncer.slowCall(() => stopTrailer(context));
+
+                  break;
+                default:
+                  break;
               }
             },
           ),
           BlocListener<ExploreBloc, ExploreState>(
             listener: (context, state) {
-              if (state is ExplorePlaySuccess) {
-                debouncer.slowCall(() => playTrailer(context));
-              } else if (state is ExploreStopSuccess) {
-                debouncer.slowCall(() => stopTrailer(context));
-              } else {
-                return;
+              switch (state.runtimeType) {
+                case ExplorePlaySuccess:
+                  debouncer.slowCall(() => playTrailer(context));
+                  break;
+                case ExploreStopSuccess:
+                  debouncer.slowCall(() => stopTrailer(context));
+                  break;
+                default:
+                  break;
               }
             },
           ),
@@ -107,8 +111,8 @@ class _TrailerViewState extends State<TrailerView> {
                 if (state is TrailerError) {
                   return SizedBox(
                     height: 240.h,
-                    child: Text(
-                      state.errorMessage,
+                    child: Center(
+                      child: Text(state.runtimeType.toString()),
                     ),
                   );
                 }

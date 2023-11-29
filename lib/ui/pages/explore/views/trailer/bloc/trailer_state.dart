@@ -44,8 +44,8 @@ class TrailerSuccess extends TrailerState {
   });
 }
 
-class TrailerPlaySuccess extends TrailerState {
-  TrailerPlaySuccess({
+class TrailerStopSuccess extends TrailerState {
+  TrailerStopSuccess({
     required super.listMovie,
     required super.isActive,
     required super.listTv,

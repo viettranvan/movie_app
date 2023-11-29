@@ -46,89 +46,91 @@ class SenaryItemList extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    filterQuality: FilterQuality.high,
-                    width: double.infinity,
-                    height: 260.h,
-                    fit: BoxFit.fill,
-                    progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
-                    errorWidget: (context, url, error) => Image.asset(
-                      ImagesPath.noImage.assetName,
-                      width: double.infinity,
-                      height: double.infinity,
+              child: IntrinsicWidth(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: imageUrl,
                       filterQuality: FilterQuality.high,
+                      width: double.infinity,
+                      height: 260.h,
                       fit: BoxFit.fill,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      rank ?? '',
-                      maxLines: 1,
-                      softWrap: false,
-                      textScaleFactor: 1,
-                      style: TextStyle(
-                        color: greyColor,
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
+                      progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
+                      errorWidget: (context, url, error) => Image.asset(
+                        ImagesPath.noImage.assetName,
+                        width: double.infinity,
+                        height: double.infinity,
+                        filterQuality: FilterQuality.high,
+                        fit: BoxFit.fill,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: RatingBar.builder(
-                      initialRating: initialRating ?? 0.0,
-                      updateOnDrag: true,
-                      unratedColor: lightGreyColor,
-                      itemSize: 18.w,
-                      allowHalfRating: true,
-                      ignoreGestures: true,
-                      onRatingUpdate: (value) {},
-                      itemCount: 10,
-                      itemBuilder: (context, index) => Icon(
-                        Icons.star_rounded,
-                        color: yellowColor,
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Text(
+                        rank ?? '',
+                        maxLines: 1,
+                        softWrap: false,
+                        textScaleFactor: 1,
+                        style: TextStyle(
+                          color: greyColor,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      voteAverage ?? '',
-                      maxLines: 1,
-                      softWrap: false,
-                      textScaleFactor: 1,
-                      style: TextStyle(
-                        color: greyColor,
-                        fontSize: 14.sp,
-                        overflow: TextOverflow.clip,
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 7.w),
+                      child: RatingBar.builder(
+                        initialRating: initialRating ?? 0.0,
+                        updateOnDrag: true,
+                        unratedColor: lightGreyColor,
+                        itemSize: 18.w,
+                        allowHalfRating: true,
+                        ignoreGestures: true,
+                        onRatingUpdate: (value) {},
+                        itemCount: 10,
+                        itemBuilder: (context, index) => Icon(
+                          Icons.star_rounded,
+                          color: yellowColor,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      title ?? '',
-                      maxLines: 1,
-                      softWrap: false,
-                      textScaleFactor: 1,
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        overflow: TextOverflow.ellipsis,
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Text(
+                        voteAverage ?? '',
+                        maxLines: 1,
+                        softWrap: false,
+                        textScaleFactor: 1,
+                        style: TextStyle(
+                          color: greyColor,
+                          fontSize: 14.sp,
+                          overflow: TextOverflow.clip,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Text(
+                        title ?? '',
+                        maxLines: 1,
+                        softWrap: false,
+                        textScaleFactor: 1,
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                  ],
+                ),
               ),
             ),
             Positioned(

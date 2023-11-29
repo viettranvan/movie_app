@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:isolate';
 import 'dart:typed_data';
 
@@ -149,12 +150,12 @@ class AppUtils {
     switch (mediaType) {
       case 'movie':
         {
-          return releaseDate != '' ? (releaseDate ?? '').substring(0, 4) : '';
+          return releaseDate != '' ? (releaseDate ?? '').substring(0, 4) : 'Unknown';
         }
 
       case 'tv':
         {
-          return firstAirDate != '' ? (firstAirDate ?? '').substring(0, 4) : '';
+          return firstAirDate != '' ? (firstAirDate ?? '').substring(0, 4) : 'Unknown';
         }
       case 'person':
         {
@@ -244,7 +245,7 @@ class AppUtils {
     Map<String, dynamic> params = arguments[1];
     for (int i = 0; i < params['list_tv'].length; i++) {
       final resultsTrailerTv = await exploreRepository.getTrailerTv(
-        seriesId: params['list_tv'][i].id as int ,
+        seriesId: params['list_tv'][i].id as int,
         language: params['language'],
       );
       if (resultsTrailerTv.list.isEmpty) {

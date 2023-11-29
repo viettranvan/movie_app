@@ -62,7 +62,9 @@ class NavigationPage extends StatelessWidget {
                 ),
                 CustomNavigationBarItem(
                   imagePath: ImagesPath.searchIcon.assetName,
-                  onTap: () => state.indexPage != 2 ? bloc.add(NavigatePage(indexPage: 2)) : null,
+                  onTap: () => state.indexPage != 2
+                      ? bloc.add(NavigatePage(indexPage: 2))
+                      : bloc.add(ScrollTop()),
                 ),
                 CustomNavigationBarItem(
                   imagePath: ImagesPath.profileIcon.assetName,

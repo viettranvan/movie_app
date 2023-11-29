@@ -12,12 +12,14 @@ class TvView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String sessionId = '566e05bbb7e5ce24132f9aa1b1e2cdf3cb0bf1fb';
+    int accountId = 11429392;
     return BlocProvider(
       create: (context) => TvBloc()
         ..add(FetchData(
           language: 'en-US',
-          accountId: 11429392,
-          sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
+          accountId: accountId,
+          sessionId: sessionId,
           sortBy: 'created_at.desc',
         )),
       child: BlocConsumer<TvBloc, TvState>(
@@ -27,8 +29,8 @@ class TvView extends StatelessWidget {
             bloc.add(LoadShimmer());
             bloc.add(FetchData(
               language: 'en-US',
-              accountId: 11429392,
-              sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
+              accountId: accountId,
+              sessionId: sessionId,
               sortBy: state.sortBy,
             ));
           }
@@ -48,14 +50,14 @@ class TvView extends StatelessWidget {
             ),
             onRefresh: () => bloc.add(FetchData(
               language: 'en-US',
-              accountId: 11429392,
-              sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
+              accountId: accountId,
+              sessionId: sessionId,
               sortBy: state.sortBy,
             )),
             onLoading: () => bloc.add(LoadMore(
               language: 'en-US',
-              accountId: 11429392,
-              sessionId: '07b646a3a72375bce723cf645026fa3bbefc6b80',
+              accountId: accountId,
+              sessionId: sessionId,
               sortBy: state.sortBy,
             )),
             child: Column(
