@@ -45,4 +45,23 @@ class WatchListService {
         response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
+
+  Future<ObjectResponse<APIResponse>> addWatchList({
+    required int accountId,
+    required String sessionId,
+    required String mediaType,
+    required int mediaId,
+    required bool watchlist,
+  }) async {
+    final request = WatchListRequest.addWatchList(
+      accountId: accountId,
+      sessionId: sessionId,
+      mediaType: mediaType,
+      mediaId: mediaId,
+      watchlist: watchlist,
+    );
+    final response = await apiClient.execute(request: request);
+    final objectResponse = APIResponse.fromJson(response.toObject());
+    return ObjectResponse(object: objectResponse);
+  }
 }

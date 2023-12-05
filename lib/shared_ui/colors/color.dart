@@ -12,9 +12,7 @@ Color get lightGreyColor => const Color(0xFFC4C4C4);
 Color get tealColor => const Color(0xFF4C9B94);
 Color get darkTealColor => const Color(0xFF000C34);
 Color get brownColor => const Color(0xff964B00);
-Color get yellowColor => const Color(0xFFFFE248);
+Color get yellowColor => const Color(0xffefc01b);
 Color get gainsBoroColor => const Color(0xFFDCDCDC);
 Color get cyanColor => const Color(0xFF00FFFF);
 Color get pinkColor => const Color(0xFFF50057);
-
-

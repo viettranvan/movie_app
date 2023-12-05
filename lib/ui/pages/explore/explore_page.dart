@@ -21,51 +21,76 @@ class ExplorePage extends StatelessWidget {
         child: BlocBuilder<ExploreBloc, ExploreState>(
           builder: (context, state) {
             final bloc = BlocProvider.of<ExploreBloc>(context);
-            return Scaffold(
-              appBar: CustomAppBar(
-                leadingWidth: 0,
-                centerTitle: false,
-                title: const CustomAppBarTitle(
-                  titleAppBar: 'Explore',
-                ),
-                actions: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 8.h, 12.w, 8.h),
-                    child: Image.asset(
-                      ImagesPath.primaryShortLogo.assetName,
-                      scale: 4,
-                      filterQuality: FilterQuality.high,
-                    ),
+            return ScaffoldMessenger(
+              child: Scaffold(
+                appBar: CustomAppBar(
+                  leadingWidth: 0,
+                  centerTitle: false,
+                  title: const CustomAppBarTitle(
+                    titleAppBar: 'Explore',
                   ),
-                ],
-              ),
-              body: NotificationListener<UserScrollNotification>(
-                onNotification: (notification) {
-                  if (bloc.scrollController.position.userScrollDirection ==
-                      ScrollDirection.forward) {
-                    showNavigationBar(context);
+                  actions: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 8.h, 12.w, 8.h),
+                      child: Image.asset(
+                        ImagesPath.primaryShortLogo.assetName,
+                        scale: 4,
+                        filterQuality: FilterQuality.high,
+                      ),
+                    ),
+                  ],
+                ),
+                body: NotificationListener<ScrollNotification>(
+                  onNotification: (notification) {
+                    if (bloc.scrollController.position.userScrollDirection ==
+                        ScrollDirection.forward) {
+                      showNavigationBar(context);
+                      return false;
+                    }
+                    if (bloc.scrollController.position.userScrollDirection ==
+                        ScrollDirection.reverse) {
+                      hideNavigationBar(context);
+                      return false;
+                    }
                     return false;
-                  }
-                  if (bloc.scrollController.position.userScrollDirection ==
-                      ScrollDirection.reverse) {
-                    hideNavigationBar(context);
-                    return false;
-                  }
-                  bloc.add(PlayPauseVideo());
-                  return false;
-                },
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  controller: bloc.scrollController,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
+                  },
+                  child: Stack(
                     children: [
-                      SizedBox(height: 20.h),
-                      const TrailerView(),
-                      SizedBox(height: 20.h),
-                      const TopRatedView(),
-                      SizedBox(height: 1000.h),
+                      SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        controller: bloc.scrollController,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(height: 20.h),
+                            const TrailerView(),
+                            SizedBox(height: 20.h),
+                            const TopRatedView(),
+                            SizedBox(height: 1000.h),
+                          ],
+                        ),
+                      ),
+                      AnimatedCrossFade(
+                        alignment: Alignment.topCenter,
+                        crossFadeState:
+                            state.showStatus ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                        duration: const Duration(milliseconds: 300),
+                        firstChild: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          alignment: Alignment.center,
+                          height: 50.h,
+                          color: darkBlueColor.withOpacity(0.7),
+                          child: Text(
+                            state.statusMessage,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: whiteColor,
+                            ),
+                          ),
+                        ),
+                        secondChild: const SizedBox(width: double.infinity),
+                      ),
                     ],
                   ),
                 ),

@@ -4,6 +4,9 @@ class APIResponse {
   dynamic results;
   int? totalPages;
   int? totalResults;
+  bool? success;
+  int? statusCode;
+  String? statusMessage;
 
   APIResponse({
     this.dates,
@@ -11,6 +14,9 @@ class APIResponse {
     this.results,
     this.totalPages,
     this.totalResults,
+    this.success,
+    this.statusCode,
+    this.statusMessage,
   });
 
   APIResponse.fromJson(Map<String, dynamic> json) {
@@ -19,6 +25,9 @@ class APIResponse {
     results = json['results'] ?? json;
     totalPages = json['total_pages'];
     totalResults = json['total_results'];
+    success = json['success'];
+    statusCode = json['status_code'];
+    statusMessage = json['status_message'];
   }
 
   Map<String, dynamic> toObject() {
@@ -74,5 +83,23 @@ class Dates {
     data['maximun'] = maximun;
     data['minimum'] = minimum;
     return data;
+  }
+}
+
+class APISuccess {
+  bool? success;
+  int? statusCode;
+  String? statusMessage;
+
+  APISuccess({
+    this.success,
+    this.statusCode,
+    this.statusMessage,
+  });
+
+  APISuccess.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    statusCode = json['status_code'];
+    statusMessage = json['status_message'];
   }
 }

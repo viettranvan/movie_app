@@ -40,4 +40,30 @@ class WatchListRequest {
           'page': page,
         },
       );
+
+  static APIRequest addWatchList({
+    required int accountId,
+    required String sessionId,
+    required String mediaType,
+    required int mediaId,
+    required bool watchlist,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.post,
+        path: '/account/$accountId/watchlist',
+        headers: {
+          'accept': 'application/json',
+          'content-type': 'application/json',
+          'Authorization': 'Bearer XXXX',
+        },
+        body: {
+          'media_type': mediaType,
+          'media_id': mediaId,
+          'watchlist': watchlist,
+        },
+        parameters: {
+          'account_id': accountId,
+          'session_id': sessionId,
+        },
+      );
 }

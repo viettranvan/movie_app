@@ -19,6 +19,7 @@ class TrailerView extends StatefulWidget {
 }
 
 class _TrailerViewState extends State<TrailerView> {
+  // late TrailerBloc trailerBloc;
   late YoutubePlayerController controller;
   Debouncer debouncer = Debouncer();
   @override
@@ -30,47 +31,32 @@ class _TrailerViewState extends State<TrailerView> {
           page: 1,
           region: '',
         )),
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<NavigationBloc, NavigationState>(
-            listener: (context, state) {
-              final bloc = BlocProvider.of<TrailerBloc>(context);
-              switch (state.runtimeType) {
-                case NavigationSuccess:
-                  state.indexPage == 1
-                      ? bloc.state is TrailerSuccess
+      child: BlocListener<NavigationBloc, NavigationState>(
+        listener: (context, state) {
+          final trailerBloc = BlocProvider.of<TrailerBloc>(context);
+          final exploreBloc = BlocProvider.of<ExploreBloc>(context);
+          switch (state.runtimeType) {
+            case NavigationSuccess:
+              state.indexPage == 1
+                  ? trailerBloc.state is TrailerSuccess
+                      ? exploreBloc.scrollController.position.extentBefore <= 50
                           ? debouncer.slowCall(() => playTrailer(context))
                           : debouncer.slowCall(() => stopTrailer(context))
-                      : debouncer.slowCall(() => stopTrailer(context));
-                  break;
-                case NavigationScrollSuccess:
-                  state.indexPage == 1
-                      ? bloc.state is TrailerSuccess
-                          ? debouncer.slowCall(() => playTrailer(context))
-                          : debouncer.slowCall(() => stopTrailer(context))
-                      : debouncer.slowCall(() => stopTrailer(context));
+                      : debouncer.slowCall(() => stopTrailer(context))
+                  : debouncer.slowCall(() => stopTrailer(context));
+              break;
+            case NavigationScrollSuccess:
+              state.indexPage == 1
+                  ? trailerBloc.state is TrailerSuccess
+                      ? debouncer.slowCall(() => playTrailer(context))
+                      : debouncer.slowCall(() => stopTrailer(context))
+                  : debouncer.slowCall(() => stopTrailer(context));
 
-                  break;
-                default:
-                  break;
-              }
-            },
-          ),
-          BlocListener<ExploreBloc, ExploreState>(
-            listener: (context, state) {
-              switch (state.runtimeType) {
-                case ExplorePlaySuccess:
-                  debouncer.slowCall(() => playTrailer(context));
-                  break;
-                case ExploreStopSuccess:
-                  debouncer.slowCall(() => stopTrailer(context));
-                  break;
-                default:
-                  break;
-              }
-            },
-          ),
-        ],
+              break;
+            default:
+              break;
+          }
+        },
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,

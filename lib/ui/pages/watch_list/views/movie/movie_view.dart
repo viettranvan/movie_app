@@ -147,6 +147,7 @@ class MovieView extends StatelessWidget {
       overview: itemWatchList.overview != '' ? itemWatchList.overview : 'Coming soon',
       originalLanguage: itemWatchList.originalLanguage,
       imageUrl: '${AppConstants.kImagePathPoster}/${itemWatchList.posterPath}',
+      onTap: () {},
     );
   }
 

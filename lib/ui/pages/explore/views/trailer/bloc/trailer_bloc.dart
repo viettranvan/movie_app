@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:movie_app/models/models.dart';
 import 'package:movie_app/ui/pages/explore/explore_repository.dart';
 import 'package:movie_app/ui/pages/home/index.dart';
-import 'package:movie_app/utils/app_utils/app_utils.dart';
 import 'package:movie_app/utils/utils.dart';
 
 part 'trailer_event.dart';
@@ -44,16 +43,32 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         page: event.page,
       );
       // call API trailer movie
-      final listTrailerMovie = await AppUtils().getTrailersMovie({
-        'list_movie': resultMovie.list,
-        'language': event.language,
-      });
+      final listOfListTrailerMovie =
+          await Future.wait(resultMovie.list.map<Future<List<MediaTrailer>>>(
+        (e) async {
+          final resultsTrailerMovie = await exploreRepository.getTrailerMovie(
+            movieId: e.id ?? 0,
+            language: event.language,
+          );
+          return resultsTrailerMovie.list.isEmpty ? [] : resultsTrailerMovie.list;
+        },
+      ).toList());
+      final listTrailerMovie = listOfListTrailerMovie
+          .map<MediaTrailer>((e) => e.isNotEmpty ? e.first : MediaTrailer(key: ''))
+          .toList();
       // call API trailer tv
-      final listTrailerTv = await AppUtils().getTrailersTv({
-        'list_tv': resultTv.list,
-        'language': event.language,
-      });
-
+      final listOfListTrailerTv = await Future.wait(resultTv.list.map<Future<List<MediaTrailer>>>(
+        (e) async {
+          final resultsTrailerTv = await exploreRepository.getTrailerTv(
+            seriesId: e.id ?? 0,
+            language: event.language,
+          );
+          return resultsTrailerTv.list.isEmpty ? [] : resultsTrailerTv.list;
+        },
+      ).toList());
+      final listTrailerTv = listOfListTrailerTv
+          .map<MediaTrailer>((e) => e.isNotEmpty ? e.first : MediaTrailer(key: ''))
+          .toList();
       emit(TrailerSuccess(
         listMovie: resultMovie.list,
         listTv: resultTv.list,
@@ -120,27 +135,15 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           }
         }
       }
-      if (state.listTrailerMovie.isEmpty && state.listTrailerTv.isEmpty) {
-        emit(TrailerInitial(
-          listMovie: state.listMovie,
-          listTv: state.listTv,
-          listTrailerMovie: state.listTrailerMovie,
-          listTrailerTv: state.listTrailerTv,
-          isActive: state.isActive,
-          visibleVideoMovie: state.visibleVideoMovie,
-          visibleVideoTv: state.visibleVideoTv,
-        ));
-      } else {
-        emit(TrailerSuccess(
-          listMovie: state.listMovie,
-          listTv: state.listTv,
-          listTrailerMovie: state.listTrailerMovie,
-          listTrailerTv: state.listTrailerTv,
-          isActive: state.isActive,
-          visibleVideoMovie: event.visibleVideoMovie,
-          visibleVideoTv: event.visibleVideoTv,
-        ));
-      }
+      emit(TrailerSuccess(
+        listMovie: state.listMovie,
+        listTv: state.listTv,
+        listTrailerMovie: state.listTrailerMovie,
+        listTrailerTv: state.listTrailerTv,
+        isActive: state.isActive,
+        visibleVideoMovie: event.visibleVideoMovie,
+        visibleVideoTv: event.visibleVideoTv,
+      ));
     } catch (e) {
       emit(TrailerError(
         errorMessage: e.toString(),
@@ -156,14 +159,25 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
   }
 
   FutureOr<void> _onStopTrailer(StopTrailer event, Emitter<TrailerState> emit) {
-    emit(TrailerSuccess(
-      listMovie: state.listMovie,
-      listTv: state.listTv,
-      listTrailerMovie: state.listTrailerMovie,
-      listTrailerTv: state.listTrailerTv,
-      isActive: state.isActive,
-      visibleVideoMovie: List.filled(20, false),
-      visibleVideoTv: List.filled(20, false),
-    ));
+    state is TrailerError
+        ? emit(TrailerError(
+            errorMessage: (state as TrailerError).errorMessage,
+            listMovie: state.listMovie,
+            listTv: state.listTv,
+            listTrailerMovie: state.listTrailerMovie,
+            listTrailerTv: state.listTrailerTv,
+            isActive: state.isActive,
+            visibleVideoMovie: state.visibleVideoMovie,
+            visibleVideoTv: state.visibleVideoTv,
+          ))
+        : emit(TrailerSuccess(
+            listMovie: state.listMovie,
+            listTv: state.listTv,
+            listTrailerMovie: state.listTrailerMovie,
+            listTrailerTv: state.listTrailerTv,
+            isActive: state.isActive,
+            visibleVideoMovie: List.filled(20, false),
+            visibleVideoTv: List.filled(20, false),
+          ));
   }
 }
