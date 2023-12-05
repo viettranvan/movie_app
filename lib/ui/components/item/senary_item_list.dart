@@ -14,6 +14,7 @@ class SenaryItemList extends StatelessWidget {
   final String? title;
   final String? voteAverage;
   final double? initialRating;
+  final bool? watchList;
   const SenaryItemList({
     super.key,
     this.onTapItem,
@@ -23,6 +24,7 @@ class SenaryItemList extends StatelessWidget {
     this.voteAverage,
     this.initialRating,
     required this.imageUrl,
+    this.watchList,
   });
 
   @override
@@ -136,7 +138,7 @@ class SenaryItemList extends StatelessWidget {
             Positioned(
               width: 55.w,
               height: 55.h,
-              top: -2.h,
+              top: -2.5.h,
               left: 5.w,
               child: GestureDetector(
                 onTap: onTapBanner,
@@ -147,13 +149,13 @@ class SenaryItemList extends StatelessWidget {
                       height: 60.h,
                       fit: BoxFit.fill,
                       colorFilter: ColorFilter.mode(
-                        lightBlueColor.withOpacity(0.6),
+                        (watchList ?? false) ? yellowColor : lightBlueColor.withOpacity(0.6),
                         BlendMode.srcIn,
                       ),
                     ),
                     Positioned.fill(
                       child: Icon(
-                        Icons.add,
+                        (watchList ?? false) ? Icons.check : Icons.add,
                         color: whiteColor,
                         size: 22.sp,
                       ),

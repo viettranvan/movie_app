@@ -49,7 +49,17 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ],
-            onTapLeading: () => navigateProfilePage(context),
+            onTapLeading: () {
+              // navigateProfilePage(context);
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text(
+                  'Hello',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              ));
+            },
           ),
           body: BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) {

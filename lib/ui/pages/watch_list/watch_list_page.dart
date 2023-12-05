@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/watch_list/views/tv/index.dart';
 import 'package:movie_app/ui/pages/watch_list/bloc/watch_list_bloc.dart';
 import 'package:movie_app/ui/pages/watch_list/views/movie/index.dart';
+import 'package:movie_app/ui/pages/watch_list/views/tv/index.dart';
 
 class WatchListPage extends StatelessWidget {
   const WatchListPage({super.key});

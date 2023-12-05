@@ -22,12 +22,11 @@ class CustomNavigationBar extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: opacity,
-      duration: const Duration(milliseconds: 400),
+    return SizedBox(
+      height: 100.h,
       child: AnimatedAlign(
-        duration: const Duration(milliseconds: 400),
-        alignment: visible ? const Alignment(0, 1) : const Alignment(0, 1.4),
+        duration: const Duration(milliseconds: 200),
+        alignment: visible ? Alignment(0, 1.h) : Alignment(0, 10.h),
         child: Stack(
           children: [
             background,
@@ -40,6 +39,7 @@ class CustomNavigationBar extends StatelessWidget {
                   height: 60.h,
                   margin: margin,
                   padding: padding,
+                  constraints: constraints,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30.r),
                     gradient: LinearGradient(
