@@ -6,6 +6,7 @@ import 'package:movie_app/models/models.dart';
 import 'package:movie_app/ui/pages/explore/explore_repository.dart';
 import 'package:movie_app/ui/pages/home/index.dart';
 import 'package:movie_app/utils/utils.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 part 'trailer_event.dart';
 part 'trailer_state.dart';
@@ -13,10 +14,12 @@ part 'trailer_state.dart';
 class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
   final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
   final ExploreRepository exploreRepository = ExploreRepository(restApiClient: RestApiClient());
-  final ScrollController theaterController = ScrollController();
-  final ScrollController tvController = ScrollController();
+  final PageController theaterController = PageController();
+  final PageController tvController = PageController();
   TrailerBloc()
       : super(TrailerInitial(
+          indexMovie: 0,
+          indexTv: 0,
           listMovie: [],
           listTv: [],
           isActive: false,
@@ -70,6 +73,8 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           .map<MediaTrailer>((e) => e.isNotEmpty ? e.first : MediaTrailer(key: ''))
           .toList();
       emit(TrailerSuccess(
+        indexTv: state.indexTv,
+        indexMovie: state.indexMovie,
         listMovie: resultMovie.list,
         listTv: resultTv.list,
         listTrailerMovie: listTrailerMovie,
@@ -80,6 +85,8 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
       ));
     } catch (e) {
       emit(TrailerError(
+        indexTv: state.indexTv,
+        indexMovie: state.indexMovie,
         errorMessage: e.toString(),
         listMovie: state.listMovie,
         listTv: state.listTv,
@@ -95,6 +102,8 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
   FutureOr<void> _onSwitchType(SwitchType event, Emitter<TrailerState> emit) {
     try {
       emit(TrailerSuccess(
+        indexMovie: state.indexMovie,
+        indexTv: state.indexTv,
         listMovie: state.listMovie,
         listTv: state.listTv,
         listTrailerMovie: state.listTrailerMovie,
@@ -106,6 +115,8 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
     } catch (e) {
       emit(TrailerError(
         errorMessage: e.toString(),
+        indexMovie: state.indexMovie,
+        indexTv: state.indexTv,
         listMovie: state.listMovie,
         listTv: state.listTv,
         listTrailerMovie: state.listTrailerMovie,
@@ -120,22 +131,18 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
   FutureOr<void> _onPlayTrailer(PlayTrailer event, Emitter<TrailerState> emit) {
     try {
       if (event.isActive) {
+        List<YoutubePlayerController> controllers = [];
+        final YoutubePlayerController controller = YoutubePlayerController(
+            initialVideoId: state.listTrailerTv[event.indexTv ?? 0].id ?? '');
+        controllers.add(controller);
         event.visibleVideoTv[event.indexTv ?? 0] = !event.visibleVideoTv[event.indexTv ?? 0];
-        for (int i = 0; i < event.visibleVideoTv.length; i++) {
-          if (i != event.indexTv) {
-            event.visibleVideoTv[i] = false;
-          }
-        }
       } else {
         event.visibleVideoMovie[event.indexMovie ?? 0] =
             !event.visibleVideoMovie[event.indexMovie ?? 0];
-        for (int i = 0; i < event.visibleVideoMovie.length; i++) {
-          if (i != event.indexMovie) {
-            event.visibleVideoMovie[i] = false;
-          }
-        }
       }
       emit(TrailerSuccess(
+        indexMovie: event.indexMovie ?? 0,
+        indexTv: event.indexTv ?? 0,
         listMovie: state.listMovie,
         listTv: state.listTv,
         listTrailerMovie: state.listTrailerMovie,
@@ -147,6 +154,8 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
     } catch (e) {
       emit(TrailerError(
         errorMessage: e.toString(),
+        indexMovie: state.indexMovie,
+        indexTv: state.indexTv,
         listMovie: state.listMovie,
         listTv: state.listTv,
         listTrailerMovie: state.listTrailerMovie,
@@ -159,25 +168,51 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
   }
 
   FutureOr<void> _onStopTrailer(StopTrailer event, Emitter<TrailerState> emit) {
-    state is TrailerError
-        ? emit(TrailerError(
-            errorMessage: (state as TrailerError).errorMessage,
-            listMovie: state.listMovie,
-            listTv: state.listTv,
-            listTrailerMovie: state.listTrailerMovie,
-            listTrailerTv: state.listTrailerTv,
-            isActive: state.isActive,
-            visibleVideoMovie: state.visibleVideoMovie,
-            visibleVideoTv: state.visibleVideoTv,
-          ))
-        : emit(TrailerSuccess(
-            listMovie: state.listMovie,
-            listTv: state.listTv,
-            listTrailerMovie: state.listTrailerMovie,
-            listTrailerTv: state.listTrailerTv,
-            isActive: state.isActive,
-            visibleVideoMovie: List.filled(20, false),
-            visibleVideoTv: List.filled(20, false),
-          ));
+    try {
+      if (state is TrailerError) {
+        emit(TrailerError(
+          errorMessage: (state as TrailerError).errorMessage,
+          indexMovie: state.indexMovie,
+          indexTv: state.indexTv,
+          listMovie: state.listMovie,
+          listTv: state.listTv,
+          listTrailerMovie: state.listTrailerMovie,
+          listTrailerTv: state.listTrailerTv,
+          isActive: state.isActive,
+          visibleVideoMovie: state.visibleVideoMovie,
+          visibleVideoTv: state.visibleVideoTv,
+        ));
+      } else {
+        if (event.isActive) {
+          event.visibleVideoTv[event.indexTv ?? 0] = false;
+        } else {
+          event.visibleVideoMovie[event.indexMovie ?? 0] = false;
+        }
+        emit(TrailerSuccess(
+          listMovie: state.listMovie,
+          indexTv: state.indexTv,
+          indexMovie: state.indexMovie,
+          listTv: state.listTv,
+          listTrailerMovie: state.listTrailerMovie,
+          listTrailerTv: state.listTrailerTv,
+          isActive: state.isActive,
+          visibleVideoMovie: event.visibleVideoMovie,
+          visibleVideoTv: event.visibleVideoTv,
+        ));
+      }
+    } catch (e) {
+      emit(TrailerError(
+        errorMessage: e.toString(),
+        indexMovie: state.indexMovie,
+        indexTv: state.indexTv,
+        listMovie: state.listMovie,
+        listTv: state.listTv,
+        listTrailerMovie: state.listTrailerMovie,
+        listTrailerTv: state.listTrailerTv,
+        isActive: state.isActive,
+        visibleVideoMovie: state.visibleVideoMovie,
+        visibleVideoTv: state.visibleVideoTv,
+      ));
+    }
   }
 }

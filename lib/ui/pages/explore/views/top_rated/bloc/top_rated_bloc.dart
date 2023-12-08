@@ -63,6 +63,7 @@ class TopRatedBloc extends Bloc<TopRatedEvent, TopRatedState> {
         mediaId: event.mediaId,
         watchlist: event.watchlist,
       );
+
       emit(TopRatedAddWatchListSuccess(
         listTopRated: state.listTopRated,
         listMovieState: state.listMovieState,

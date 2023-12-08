@@ -2,11 +2,19 @@ part of 'explore_bloc.dart';
 
 abstract class ExploreEvent {}
 
-class ShowStatus extends ExploreEvent {
-  final String statusMessage;
-  ShowStatus({
-    required this.statusMessage,
+class ChangeAnimationToast extends ExploreEvent {
+  final double opacity;
+  ChangeAnimationToast({
+    required this.opacity,
   });
 }
 
-class HideStatus extends ExploreEvent {}
+class DisplayToast extends ExploreEvent {
+  final bool visibility;
+  final String statusMessage;
+
+  DisplayToast({
+    required this.visibility,
+    required this.statusMessage,
+  });
+}

@@ -37,7 +37,7 @@ class QuinaryItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = 320.w;
+    double width = 325.w;
     return GestureDetector(
       onTap: onTap,
       onLongPress: onLongPress,
