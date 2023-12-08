@@ -71,25 +71,16 @@ class ExplorePage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      AnimatedCrossFade(
-                        alignment: Alignment.topCenter,
-                        crossFadeState:
-                            state.showStatus ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                        duration: const Duration(milliseconds: 300),
-                        firstChild: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20.w),
-                          alignment: Alignment.center,
-                          height: 50.h,
-                          color: darkBlueColor.withOpacity(0.7),
-                          child: Text(
-                            state.statusMessage,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: whiteColor,
-                            ),
-                          ),
-                        ),
-                        secondChild: const SizedBox(width: double.infinity),
+                      CustomToast(
+                        statusMessage: state.statusMessage,
+                        opacity: state.opacity,
+                        visible: state.visible,
+                        onEndAnimation: () => state.opacity == 0.0
+                            ? bloc.add(DisplayToast(
+                                visibility: false,
+                                statusMessage: state.statusMessage,
+                              ))
+                            : null,
                       ),
                     ],
                   ),

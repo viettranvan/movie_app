@@ -10,24 +10,27 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   ScrollController scrollController = ScrollController();
   ExploreBloc()
       : super(ExploreInitial(
-          showStatus: false,
+          visible: false,
+          opacity: 0.0,
           statusMessage: '',
         )) {
-    on<ShowStatus>(_onShowStatus);
-    on<HideStatus>(_onHideStatus);
+    on<ChangeAnimationToast>(_onChangeAnimationToast);
+    on<DisplayToast>(_onDisplayToast);
   }
 
-  FutureOr<void> _onShowStatus(ShowStatus event, Emitter<ExploreState> emit) {
+  FutureOr<void> _onChangeAnimationToast(ChangeAnimationToast event, Emitter<ExploreState> emit) {
     emit(ExploreSuccess(
-      showStatus: true,
-      statusMessage: event.statusMessage,
+      visible: state.visible,
+      opacity: event.opacity,
+      statusMessage: state.statusMessage,
     ));
   }
 
-  FutureOr<void> _onHideStatus(HideStatus event, Emitter<ExploreState> emit) {
+  FutureOr<void> _onDisplayToast(DisplayToast event, Emitter<ExploreState> emit) {
     emit(ExploreSuccess(
-      showStatus: false,
-      statusMessage: state.statusMessage,
+      opacity: state.opacity,
+      visible: event.visibility,
+      statusMessage: event.statusMessage,
     ));
   }
 }

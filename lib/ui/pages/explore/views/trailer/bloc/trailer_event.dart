@@ -53,5 +53,17 @@ class PlayTrailer extends TrailerEvent {
 
 class RefreshState extends TrailerEvent {}
 
-
-class StopTrailer extends TrailerEvent {}
+class StopTrailer extends TrailerEvent {
+  final int? indexMovie;
+  final int? indexTv;
+  final bool isActive;
+  final List<bool> visibleVideoMovie;
+  final List<bool> visibleVideoTv;
+  StopTrailer({
+    this.indexMovie,
+    this.indexTv,
+    required this.isActive,
+    required this.visibleVideoMovie,
+    required this.visibleVideoTv,
+  });
+}

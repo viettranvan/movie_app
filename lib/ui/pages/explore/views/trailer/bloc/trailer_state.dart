@@ -2,6 +2,8 @@ part of 'trailer_bloc.dart';
 
 abstract class TrailerState {
   final bool isActive;
+  final int indexMovie;
+  final int indexTv;
   final List<MultipleMedia> listMovie;
   final List<MultipleMedia> listTv;
   final List<MediaTrailer> listTrailerMovie;
@@ -11,6 +13,8 @@ abstract class TrailerState {
 
   TrailerState({
     required this.isActive,
+    required this.indexMovie,
+    required this.indexTv,
     required this.listMovie,
     required this.listTv,
     required this.listTrailerMovie,
@@ -29,6 +33,8 @@ class TrailerInitial extends TrailerState {
     required super.listTrailerTv,
     required super.visibleVideoTv,
     required super.visibleVideoMovie,
+    required super.indexMovie,
+    required super.indexTv,
   });
 }
 
@@ -41,6 +47,8 @@ class TrailerSuccess extends TrailerState {
     required super.listTrailerTv,
     required super.visibleVideoMovie,
     required super.visibleVideoTv,
+    required super.indexMovie,
+    required super.indexTv,
   });
 }
 
@@ -53,6 +61,8 @@ class TrailerStopSuccess extends TrailerState {
     required super.listTrailerTv,
     required super.visibleVideoMovie,
     required super.visibleVideoTv,
+    required super.indexMovie,
+    required super.indexTv,
   });
 }
 
@@ -67,5 +77,7 @@ class TrailerError extends TrailerState {
     required super.listTrailerTv,
     required super.visibleVideoMovie,
     required super.visibleVideoTv,
+    required super.indexMovie,
+    required super.indexTv,
   });
 }
