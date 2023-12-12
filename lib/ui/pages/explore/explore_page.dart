@@ -42,17 +42,16 @@ class ExplorePage extends StatelessWidget {
                 ),
                 body: NotificationListener<ScrollNotification>(
                   onNotification: (notification) {
-                    if (bloc.scrollController.position.userScrollDirection ==
-                        ScrollDirection.forward) {
+                    final scrollDirection = bloc.scrollController.position.userScrollDirection;
+                    if (scrollDirection == ScrollDirection.forward) {
                       showNavigationBar(context);
                       return false;
-                    }
-                    if (bloc.scrollController.position.userScrollDirection ==
-                        ScrollDirection.reverse) {
+                    } else if (scrollDirection == ScrollDirection.idle) {
+                      return false;
+                    } else {
                       hideNavigationBar(context);
                       return false;
                     }
-                    return false;
                   },
                   child: Stack(
                     children: [

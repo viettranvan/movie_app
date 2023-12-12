@@ -14,7 +14,7 @@ part 'trailer_state.dart';
 class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
   final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
   final ExploreRepository exploreRepository = ExploreRepository(restApiClient: RestApiClient());
-  final PageController theaterController = PageController();
+  final PageController movieController = PageController();
   final PageController tvController = PageController();
   TrailerBloc()
       : super(TrailerInitial(
@@ -27,6 +27,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           listTrailerTv: [],
           visibleVideoMovie: List.filled(20, false),
           visibleVideoTv: List.filled(20, false),
+          controllers: [],
         )) {
     on<FetchData>(_onFetchData);
     on<SwitchType>(_onSwitchType);
@@ -82,6 +83,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
+        controllers: state.controllers,
       ));
     } catch (e) {
       emit(TrailerError(
@@ -95,6 +97,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
+        controllers: state.controllers,
       ));
     }
   }
@@ -111,6 +114,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: event.isActive,
         visibleVideoMovie: List.filled(20, false),
         visibleVideoTv: List.filled(20, false),
+        controllers: state.controllers,
       ));
     } catch (e) {
       emit(TrailerError(
@@ -124,6 +128,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
+        controllers: state.controllers,
       ));
     }
   }
@@ -131,10 +136,10 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
   FutureOr<void> _onPlayTrailer(PlayTrailer event, Emitter<TrailerState> emit) {
     try {
       if (event.isActive) {
-        List<YoutubePlayerController> controllers = [];
-        final YoutubePlayerController controller = YoutubePlayerController(
-            initialVideoId: state.listTrailerTv[event.indexTv ?? 0].id ?? '');
-        controllers.add(controller);
+        // List<YoutubePlayerController> controllers = [];
+        // final YoutubePlayerController controller = YoutubePlayerController(
+        //     initialVideoId: state.listTrailerTv[event.indexTv ?? 0].id ?? '');
+        // controllers.add(controller);
         event.visibleVideoTv[event.indexTv ?? 0] = !event.visibleVideoTv[event.indexTv ?? 0];
       } else {
         event.visibleVideoMovie[event.indexMovie ?? 0] =
@@ -150,6 +155,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: event.visibleVideoMovie,
         visibleVideoTv: event.visibleVideoTv,
+        controllers: state.controllers,
       ));
     } catch (e) {
       emit(TrailerError(
@@ -163,6 +169,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
+        controllers: state.controllers,
       ));
     }
   }
@@ -181,6 +188,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           isActive: state.isActive,
           visibleVideoMovie: state.visibleVideoMovie,
           visibleVideoTv: state.visibleVideoTv,
+          controllers: state.controllers,
         ));
       } else {
         if (event.isActive) {
@@ -198,6 +206,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           isActive: state.isActive,
           visibleVideoMovie: event.visibleVideoMovie,
           visibleVideoTv: event.visibleVideoTv,
+          controllers: state.controllers,
         ));
       }
     } catch (e) {
@@ -212,6 +221,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
+        controllers: state.controllers,
       ));
     }
   }
