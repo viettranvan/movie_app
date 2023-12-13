@@ -73,8 +73,9 @@ class ArtistView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     final state = BlocProvider.of<ArtistBloc>(context).state;
     final list = state.listArtist;
-    String? name = index != list.length ? list[index].name : '';
-    String? profilePath = index != list.length ? list[index].profilePath : '';
+    final item = list[index];
+    String? name = index != list.length ? item.name : '';
+    String? profilePath = index != list.length ? item.profilePath : '';
     return SecondaryItemList(
       title: name,
       imageUrl: '${AppConstants.kImagePathPoster}$profilePath',

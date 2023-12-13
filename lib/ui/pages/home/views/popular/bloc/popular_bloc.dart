@@ -17,9 +17,11 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
       : super(PopularInitial(
           listPopular: [],
           selectedIndex: 0,
+          autoPlay: true,
         )) {
     on<SlidePageView>(_onSlidePageView);
     on<FetchData>(_onFetchData);
+    on<AutoSlide>(_onAutoSlide);
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<PopularState> emit) async {
@@ -30,22 +32,56 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
         region: event.region,
       );
       emit(PopularSuccess(
-        listPopular: result.list,
+          listPopular: result.list, selectedIndex: state.selectedIndex, autoPlay: state.autoPlay));
+    } catch (e) {
+      emit(PopularError(
+        errorMessage: e.toString(),
+        listPopular: state.listPopular,
         selectedIndex: state.selectedIndex,
+        autoPlay: state.autoPlay,
+      ));
+    }
+  }
+
+  FutureOr<void> _onSlidePageView(SlidePageView event, Emitter<PopularState> emit) {
+    try {
+      emit(PopularSuccess(
+        listPopular: state.listPopular,
+        selectedIndex: event.selectedIndex,
+        autoPlay: state.autoPlay,
       ));
     } catch (e) {
       emit(PopularError(
         errorMessage: e.toString(),
         listPopular: state.listPopular,
         selectedIndex: state.selectedIndex,
+        autoPlay: state.autoPlay,
       ));
     }
   }
 
-  FutureOr<void> _onSlidePageView(SlidePageView event, Emitter<PopularState> emit) {
-    emit(PopularSuccess(
-      listPopular: state.listPopular,
-      selectedIndex: event.selectedIndex,
-    ));
+  FutureOr<void> _onAutoSlide(AutoSlide event, Emitter<PopularState> emit) {
+    try {
+      event.indexPage == 0
+          ? state.autoPlay
+              ? null
+              : emit(PopularSuccess(
+                  listPopular: state.listPopular,
+                  selectedIndex: state.selectedIndex,
+                  autoPlay: true,
+                ))
+          : emit(PopularSuccess(
+              listPopular: state.listPopular,
+              selectedIndex: state.selectedIndex,
+              autoPlay: false,
+            ));
+    } catch (e) {
+      emit(PopularError(
+        errorMessage: e.toString(),
+        listPopular: state.listPopular,
+        selectedIndex: state.selectedIndex,
+        autoPlay: state.autoPlay,
+      ));
+    }
   }
 }

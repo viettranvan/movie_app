@@ -98,18 +98,18 @@ class Genreview extends StatelessWidget {
 
   Widget itemBuilderMovie(BuildContext context, int index) {
     final state = BlocProvider.of<GenreBloc>(context).state;
-    final list = state.listGenreMovie;
+    final item = state.listGenreMovie[index];
     return PrimaryItemList(
-      title: list[index].name,
+      title: item.name,
       onTap: () {},
     );
   }
 
   Widget itemBuilderTv(BuildContext context, int index) {
     final state = BlocProvider.of<GenreBloc>(context).state;
-    final list = state.listGenreTv;
+    final item = state.listGenreTv[index];
     return PrimaryItemList(
-      title: list[index].name,
+      title: item.name,
       onTap: () {},
     );
   }

@@ -9,7 +9,7 @@ import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class QuinaryItemList extends StatelessWidget {
+class QuinaryItemList extends StatefulWidget {
   final VoidCallback? onTap;
   final String? title;
   final String imageUrl;
@@ -20,6 +20,7 @@ class QuinaryItemList extends StatelessWidget {
   final YoutubePlayerController controller;
   final Function(YoutubeMetaData)? onEnded;
   final Function()? onLongPress;
+  final bool isActive;
 
   const QuinaryItemList({
     super.key,
@@ -29,6 +30,7 @@ class QuinaryItemList extends StatelessWidget {
     this.onEnded,
     this.onLongPress,
     this.youtubeKey,
+    required this.isActive,
     required this.videoId,
     required this.controller,
     required this.imageUrl,
@@ -36,11 +38,16 @@ class QuinaryItemList extends StatelessWidget {
   });
 
   @override
+  State<QuinaryItemList> createState() => _QuinaryItemListState();
+}
+
+class _QuinaryItemListState extends State<QuinaryItemList> {
+  @override
   Widget build(BuildContext context) {
     double width = 325.w;
     return GestureDetector(
-      onTap: onTap,
-      onLongPress: onLongPress,
+      onTap: widget.onTap,
+      onLongPress: widget.onLongPress,
       child: RepaintBoundary(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -60,20 +67,20 @@ class QuinaryItemList extends StatelessWidget {
                   ),
                 ],
               ),
-              child: visibleVideo
+              child: widget.visibleVideo
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(20.r),
                       child: YoutubePlayer(
                         width: width,
-                        onEnded: onEnded,
-                        key: youtubeKey,
-                        controller: controller,
+                        onEnded: widget.onEnded,
+                        key: widget.youtubeKey,
+                        controller: widget.controller,
                         thumbnail: Stack(
                           alignment: Alignment.center,
                           children: [
                             Positioned.fill(
                               child: CachedNetworkImage(
-                                imageUrl: imageUrl,
+                                imageUrl: widget.imageUrl,
                                 filterQuality: FilterQuality.high,
                                 fit: BoxFit.fill,
                                 progressIndicatorBuilder: (context, url, progress) =>
@@ -88,7 +95,7 @@ class QuinaryItemList extends StatelessWidget {
                               ),
                             ),
                             Positioned(
-                              child: videoId.isNotEmpty
+                              child: widget.videoId.isNotEmpty
                                   ? Lottie.asset(AnimationsPath.loadingAnimation.assetName,
                                       repeat: true,
                                       addRepaintBoundary: true,
@@ -114,7 +121,9 @@ class QuinaryItemList extends StatelessWidget {
                                         alignment: Alignment.center,
                                         color: blackColor.withOpacity(0.6),
                                         child: Text(
-                                          'Comming soon 😘',
+                                          widget.isActive
+                                              ? 'Trailer TV is comming soon on TMDb'
+                                              : 'Trailer Movie is comming soon on TMDb',
                                           style: TextStyle(
                                             fontSize: 14.5.sp,
                                             color: whiteColor,
@@ -132,7 +141,7 @@ class QuinaryItemList extends StatelessWidget {
                       children: [
                         Positioned.fill(
                           child: CachedNetworkImage(
-                            imageUrl: imageUrl,
+                            imageUrl: widget.imageUrl,
                             filterQuality: FilterQuality.high,
                             fit: BoxFit.fill,
                             progressIndicatorBuilder: (context, url, progress) =>
@@ -172,7 +181,7 @@ class QuinaryItemList extends StatelessWidget {
             SizedBox(
               width: width,
               child: Text(
-                title ?? '',
+                widget.title ?? '',
                 softWrap: true,
                 textScaleFactor: 1,
                 textAlign: TextAlign.center,
@@ -185,7 +194,7 @@ class QuinaryItemList extends StatelessWidget {
             SizedBox(
               width: width,
               child: Text(
-                '($nameOfTrailer)',
+                '(${widget.nameOfTrailer})',
                 textScaleFactor: 1,
                 softWrap: true,
                 textAlign: TextAlign.center,
@@ -200,5 +209,11 @@ class QuinaryItemList extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    widget.controller.dispose();
+    super.dispose();
   }
 }

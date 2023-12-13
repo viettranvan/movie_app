@@ -83,8 +83,9 @@ class TrendingView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     final state = BlocProvider.of<TrendingBloc>(context).state;
     final list = state.listTrending;
-    String? title = index != list.length ? (list[index].title ?? list[index].name) : '';
-    String? posterPath = index != list.length ? list[index].posterPath : '';
+    final item = list[index];
+    String? title = index != list.length ? (item.title ?? item.name) : '';
+    String? posterPath = index != list.length ? item.posterPath : '';
     return TertiaryItemList(
       title: title,
       index: index,

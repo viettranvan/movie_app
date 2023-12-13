@@ -81,8 +81,9 @@ class BestDramaView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     final state = BlocProvider.of<BestDramaBloc>(context).state;
     final list = state.listBestDrama;
-    String? name = index != list.length ? list[index].name : '';
-    String? posterPath = index != list.length ? list[index].posterPath : '';
+    final item = list[index];
+    String? name = index != list.length ? item.name : '';
+    String? posterPath = index != list.length ? item.posterPath : '';
     return TertiaryItemList(
       title: name,
       index: index,

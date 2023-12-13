@@ -21,71 +21,70 @@ class NowPlayingView extends StatelessWidget {
           language: 'en-US',
           page: 1,
         )),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          PrimaryText(
-            title: 'On streaming',
-            visibleIcon: true,
-            onTapViewAll: () {},
-            icon: SvgPicture.asset(
-              ImagesPath.nowPlayingIcon.assetName,
-            ),
-          ),
-          SizedBox(height: 15.h),
-          BlocConsumer<NowPlayingBloc, NowPlayingState>(
-            listener: (context, state) {
-              final bloc = BlocProvider.of<NowPlayingBloc>(context);
-              state.paletteColors.isEmpty && state is NowPlayingSuccess
-                  ? bloc.add(ChangeColor(
-                      posterPath: (state.nowPlayingTv.posterPath ?? '').isNotEmpty
-                          ? '${AppConstants.kImagePathPoster}${state.nowPlayingTv.posterPath}'
-                          : ImagesPath.noImage.assetName,
-                    ))
-                  : null;
-            },
-            builder: (context, state) {
-              if (state is NowPlayingInitial) {
-                return SizedBox(
-                  height: 172.h,
-                  child: const CustomIndicator(),
-                );
-              }
-              if (state is NowPlayingError) {
-                return SizedBox(
-                  height: 172.h,
-                  child: Center(
-                    child: Text(state.errorMessage),
-                  ),
-                );
-              }
-              final name = state.nowPlayingTv.name;
-              final seasonNumber = state.nowPlayingTv.lastEpisodeToAir?.seasonNumber;
-              final episode = state.nowPlayingTv.lastEpisodeToAir?.episodeNumber;
-              final overview =
-                  state.nowPlayingTv.overview != '' ? state.nowPlayingTv.overview : 'Comming soon';
-              final posterPath = state.nowPlayingTv.posterPath;
-              return ViewItem(
-                title: name,
-                season: seasonNumber,
-                episode: episode,
-                overview: overview,
-                textColor: state.averageLuminance > 0.5 || state.nowPlayingTv.posterPath == null
-                    ? blackColor
-                    : whiteColor,
-                imageUrl: '${AppConstants.kImagePathPoster}$posterPath',
-                colors: state.paletteColors,
-                stops: List.generate(state.paletteColors.length, (index) => index * 0.13),
-                onTap: () => Navigator.of(context).push(
-                  CustomPageRoute(
-                    page: const DetailsPage(),
-                    begin: const Offset(1, 0),
-                  ),
+      child: BlocBuilder<NowPlayingBloc, NowPlayingState>(
+        builder: (context, state) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PrimaryText(
+                title: 'On streaming',
+                visibleIcon: true,
+                onTapViewAll: () {},
+                icon: SvgPicture.asset(
+                  ImagesPath.nowPlayingIcon.assetName,
                 ),
-              );
-            },
-          ),
-        ],
+              ),
+              SizedBox(height: 15.h),
+              BlocConsumer<NowPlayingBloc, NowPlayingState>(
+                listener: (context, state) {
+                  final bloc = BlocProvider.of<NowPlayingBloc>(context);
+                  state.paletteColors.isEmpty && state is NowPlayingSuccess
+                      ? bloc.add(ChangeColor(
+                          posterPath: (state.nowPlayingTv.posterPath ?? '').isNotEmpty
+                              ? '${AppConstants.kImagePathPoster}${state.nowPlayingTv.posterPath}'
+                              : ImagesPath.noImage.assetName,
+                        ))
+                      : null;
+                },
+                builder: (context, state) {
+                  if (state is NowPlayingInitial) {
+                    return SizedBox(
+                      height: 172.h,
+                      child: const CustomIndicator(),
+                    );
+                  }
+                  if (state is NowPlayingError) {
+                    return SizedBox(
+                      height: 172.h,
+                      child: Center(
+                        child: Text(state.errorMessage),
+                      ),
+                    );
+                  }
+                  final item = state.nowPlayingTv;
+                  return ViewItem(
+                    title: item.name,
+                    season: item.lastEpisodeToAir?.seasonNumber,
+                    episode: item.lastEpisodeToAir?.episodeNumber,
+                    overview: item.overview != '' ? item.overview : 'Comming soon',
+                    textColor: state.averageLuminance > 0.5 || item.posterPath == null
+                        ? blackColor
+                        : whiteColor,
+                    imageUrl: '${AppConstants.kImagePathPoster}${item.posterPath}',
+                    colors: state.paletteColors,
+                    stops: state.paletteColors.asMap().keys.toList().map((e) => e * 0.13).toList(),
+                    onTap: () => Navigator.of(context).push(
+                      CustomPageRoute(
+                        page: const DetailsPage(),
+                        begin: const Offset(1, 0),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          );
+        },
       ),
     );
   }
