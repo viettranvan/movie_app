@@ -80,8 +80,9 @@ class TopTvView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     final state = BlocProvider.of<TopTvBloc>(context).state;
     final list = state.listTopTv;
-    String? name = index != list.length ? list[index].name : '';
-    String? posterPath = index != list.length ? list[index].posterPath : '';
+    final item = list[index];
+    String? name = index != list.length ? item.name : '';
+    String? posterPath = index != list.length ? item.posterPath : '';
     return TertiaryItemList(
       title: name,
       index: index,

@@ -169,7 +169,7 @@ class _TrailerViewState extends State<TrailerView> {
         useHybridComposition: true,
         forceHD: false,
       ),
-    )..setPlaybackRate(1.0);
+    );
     return QuinaryItemList(
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
@@ -177,6 +177,7 @@ class _TrailerViewState extends State<TrailerView> {
       visibleVideo: bloc.state.visibleVideoMovie[index],
       title: item.title,
       nameOfTrailer: itemTrailer.name ?? 'Coming soon',
+      isActive: bloc.state.isActive,
       imageUrl: item.backdropPath == null
           ? 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTxZYNhrWgfQyqlnGPwzVDe5xv5oPVljnimLLixVAADAItCD6lu'
           : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
@@ -203,7 +204,7 @@ class _TrailerViewState extends State<TrailerView> {
         useHybridComposition: true,
         forceHD: false,
       ),
-    )..setPlaybackRate(1.0);
+    );
     return QuinaryItemList(
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
@@ -211,6 +212,7 @@ class _TrailerViewState extends State<TrailerView> {
       visibleVideo: bloc.state.visibleVideoTv[index],
       title: item.name,
       nameOfTrailer: itemTrailer.name ?? 'Coming soon',
+      isActive: bloc.state.isActive,
       imageUrl: item.backdropPath == null
           ? 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTxZYNhrWgfQyqlnGPwzVDe5xv5oPVljnimLLixVAADAItCD6lu'
           : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',

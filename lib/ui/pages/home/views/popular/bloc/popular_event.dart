@@ -19,3 +19,10 @@ class SlidePageView extends PopularEvent {
     required this.selectedIndex,
   });
 }
+
+class AutoSlide extends PopularEvent {
+  final int indexPage;
+  AutoSlide({
+    required this.indexPage,
+  });
+}

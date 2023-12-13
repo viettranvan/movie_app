@@ -73,12 +73,12 @@ class UpcomingView extends StatelessWidget {
 
   Widget itemBuilder(BuildContext context, int index, int realIndex) {
     final state = BlocProvider.of<UpcomingBloc>(context).state;
-    final list = state.listUpcoming;
+    final item = state.listUpcoming[index];
     return SliderItem(
       isBackdrop: false,
-      title: list[index].title,
-      voteAverage: double.parse(list[index].voteAverage?.toStringAsFixed(1) ?? ''),
-      imageUrlPoster: '${AppConstants.kImagePathPoster}${list[index].posterPath}',
+      title: item.title,
+      voteAverage: double.parse(item.voteAverage?.toStringAsFixed(1) ?? ''),
+      imageUrlPoster: '${AppConstants.kImagePathPoster}${item.posterPath}',
       onTap: () => Navigator.of(context).push(
         CustomPageRoute(
           page: const DetailsPage(),

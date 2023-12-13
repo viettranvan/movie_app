@@ -6,7 +6,6 @@ import 'package:movie_app/models/models.dart';
 import 'package:movie_app/ui/pages/explore/explore_repository.dart';
 import 'package:movie_app/ui/pages/home/index.dart';
 import 'package:movie_app/utils/utils.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 part 'trailer_event.dart';
 part 'trailer_state.dart';
@@ -27,7 +26,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           listTrailerTv: [],
           visibleVideoMovie: List.filled(20, false),
           visibleVideoTv: List.filled(20, false),
-          controllers: [],
         )) {
     on<FetchData>(_onFetchData);
     on<SwitchType>(_onSwitchType);
@@ -83,7 +81,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
-        controllers: state.controllers,
       ));
     } catch (e) {
       emit(TrailerError(
@@ -97,7 +94,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
-        controllers: state.controllers,
       ));
     }
   }
@@ -114,7 +110,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: event.isActive,
         visibleVideoMovie: List.filled(20, false),
         visibleVideoTv: List.filled(20, false),
-        controllers: state.controllers,
       ));
     } catch (e) {
       emit(TrailerError(
@@ -128,7 +123,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
-        controllers: state.controllers,
       ));
     }
   }
@@ -136,10 +130,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
   FutureOr<void> _onPlayTrailer(PlayTrailer event, Emitter<TrailerState> emit) {
     try {
       if (event.isActive) {
-        // List<YoutubePlayerController> controllers = [];
-        // final YoutubePlayerController controller = YoutubePlayerController(
-        //     initialVideoId: state.listTrailerTv[event.indexTv ?? 0].id ?? '');
-        // controllers.add(controller);
         event.visibleVideoTv[event.indexTv ?? 0] = !event.visibleVideoTv[event.indexTv ?? 0];
       } else {
         event.visibleVideoMovie[event.indexMovie ?? 0] =
@@ -155,7 +145,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: event.visibleVideoMovie,
         visibleVideoTv: event.visibleVideoTv,
-        controllers: state.controllers,
       ));
     } catch (e) {
       emit(TrailerError(
@@ -169,7 +158,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
-        controllers: state.controllers,
       ));
     }
   }
@@ -188,7 +176,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           isActive: state.isActive,
           visibleVideoMovie: state.visibleVideoMovie,
           visibleVideoTv: state.visibleVideoTv,
-          controllers: state.controllers,
         ));
       } else {
         if (event.isActive) {
@@ -206,7 +193,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           isActive: state.isActive,
           visibleVideoMovie: event.visibleVideoMovie,
           visibleVideoTv: event.visibleVideoTv,
-          controllers: state.controllers,
         ));
       }
     } catch (e) {
@@ -221,8 +207,14 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
-        controllers: state.controllers,
       ));
     }
+  }
+
+  @override
+  Future<void> close() {
+    movieController.dispose();
+    tvController.dispose();
+    return super.close();
   }
 }
