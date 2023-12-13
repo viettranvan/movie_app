@@ -23,8 +23,7 @@ class PopularView extends StatelessWidget {
           language: 'en-US',
         )),
       child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) =>
-            BlocProvider.of<PopularBloc>(context).add(AutoSlide(indexPage: state.indexPage)),
+        listener: (context, state) => enableAutoSlide(context, state.indexPage),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -105,5 +104,16 @@ class PopularView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  enableAutoSlide(BuildContext context, int indexPage) {
+    final bloc = BlocProvider.of<PopularBloc>(context);
+    indexPage == 0
+        ? bloc.state.autoPlay
+            ? null
+            : bloc.add(AutoSlide(autoPlay: true))
+        : bloc.state.autoPlay
+            ? bloc.add(AutoSlide(autoPlay: false))
+            : null;
   }
 }

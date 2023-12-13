@@ -38,26 +38,27 @@ class _TrailerViewState extends State<TrailerView> {
               state.indexPage == 1
                   ? trailerState is TrailerSuccess
                       ? exploreBloc.scrollController.position.extentBefore <= 0
-                          ? trailerState.visibleVideoMovie[trailerState.indexMovie] ||
-                                  trailerState.visibleVideoTv[trailerState.indexTv]
+                          ? checkDisplayVideo(context)
                               ? null
                               : playTrailer(context, trailerState.indexMovie, trailerState.indexTv)
-                          : trailerState.visibleVideoMovie[trailerState.indexMovie] ||
-                                  trailerState.visibleVideoTv[trailerState.indexTv]
+                          : checkDisplayVideo(context)
                               ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
                               : null
                       : stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
-                  : stopTrailer(context, trailerState.indexMovie, trailerState.indexTv);
+                  : checkDisplayVideo(context)
+                      ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
+                      : null;
               break;
             case NavigationScrollSuccess:
               state.indexPage == 1
                   ? trailerState is TrailerSuccess
-                      ? trailerState.visibleVideoMovie[trailerState.indexMovie] ||
-                              trailerState.visibleVideoTv[trailerState.indexTv]
+                      ? checkDisplayVideo(context)
                           ? null
                           : playTrailer(context, trailerState.indexMovie, trailerState.indexTv)
                       : stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
-                  : stopTrailer(context, trailerState.indexMovie, trailerState.indexTv);
+                  : checkDisplayVideo(context)
+                      ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
+                      : null;
               break;
             default:
               break;
@@ -271,5 +272,11 @@ class _TrailerViewState extends State<TrailerView> {
       visibleVideoMovie: bloc.state.visibleVideoMovie,
       visibleVideoTv: bloc.state.visibleVideoTv,
     ));
+  }
+
+  bool checkDisplayVideo(BuildContext context) {
+    final trailerState = BlocProvider.of<TrailerBloc>(context).state;
+    return trailerState.visibleVideoMovie[trailerState.indexMovie] ||
+        trailerState.visibleVideoTv[trailerState.indexTv];
   }
 }

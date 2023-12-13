@@ -57,7 +57,7 @@ class NowPlayingView extends StatelessWidget {
                     return SizedBox(
                       height: 172.h,
                       child: Center(
-                        child: Text(state.errorMessage),
+                        child: Text(state.runtimeType.toString()),
                       ),
                     );
                   }

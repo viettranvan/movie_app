@@ -21,8 +21,8 @@ class SlidePageView extends PopularEvent {
 }
 
 class AutoSlide extends PopularEvent {
-  final int indexPage;
+  final bool autoPlay;
   AutoSlide({
-    required this.indexPage,
+    required this.autoPlay,
   });
 }

@@ -39,7 +39,7 @@ class TertiaryItemList extends StatelessWidget {
               ),
             ],
           ),
-          child: index == itemCount
+          child: index >= itemCount
               ? ItemViewAll(
                   width: 50.w,
                   height: 50.h,

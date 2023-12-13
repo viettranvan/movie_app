@@ -62,18 +62,10 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
 
   FutureOr<void> _onAutoSlide(AutoSlide event, Emitter<PopularState> emit) {
     try {
-      event.indexPage == 0
-          ? state.autoPlay
-              ? null
-              : emit(PopularSuccess(
-                  listPopular: state.listPopular,
-                  selectedIndex: state.selectedIndex,
-                  autoPlay: true,
-                ))
-          : emit(PopularSuccess(
+    emit(PopularSuccess(
               listPopular: state.listPopular,
               selectedIndex: state.selectedIndex,
-              autoPlay: false,
+              autoPlay: event.autoPlay,
             ));
     } catch (e) {
       emit(PopularError(
