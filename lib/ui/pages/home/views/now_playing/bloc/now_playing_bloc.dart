@@ -58,15 +58,19 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
       if (event.posterPath.isNotEmpty) {
         final baseUrl = await compute(Uri.parse, event.posterPath);
         final loadImage = state.nowPlayingTv.posterPath != null
-            ? await compute(NetworkAssetBundle(baseUrl).load, event.posterPath)
+            ? await compute(
+                NetworkAssetBundle(baseUrl).load, event.posterPath) // Parse Image --> ByteData
             : await rootBundle.load(event.posterPath);
-        final imageBytes = loadImage.buffer.asUint8List(); // load the image
-        final colors = await AppUtils().extractColors(imageBytes);
+        final imageBytes = loadImage.buffer.asUint8List(); // Parse ByteData --> Uint8List (matrix)
+        final colors = await AppUtils().extractColors(imageBytes); // Extract the colors from matrix
         final paletteColors = await AppUtils().generatePalette(
           {'palette': colors, 'numberOfItemsPixel': 16},
-        );
+        ); // Get pallete colors
         final paletteRemoveWhite = state.nowPlayingTv.posterPath != null
-            ? (paletteColors..removeWhere((element) => element.computeLuminance() > 0.8))
+            ? (paletteColors
+              ..removeWhere((element) =>
+                  element.computeLuminance() >
+                  0.8)) // Remove color which have luminance > 0.8 (reduce white color)
             : paletteColors;
         final averageLuminance = await AppUtils().getLuminance(paletteColors);
         emit(NowPlayingSuccess(

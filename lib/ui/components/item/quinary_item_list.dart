@@ -118,14 +118,14 @@ class _QuinaryItemListState extends State<QuinaryItemList> {
                                         sigmaY: 8,
                                       ),
                                       child: Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 15.w),
                                         alignment: Alignment.center,
                                         color: blackColor.withOpacity(0.6),
                                         child: Text(
-                                          widget.isActive
-                                              ? 'Trailer TV is comming soon on TMDb'
-                                              : 'Trailer Movie is comming soon on TMDb',
+                                          '''${widget.title} is comming soon on TMDb''',
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
-                                            fontSize: 14.5.sp,
+                                            fontSize: 14.sp,
                                             color: whiteColor,
                                           ),
                                         ),

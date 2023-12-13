@@ -55,6 +55,7 @@ class ArtistView extends StatelessWidget {
                   controller: bloc.scrollController,
                   addAutomaticKeepAlives: false,
                   addRepaintBoundaries: false,
+                  physics: const BouncingScrollPhysics(),
                   padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
@@ -73,12 +74,10 @@ class ArtistView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     final state = BlocProvider.of<ArtistBloc>(context).state;
     final list = state.listArtist;
-    final item = list[index];
-    String? name = index != list.length ? item.name : '';
-    String? profilePath = index != list.length ? item.profilePath : '';
+    final item = index < list.length ? list[index] : null;
     return SecondaryItemList(
-      title: name,
-      imageUrl: '${AppConstants.kImagePathPoster}$profilePath',
+      title: item?.name,
+      imageUrl: '${AppConstants.kImagePathPoster}${item?.profilePath}',
       index: index,
       itemCount: list.length,
       onTapItem: () => Navigator.of(context).push(

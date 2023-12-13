@@ -60,6 +60,7 @@ class TopTvView extends StatelessWidget {
                       controller: bloc.scrollController,
                       addAutomaticKeepAlives: false,
                       addRepaintBoundaries: false,
+                      physics: const BouncingScrollPhysics(),
                       padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
@@ -80,14 +81,12 @@ class TopTvView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     final state = BlocProvider.of<TopTvBloc>(context).state;
     final list = state.listTopTv;
-    final item = list[index];
-    String? name = index != list.length ? item.name : '';
-    String? posterPath = index != list.length ? item.posterPath : '';
+    final item = index < list.length ? list[index] : null;
     return TertiaryItemList(
-      title: name,
+      title: item?.name,
       index: index,
       itemCount: list.length,
-      imageUrl: '${AppConstants.kImagePathPoster}$posterPath',
+      imageUrl: '${AppConstants.kImagePathPoster}${item?.posterPath}',
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(
