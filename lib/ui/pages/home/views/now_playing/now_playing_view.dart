@@ -27,7 +27,7 @@ class NowPlayingView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               PrimaryText(
-                title: 'On streaming',
+                title: 'On streaming now',
                 visibleIcon: true,
                 onTapViewAll: () {},
                 icon: SvgPicture.asset(

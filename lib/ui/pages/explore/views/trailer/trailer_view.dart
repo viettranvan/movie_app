@@ -69,7 +69,7 @@ class _TrailerViewState extends State<TrailerView> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             PrimaryText(
-              title: 'TMDb originals',
+              title: 'TMDb Originals',
               visibleIcon: true,
               hasSwitch: true,
               icon: Icon(
