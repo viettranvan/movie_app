@@ -61,4 +61,7 @@ flutter:
     - lib/shared_ui/assets/images/primary_short_logo.png
     - lib/shared_ui/assets/images/background.png
     - lib/shared_ui/assets/images/no_image.png
+    - lib/shared_ui/assets/images/no_image_man.png
+    - lib/shared_ui/assets/images/no_image_woman.png
+    - lib/shared_ui/assets/images/no_image_other_gender.png
     - lib/shared_ui/assets/animations/loading_animation.json

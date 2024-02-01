@@ -28,7 +28,7 @@ class PopularView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             PrimaryText(
-              title: '''What's the most popular''',
+              title: '''What's popular to watch''',
               visibleIcon: true,
               onTapViewAll: () {},
               icon: SvgPicture.asset(
