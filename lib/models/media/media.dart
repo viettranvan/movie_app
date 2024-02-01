@@ -1,7 +1,7 @@
 
 
-export 'multiple/multiple_media.dart';
-export 'details/multiple_details.dart';
+export 'multiple_media.dart';
+// export '../details/media/multiple_details.dart';
 export 'created_by.dart';
 export 'last_episode_to_air.dart';
 export 'network.dart';

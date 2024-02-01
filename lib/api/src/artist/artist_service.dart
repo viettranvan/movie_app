@@ -19,4 +19,19 @@ class ArtistService {
         response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
+
+  Future<ObjectResponse<ArtistDetails>> getDetailsArtist({
+    required int personId,
+    required String language,
+    String? appendToResponse,
+  }) async {
+    final request = ArtistRequest.getDetailsArtist(
+      personId: personId,
+      language: language,
+      appendToResponse: appendToResponse,
+    );
+    final response = await apiClient.execute(request: request);
+    final objectResponse = ArtistDetails.fromJson(response.toObject());
+    return ObjectResponse(object: objectResponse);
+  }
 }

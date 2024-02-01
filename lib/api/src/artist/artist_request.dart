@@ -15,4 +15,19 @@ class ArtistRequest {
           'page': page,
         },
       );
+
+  static APIRequest getDetailsArtist({
+    required int personId,
+    required String language,
+    String? appendToResponse,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/person/$personId',
+        parameters: {
+          'person_id': personId,
+          'language': language,
+          'append_to_response': appendToResponse,
+        },
+      );
 }
