@@ -117,8 +117,10 @@ class MultipleDetails {
         releaseDate: json['release_date'],
         revenue: json['revenue'],
         runtime: json['runtime'],
-        spokenLanguages: List<SpokenLanguage>.from(
-            json['spoken_languages'].map((x) => SpokenLanguage.fromJson(x))),
+        spokenLanguages: json['spoken_languages'] == null
+            ? []
+            : List<SpokenLanguage>.from(
+                json['spoken_languages'].map((x) => SpokenLanguage.fromJson(x))),
         status: json['status'],
         tagline: json['tagline'],
         title: json['title'],

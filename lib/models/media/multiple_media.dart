@@ -1,4 +1,5 @@
 class MultipleMedia {
+  //Movie
   bool? adult;
   String? backdropPath;
   List<int> genreIds;
@@ -14,14 +15,26 @@ class MultipleMedia {
   bool? video;
   num? voteAverage;
   int? voteCount;
+  // TV
   String? name;
   String? originalName;
   String? firstAirDate;
   List<String> originCountry;
+  // Person
   int? gender;
   String? knownForDepartment;
   String? profilePath;
   List<MultipleMedia> knownFor;
+  // ----------- Append to response 'movie_credits' -----------
+  String? creditId;
+  // Cast
+  String? character;
+  int? order;
+  // Crew
+  String? department;
+  String? job;
+  // ----------- Append to response 'tv_credits' -----------
+  int? episodeCount;
 
   MultipleMedia({
     this.adult,
