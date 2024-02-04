@@ -11,6 +11,7 @@ enum ImagesPath {
   popularIcon('lib/shared_ui/assets/icons/popular_icon.svg'),
   nowPlayingIcon('lib/shared_ui/assets/icons/now_playing_icon.svg'),
   topRatedIcon('lib/shared_ui/assets/icons/top_rated_icon.svg'),
+  bornTodayIcon('lib/shared_ui/assets/icons/born_today_icon.svg'),
   trailerIcon('lib/shared_ui/assets/icons/trailer_icon.svg'),
   watchListIcon('lib/shared_ui/assets/icons/watch_list_icon.svg'),
   artistIcon('lib/shared_ui/assets/icons/artist_icon.svg'),

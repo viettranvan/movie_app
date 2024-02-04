@@ -71,13 +71,13 @@ class _TrailerViewState extends State<TrailerView> {
             PrimaryText(
               title: 'TMDb Originals',
               visibleIcon: true,
-              hasSwitch: true,
+              enableRightWidget: true,
               icon: Icon(
                 Icons.video_library_rounded,
                 size: 24,
                 color: greyColor,
               ),
-              child: BlocBuilder<TrailerBloc, TrailerState>(
+              rightWidget: BlocBuilder<TrailerBloc, TrailerState>(
                 builder: (context, state) {
                   if (state is TrailerError) {
                     return SizedBox(height: 22.h);
@@ -171,7 +171,7 @@ class _TrailerViewState extends State<TrailerView> {
         forceHD: false,
       ),
     );
-    return QuinaryItemList(
+    return QuinaryItem(
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
       controller: controller,
@@ -206,7 +206,7 @@ class _TrailerViewState extends State<TrailerView> {
         forceHD: false,
       ),
     );
-    return QuinaryItemList(
+    return QuinaryItem(
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
       controller: controller,

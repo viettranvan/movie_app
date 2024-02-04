@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 
-class SenaryItemList extends StatelessWidget {
+class SenaryItem extends StatelessWidget {
   final VoidCallback? onTapItem;
   final VoidCallback? onTapBanner;
   final String imageUrl;
@@ -15,7 +15,7 @@ class SenaryItemList extends StatelessWidget {
   final String? voteAverage;
   final double? initialRating;
   final bool? watchList;
-  const SenaryItemList({
+  const SenaryItem({
     super.key,
     this.onTapItem,
     this.onTapBanner,

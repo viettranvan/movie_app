@@ -62,7 +62,7 @@ class NowPlayingView extends StatelessWidget {
                     );
                   }
                   final item = state.nowPlayingTv;
-                  return ViewItem(
+                  return SingleItem(
                     title: item.name,
                     season: item.lastEpisodeToAir?.seasonNumber,
                     episode: item.lastEpisodeToAir?.episodeNumber,

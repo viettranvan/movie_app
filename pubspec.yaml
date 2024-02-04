@@ -49,6 +49,7 @@ flutter:
     - lib/shared_ui/assets/icons/best_drama_icon.svg
     - lib/shared_ui/assets/icons/upcoming_icon.png
     - lib/shared_ui/assets/icons/top_rated_icon.svg
+    - lib/shared_ui/assets/icons/born_today_icon.svg
     - lib/shared_ui/assets/icons/popular_icon.svg
     - lib/shared_ui/assets/icons/now_playing_icon.svg
     - lib/shared_ui/assets/icons/artist_icon.svg

@@ -93,10 +93,10 @@ class PopularView extends StatelessWidget {
 
   Widget itemBuilder(BuildContext context, int index, int realIndex) {
     final state = BlocProvider.of<PopularBloc>(context).state;
-    final item = state.listPopular[index];
+    final item = state.listPopular.isNotEmpty ? state.listPopular[index] : null;
     return SliderItem(
       isBackdrop: true,
-      imageUrlBackdrop: '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
+      imageUrlBackdrop: '${AppConstants.kImagePathBackdrop}${item?.backdropPath}',
       onTap: () => Navigator.of(context).push(
         CustomPageRoute(
           page: const DetailsPage(),

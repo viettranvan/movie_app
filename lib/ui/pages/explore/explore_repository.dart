@@ -92,4 +92,16 @@ class ExploreRepository {
       watchlist: watchlist,
     );
   }
+
+  Future<ObjectResponse<ArtistDetails>> getDetailsArtist({
+    required int personId,
+    required String language,
+    String? appendToResponse,
+  }) async {
+    return ArtistService(apiClient: restApiClient).getDetailsArtist(
+      personId: personId,
+      language: language,
+      appendToResponse: appendToResponse,
+    );
+  }
 }

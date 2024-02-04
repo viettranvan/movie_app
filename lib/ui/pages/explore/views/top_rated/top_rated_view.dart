@@ -101,7 +101,7 @@ class TopRatedView extends StatelessWidget {
     String? title = item.title ?? '';
     String? posterPath = item.posterPath;
     double voteAverage = double.parse(item.voteAverage?.toStringAsFixed(1) ?? '');
-    return SenaryItemList(
+    return SenaryItem(
       title: title,
       rank: '${index + 1}',
       voteAverage: '$voteAverage',

@@ -31,26 +31,26 @@ class ArtistView extends StatelessWidget {
               width: 24,
             ),
           ),
-          SizedBox(height: 12.h),
+          SizedBox(height: 15.h),
           BlocBuilder<ArtistBloc, ArtistState>(
             builder: (context, state) {
               final bloc = BlocProvider.of<ArtistBloc>(context);
               if (state is ArtistInitial) {
                 return SizedBox(
-                  height: 150.h,
+                  height: 170.h,
                   child: const CustomIndicator(),
                 );
               }
               if (state is ArtistError) {
                 return SizedBox(
-                  height: 150.h,
+                  height: 170.h,
                   child: Center(
                     child: Text(state.runtimeType.toString()),
                   ),
                 );
               }
               return SizedBox(
-                height: 150.h,
+                height: 170.h,
                 child: ListView.separated(
                   controller: bloc.scrollController,
                   addAutomaticKeepAlives: false,
@@ -75,7 +75,7 @@ class ArtistView extends StatelessWidget {
     final state = BlocProvider.of<ArtistBloc>(context).state;
     final list = state.listArtist;
     final item = index < list.length ? list[index] : null;
-    return SecondaryItemList(
+    return SecondaryItem(
       title: item?.name,
       imageUrl: '${AppConstants.kImagePathPoster}${item?.profilePath}',
       index: index,

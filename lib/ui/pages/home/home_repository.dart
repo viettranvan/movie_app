@@ -79,7 +79,7 @@ class HomeRepository {
     );
   }
 
-  Future<ListResponse<MultipleMedia>> getPopularArtist({
+  Future<ListResponse<MediaArtist>> getPopularArtist({
     required String language,
     required int page,
   }) async {

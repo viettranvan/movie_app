@@ -136,7 +136,7 @@ class TvView extends StatelessWidget {
 
   Widget itemBuilder(BuildContext context, int index) {
     final itemFavorite = BlocProvider.of<TvBloc>(context).state.listFavorite[index];
-    return QuaternaryItemList(
+    return QuaternaryItem(
       title: itemFavorite.title ?? itemFavorite.name,
       voteAverage: itemFavorite.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),
       releaseDate: itemFavorite.firstAirDate!.isNotEmpty

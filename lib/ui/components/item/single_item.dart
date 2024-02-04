@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 
-class ViewItem extends StatelessWidget {
+class SingleItem extends StatelessWidget {
   final VoidCallback? onTap;
   final String imageUrl;
   final List<Color> colors;
@@ -14,7 +14,7 @@ class ViewItem extends StatelessWidget {
   final int? season;
   final int? episode;
   final String? overview;
-  const ViewItem({
+  const SingleItem({
     super.key,
     this.onTap,
     required this.imageUrl,

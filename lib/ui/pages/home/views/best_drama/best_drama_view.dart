@@ -83,7 +83,7 @@ class BestDramaView extends StatelessWidget {
     final state = BlocProvider.of<BestDramaBloc>(context).state;
     final list = state.listBestDrama;
     final item = index < list.length ? list[index] : null;
-    return TertiaryItemList(
+    return TertiaryItem(
       title: item?.name,
       index: index,
       itemCount: list.length,

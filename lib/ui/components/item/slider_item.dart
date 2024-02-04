@@ -48,7 +48,7 @@ class SliderItem extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: whiteColor,
                   borderRadius: BorderRadius.all(
-                    Radius.circular(30.r),
+                    Radius.circular(25.r),
                   ),
                   boxShadow: [
                     BoxShadow(

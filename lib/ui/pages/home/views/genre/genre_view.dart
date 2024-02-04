@@ -20,8 +20,8 @@ class Genreview extends StatelessWidget {
             builder: (context, state) {
               return PrimaryText(
                 title: 'Popular Genres',
-                hasSwitch: true,
-                child: BlocBuilder<GenreBloc, GenreState>(
+                enableRightWidget: true,
+                rightWidget: BlocBuilder<GenreBloc, GenreState>(
                   builder: (context, state) {
                     if (state is GenreError) {
                       return SizedBox(height: 22.h);
@@ -101,7 +101,7 @@ class Genreview extends StatelessWidget {
   Widget itemBuilderMovie(BuildContext context, int index) {
     final state = BlocProvider.of<GenreBloc>(context).state;
     final item = state.listGenreMovie[index];
-    return PrimaryItemList(
+    return PrimaryItem(
       title: item.name,
       onTap: () {},
     );
@@ -110,7 +110,7 @@ class Genreview extends StatelessWidget {
   Widget itemBuilderTv(BuildContext context, int index) {
     final state = BlocProvider.of<GenreBloc>(context).state;
     final item = state.listGenreTv[index];
-    return PrimaryItemList(
+    return PrimaryItem(
       title: item.name,
       onTap: () {},
     );

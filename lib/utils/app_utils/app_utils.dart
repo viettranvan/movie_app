@@ -7,9 +7,9 @@ import 'package:image/image.dart' as img;
 import 'package:intl/intl.dart';
 
 class AppUtils {
-  // static final AppUtils _instance = AppUtils._();
-  // AppUtils._();
-  // factory AppUtils() => _instance;
+  static final AppUtils _instance = AppUtils._();
+  AppUtils._();
+  factory AppUtils() => _instance;
   int pixelsPerAxis = 8;
   Color getAverageColor(List<Color> colors) {
     int r = 0, g = 0, b = 0, a = 0;
@@ -136,6 +136,10 @@ class AppUtils {
     var outputDate = outputFormat.parse(date);
     var outputDateTime = DateFormat('dd-MM-yyyy').format(outputDate);
     return outputDateTime;
+  }
+
+  int caculateAge(String birthday) {
+    return DateTime.now().year - DateTime.parse(birthday).year;
   }
 
   String getYearReleaseOrDepartment(
