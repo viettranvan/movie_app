@@ -1,6 +1,7 @@
 library model;
 
 export 'genre/genre.dart';
+export 'artist/artist.dart';
 export 'media/media.dart';
 export 'trailer/trailer.dart';
 export 'state/state.dart';

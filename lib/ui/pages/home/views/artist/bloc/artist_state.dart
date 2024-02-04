@@ -1,7 +1,7 @@
 part of 'artist_bloc.dart';
 
 abstract class ArtistState {
-  final List<MultipleMedia> listArtist;
+  final List<MediaArtist> listArtist;
   ArtistState({
     required this.listArtist,
   });

@@ -5,18 +5,18 @@ import 'package:movie_app/shared_ui/colors/color.dart';
 class PrimaryText extends StatelessWidget {
   final String title;
   final Widget? icon;
-  final bool? hasSwitch;
-  final Widget? child;
+  final bool? enableRightWidget;
+  final Widget? rightWidget;
   final bool? visibleIcon;
   final VoidCallback? onTapViewAll;
 
   const PrimaryText({
     super.key,
     this.icon,
-    this.hasSwitch,
+    this.enableRightWidget,
     this.onTapViewAll,
     required this.title,
-    this.child,
+    this.rightWidget,
     this.visibleIcon,
   });
 
@@ -47,8 +47,8 @@ class PrimaryText extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          hasSwitch ?? false
-              ? child ?? const SizedBox()
+          enableRightWidget ?? false
+              ? rightWidget ?? const SizedBox()
               : GestureDetector(
                   onTap: onTapViewAll,
                   child: Padding(

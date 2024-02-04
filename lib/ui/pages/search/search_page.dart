@@ -194,6 +194,7 @@ class SearchPage extends StatelessWidget {
     final state = BlocProvider.of<SearchBloc>(context).state;
     final item = state.listSearch.isNotEmpty ? state.listSearch[index] : state.listTrending[index];
     return GridItem(
+      index: index,
       title: item.title ?? item.name,
       releaseYear: '(${AppUtils().getYearReleaseOrDepartment(
         item.releaseDate,

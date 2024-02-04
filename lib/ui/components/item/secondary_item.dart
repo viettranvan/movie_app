@@ -4,14 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 
-class SecondaryItemList extends StatelessWidget {
+class SecondaryItem extends StatelessWidget {
   final int itemCount;
   final int index;
   final VoidCallback? onTapItem;
   final VoidCallback? onTapViewAll;
   final String? title;
   final String imageUrl;
-  const SecondaryItemList({
+  const SecondaryItem({
     super.key,
     this.title,
     required this.imageUrl,
@@ -29,12 +29,12 @@ class SecondaryItemList extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: 70.w,
-              height: 100.h,
+              width: 90.w,
+              height: 120.h,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 color: whiteColor,
-                borderRadius: BorderRadius.circular(30.r),
+                borderRadius: BorderRadius.circular(15.r),
                 boxShadow: [
                   BoxShadow(
                     color: lightGreyColor,

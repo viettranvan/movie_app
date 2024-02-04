@@ -138,7 +138,7 @@ class MovieView extends StatelessWidget {
 
   Widget itemBuilder(BuildContext context, int index) {
     final itemWatchList = BlocProvider.of<MovieBloc>(context).state.listWatchList[index];
-    return QuaternaryItemList(
+    return QuaternaryItem(
       title: itemWatchList.title ?? itemWatchList.name,
       voteAverage: itemWatchList.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),
       releaseDate: itemWatchList.releaseDate!.isNotEmpty

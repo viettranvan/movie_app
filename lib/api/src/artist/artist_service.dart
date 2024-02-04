@@ -6,7 +6,7 @@ import 'package:movie_app/utils/rest_api_client/response_type.dart';
 class ArtistService {
   ArtistService({required this.apiClient});
   APIClient apiClient;
-  Future<ListResponse<MultipleMedia>> getPopularArtist({
+  Future<ListResponse<MediaArtist>> getPopularArtist({
     required String language,
     required int page,
   }) async {
@@ -16,7 +16,7 @@ class ArtistService {
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
-        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
+        response.toList().map<MediaArtist>((e) => MediaArtist.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
 

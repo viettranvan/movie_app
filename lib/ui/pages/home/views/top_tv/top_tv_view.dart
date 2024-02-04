@@ -82,7 +82,7 @@ class TopTvView extends StatelessWidget {
     final state = BlocProvider.of<TopTvBloc>(context).state;
     final list = state.listTopTv;
     final item = index < list.length ? list[index] : null;
-    return TertiaryItemList(
+    return TertiaryItem(
       title: item?.name,
       index: index,
       itemCount: list.length,

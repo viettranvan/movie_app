@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 
-class QuaternaryItemList extends StatelessWidget {
+class QuaternaryItem extends StatelessWidget {
   final String? imageUrl;
   final String? originalLanguage;
   final String? title;
@@ -12,7 +12,7 @@ class QuaternaryItemList extends StatelessWidget {
   final String? releaseDate;
   final String? voteAverage;
   final VoidCallback? onTap;
-  const QuaternaryItemList({
+  const QuaternaryItem({
     super.key,
     this.imageUrl,
     this.originalLanguage,
@@ -33,7 +33,7 @@ class QuaternaryItemList extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: whiteColor,
-              borderRadius: BorderRadius.circular(20.r),
+              borderRadius: BorderRadius.circular(15.r),
               boxShadow: [
                 BoxShadow(
                   color: greyColor,

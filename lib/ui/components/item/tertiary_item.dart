@@ -4,14 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 
-class TertiaryItemList extends StatelessWidget {
+class TertiaryItem extends StatelessWidget {
   final int itemCount;
   final int index;
   final VoidCallback? onTapItem;
   final VoidCallback? onTapViewAll;
   final String imageUrl;
   final String? title;
-  const TertiaryItemList({
+  const TertiaryItem({
     super.key,
     required this.itemCount,
     required this.index,

@@ -9,7 +9,7 @@ import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class QuinaryItemList extends StatefulWidget {
+class QuinaryItem extends StatefulWidget {
   final VoidCallback? onTap;
   final String? title;
   final String imageUrl;
@@ -22,7 +22,7 @@ class QuinaryItemList extends StatefulWidget {
   final Function()? onLongPress;
   final bool isActive;
 
-  const QuinaryItemList({
+  const QuinaryItem({
     super.key,
     this.onTap,
     this.title,
@@ -38,10 +38,10 @@ class QuinaryItemList extends StatefulWidget {
   });
 
   @override
-  State<QuinaryItemList> createState() => _QuinaryItemListState();
+  State<QuinaryItem> createState() => _QuinaryItemState();
 }
 
-class _QuinaryItemListState extends State<QuinaryItemList> {
+class _QuinaryItemState extends State<QuinaryItem> {
   @override
   Widget build(BuildContext context) {
     double width = 325.w;
@@ -59,7 +59,7 @@ class _QuinaryItemListState extends State<QuinaryItemList> {
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 color: whiteColor,
-                borderRadius: BorderRadius.circular(20.r),
+                borderRadius: BorderRadius.circular(15.r),
                 boxShadow: [
                   BoxShadow(
                     color: greyColor,
@@ -69,7 +69,7 @@ class _QuinaryItemListState extends State<QuinaryItemList> {
               ),
               child: widget.visibleVideo
                   ? ClipRRect(
-                      borderRadius: BorderRadius.circular(20.r),
+                      borderRadius: BorderRadius.circular(15.r),
                       child: YoutubePlayer(
                         width: width,
                         onEnded: widget.onEnded,
