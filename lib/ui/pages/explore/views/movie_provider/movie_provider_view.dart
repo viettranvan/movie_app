@@ -1,34 +1,40 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/home/views/genre/bloc/genre_bloc.dart';
+import 'package:movie_app/ui/pages/explore/views/movie_provider/bloc/movie_provider_bloc.dart';
 
-class Genreview extends StatelessWidget {
-  const Genreview({
-    super.key,
-  });
+class MovieProviderView extends StatelessWidget {
+  const MovieProviderView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GenreBloc()..add(FetchData(language: 'en-US')),
+      create: (context) => MovieProviderBloc(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          BlocBuilder<GenreBloc, GenreState>(
+          BlocBuilder<MovieProviderBloc, MovieProviderState>(
             builder: (context, state) {
               return PrimaryText(
-                title: 'Popular Genres',
+                title: 'Movie premiere platforms',
+                onTapViewAll: () {},
+                visibleIcon: true,
+                icon: SvgPicture.asset(
+                  ImagesPath.bornTodayIcon.assetName,
+                  fit: BoxFit.cover,
+                ),
                 enableRightWidget: true,
-                rightWidget: BlocBuilder<GenreBloc, GenreState>(
+                rightWidget: BlocBuilder<MovieProviderBloc, MovieProviderState>(
                   builder: (context, state) {
-                    if (state is GenreError) {
-                      return SizedBox(height: 22.h);
-                    }
+                    // if (state is GenreError) {
+                    //   return SizedBox(height: 22.h);
+                    // }
                     return CustomSwitch(
-                      title: state.isActive ? 'Tv Shows' : 'Movies',
-                      onTapItem: () => state.isActive ? changeMovie(context) : changeTv(context),
+                      title: 'Tv Shows',
+                      onTapItem: () {},
                     );
                   },
                 ),
@@ -36,31 +42,33 @@ class Genreview extends StatelessWidget {
             },
           ),
           SizedBox(height: 15.h),
-          BlocBuilder<GenreBloc, GenreState>(
+          BlocBuilder<MovieProviderBloc, MovieProviderState>(
             builder: (context, state) {
-              final bloc = BlocProvider.of<GenreBloc>(context);
-              if (state is GenreInitial) {
-                return SizedBox(
-                  height: 30.h,
-                  child: const CustomIndicator(),
-                );
-              }
-              if (state is GenreError) {
-                return SizedBox(
-                  height: 30.h,
-                  child: Center(
-                    child: Text(state.runtimeType.toString()),
-                  ),
-                );
-              }
+              // final bloc = BlocProvider.of<MovieProviderBloc>(context);
+              // if (state is GenreInitial) {
+              //   return SizedBox(
+              //     height: 30.h,
+              //     child: const CustomIndicator(),
+              //   );
+              // }
+              // if (state is GenreError) {
+              //   return SizedBox(
+              //     height: 30.h,
+              //     child: Center(
+              //       child: Text(state.runtimeType.toString()),
+              //     ),
+              //   );
+              // }
               return AnimatedCrossFade(
                 duration: const Duration(milliseconds: 400),
                 crossFadeState:
-                    state.isActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                    // state.isActive ?
+                    // CrossFadeState.showSecond :
+                    CrossFadeState.showFirst,
                 firstChild: SizedBox(
                   height: 30.h,
                   child: ListView.separated(
-                    controller: bloc.movieController,
+                    // controller: bloc.movieController,
                     addAutomaticKeepAlives: false,
                     addRepaintBoundaries: false,
                     physics: const BouncingScrollPhysics(),
@@ -69,13 +77,14 @@ class Genreview extends StatelessWidget {
                     shrinkWrap: true,
                     itemBuilder: itemBuilderMovie,
                     separatorBuilder: separatorBuilder,
-                    itemCount: state.listGenreMovie.isNotEmpty ? state.listGenreMovie.length : 21,
+                    itemCount: 20,
+                    // itemCount: state.listGenreMovie.isNotEmpty ? state.listGenreMovie.length : 21,
                   ),
                 ),
                 secondChild: SizedBox(
                   height: 30.h,
                   child: ListView.separated(
-                    controller: bloc.tvController,
+                    // controller: bloc.tvController,
                     addAutomaticKeepAlives: false,
                     addRepaintBoundaries: false,
                     physics: const BouncingScrollPhysics(),
@@ -84,7 +93,8 @@ class Genreview extends StatelessWidget {
                     shrinkWrap: true,
                     itemBuilder: itemBuilderTv,
                     separatorBuilder: separatorBuilder,
-                    itemCount: state.listGenreTv.isNotEmpty ? state.listGenreTv.length : 20,
+                    itemCount: 20,
+                    // itemCount: state.listGenreTv.isNotEmpty ? state.listGenreTv.length : 20,
                   ),
                 ),
               );
@@ -96,32 +106,18 @@ class Genreview extends StatelessWidget {
   }
 
   Widget itemBuilderMovie(BuildContext context, int index) {
-    final state = BlocProvider.of<GenreBloc>(context).state;
-    final item = state.listGenreMovie.isNotEmpty ? state.listGenreMovie[index] : null;
-    return PrimaryItem(
-      title: item?.name,
+    return OctonaryItem(
+      title: 'item.name',
       onTapItem: () {},
     );
   }
 
   Widget itemBuilderTv(BuildContext context, int index) {
-    final state = BlocProvider.of<GenreBloc>(context).state;
-    final item = state.listGenreTv.isNotEmpty ? state.listGenreTv[index] : null;
-    return PrimaryItem(
-      title: item?.name,
+    return OctonaryItem(
+      title: 'item.name',
       onTapItem: () {},
     );
   }
 
   Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 10.w);
-
-  changeMovie(BuildContext context) {
-    final bloc = BlocProvider.of<GenreBloc>(context);
-    bloc.add(SwitchType(isActive: false));
-  }
-
-  changeTv(BuildContext context) {
-    final bloc = BlocProvider.of<GenreBloc>(context);
-    bloc.add(SwitchType(isActive: true));
-  }
 }

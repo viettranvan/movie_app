@@ -24,7 +24,7 @@ class BornTodayBloc extends Bloc<BornTodayEvent, BornTodayState> {
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<BornTodayState> emit) async {
     try {
-      List<int> pages = List.generate(5, (index) => index + 1);
+      List<int> pages = List.generate(1, (index) => index + 1);
       final results = await Future.wait(pages.map<Future<List<MediaArtist>>>(
         (e) async {
           final result = await homeRepository.getPopularArtist(
@@ -35,7 +35,7 @@ class BornTodayBloc extends Bloc<BornTodayEvent, BornTodayState> {
         },
       ).toList());
       final artistResult = results.expand((e) => e).toList();
-      final artistList = await Future.wait(artistResult.map<Future<ArtistDetails>>(
+      final listArtist = await Future.wait(artistResult.map<Future<ArtistDetails>>(
         (e) async {
           final artistDetailsResult = await exploreRepository.getDetailsArtist(
             personId: e.id ?? 0,
@@ -47,13 +47,9 @@ class BornTodayBloc extends Bloc<BornTodayEvent, BornTodayState> {
       ).toList())
         ..removeWhere((e) => e.birthday == null)
         ..removeWhere(
-            (e) => DateTime.parse(e.birthday ?? '').month != DateTime.parse('2024-01-03').month)
-        ..removeWhere(
-            (e) => DateTime.parse(e.birthday ?? '').day != DateTime.parse('2024-01-03').day);
-      // final artistHaveBirthdayList = artistDetailsList;
-      // final artistBirthdayList = artistHaveBirthdayList;
+            (e) => DateTime.parse(e.birthday ?? '').month != DateTime.now().month);
       emit(BornTodaySuccess(
-        listArtist: artistList,
+        listArtist: listArtist,
       ));
     } catch (e) {
       emit(BornTodayError(

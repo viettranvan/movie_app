@@ -9,3 +9,4 @@ export 'slider_item.dart';
 export 'tertiary_item.dart';
 export 'view_all_item.dart';
 export 'single_item.dart';
+export 'octonary_item.dart';

@@ -32,7 +32,7 @@ class PrimaryText extends StatelessWidget {
           Visibility(
             visible: visibleIcon ?? false,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 10.w, 0),
+              padding: EdgeInsets.fromLTRB(0, 0, 6.w, 0),
               child: icon ?? const SizedBox(),
             ),
           ),
@@ -47,35 +47,36 @@ class PrimaryText extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          enableRightWidget ?? false
-              ? rightWidget ?? const SizedBox()
-              : GestureDetector(
-                  onTap: onTapViewAll,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'View all',
-                          textScaleFactor: 1,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.sp,
-                            color: darkBlueColor,
+          enableRightWidget ?? true
+              ? rightWidget ??
+                  GestureDetector(
+                    onTap: onTapViewAll,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'View all',
+                            textScaleFactor: 1,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14.sp,
+                              color: darkBlueColor,
+                            ),
                           ),
-                        ),
-                        Icon(
-                          Icons.arrow_back_ios,
-                          size: 10.sp,
-                          color: darkBlueColor,
-                          textDirection: TextDirection.rtl,
-                        ),
-                      ],
+                          Icon(
+                            Icons.arrow_back_ios,
+                            size: 10.sp,
+                            color: darkBlueColor,
+                            textDirection: TextDirection.rtl,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
+                  )
+              : const SizedBox(),
         ],
       ),
     );

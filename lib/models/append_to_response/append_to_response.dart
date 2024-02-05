@@ -1,6 +1,10 @@
-export 'alternative_titles.dart';
-export 'images.dart';
-export 'keywords.dart';
-export 'release.dart';
-export 'videos.dart';
-export 'profile.dart';
+export 'alternative_title/alternative_title.dart';
+export 'credit/credit.dart';
+export 'external_id/external_id.dart';
+export 'image/image.dart';
+export 'keyword/keyword.dart';
+export 'release/release.dart';
+export 'similar/similar.dart';
+export 'translation/translation.dart';
+export 'video/video.dart';
+export 'release_date/release_date.dart';

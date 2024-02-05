@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 
-class PrimaryItem extends StatelessWidget {
+class OctonaryItem extends StatelessWidget {
   final VoidCallback? onTapItem;
   final String? title;
   final List<Color>? colors;
   final List<double>? stops;
-  const PrimaryItem({
+  const OctonaryItem({
     super.key,
     this.onTapItem,
     required this.title,

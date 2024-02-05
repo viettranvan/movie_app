@@ -1,4 +1,4 @@
-class Profile {
+class ImageResult {
   double? aspectRatio;
   int? height;
   String? iso6391;
@@ -7,7 +7,7 @@ class Profile {
   int? voteCount;
   int? width;
 
-  Profile({
+  ImageResult({
     this.aspectRatio,
     this.height,
     this.iso6391,
@@ -17,7 +17,7 @@ class Profile {
     this.width,
   });
 
-  factory Profile.fromJson(Map<String, dynamic> json) => Profile(
+  factory ImageResult.fromJson(Map<String, dynamic> json) => ImageResult(
         aspectRatio: json['aspect_ratio'],
         height: json['height'],
         iso6391: json['iso_639_1'],
