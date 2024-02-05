@@ -45,10 +45,19 @@ class GenreBloc extends Bloc<GenreEvent, GenreState> {
   }
 
   FutureOr<void> _onSwitchType(SwitchType event, Emitter<GenreState> emit) {
-    emit(GenreSuccess(
-      isActive: event.isActive,
-      listGenreMovie: state.listGenreMovie,
-      listGenreTv: state.listGenreTv,
-    ));
+    try {
+      emit(GenreSuccess(
+        isActive: event.isActive,
+        listGenreMovie: state.listGenreMovie,
+        listGenreTv: state.listGenreTv,
+      ));
+    } catch (e) {
+      emit(GenreError(
+        errorMessage: e.toString(),
+        listGenreMovie: state.listGenreMovie,
+        listGenreTv: state.listGenreTv,
+        isActive: state.isActive,
+      ));
+    }
   }
 }

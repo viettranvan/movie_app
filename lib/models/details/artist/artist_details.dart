@@ -15,10 +15,11 @@ class ArtistDetails {
   String? placeOfBirth;
   num? popularity;
   String? profilePath;
-  Images? images;
-  MultipleMedia? movieCredits;
-  MultipleMedia? combinedCredits;
-  MultipleMedia? tvCredits;
+  MediaImages? images;
+  MediaCredits? credits;
+  MediaCredits? movieCredits;
+  MediaCredits? tvCredits;
+  MediaCredits? combinedCredits;
 
   ArtistDetails({
     this.adult,
@@ -36,6 +37,7 @@ class ArtistDetails {
     this.popularity,
     this.profilePath,
     this.images,
+    this.credits,
     this.movieCredits,
     this.combinedCredits,
     this.tvCredits,
@@ -58,12 +60,12 @@ class ArtistDetails {
         placeOfBirth: json['place_of_birth'],
         popularity: json['popularity'],
         profilePath: json['profile_path'],
-        images: json['images'] == null ? null : Images.fromJson(json['images']),
+        images: json['images'] == null ? null : MediaImages.fromJson(json['images']),
+        credits: json['credits'] == null ? null : MediaCredits.fromJson(json['credits']),
         movieCredits:
-            json['movie_credits'] == null ? null : MultipleMedia.fromJson(json['movie_credits']),
-        combinedCredits: json['combined_credits'] == null
-            ? null
-            : MultipleMedia.fromJson(json['combined_credits']),
-        tvCredits: json['tv_credits'] == null ? null : MultipleMedia.fromJson(json['tv_credits']),
+            json['movie_credits'] == null ? null : MediaCredits.fromJson(json['movie_credits']),
+        combinedCredits:
+            json['combined_credits'] == null ? null : MediaCredits.fromJson(json['combined_credits']),
+        tvCredits: json['tv_credits'] == null ? null : MediaCredits.fromJson(json['tv_credits']),
       );
 }

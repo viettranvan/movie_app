@@ -1,4 +1,5 @@
 import 'package:movie_app/api/api.dart';
+import 'package:movie_app/api/src/provider/provider.dart';
 import 'package:movie_app/api/src/src.dart';
 import 'package:movie_app/api/src/state/state_service.dart';
 import 'package:movie_app/api/src/trailer/trailer.dart';
@@ -102,6 +103,26 @@ class ExploreRepository {
       personId: personId,
       language: language,
       appendToResponse: appendToResponse,
+    );
+  }
+
+  Future<ListResponse<MediaProvider>> getMovieProvider({
+    required String language,
+    required String watchRegion,
+  }) async {
+    return ProviderService(apiClient: restApiClient).getMovieProvider(
+      language: language,
+      watchRegion: watchRegion,
+    );
+  }
+
+  Future<ListResponse<MediaProvider>> getTvProvider({
+    required String language,
+    required String watchRegion,
+  }) async {
+    return ProviderService(apiClient: restApiClient).getTvProvider(
+      language: language,
+      watchRegion: watchRegion,
     );
   }
 }

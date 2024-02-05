@@ -83,11 +83,10 @@ class _TrailerViewState extends State<TrailerView> {
                     return SizedBox(height: 22.h);
                   }
                   return CustomSwitch(
-                    firstTitle: 'Theaters',
-                    secondTitle: 'TV',
-                    isActive: state.isActive,
-                    onSwitchMovie: () => switchMovie(context),
-                    onSwitchTV: () => switchTv(context),
+                    title: state.isActive ? 'TV' : 'Theaters',
+                    onTapItem: () => state.isActive ? changeMovie(context) : changeTv(context),
+                    // onSwitchMovie: () => switchMovie(context),
+                    // onSwitchTV: () => switchTv(context),
                   );
                 },
               ),
@@ -225,13 +224,13 @@ class _TrailerViewState extends State<TrailerView> {
     );
   }
 
-  switchMovie(BuildContext context) {
+  changeMovie(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     bloc.add(SwitchType(isActive: false));
     playTrailer(context, bloc.state.indexMovie, bloc.state.indexTv);
   }
 
-  switchTv(BuildContext context) {
+  changeTv(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     bloc.add(SwitchType(isActive: true));
     playTrailer(context, bloc.state.indexMovie, bloc.state.indexTv);
