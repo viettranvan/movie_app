@@ -32,7 +32,7 @@ class PopularView extends StatelessWidget {
               visibleIcon: true,
               onTapViewAll: () {},
               icon: SvgPicture.asset(
-                ImagesPath.popularIcon.assetName,
+                IconsPath.popularIcon.assetName,
               ),
             ),
             SizedBox(height: 15.h),

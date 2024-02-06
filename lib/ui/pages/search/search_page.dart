@@ -39,15 +39,14 @@ class SearchPage extends StatelessWidget {
             leadingWidth: 0,
             centerTitle: false,
             title: const CustomAppBarTitle(
-              titleAppBar: 'Search',
+              titleAppBar: 'Search your favorite movie',
             ),
             actions: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 8, 12, 8),
-                child: Image.asset(
-                  ImagesPath.primaryShortLogo.assetName,
-                  scale: 4,
-                  filterQuality: FilterQuality.high,
+                padding: EdgeInsets.fromLTRB(0, 0, 15.w, 0),
+                child: Icon(
+                  Icons.notifications_sharp,
+                  size: 30.sp,
                 ),
               ),
             ],

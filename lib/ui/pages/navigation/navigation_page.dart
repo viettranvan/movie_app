@@ -49,25 +49,25 @@ class NavigationPage extends StatelessWidget {
               indexPage: state.indexPage,
               items: [
                 CustomNavigationBarItem(
-                  imagePath: ImagesPath.homeIcon.assetName,
+                  imagePath: IconsPath.homeIcon.assetName,
                   onTap: () => state.indexPage != 0
                       ? bloc.add(NavigatePage(indexPage: 0))
                       : bloc.add(ScrollTop()),
                 ),
                 CustomNavigationBarItem(
-                  imagePath: ImagesPath.favoriteIcon.assetName,
+                  imagePath: IconsPath.favoriteIcon.assetName,
                   onTap: () => state.indexPage != 1
                       ? bloc.add(NavigatePage(indexPage: 1))
                       : bloc.add(ScrollTop()),
                 ),
                 CustomNavigationBarItem(
-                  imagePath: ImagesPath.searchIcon.assetName,
+                  imagePath: IconsPath.searchIcon.assetName,
                   onTap: () => state.indexPage != 2
                       ? bloc.add(NavigatePage(indexPage: 2))
                       : bloc.add(ScrollTop()),
                 ),
                 CustomNavigationBarItem(
-                  imagePath: ImagesPath.profileIcon.assetName,
+                  imagePath: IconsPath.profileIcon.assetName,
                   onTap: () => state.indexPage != 3 ? bloc.add(NavigatePage(indexPage: 3)) : null,
                 ),
               ],

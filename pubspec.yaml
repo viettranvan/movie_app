@@ -47,7 +47,7 @@ flutter:
     - lib/shared_ui/assets/icons/trending_icon.svg
     - lib/shared_ui/assets/icons/tv_show_icon.svg
     - lib/shared_ui/assets/icons/best_drama_icon.svg
-    - lib/shared_ui/assets/icons/upcoming_icon.png
+    - lib/shared_ui/assets/icons/upcoming_icon.svg
     - lib/shared_ui/assets/icons/top_rated_icon.svg
     - lib/shared_ui/assets/icons/born_today_icon.svg
     - lib/shared_ui/assets/icons/popular_icon.svg
@@ -58,8 +58,7 @@ flutter:
     - lib/shared_ui/assets/icons/watch_list_icon.svg
     - lib/shared_ui/assets/icons/eye_open_icon.png
     - lib/shared_ui/assets/icons/eye_close_icon.png
-    - lib/shared_ui/assets/images/primary_long_logo.png
-    - lib/shared_ui/assets/images/primary_short_logo.png
+    - lib/shared_ui/assets/images/corgi.jpg
     - lib/shared_ui/assets/images/background.png
     - lib/shared_ui/assets/images/no_image.png
     - lib/shared_ui/assets/images/no_image_man.png

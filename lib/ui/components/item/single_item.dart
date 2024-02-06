@@ -137,7 +137,7 @@ class SingleItem extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SvgPicture.asset(
-                                ImagesPath.tvShowIcon.assetName,
+                                IconsPath.tvShowIcon.assetName,
                                 colorFilter: ColorFilter.mode(
                                   textColor ?? whiteColor,
                                   BlendMode.srcIn,

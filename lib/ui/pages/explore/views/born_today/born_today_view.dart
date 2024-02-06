@@ -29,12 +29,13 @@ class BornToday extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 30.h),
               PrimaryText(
                 title: 'Born in this ${DateFormat('MMMM').format(DateTime.now())}',
                 visibleIcon: true,
                 onTapViewAll: () {},
                 icon: SvgPicture.asset(
-                  ImagesPath.bornTodayIcon.assetName,
+                  IconsPath.bornTodayIcon.assetName,
                   fit: BoxFit.cover,
                 ),
                 enableRightWidget:
@@ -75,9 +76,7 @@ class BornToday extends StatelessWidget {
                       itemBuilder: itemBuilder,
                       separatorBuilder: separatorBuilder,
                       itemCount: state.listArtist.isNotEmpty
-                          ? state.listArtist.length < 20
-                              ? state.listArtist.length
-                              : state.listArtist.length + 1
+                          ? state.listArtist.length
                           : 0,
                     ),
                   );

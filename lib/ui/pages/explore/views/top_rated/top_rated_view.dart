@@ -33,10 +33,9 @@ class TopRatedView extends StatelessWidget {
             visibleIcon: true,
             onTapViewAll: () {},
             icon: SvgPicture.asset(
-              ImagesPath.topRatedIcon.assetName,
+              IconsPath.topRatedIcon.assetName,
             ),
           ),
-          SizedBox(height: 15.h),
           BlocConsumer<TopRatedBloc, TopRatedState>(
             listener: (context, state) {
               final exploreBloc = BlocProvider.of<ExploreBloc>(context);
@@ -75,12 +74,12 @@ class TopRatedView extends StatelessWidget {
                 );
               }
               return SizedBox(
-                height: 400.h,
+                height: 405.h,
                 child: ListView.separated(
                   physics: const BouncingScrollPhysics(),
                   addAutomaticKeepAlives: false,
                   addRepaintBoundaries: false,
-                  padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
+                  padding: EdgeInsets.fromLTRB(17.w, 20.h, 17.w, 0),
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemBuilder: itemBuilder,

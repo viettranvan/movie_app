@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/shared_ui/paths/images_path.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/shared_ui/transitions/transitions.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
@@ -31,7 +32,7 @@ class NowPlayingView extends StatelessWidget {
                 visibleIcon: true,
                 onTapViewAll: () {},
                 icon: SvgPicture.asset(
-                  ImagesPath.nowPlayingIcon.assetName,
+                  IconsPath.nowPlayingIcon.assetName,
                 ),
               ),
               SizedBox(height: 15.h),

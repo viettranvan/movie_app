@@ -82,11 +82,9 @@ class _TrailerViewState extends State<TrailerView> {
                   if (state is TrailerError) {
                     return SizedBox(height: 22.h);
                   }
-                  return CustomSwitch(
+                  return CustomSwitchButton(
                     title: state.isActive ? 'TV' : 'Theaters',
                     onTapItem: () => state.isActive ? changeMovie(context) : changeTv(context),
-                    // onSwitchMovie: () => switchMovie(context),
-                    // onSwitchTV: () => switchTv(context),
                   );
                 },
               ),
@@ -113,8 +111,8 @@ class _TrailerViewState extends State<TrailerView> {
                   crossFadeState:
                       state.isActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                   firstChild: Container(
-                    height: 240.h,
-                    padding: EdgeInsets.fromLTRB(0, 15.h, 0, 0),
+                    height: 245.h,
+                    padding: EdgeInsets.fromLTRB(0, 20.h, 0, 0),
                     child: PageView.builder(
                       physics: const BouncingScrollPhysics(),
                       allowImplicitScrolling: true,
@@ -130,8 +128,8 @@ class _TrailerViewState extends State<TrailerView> {
                     ),
                   ),
                   secondChild: Container(
-                    height: 240.h,
-                    padding: EdgeInsets.fromLTRB(0, 15.h, 0, 0),
+                    height: 245.h,
+                    padding: EdgeInsets.fromLTRB(0, 20.h, 0, 0),
                     child: PageView.builder(
                         physics: const BouncingScrollPhysics(),
                         allowImplicitScrolling: true,

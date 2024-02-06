@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/explore/bloc/explore_bloc.dart';
 import 'package:movie_app/ui/pages/explore/views/born_today/index.dart';
@@ -29,15 +28,14 @@ class ExplorePage extends StatelessWidget {
                   leadingWidth: 0,
                   centerTitle: false,
                   title: const CustomAppBarTitle(
-                    titleAppBar: 'Explore',
+                    titleAppBar: 'Explore features',
                   ),
                   actions: [
                     Padding(
-                      padding: EdgeInsets.fromLTRB(0, 8.h, 12.w, 8.h),
-                      child: Image.asset(
-                        ImagesPath.primaryShortLogo.assetName,
-                        scale: 4,
-                        filterQuality: FilterQuality.high,
+                      padding: EdgeInsets.fromLTRB(0, 0, 15.w, 0),
+                      child: Icon(
+                        Icons.notifications_sharp,
+                        size: 30.sp,
                       ),
                     ),
                   ],
@@ -68,7 +66,6 @@ class ExplorePage extends StatelessWidget {
                             const TrailerView(),
                             SizedBox(height: 30.h),
                             const TopRatedView(),
-                            SizedBox(height: 30.h),
                             const BornToday(),
                             SizedBox(height: 30.h),
                             const MovieProviderView(),

@@ -13,6 +13,7 @@ class CustomAppBarTitle extends StatelessWidget {
     return Text(
       titleAppBar,
       textScaleFactor: 1,
+      maxLines: 2,
       style: TextStyle(
         fontSize: 22.sp,
         fontWeight: FontWeight.w400,

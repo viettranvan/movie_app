@@ -28,22 +28,21 @@ class BestDramaView extends StatelessWidget {
             visibleIcon: true,
             onTapViewAll: () {},
             icon: SvgPicture.asset(
-              ImagesPath.bestDramaIcon.assetName,
+              IconsPath.bestDramaIcon.assetName,
             ),
           ),
-          SizedBox(height: 15.h),
           BlocBuilder<BestDramaBloc, BestDramaState>(
             builder: (context, state) {
               final bloc = BlocProvider.of<BestDramaBloc>(context);
               if (state is BestDramaInitial) {
                 return SizedBox(
-                  height: 200.h,
+                  height: 228.h,
                   child: const CustomIndicator(),
                 );
               }
               if (state is BestDramaError) {
                 return SizedBox(
-                  height: 213.h,
+                  height: 228.h,
                   child: Center(
                     child: Text(state.runtimeType.toString()),
                   ),
@@ -55,13 +54,13 @@ class BestDramaView extends StatelessWidget {
                     child: PrimaryBackground(),
                   ),
                   SizedBox(
-                    height: 213.h,
+                    height: 228.h,
                     child: ListView.separated(
                       controller: bloc.scrollController,
                       addAutomaticKeepAlives: false,
                       addRepaintBoundaries: false,
                       physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
+                      padding: EdgeInsets.fromLTRB(17.w, 20.h, 17.w, 5.h),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: itemBuilder,
