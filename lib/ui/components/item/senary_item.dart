@@ -145,7 +145,7 @@ class SenaryItem extends StatelessWidget {
                 child: Stack(
                   children: [
                     SvgPicture.asset(
-                      ImagesPath.watchListIcon.assetName,
+                      IconsPath.watchListIcon.assetName,
                       height: 60.h,
                       fit: BoxFit.fill,
                       colorFilter: ColorFilter.mode(

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 
-class CustomSwitch extends StatelessWidget {
+class CustomSwitchButton extends StatelessWidget {
   final String? title;
   final VoidCallback? onTapItem;
-  const CustomSwitch({
+  const CustomSwitchButton({
     super.key,
     this.onTapItem,
     this.title,
@@ -30,7 +30,7 @@ class CustomSwitch extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: whiteColor,
-            fontSize: 14.sp,
+            fontSize: 13.sp,
           ),
         ),
       ),

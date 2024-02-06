@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
+import 'package:movie_app/ui/components/components.dart';
 
 class OctonaryItem extends StatelessWidget {
   final VoidCallback? onTapItem;
@@ -20,21 +22,33 @@ class OctonaryItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTapItem,
       child: Container(
+        width: 150.w,
         alignment: Alignment.center,
-        padding: const EdgeInsets.all(8).w,
+        clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.r),
-          gradient: LinearGradient(
-            colors: colors ?? [lightGreyColor],
-            stops: stops ?? [0],
-          ),
+          color: whiteColor,
+          boxShadow: [
+            BoxShadow(
+              color: lightGreyColor,
+              blurRadius: 5,
+            ),
+          ],
         ),
-        child: Text(
-          title ?? '',
-          textScaleFactor: 1,
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: whiteColor,
+        child: CachedNetworkImage(
+          imageUrl: 'https://image.tmdb.org/t/p/w780/dQeAar5H991VYporEjUspolDarG.jpg',
+          // imageUrl: imageUrl,
+          width: double.infinity,
+          height: double.infinity,
+          filterQuality: FilterQuality.high,
+          fit: BoxFit.fill,
+          progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
+          errorWidget: (context, url, error) => Image.asset(
+            ImagesPath.noImage.assetName,
+            width: double.infinity,
+            height: double.infinity,
+            filterQuality: FilterQuality.high,
+            fit: BoxFit.fill,
           ),
         ),
       ),

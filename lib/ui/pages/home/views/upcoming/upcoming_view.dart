@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
@@ -27,11 +28,10 @@ class UpcomingView extends StatelessWidget {
             title: 'Comming soon to theaters',
             visibleIcon: true,
             onTapViewAll: () {},
-            icon: Image.asset(
-              ImagesPath.upcomingIcon.assetName,
-              filterQuality: FilterQuality.high,
-              color: greyColor,
-              scale: 2,
+            icon: SvgPicture.asset(
+              IconsPath.upcomingIcon.assetName,
+              width: 18.w,
+              height: 18.h,
             ),
           ),
           SizedBox(height: 15.h),

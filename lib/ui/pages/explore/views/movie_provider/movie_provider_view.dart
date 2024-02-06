@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
@@ -23,7 +24,7 @@ class MovieProviderView extends StatelessWidget {
                 onTapViewAll: () {},
                 visibleIcon: true,
                 icon: SvgPicture.asset(
-                  ImagesPath.bornTodayIcon.assetName,
+                  IconsPath.bornTodayIcon.assetName,
                   fit: BoxFit.cover,
                 ),
                 enableRightWidget: true,
@@ -32,7 +33,7 @@ class MovieProviderView extends StatelessWidget {
                     // if (state is GenreError) {
                     //   return SizedBox(height: 22.h);
                     // }
-                    return CustomSwitch(
+                    return CustomSwitchButton(
                       title: 'Tv Shows',
                       onTapItem: () {},
                     );
@@ -41,7 +42,6 @@ class MovieProviderView extends StatelessWidget {
               );
             },
           ),
-          SizedBox(height: 15.h),
           BlocBuilder<MovieProviderBloc, MovieProviderState>(
             builder: (context, state) {
               // final bloc = BlocProvider.of<MovieProviderBloc>(context);
@@ -66,35 +66,39 @@ class MovieProviderView extends StatelessWidget {
                     // CrossFadeState.showSecond :
                     CrossFadeState.showFirst,
                 firstChild: SizedBox(
-                  height: 30.h,
-                  child: ListView.separated(
+                  height: 210.h,
+                  child: MasonryGridView.count(
                     // controller: bloc.movieController,
                     addAutomaticKeepAlives: false,
                     addRepaintBoundaries: false,
                     physics: const BouncingScrollPhysics(),
-                    padding: EdgeInsets.fromLTRB(17.w, 0, 17.w, 0),
+                    padding: EdgeInsets.fromLTRB(17.w, 20.h, 17.w, 5.h),
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
                     itemBuilder: itemBuilderMovie,
-                    separatorBuilder: separatorBuilder,
                     itemCount: 20,
                     // itemCount: state.listGenreMovie.isNotEmpty ? state.listGenreMovie.length : 21,
                   ),
                 ),
                 secondChild: SizedBox(
-                  height: 30.h,
-                  child: ListView.separated(
+                  height: 210.h,
+                  child: MasonryGridView.count(
                     // controller: bloc.tvController,
                     addAutomaticKeepAlives: false,
                     addRepaintBoundaries: false,
                     physics: const BouncingScrollPhysics(),
-                    padding: EdgeInsets.fromLTRB(17.w, 0.h, 17.w, 0.h),
+                    padding: EdgeInsets.fromLTRB(17.w, 20.h, 17.w, 5.h),
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
                     itemBuilder: itemBuilderTv,
-                    separatorBuilder: separatorBuilder,
                     itemCount: 20,
-                    // itemCount: state.listGenreTv.isNotEmpty ? state.listGenreTv.length : 20,
+                    // itemCount: state.listGenreMovie.isNotEmpty ? state.listGenreMovie.length : 21,
                   ),
                 ),
               );

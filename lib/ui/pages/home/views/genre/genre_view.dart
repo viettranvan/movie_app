@@ -26,7 +26,7 @@ class Genreview extends StatelessWidget {
                     if (state is GenreError) {
                       return SizedBox(height: 22.h);
                     }
-                    return CustomSwitch(
+                    return CustomSwitchButton(
                       title: state.isActive ? 'Tv Shows' : 'Movies',
                       onTapItem: () => state.isActive ? changeMovie(context) : changeTv(context),
                     );

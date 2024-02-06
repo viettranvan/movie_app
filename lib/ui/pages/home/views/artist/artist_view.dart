@@ -27,36 +27,35 @@ class ArtistView extends StatelessWidget {
             visibleIcon: true,
             onTapViewAll: () {},
             icon: SvgPicture.asset(
-              ImagesPath.artistIcon.assetName,
+              IconsPath.artistIcon.assetName,
               width: 24,
             ),
           ),
-          SizedBox(height: 15.h),
           BlocBuilder<ArtistBloc, ArtistState>(
             builder: (context, state) {
               final bloc = BlocProvider.of<ArtistBloc>(context);
               if (state is ArtistInitial) {
                 return SizedBox(
-                  height: 170.h,
+                  height: 185.h,
                   child: const CustomIndicator(),
                 );
               }
               if (state is ArtistError) {
                 return SizedBox(
-                  height: 170.h,
+                  height: 185.h,
                   child: Center(
                     child: Text(state.runtimeType.toString()),
                   ),
                 );
               }
               return SizedBox(
-                height: 170.h,
+                height: 185.h,
                 child: ListView.separated(
                   controller: bloc.scrollController,
                   addAutomaticKeepAlives: false,
                   addRepaintBoundaries: false,
                   physics: const BouncingScrollPhysics(),
-                  padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
+                  padding: EdgeInsets.fromLTRB(17.w, 20.h, 17.w, 5.h),
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemBuilder: itemBuilder,

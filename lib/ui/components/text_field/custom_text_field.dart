@@ -57,7 +57,7 @@ class CustomTextField extends StatelessWidget {
                       : IconButton(
                           onPressed: null,
                           icon: SvgPicture.asset(
-                            ImagesPath.searchIcon.assetName,
+                            IconsPath.searchIcon.assetName,
                             fit: BoxFit.scaleDown,
                             width: 20.w,
                             height: 20.h,
@@ -92,7 +92,7 @@ class CustomTextField extends StatelessWidget {
                   ],
                 ),
                 child: SvgPicture.asset(
-                  ImagesPath.filterIcon.assetName,
+                  IconsPath.filterIcon.assetName,
                   colorFilter: ColorFilter.mode(
                     darkBlueColor,
                     BlendMode.srcIn,

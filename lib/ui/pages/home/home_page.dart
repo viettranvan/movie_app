@@ -27,18 +27,17 @@ class HomePage extends StatelessWidget {
         child: Scaffold(
           backgroundColor: whiteColor,
           appBar: CustomAppBar(
-            centerTitle: true,
+            centerTitle: false,
             leading: Padding(
               padding: EdgeInsets.fromLTRB(15.w, 0, 0, 0),
               child: CircleAvatar(
                 backgroundImage: Image.asset(
-                  ImagesPath.primaryShortLogo.assetName,
+                  ImagesPath.corgi.assetName,
                 ).image,
               ),
             ),
-            title: Image.asset(
-              ImagesPath.primaryLongLogo.assetName,
-              filterQuality: FilterQuality.high,
+            title: const CustomAppBarTitle(
+              titleAppBar: 'Hello Thinh',
             ),
             actions: [
               Padding(
@@ -49,17 +48,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ],
-            onTapLeading: () {
-              // navigateProfilePage(context);
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text(
-                  'Hello',
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              ));
-            },
+            onTapLeading: () {},
           ),
           body: BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) {
