@@ -3,12 +3,12 @@ part of 'genre_bloc.dart';
 abstract class GenreState {
   final List<Genre> listGenreMovie;
   final List<Genre> listGenreTv;
-  final bool isActive;
+  final bool status;
 
   GenreState({
     required this.listGenreMovie,
     required this.listGenreTv,
-    required this.isActive,
+    required this.status,
   });
 }
 
@@ -16,7 +16,7 @@ class GenreInitial extends GenreState {
   GenreInitial({
     required super.listGenreMovie,
     required super.listGenreTv,
-    required super.isActive,
+    required super.status,
   });
 }
 
@@ -24,7 +24,7 @@ class GenreSuccess extends GenreState {
   GenreSuccess({
     required super.listGenreMovie,
     required super.listGenreTv,
-    required super.isActive,
+    required super.status,
   });
 }
 
@@ -34,6 +34,6 @@ class GenreError extends GenreState {
     required this.errorMessage,
     required super.listGenreMovie,
     required super.listGenreTv,
-    required super.isActive,
+    required super.status,
   });
 }

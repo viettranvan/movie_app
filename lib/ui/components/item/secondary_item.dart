@@ -24,7 +24,7 @@ class SecondaryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: index == itemCount ? onTapViewAll : onTapItem,
+      onTap: index >= itemCount ? onTapViewAll : onTapItem,
       child: RepaintBoundary(
         child: Column(
           children: [
@@ -42,10 +42,11 @@ class SecondaryItem extends StatelessWidget {
                   ),
                 ],
               ),
-              child: index == itemCount
+              child: index >= itemCount
                   ? ItemViewAll(
                       width: 35.w,
                       height: 35.h,
+                      sizeIcon: 45.sp,
                     )
                   : CachedNetworkImage(
                       imageUrl: imageUrl,

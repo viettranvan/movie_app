@@ -5,10 +5,14 @@ import 'package:movie_app/shared_ui/colors/color.dart';
 class ItemViewAll extends StatelessWidget {
   final double? width;
   final double? height;
+  final double? sizeIcon;
+  final String? title;
   const ItemViewAll({
     super.key,
     this.width,
     this.height,
+    this.sizeIcon,
+    this.title,
   });
 
   @override
@@ -17,29 +21,18 @@ class ItemViewAll extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          width: width,
-          height: height,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: darkBlueColor,
-            shape: BoxShape.circle,
-          ),
-          child: SizedBox(
-            width: 13.w,
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: whiteColor,
-              textDirection: TextDirection.rtl,
-            ),
-          ),
+        Icon(
+          size: sizeIcon ?? 55.sp,
+          Icons.arrow_circle_right_sharp,
+          color: darkBlueColor,
         ),
         SizedBox(height: 5.h),
         Text(
-          'View all',
+          title ?? 'View all',
           textScaleFactor: 1,
           textAlign: TextAlign.center,
           softWrap: true,
+          maxLines: 2,
           style: TextStyle(
             color: darkBlueColor,
             fontSize: 14.sp,

@@ -24,30 +24,26 @@ class BornTodayBloc extends Bloc<BornTodayEvent, BornTodayState> {
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<BornTodayState> emit) async {
     try {
-      List<int> pages = List.generate(1, (index) => index + 1);
-      final results = await Future.wait(pages.map<Future<List<MediaArtist>>>(
-        (e) async {
-          final result = await homeRepository.getPopularArtist(
-            page: e,
-            language: event.language,
-          );
-          return result.list;
-        },
-      ).toList());
-      final artistResult = results.expand((e) => e).toList();
-      final listArtist = await Future.wait(artistResult.map<Future<ArtistDetails>>(
-        (e) async {
-          final artistDetailsResult = await exploreRepository.getDetailsArtist(
-            personId: e.id ?? 0,
-            language: event.language,
-            appendToResponse: event.appendToResponse,
-          );
-          return artistDetailsResult.object;
-        },
-      ).toList())
-        ..removeWhere((e) => e.birthday == null)
-        ..removeWhere(
-            (e) => DateTime.parse(e.birthday ?? '').month != DateTime.now().month);
+      List<ArtistDetails> listArtist = [...state.listArtist];
+      do {
+        final result = await homeRepository.getPopularArtist(
+          page: event.page++,
+          language: event.language,
+        );
+        final listArtistDetails = await Future.wait(result.list.map<Future<ArtistDetails>>(
+          (e) async {
+            final listArtistResult = await exploreRepository.getDetailsArtist(
+              personId: e.id ?? 0,
+              language: event.language,
+              appendToResponse: event.appendToResponse,
+            );
+            return listArtistResult.object;
+          },
+        ).toList())
+          ..removeWhere((e) => e.birthday == null)
+          ..removeWhere((e) => DateTime.parse(e.birthday ?? '').month != DateTime.now().month);
+        listArtist.addAll(listArtistDetails);
+      } while (listArtist.length <= 2);
       emit(BornTodaySuccess(
         listArtist: listArtist,
       ));

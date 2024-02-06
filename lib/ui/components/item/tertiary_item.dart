@@ -24,7 +24,7 @@ class TertiaryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: index == itemCount ? onTapViewAll : onTapItem,
+      onTap: index >= itemCount ? onTapViewAll : onTapItem,
       child: RepaintBoundary(
         child: Container(
           width: 120.w,

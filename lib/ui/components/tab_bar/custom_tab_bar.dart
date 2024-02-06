@@ -21,21 +21,28 @@ class CustomTabBar extends StatelessWidget {
       builder: (context, constraints) {
         double paddingRight = const EdgeInsets.all(15).right;
         double paddingLeft = const EdgeInsets.all(15).left;
-        double width = (constraints.maxWidth - (paddingRight.w + paddingLeft.w)) / 2;
+        double marginLeft = const EdgeInsets.all(5).left;
+        double marginRight = const EdgeInsets.all(5).right;
+        double width = (constraints.maxWidth -
+                (paddingRight.w + paddingLeft.w + marginLeft.w + marginRight.w)) /
+            2;
         return Padding(
           padding: EdgeInsets.fromLTRB(paddingLeft.w, 15.h, paddingRight.w, 15.h),
           child: Stack(
+            alignment: Alignment.center,
             children: [
-              Positioned.fill(
+              Positioned(
                 child: AnimatedAlign(
                   duration: const Duration(milliseconds: 250),
                   alignment: index == 0 ? Alignment.centerLeft : Alignment.centerRight,
                   curve: Curves.decelerate,
                   child: Container(
+                    margin: EdgeInsets.fromLTRB(marginLeft, 5.h, marginRight, 5.h),
                     width: width,
+                    height: 40.h,
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(50.r),
+                      borderRadius: BorderRadius.circular(11.r),
                       color: darkBlueColor,
                     ),
                   ),
@@ -43,9 +50,9 @@ class CustomTabBar extends StatelessWidget {
               ),
               Container(
                 width: widthTabBar,
-                height: 40.h,
+                height: 50.h,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(22.r),
+                  borderRadius: BorderRadius.circular(15.r),
                   border: Border.all(
                     color: darkBlueColor,
                     width: 2.w,

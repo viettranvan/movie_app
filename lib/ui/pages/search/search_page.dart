@@ -135,8 +135,8 @@ class SearchPage extends StatelessWidget {
                                           addRepaintBoundaries: false,
                                           padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 0),
                                           crossAxisCount: 2,
-                                          crossAxisSpacing: 16,
-                                          mainAxisSpacing: 16,
+                                          crossAxisSpacing: 16.h,
+                                          mainAxisSpacing: 16.w,
                                           shrinkWrap: true,
                                           itemBuilder: itemBuilder,
                                           itemCount: state.listSearch.isNotEmpty

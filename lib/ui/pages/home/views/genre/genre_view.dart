@@ -27,8 +27,8 @@ class Genreview extends StatelessWidget {
                       return SizedBox(height: 22.h);
                     }
                     return CustomSwitchButton(
-                      title: state.isActive ? 'Tv Shows' : 'Movies',
-                      onTapItem: () => state.isActive ? changeMovie(context) : changeTv(context),
+                      title: state.status ? 'Tv Shows' : 'Movies',
+                      onTapItem: () => state.status ? changeMovie(context) : changeTv(context),
                     );
                   },
                 ),
@@ -55,8 +55,7 @@ class Genreview extends StatelessWidget {
               }
               return AnimatedCrossFade(
                 duration: const Duration(milliseconds: 400),
-                crossFadeState:
-                    state.isActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                crossFadeState: state.status ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                 firstChild: SizedBox(
                   height: 30.h,
                   child: ListView.separated(
@@ -117,11 +116,11 @@ class Genreview extends StatelessWidget {
 
   changeMovie(BuildContext context) {
     final bloc = BlocProvider.of<GenreBloc>(context);
-    bloc.add(SwitchType(isActive: false));
+    bloc.add(ChangeList(status: false));
   }
 
   changeTv(BuildContext context) {
     final bloc = BlocProvider.of<GenreBloc>(context);
-    bloc.add(SwitchType(isActive: true));
+    bloc.add(ChangeList(status: true));
   }
 }
