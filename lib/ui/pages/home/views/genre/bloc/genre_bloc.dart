@@ -19,10 +19,10 @@ class GenreBloc extends Bloc<GenreEvent, GenreState> {
       : super(GenreInitial(
           listGenreMovie: [],
           listGenreTv: [],
-          isActive: false,
+          status: false,
         )) {
     on<FetchData>(_onFetchData);
-    on<SwitchType>(_onSwitchType);
+    on<ChangeList>(_onChangeList);
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<GenreState> emit) async {
@@ -32,22 +32,22 @@ class GenreBloc extends Bloc<GenreEvent, GenreState> {
       emit(GenreSuccess(
         listGenreMovie: movieResult.object.genres,
         listGenreTv: tvResult.object.genres,
-        isActive: state.isActive,
+        status: state.status,
       ));
     } catch (e) {
       emit(GenreError(
         errorMessage: e.toString(),
         listGenreMovie: state.listGenreMovie,
         listGenreTv: state.listGenreTv,
-        isActive: state.isActive,
+        status: state.status,
       ));
     }
   }
 
-  FutureOr<void> _onSwitchType(SwitchType event, Emitter<GenreState> emit) {
+  FutureOr<void> _onChangeList(ChangeList event, Emitter<GenreState> emit) {
     try {
       emit(GenreSuccess(
-        isActive: event.isActive,
+        status: event.status,
         listGenreMovie: state.listGenreMovie,
         listGenreTv: state.listGenreTv,
       ));
@@ -56,7 +56,7 @@ class GenreBloc extends Bloc<GenreEvent, GenreState> {
         errorMessage: e.toString(),
         listGenreMovie: state.listGenreMovie,
         listGenreTv: state.listGenreTv,
-        isActive: state.isActive,
+        status: state.status,
       ));
     }
   }

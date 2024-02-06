@@ -29,34 +29,29 @@ class BornToday extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 30.h),
               PrimaryText(
                 title: 'Born in this ${DateFormat('MMMM').format(DateTime.now())}',
                 visibleIcon: true,
                 onTapViewAll: () {},
                 icon: SvgPicture.asset(
                   IconsPath.bornTodayIcon.assetName,
-                  fit: BoxFit.cover,
                 ),
-                enableRightWidget:
-                    state.listArtist.isNotEmpty && state.listArtist.length < 20 ? true : false,
-                rightWidget: const SizedBox(),
+                enableRightWidget: state.listArtist.length > 10,
               ),
-              SizedBox(height: 15.h),
               BlocBuilder<BornTodayBloc, BornTodayState>(
                 builder: (context, state) {
                   final bloc = BlocProvider.of<BornTodayBloc>(context);
                   if (state is BornTodayInitial) {
                     return Center(
                       child: SizedBox(
-                        height: 250.h,
+                        height: 265.h,
                         child: const CustomIndicator(),
                       ),
                     );
                   }
                   if (state is BornTodayError) {
                     return SizedBox(
-                      height: 250.h,
+                      height: 265.h,
                       child: Center(
                         child: Text(state.runtimeType.toString()),
                       ),
@@ -64,20 +59,18 @@ class BornToday extends StatelessWidget {
                   }
 
                   return SizedBox(
-                    height: 250.h,
+                    height: 265.h,
                     child: ListView.separated(
                       controller: bloc.scrollController,
                       addAutomaticKeepAlives: false,
                       addRepaintBoundaries: false,
                       physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
+                      padding: EdgeInsets.fromLTRB(17.w, 20.h, 17.w, 5.h),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: itemBuilder,
                       separatorBuilder: separatorBuilder,
-                      itemCount: state.listArtist.isNotEmpty
-                          ? state.listArtist.length
-                          : 0,
+                      itemCount: 2,
                     ),
                   );
                 },

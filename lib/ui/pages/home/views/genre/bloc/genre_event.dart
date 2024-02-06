@@ -9,10 +9,10 @@ class FetchData extends GenreEvent {
   });
 }
 
-class SwitchType extends GenreEvent {
-  final bool isActive;
-  SwitchType({
-    required this.isActive,
+class ChangeList extends GenreEvent {
+  final bool status;
+  ChangeList({
+    required this.status,
   });
 }
 
