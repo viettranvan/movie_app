@@ -89,4 +89,20 @@ class MovieService {
         response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
+
+  Future<ListResponse<MultipleMedia>> getDiscoverMovie({
+    required String language,
+    required int page,
+    List<int> withGenres = const [],
+  }) async {
+    final request = MovieRequest.getDiscoverMovie(
+      language: language,
+      page: page,
+      withGenres: withGenres,
+    );
+    final response = await apiClient.execute(request: request);
+    final listResponse =
+        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
+    return ListResponse(list: listResponse);
+  }
 }

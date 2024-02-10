@@ -65,13 +65,12 @@ class NowPlayingView extends StatelessWidget {
                     season: item.lastEpisodeToAir?.seasonNumber,
                     episode: item.lastEpisodeToAir?.episodeNumber,
                     overview: item.overview != '' ? item.overview : 'Comming soon',
-                    textColor: state.averageLuminance > 0.5 || item.posterPath == null
-                        ? blackColor
-                        : whiteColor,
+                    averageLuminance: state.averageLuminance,
+                    posterPath: item.posterPath,
                     imageUrl: '${AppConstants.kImagePathPoster}${item.posterPath}',
                     colors: state.paletteColors,
                     stops: state.paletteColors.asMap().keys.toList().map((e) => e * 0.13).toList(),
-                    onTap: () => Navigator.of(context).push(
+                    onTapItem: () => Navigator.of(context).push(
                       CustomPageRoute(
                         page: const DetailsPage(),
                         begin: const Offset(1, 0),

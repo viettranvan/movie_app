@@ -12,6 +12,23 @@ class ExploreRepository {
   ExploreRepository({
     required this.restApiClient,
   });
+
+  Future<ObjectResponse<MediaGenre>> getGenreMovie({
+    required String language,
+  }) async {
+    return GenreService(apiClient: restApiClient).getGenreMovie(
+      language: language,
+    );
+  }
+
+  Future<ObjectResponse<MediaGenre>> getGenreTv({
+    required String language,
+  }) async {
+    return GenreService(apiClient: restApiClient).getGenreTv(
+      language: language,
+    );
+  }
+
   Future<ListResponse<MultipleMedia>> getTopRatedMovie({
     required String language,
     required int page,
@@ -33,6 +50,18 @@ class ExploreRepository {
       language: language,
       page: page,
       region: region,
+    );
+  }
+
+  Future<ListResponse<MultipleMedia>> getPopularTv({
+    required String language,
+    required int page,
+    List<int> withGenres = const [],
+  }) async {
+    return TvService(apiClient: restApiClient).getPopularTv(
+      language: language,
+      page: page,
+      withGenres: withGenres,
     );
   }
 

@@ -76,7 +76,8 @@ class ArtistView extends StatelessWidget {
     final item = index < list.length ? list[index] : null;
     return SecondaryItem(
       title: item?.name,
-      imageUrl: '${AppConstants.kImagePathPoster}${item?.profilePath}',
+      imageUrl:
+          item?.profilePath == null ? '' : '${AppConstants.kImagePathPoster}${item?.profilePath}',
       index: index,
       itemCount: list.length,
       onTapItem: () => Navigator.of(context).push(

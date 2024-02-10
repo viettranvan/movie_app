@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,18 +33,19 @@ class TrendingView extends StatelessWidget {
               IconsPath.trendingIcon.assetName,
             ),
           ),
+          SizedBox(height: 15.h),
           BlocBuilder<TrendingBloc, TrendingState>(
             builder: (context, state) {
               final bloc = BlocProvider.of<TrendingBloc>(context);
               if (state is TrendingInitial) {
                 return SizedBox(
-                  height: 228.h,
+                  height: 275.h,
                   child: const CustomIndicator(),
                 );
               }
               if (state is TrendingError) {
                 return SizedBox(
-                  height: 228.h,
+                  height: 275.h,
                   child: Center(
                     child: Text(state.runtimeType.toString()),
                   ),
@@ -56,13 +57,13 @@ class TrendingView extends StatelessWidget {
                     child: PrimaryBackground(),
                   ),
                   SizedBox(
-                    height: 228.h,
+                    height: 275.h,
                     child: ListView.separated(
                       controller: bloc.scrollController,
                       addAutomaticKeepAlives: false,
                       addRepaintBoundaries: false,
                       physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.fromLTRB(17.w, 20.h, 17.w, 5.h),
+                      padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: itemBuilder,
@@ -84,10 +85,13 @@ class TrendingView extends StatelessWidget {
     final list = state.listTrending;
     final item = index < list.length ? list[index] : null;
     return TertiaryItem(
-      title: item?.title ?? item?.name,
+      enableInfo: true,
       index: index,
       itemCount: list.length,
-      imageUrl: '${AppConstants.kImagePathPoster}${item?.posterPath}',
+      title: item?.title ?? item?.name,
+      voteAverage: double.parse((item?.voteAverage ?? 0).toStringAsFixed(1)),
+      imageUrl:
+          item?.posterPath == null ? '' : '${AppConstants.kImagePathPoster}${item?.posterPath}',
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(
@@ -95,6 +99,15 @@ class TrendingView extends StatelessWidget {
           begin: const Offset(1, 0),
         ),
       ),
+      onTapBanner: () {
+        print('Hello');
+      },
+      onTapFavor: () {
+        print('Hello');
+      },
+      onTapInfo: () {
+        print('Hello');
+      },
     );
   }
 

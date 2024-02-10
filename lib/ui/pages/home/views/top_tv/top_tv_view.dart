@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,18 +30,19 @@ class TopTvView extends StatelessWidget {
               IconsPath.tvShowIcon.assetName,
             ),
           ),
+          SizedBox(height: 15.h),
           BlocBuilder<TopTvBloc, TopTvState>(
             builder: (context, state) {
               final bloc = BlocProvider.of<TopTvBloc>(context);
               if (state is TopTvInitial) {
                 return SizedBox(
-                  height: 228.h,
+                  height: 275.h,
                   child: const CustomIndicator(),
                 );
               }
               if (state is TopTvError) {
                 return SizedBox(
-                  height: 228.h,
+                  height: 275.h,
                   child: Center(
                     child: Text(state.runtimeType.toString()),
                   ),
@@ -53,13 +54,13 @@ class TopTvView extends StatelessWidget {
                     child: PrimaryBackground(),
                   ),
                   SizedBox(
-                    height: 228.h,
+                    height: 275.h,
                     child: ListView.separated(
                       controller: bloc.scrollController,
                       addAutomaticKeepAlives: false,
                       addRepaintBoundaries: false,
                       physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.fromLTRB(17.w, 20.h, 17.w, 5.h),
+                      padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: itemBuilder,
@@ -81,10 +82,12 @@ class TopTvView extends StatelessWidget {
     final list = state.listTopTv;
     final item = index < list.length ? list[index] : null;
     return TertiaryItem(
-      title: item?.name,
       index: index,
       itemCount: list.length,
-      imageUrl: '${AppConstants.kImagePathPoster}${item?.posterPath}',
+      title: item?.name,
+      voteAverage: double.parse((item?.voteAverage ?? 0).toStringAsFixed(1)),
+      imageUrl:
+          item?.posterPath == null ? '' : '${AppConstants.kImagePathPoster}${item?.posterPath}',
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(
@@ -92,6 +95,12 @@ class TopTvView extends StatelessWidget {
           begin: const Offset(1, 0),
         ),
       ),
+      onTapBanner: () {
+        print('Hello');
+      },
+      onTapFavor: () {
+        print('Hello');
+      },
     );
   }
 

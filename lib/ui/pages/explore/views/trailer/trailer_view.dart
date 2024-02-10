@@ -7,6 +7,7 @@ import 'package:movie_app/ui/pages/details/index.dart';
 import 'package:movie_app/ui/pages/explore/bloc/explore_bloc.dart';
 import 'package:movie_app/ui/pages/explore/views/trailer/bloc/trailer_bloc.dart';
 import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
+import 'package:movie_app/utils/app_utils/app_utils.dart';
 import 'package:movie_app/utils/constants/constants.dart';
 import 'package:movie_app/utils/debouncer/debouncer.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -89,6 +90,7 @@ class _TrailerViewState extends State<TrailerView> {
                 },
               ),
             ),
+            SizedBox(height: 15.h),
             BlocBuilder<TrailerBloc, TrailerState>(
               builder: (context, state) {
                 final bloc = BlocProvider.of<TrailerBloc>(context);
@@ -110,9 +112,8 @@ class _TrailerViewState extends State<TrailerView> {
                   duration: const Duration(milliseconds: 400),
                   crossFadeState:
                       state.isActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                  firstChild: Container(
-                    height: 245.h,
-                    padding: EdgeInsets.fromLTRB(0, 20.h, 0, 0),
+                  firstChild: SizedBox(
+                    height: 350.h,
                     child: PageView.builder(
                       physics: const BouncingScrollPhysics(),
                       allowImplicitScrolling: true,
@@ -127,9 +128,8 @@ class _TrailerViewState extends State<TrailerView> {
                       },
                     ),
                   ),
-                  secondChild: Container(
-                    height: 245.h,
-                    padding: EdgeInsets.fromLTRB(0, 20.h, 0, 0),
+                  secondChild: SizedBox(
+                    height: 350.h,
                     child: PageView.builder(
                         physics: const BouncingScrollPhysics(),
                         allowImplicitScrolling: true,
@@ -159,7 +159,7 @@ class _TrailerViewState extends State<TrailerView> {
     final controller = YoutubePlayerController(
       initialVideoId: itemTrailer.key ?? '',
       flags: YoutubePlayerFlags(
-        hideControls: true,
+        hideControls: (itemTrailer.key ?? '').isEmpty ? true : false,
         autoPlay: bloc.state.visibleVideoMovie[index] ? true : false,
         mute: false,
         disableDragSeek: true,
@@ -172,16 +172,18 @@ class _TrailerViewState extends State<TrailerView> {
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
       controller: controller,
-      visibleVideo: bloc.state.visibleVideoMovie[index],
+      enableVideo: bloc.state.visibleVideoMovie[index],
       title: item.title,
-      nameOfTrailer: itemTrailer.name ?? 'Coming soon',
+      overview: item.overview,
+      releaseDate:
+          (item.releaseDate ?? '').isNotEmpty ? AppUtils().formatDate(item.releaseDate ?? '') : '',
+      voteAverage: double.parse((item.voteAverage ?? 0).toStringAsFixed(1)),
       isActive: bloc.state.isActive,
-      imageUrl: item.backdropPath == null
-          ? 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTxZYNhrWgfQyqlnGPwzVDe5xv5oPVljnimLLixVAADAItCD6lu'
-          : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
+      imageUrl:
+          item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
       onEnded: (metdaData) => stopTrailer(context, index, bloc.state.indexTv),
-      onTap: () => navigateDetailPage(context),
-      onLongPress: () => bloc.state.visibleVideoMovie[index]
+      onTapItem: () => navigateDetailPage(context),
+      onTapVideo: () => bloc.state.visibleVideoMovie[index]
           ? stopTrailer(context, index, bloc.state.indexTv)
           : playTrailer(context, index, bloc.state.indexTv),
     );
@@ -194,7 +196,7 @@ class _TrailerViewState extends State<TrailerView> {
     final controller = YoutubePlayerController(
       initialVideoId: itemTrailer.key ?? '',
       flags: YoutubePlayerFlags(
-        hideControls: true,
+        hideControls: (itemTrailer.key ?? '').isEmpty ? true : false,
         autoPlay: bloc.state.visibleVideoTv[index] ? true : false,
         mute: false,
         disableDragSeek: true,
@@ -207,16 +209,19 @@ class _TrailerViewState extends State<TrailerView> {
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
       controller: controller,
-      visibleVideo: bloc.state.visibleVideoTv[index],
+      enableVideo: bloc.state.visibleVideoTv[index],
       title: item.name,
-      nameOfTrailer: itemTrailer.name ?? 'Coming soon',
+      overview: item.overview,
+      releaseDate: (item.firstAirDate ?? '').isNotEmpty
+          ? AppUtils().formatDate(item.firstAirDate ?? '')
+          : '',
+      voteAverage: double.parse((item.voteAverage ?? 0).toStringAsFixed(1)),
       isActive: bloc.state.isActive,
-      imageUrl: item.backdropPath == null
-          ? 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTxZYNhrWgfQyqlnGPwzVDe5xv5oPVljnimLLixVAADAItCD6lu'
-          : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
+      imageUrl:
+          item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
       onEnded: (metdaData) => stopTrailer(context, bloc.state.indexMovie, index),
-      onTap: () => navigateDetailPage(context),
-      onLongPress: () => bloc.state.visibleVideoTv[index]
+      onTapItem: () => navigateDetailPage(context),
+      onTapVideo: () => bloc.state.visibleVideoTv[index]
           ? stopTrailer(context, bloc.state.indexMovie, index)
           : playTrailer(context, bloc.state.indexMovie, index),
     );
