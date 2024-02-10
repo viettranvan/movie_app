@@ -4,9 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/explore/bloc/explore_bloc.dart';
-import 'package:movie_app/ui/pages/explore/views/born_today/index.dart';
-import 'package:movie_app/ui/pages/explore/views/media_provider/index.dart';
-import 'package:movie_app/ui/pages/explore/views/top_rated/index.dart';
+import 'package:movie_app/ui/pages/explore/views/genre/index.dart';
 import 'package:movie_app/ui/pages/explore/views/trailer/index.dart';
 import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 
@@ -65,11 +63,8 @@ class ExplorePage extends StatelessWidget {
                             SizedBox(height: 20.h),
                             const TrailerView(),
                             SizedBox(height: 30.h),
-                            const TopRatedView(),
+                            const Genreview(),
                             SizedBox(height: 30.h),
-                            const BornToday(),
-                            SizedBox(height: 30.h),
-                            const MovieProviderView(),
                             SizedBox(height: 1000.h),
                           ],
                         ),

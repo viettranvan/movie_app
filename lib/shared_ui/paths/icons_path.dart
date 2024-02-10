@@ -15,6 +15,8 @@ enum IconsPath {
   trailerIcon('lib/shared_ui/assets/icons/trailer_icon.svg'),
   watchListIcon('lib/shared_ui/assets/icons/watch_list_icon.svg'),
   artistIcon('lib/shared_ui/assets/icons/artist_icon.svg'),
+  genreIcon('lib/shared_ui/assets/icons/genre_icon.svg'),
+  providerIcon('lib/shared_ui/assets/icons/provider_icon.svg'),
   eyeOpenIcon('lib/shared_ui/assets/icons/eye_open_icon.png'),
   eyeCloseIcon('lib/shared_ui/assets/icons/eye_close_icon.png');
 

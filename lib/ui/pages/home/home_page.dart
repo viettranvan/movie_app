@@ -4,12 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
+import 'package:movie_app/ui/pages/explore/views/media_provider/index.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/artist/index.dart';
 import 'package:movie_app/ui/pages/home/views/best_drama/index.dart';
-import 'package:movie_app/ui/pages/home/views/genre/index.dart';
 import 'package:movie_app/ui/pages/home/views/now_playing/index.dart';
 import 'package:movie_app/ui/pages/home/views/popular/index.dart';
+import 'package:movie_app/ui/pages/home/views/top_rated/index.dart';
 import 'package:movie_app/ui/pages/home/views/top_tv/index.dart';
 import 'package:movie_app/ui/pages/home/views/trending/index.dart';
 import 'package:movie_app/ui/pages/home/views/upcoming/index.dart';
@@ -67,34 +68,51 @@ class HomePage extends StatelessWidget {
                   }
                   return false;
                 },
-                child: SingleChildScrollView(
-                  controller: bloc.scrollController,
-                  physics: const BouncingScrollPhysics(
-                    decelerationRate: ScrollDecelerationRate.fast,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(height: 20.h),
-                      const Genreview(),
-                      SizedBox(height: 30.h),
-                      const PopularView(),
-                      SizedBox(height: 30.h),
-                      const TrendingView(),
-                      SizedBox(height: 30.h),
-                      const NowPlayingView(),
-                      SizedBox(height: 30.h),
-                      const BestDramaView(),
-                      SizedBox(height: 30.h),
-                      const ArtistView(),
-                      SizedBox(height: 30.h),
-                      const TopTvView(),
-                      SizedBox(height: 30.h),
-                      const UpcomingView(),
-                      SizedBox(height: 110.h),
-                    ],
-                  ),
+                child: Stack(
+                  children: [
+                    SingleChildScrollView(
+                      controller: bloc.scrollController,
+                      physics: const BouncingScrollPhysics(
+                        decelerationRate: ScrollDecelerationRate.fast,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(height: 20.h),
+                          const PopularView(),
+                          SizedBox(height: 30.h),
+                          const TrendingView(),
+                          SizedBox(height: 30.h),
+                          const NowPlayingView(),
+                          SizedBox(height: 30.h),
+                          const BestDramaView(),
+                          SizedBox(height: 30.h),
+                          const ArtistView(),
+                          SizedBox(height: 30.h),
+                          const TopRatedView(),
+                          SizedBox(height: 30.h),
+                          const TopTvView(),
+                          SizedBox(height: 30.h),
+                          const UpcomingView(),
+                          SizedBox(height: 30.h),
+                          const MovieProviderView(),
+                          SizedBox(height: 110.h),
+                        ],
+                      ),
+                    ),
+                    CustomToast(
+                      statusMessage: state.statusMessage,
+                      opacity: state.opacity,
+                      visible: state.visible,
+                      onEndAnimation: () => state.opacity == 0.0
+                          ? bloc.add(DisplayToast(
+                              visibility: false,
+                              statusMessage: state.statusMessage,
+                            ))
+                          : null,
+                    ),
+                  ],
                 ),
               );
             },

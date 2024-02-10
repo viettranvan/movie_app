@@ -28,7 +28,7 @@ class PopularView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             PrimaryText(
-              title: '''What's popular to watch''',
+              title: '''What popular to watch''',
               visibleIcon: true,
               onTapViewAll: () {},
               icon: SvgPicture.asset(
@@ -96,7 +96,9 @@ class PopularView extends StatelessWidget {
     final item = state.listPopular.isNotEmpty ? state.listPopular[index] : null;
     return SliderItem(
       isBackdrop: true,
-      imageUrlBackdrop: '${AppConstants.kImagePathBackdrop}${item?.backdropPath}',
+      imageUrlBackdrop: item?.backdropPath == null
+          ? ''
+          : '${AppConstants.kImagePathBackdrop}${item?.backdropPath}',
       onTap: () => Navigator.of(context).push(
         CustomPageRoute(
           page: const DetailsPage(),

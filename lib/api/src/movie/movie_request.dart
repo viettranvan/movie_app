@@ -81,4 +81,19 @@ class MovieRequest {
           'region': region,
         },
       );
+  static APIRequest getDiscoverMovie({
+    required String language,
+    required int page,
+    List<int> withGenres = const [],
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/discover/movie',
+        parameters: {
+          'language': language,
+          'page': page,
+          'with_genres': withGenres,
+          // 'region': region,
+        },
+      );
 }

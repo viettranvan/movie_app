@@ -7,8 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/details/index.dart';
-import 'package:movie_app/ui/pages/explore/bloc/explore_bloc.dart';
-import 'package:movie_app/ui/pages/explore/views/top_rated/bloc/top_rated_bloc.dart';
+import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
+import 'package:movie_app/ui/pages/home/views/top_rated/bloc/top_rated_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 
 class TopRatedView extends StatelessWidget {
@@ -36,9 +36,10 @@ class TopRatedView extends StatelessWidget {
               IconsPath.topRatedIcon.assetName,
             ),
           ),
+          SizedBox(height: 15.h),
           BlocConsumer<TopRatedBloc, TopRatedState>(
             listener: (context, state) {
-              final exploreBloc = BlocProvider.of<ExploreBloc>(context);
+              final exploreBloc = BlocProvider.of<HomeBloc>(context);
               if (state is TopRatedAddWatchListSuccess) {
                 showToast(
                     context,
@@ -61,25 +62,25 @@ class TopRatedView extends StatelessWidget {
             builder: (context, state) {
               if (state is TopRatedInitial) {
                 return SizedBox(
-                  height: 400.h,
+                  height: 285.h,
                   child: const CustomIndicator(),
                 );
               }
               if (state is TopRatedError) {
                 return SizedBox(
-                  height: 400.h,
+                  height: 285.h,
                   child: Center(
                     child: Text(state.runtimeType.toString()),
                   ),
                 );
               }
               return SizedBox(
-                height: 405.h,
+                height: 285.h,
                 child: ListView.separated(
                   physics: const BouncingScrollPhysics(),
                   addAutomaticKeepAlives: false,
                   addRepaintBoundaries: false,
-                  padding: EdgeInsets.fromLTRB(17.w, 20.h, 17.w, 0),
+                  padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemBuilder: itemBuilder,
@@ -97,16 +98,12 @@ class TopRatedView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     final bloc = BlocProvider.of<TopRatedBloc>(context);
     final item = bloc.state.listTopRated[index];
-    String? title = item.title ?? '';
-    String? posterPath = item.posterPath;
-    double voteAverage = double.parse(item.voteAverage?.toStringAsFixed(1) ?? '');
     return SenaryItem(
-      title: title,
+      title: item.title ?? '',
       rank: '${index + 1}',
-      voteAverage: '$voteAverage',
-      initialRating: voteAverage,
-      imageUrl: '${AppConstants.kImagePathPoster}$posterPath',
-      watchList: bloc.state.listMovieState[index].watchlist,
+      voteAverage: double.parse((item.voteAverage ?? 0).toStringAsFixed(1)),
+      imageUrl: item.posterPath == null ? '' : '${AppConstants.kImagePathPoster}${item.posterPath}',
+      watchlist: bloc.state.listMovieState[index].watchlist,
       onTapBanner: () => !(bloc.state.listMovieState[index].watchlist ?? false)
           ? addWatchList(context, index)
           : bloc.state is TopRatedAddWatchListSuccess
@@ -114,7 +111,7 @@ class TopRatedView extends StatelessWidget {
               : showCupertinoModalPopup(
                   context: context,
                   builder: (secondContext) => CustomBottomSheet(
-                    title: '$title (${item.releaseDate?.substring(0, 4)})',
+                    title: '${item.title} (${item.releaseDate?.substring(0, 4)})',
                     titleConfirm: 'Remove from Watchlist',
                     titleCancel: 'Cancel',
                     onPressCancel: () => Navigator.of(secondContext).pop(),
@@ -153,7 +150,7 @@ class TopRatedView extends StatelessWidget {
   showToast(BuildContext context, String statusMessage) {
     String sessionId = '566e05bbb7e5ce24132f9aa1b1e2cdf3cb0bf1fb';
     final bloc = BlocProvider.of<TopRatedBloc>(context);
-    final exploreBloc = BlocProvider.of<ExploreBloc>(context);
+    final exploreBloc = BlocProvider.of<HomeBloc>(context);
     Future.delayed(
       const Duration(milliseconds: 100),
       () => bloc.add(FetcData(

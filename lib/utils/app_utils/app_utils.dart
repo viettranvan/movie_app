@@ -134,9 +134,16 @@ class AppUtils {
   String formatDate(String date) {
     var outputFormat = DateFormat('yyyy-MM-dd');
     var outputDate = outputFormat.parse(date);
-    var outputDateTime = DateFormat('dd-MM-yyyy').format(outputDate);
+    var outputDateTime = DateFormat('MMMM dd yyyy').format(outputDate);
     return outputDateTime;
   }
+
+  // String formatDateNumber(String date) {
+  //   var outputFormat = DateFormat('yyyy-MM-dd');
+  //   var outputDate = outputFormat.parse(date);
+  //   var outputDateTime = DateFormat('dd-MM-yyyy').format(outputDate);
+  //   return outputDateTime;
+  // }
 
   int caculateAge(String birthday) {
     return DateTime.now().year - DateTime.parse(birthday).year;
@@ -186,6 +193,162 @@ class AppUtils {
         child: child,
       ),
     );
+  }
+
+  Color getMovieGenreColor(String name) {
+    switch (name) {
+      case 'Action':
+        {
+          return Colors.red;
+        }
+      case 'Adventure':
+        {
+          return Colors.orange;
+        }
+      case 'Animation':
+        {
+          return Colors.yellow;
+        }
+      case 'Comedy':
+        {
+          return Colors.lightBlue;
+        }
+      case 'Crime':
+        {
+          return Colors.amber;
+        }
+      case 'Documentary':
+        {
+          return Colors.blueGrey;
+        }
+      case 'Drama':
+        {
+          return Colors.blue;
+        }
+      case 'Family':
+        {
+          return Colors.lime;
+        }
+      case 'Fantasy':
+        {
+          return Colors.purple;
+        }
+
+      case 'History':
+        {
+          return Colors.cyan;
+        }
+      case 'Horror':
+        {
+          return Colors.green;
+        }
+
+      case 'Music':
+        {
+          return Colors.deepPurple;
+        }
+      case 'Mystery':
+        {
+          return Colors.indigo;
+        }
+      case 'Romance':
+        {
+          return Colors.pink;
+        }
+      case 'Science Fiction':
+        {
+          return Colors.teal;
+        }
+      case 'TV Movie':
+        {
+          return Colors.lightGreen;
+        }
+      case 'Thriller':
+        {
+          return Colors.deepOrange;
+        }
+      case 'War':
+        {
+          return Colors.grey;
+        }
+      case 'Western':
+        {
+          return Colors.brown;
+        }
+      default:
+        return Colors.white;
+    }
+  }
+
+  Color getTvGenreColor(String name) {
+    switch (name) {
+      case 'Action & Adventure':
+        {
+          return Colors.red;
+        }
+      case 'Animation':
+        {
+          return Colors.yellow;
+        }
+      case 'Comedy':
+        {
+          return Colors.lightBlue;
+        }
+      case 'Crime':
+        {
+          return Colors.amber;
+        }
+      case 'Documentary':
+        {
+          return Colors.blueGrey;
+        }
+      case 'Drama':
+        {
+          return Colors.blue;
+        }
+      case 'Family':
+        {
+          return Colors.lime;
+        }
+      case 'Kids':
+        {
+          return Colors.cyan;
+        }
+      case 'Mystery':
+        {
+          return Colors.indigo;
+        }
+      case 'News':
+        {
+          return Colors.deepOrange;
+        }
+      case 'Reality':
+        {
+          return Colors.purple;
+        }
+      case 'Sci-Fi & Fantasy':
+        {
+          return Colors.teal;
+        }
+      case 'Soap':
+        {
+          return Colors.pink;
+        }
+      case 'Talk':
+        {
+          return Colors.green;
+        }
+      case 'War & Politics':
+        {
+          return Colors.grey;
+        }
+      case 'Western':
+        {
+          return Colors.brown;
+        }
+      default:
+        return Colors.white;
+    }
   }
 }
 

@@ -6,17 +6,15 @@ import 'package:movie_app/utils/rest_api_client/response_type.dart';
 class TvService {
   TvService({required this.apiClient});
   APIClient apiClient;
-  Future<ListResponse<MultipleMedia>> getBestDramaTv({
+  Future<ListResponse<MultipleMedia>> getDiscoverTv({
     required String language,
     required int page,
-    required List<int> withGenres,
-    // required String region,
+    List<int> withGenres = const [],
   }) async {
-    final request = TvRequest.getBestDramaTv(
+    final request = TvRequest.getDiscoverTv(
       language: language,
       page: page,
       withGenres: withGenres,
-      // region: region,
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
@@ -31,6 +29,22 @@ class TvService {
     final request = TvRequest.getNowPlayingTv(
       language: language,
       page: page,
+    );
+    final response = await apiClient.execute(request: request);
+    final listResponse =
+        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
+    return ListResponse(list: listResponse);
+  }
+
+  Future<ListResponse<MultipleMedia>> getPopularTv({
+    required String language,
+    required int page,
+    List<int> withGenres = const [],
+  }) async {
+    final request = TvRequest.getPopularTv(
+      language: language,
+      page: page,
+      withGenres: withGenres,
     );
     final response = await apiClient.execute(request: request);
     final listResponse =

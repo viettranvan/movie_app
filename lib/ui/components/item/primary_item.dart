@@ -1,40 +1,85 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
+import 'package:movie_app/ui/components/components.dart';
 
 class PrimaryItem extends StatelessWidget {
   final VoidCallback? onTapItem;
   final String? title;
-  final List<Color>? colors;
+  final String imageUrl;
+  final Color? color;
   final List<double>? stops;
   const PrimaryItem({
     super.key,
     this.onTapItem,
     required this.title,
-    this.colors,
+    this.color,
     this.stops,
+    required this.imageUrl,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTapItem,
-      child: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(8).w,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.r),
-          gradient: LinearGradient(
-            colors: colors ?? [lightGreyColor],
-            stops: stops ?? [0],
+      child: RepaintBoundary(
+        child: Container(
+          clipBehavior: Clip.antiAlias,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.r),
           ),
-        ),
-        child: Text(
-          title ?? '',
-          textScaleFactor: 1,
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: whiteColor,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              CachedNetworkImage(
+                imageUrl: imageUrl,
+                filterQuality: FilterQuality.high,
+                fit: BoxFit.fill,
+                height: 150.h,
+                width: 250.w,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                        color ?? whiteColor,
+                        BlendMode.color,
+                      ),
+                    ),
+                  ),
+                ),
+                progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
+                errorWidget: (context, url, error) => Image.asset(
+                  ImagesPath.noImage.assetName,
+                  filterQuality: FilterQuality.high,
+                  fit: BoxFit.fill,
+                  width: double.infinity,
+                  height: double.infinity,
+                ),
+              ),
+              Container(
+                height: 150.h,
+                width: 250.w,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: blackColor.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(15.r),
+                ),
+                child: Text(
+                  title ?? '',
+                  textScaleFactor: 1,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                    color: whiteColor,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

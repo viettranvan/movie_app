@@ -36,7 +36,7 @@ class BornToday extends StatelessWidget {
                 icon: SvgPicture.asset(
                   IconsPath.bornTodayIcon.assetName,
                 ),
-                enableRightWidget: state.listArtist.length > 10,
+                enableRightWidget: true,
               ),
               BlocBuilder<BornTodayBloc, BornTodayState>(
                 builder: (context, state) {
@@ -53,11 +53,13 @@ class BornToday extends StatelessWidget {
                     return SizedBox(
                       height: 265.h,
                       child: Center(
-                        child: Text(state.runtimeType.toString()),
+                        child: Text(
+                          state.errorMessage.toString(),
+                          maxLines: 5,
+                        ),
                       ),
                     );
                   }
-
                   return SizedBox(
                     height: 265.h,
                     child: ListView.separated(
@@ -97,5 +99,5 @@ class BornToday extends StatelessWidget {
     );
   }
 
-  Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 14.w);
+  Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 20.w);
 }

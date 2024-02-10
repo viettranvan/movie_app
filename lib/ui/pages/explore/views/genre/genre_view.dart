@@ -1,8 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:movie_app/shared_ui/paths/icons_path.dart';
 import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/home/views/genre/bloc/genre_bloc.dart';
+import 'package:movie_app/ui/pages/explore/views/genre/bloc/genre_bloc.dart';
+import 'package:movie_app/utils/app_utils/app_utils.dart';
+import 'package:movie_app/utils/utils.dart';
 
 class Genreview extends StatelessWidget {
   const Genreview({
@@ -19,8 +23,14 @@ class Genreview extends StatelessWidget {
           BlocBuilder<GenreBloc, GenreState>(
             builder: (context, state) {
               return PrimaryText(
-                title: 'Popular Genres',
+                title: 'Popular genres to explore',
+                visibleIcon: true,
                 enableRightWidget: true,
+                icon: SvgPicture.asset(
+                  IconsPath.genreIcon.assetName,
+                  width: 24.sp,
+                  height: 24.sp,
+                ),
                 rightWidget: BlocBuilder<GenreBloc, GenreState>(
                   builder: (context, state) {
                     if (state is GenreError) {
@@ -41,15 +51,15 @@ class Genreview extends StatelessWidget {
               final bloc = BlocProvider.of<GenreBloc>(context);
               if (state is GenreInitial) {
                 return SizedBox(
-                  height: 30.h,
+                  height: 300.h,
                   child: const CustomIndicator(),
                 );
               }
               if (state is GenreError) {
                 return SizedBox(
-                  height: 30.h,
+                  height: 300.h,
                   child: Center(
-                    child: Text(state.runtimeType.toString()),
+                    child: Text(state.errorMessage.toString()),
                   ),
                 );
               }
@@ -57,33 +67,48 @@ class Genreview extends StatelessWidget {
                 duration: const Duration(milliseconds: 400),
                 crossFadeState: state.status ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                 firstChild: SizedBox(
-                  height: 30.h,
-                  child: ListView.separated(
+                  height: 300.h,
+                  child: GridView.custom(
                     controller: bloc.movieController,
-                    addAutomaticKeepAlives: false,
-                    addRepaintBoundaries: false,
                     physics: const BouncingScrollPhysics(),
-                    padding: EdgeInsets.fromLTRB(17.w, 0, 17.w, 0),
+                    padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
-                    itemBuilder: itemBuilderMovie,
-                    separatorBuilder: separatorBuilder,
-                    itemCount: state.listGenreMovie.isNotEmpty ? state.listGenreMovie.length : 21,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16.w,
+                      crossAxisSpacing: 16.h,
+                      childAspectRatio: 0.6,
+                    ),
+                    childrenDelegate: SliverChildBuilderDelegate(
+                      itemBuilderMovie,
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: false,
+                      childCount:
+                          state.listGenreMovie.isNotEmpty ? state.listGenreMovie.length : 20,
+                    ),
                   ),
                 ),
                 secondChild: SizedBox(
-                  height: 30.h,
-                  child: ListView.separated(
+                  height: 300.h,
+                  child: GridView.custom(
                     controller: bloc.tvController,
-                    addAutomaticKeepAlives: false,
-                    addRepaintBoundaries: false,
                     physics: const BouncingScrollPhysics(),
-                    padding: EdgeInsets.fromLTRB(17.w, 0.h, 17.w, 0.h),
+                    padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
-                    itemBuilder: itemBuilderTv,
-                    separatorBuilder: separatorBuilder,
-                    itemCount: state.listGenreTv.isNotEmpty ? state.listGenreTv.length : 20,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16.w,
+                      crossAxisSpacing: 16.h,
+                      childAspectRatio: 0.6,
+                    ),
+                    childrenDelegate: SliverChildBuilderDelegate(
+                      itemBuilderTv,
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: false,
+                      childCount: state.listGenreTv.isNotEmpty ? state.listGenreTv.length : 20,
+                    ),
                   ),
                 ),
               );
@@ -99,6 +124,8 @@ class Genreview extends StatelessWidget {
     final item = state.listGenreMovie.isNotEmpty ? state.listGenreMovie[index] : null;
     return PrimaryItem(
       title: item?.name,
+      imageUrl: '${AppConstants.kImagePathBackdrop}${state.listMovieImage[index]}',
+      color: AppUtils().getMovieGenreColor(item?.name ?? ''),
       onTapItem: () {},
     );
   }
@@ -107,12 +134,12 @@ class Genreview extends StatelessWidget {
     final state = BlocProvider.of<GenreBloc>(context).state;
     final item = state.listGenreTv.isNotEmpty ? state.listGenreTv[index] : null;
     return PrimaryItem(
+      color: AppUtils().getTvGenreColor(item?.name ?? ''),
       title: item?.name,
+      imageUrl: '${AppConstants.kImagePathBackdrop}${state.listTvImage[index]}',
       onTapItem: () {},
     );
   }
-
-  Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 10.w);
 
   changeMovie(BuildContext context) {
     final bloc = BlocProvider.of<GenreBloc>(context);

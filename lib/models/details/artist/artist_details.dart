@@ -15,10 +15,15 @@ class ArtistDetails {
   String? placeOfBirth;
   num? popularity;
   String? profilePath;
+  // ----------- Append to response 'images' -----------
   MediaImages? images;
+  // ----------- Append to response 'credits' -----------
   MediaCredits? credits;
+  // ----------- Append to response 'movieCredits' -----------
   MediaCredits? movieCredits;
+  // ----------- Append to response 'tvCredits' -----------
   MediaCredits? tvCredits;
+  // ----------- Append to response 'combinedCredits' -----------
   MediaCredits? combinedCredits;
 
   ArtistDetails({
@@ -64,8 +69,9 @@ class ArtistDetails {
         credits: json['credits'] == null ? null : MediaCredits.fromJson(json['credits']),
         movieCredits:
             json['movie_credits'] == null ? null : MediaCredits.fromJson(json['movie_credits']),
-        combinedCredits:
-            json['combined_credits'] == null ? null : MediaCredits.fromJson(json['combined_credits']),
+        combinedCredits: json['combined_credits'] == null
+            ? null
+            : MediaCredits.fromJson(json['combined_credits']),
         tvCredits: json['tv_credits'] == null ? null : MediaCredits.fromJson(json['tv_credits']),
       );
 }

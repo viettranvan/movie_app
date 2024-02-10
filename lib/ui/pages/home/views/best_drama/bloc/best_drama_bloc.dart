@@ -18,7 +18,7 @@ class BestDramaBloc extends Bloc<BestDramaEvent, BestDramaState> {
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<BestDramaState> emit) async {
     try {
-      var result = await homeRepository.getBestDramaTv(
+      var result = await homeRepository.getDiscoverTv(
         language: event.language,
         page: event.page,
         withGenres: event.withGenres,

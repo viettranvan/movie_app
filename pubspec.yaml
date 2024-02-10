@@ -56,6 +56,8 @@ flutter:
     - lib/shared_ui/assets/icons/trailer_icon.svg
     - lib/shared_ui/assets/icons/filter_icon.svg
     - lib/shared_ui/assets/icons/watch_list_icon.svg
+    - lib/shared_ui/assets/icons/provider_icon.svg
+    - lib/shared_ui/assets/icons/genre_icon.svg
     - lib/shared_ui/assets/icons/eye_open_icon.png
     - lib/shared_ui/assets/icons/eye_close_icon.png
     - lib/shared_ui/assets/images/corgi.jpg

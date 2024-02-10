@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:movie_app/models/append_to_response/similar/media_similars.dart';
+import 'package:movie_app/models/details/append_to_response/similar/media_similars.dart';
 import 'package:movie_app/models/models.dart';
 
 class MultipleDetails {
-  // movie
+  // ----------- Movie details -----------
   bool? adult;
   String? backdropPath;
   BelongsToCollection? belongsToCollection;
@@ -29,7 +29,7 @@ class MultipleDetails {
   bool? video;
   num? voteAverage;
   int? voteCount;
-// tv
+  // ----------- TV details -----------
   List<CreatedBy> createdBy;
   List<int> episodeRunTime;
   String? firstAirDate;
@@ -46,16 +46,25 @@ class MultipleDetails {
   String? originalName;
   List<Season> seasons;
   String? type;
-  // ----------- Append to response 'alternative_titles' -----------
+  // ----------- Append to response 'images' -----------
   MediaImages? images;
-  MediaAlternativeTitles? alternativeTitles;
-  MediaKeywords? keywords;
+  // ----------- Append to response 'videos' -----------
   MediaVideos? videos;
-  MediaReleases? releases;
-  MediaExternalIds? externalIds;
-  MediaSimilars? similar;
-  MediaTranslations? translations;
+  // ----------- Append to response 'credits' -----------
   MediaCredits? credits;
+  // ----------- Append to response 'alternative_titles' -----------
+  MediaAlternativeTitles? alternativeTitles;
+  // ----------- Append to response 'keyword' -----------
+  MediaKeywords? keywords;
+  // ----------- Append to response 'release' -----------
+  MediaReleases? releases;
+  // ----------- Append to response 'externalIds' -----------
+  MediaExternalIds? externalIds;
+  // ----------- Append to response 'similar' -----------
+  MediaSimilars? similar;
+  // ----------- Append to response 'translations' -----------
+  MediaTranslations? translations;
+  // ----------- Append to response 'translations' -----------
 
   MultipleDetails({
     this.adult,

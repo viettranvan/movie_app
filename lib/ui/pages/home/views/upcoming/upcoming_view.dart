@@ -30,8 +30,8 @@ class UpcomingView extends StatelessWidget {
             onTapViewAll: () {},
             icon: SvgPicture.asset(
               IconsPath.upcomingIcon.assetName,
-              width: 18.w,
-              height: 18.h,
+              width: 20.w,
+              height: 20.h,
             ),
           ),
           SizedBox(height: 15.h),
@@ -40,13 +40,13 @@ class UpcomingView extends StatelessWidget {
               final bloc = BlocProvider.of<UpcomingBloc>(context);
               if (state is UpcomingInitial) {
                 return SizedBox(
-                  height: 365.h,
+                  height: 400.h,
                   child: const CustomIndicator(),
                 );
               }
               if (state is UpcomingError) {
                 return SizedBox(
-                  height: 365.h,
+                  height: 400.h,
                   child: Center(
                     child: Text(state.runtimeType.toString()),
                   ),
@@ -78,7 +78,8 @@ class UpcomingView extends StatelessWidget {
       isBackdrop: false,
       title: item.title,
       voteAverage: double.parse(item.voteAverage?.toStringAsFixed(1) ?? ''),
-      imageUrlPoster: '${AppConstants.kImagePathPoster}${item.posterPath}',
+      imageUrlPoster:
+          item.posterPath == null ? '' : '${AppConstants.kImagePathPoster}${item.posterPath}',
       onTap: () => Navigator.of(context).push(
         CustomPageRoute(
           page: const DetailsPage(),

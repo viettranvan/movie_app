@@ -27,8 +27,9 @@ class MovieProviderView extends StatelessWidget {
             onTapViewAll: () {},
             visibleIcon: true,
             icon: SvgPicture.asset(
-              IconsPath.bornTodayIcon.assetName,
-              fit: BoxFit.cover,
+              IconsPath.providerIcon.assetName,
+              width: 24.w,
+              height: 24.h,
             ),
             enableRightWidget: true,
             rightWidget: BlocBuilder<MediaProviderBloc, MediaProviderState>(
@@ -43,6 +44,7 @@ class MovieProviderView extends StatelessWidget {
               },
             ),
           ),
+          SizedBox(height: 15.h),
           BlocBuilder<MediaProviderBloc, MediaProviderState>(
             builder: (context, state) {
               final bloc = BlocProvider.of<MediaProviderBloc>(context);
@@ -98,10 +100,12 @@ class MovieProviderView extends StatelessWidget {
                         ],
                       ),
                       physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.fromLTRB(17.w, 20.h, 17.w, 5.h),
+                      padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       childrenDelegate: SliverChildBuilderDelegate(
+                        addAutomaticKeepAlives: false,
+                        addRepaintBoundaries: false,
                         childCount: 21,
                         itemBuilderMovie,
                       ),
@@ -140,11 +144,13 @@ class MovieProviderView extends StatelessWidget {
                         ],
                       ),
                       physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.fromLTRB(17.w, 20.h, 17.w, 5.h),
+                      padding: EdgeInsets.fromLTRB(17.w, 5.h, 17.w, 5.h),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       childrenDelegate: SliverChildBuilderDelegate(
                         childCount: 21,
+                        addAutomaticKeepAlives: false,
+                        addRepaintBoundaries: false,
                         itemBuilderTv,
                       ),
                     ),
@@ -165,7 +171,7 @@ class MovieProviderView extends StatelessWidget {
       index: index,
       itemCount: 20,
       title: item?.providerName,
-      imageUrl: '${AppConstants.kImagePathPoster}${item?.logoPath}',
+      imageUrl: item?.logoPath == null ? '' : '${AppConstants.kImagePathPoster}${item?.logoPath}',
       onTapItem: () {},
       onTapViewAll: () {},
     );
@@ -178,7 +184,7 @@ class MovieProviderView extends StatelessWidget {
       index: index,
       itemCount: 20,
       title: item?.providerName,
-      imageUrl: '${AppConstants.kImagePathPoster}${item?.logoPath}',
+      imageUrl: item?.logoPath == null ? '' : '${AppConstants.kImagePathPoster}${item?.logoPath}',
       onTapItem: () {},
       onTapViewAll: () {},
     );

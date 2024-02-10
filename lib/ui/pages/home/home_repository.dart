@@ -1,5 +1,4 @@
 import 'package:movie_app/api/src/artist/artist.dart';
-import 'package:movie_app/api/src/genre/genre_service.dart';
 import 'package:movie_app/api/src/movie/movie_service.dart';
 import 'package:movie_app/api/src/tv/tv_service.dart';
 import 'package:movie_app/models/models.dart';
@@ -10,22 +9,6 @@ class HomeRepository {
   HomeRepository({
     required this.restApiClient,
   });
-
-  Future<ObjectResponse<MediaGenre>> getGenreMovie({
-    required String language,
-  }) async {
-    return GenreService(apiClient: restApiClient).getGenreMovie(
-      language: language,
-    );
-  }
-
-  Future<ObjectResponse<MediaGenre>> getGenreTv({
-    required String language,
-  }) async {
-    return GenreService(apiClient: restApiClient).getGenreTv(
-      language: language,
-    );
-  }
 
   Future<ListResponse<MultipleMedia>> getPopularMovie({
     required String language,
@@ -65,17 +48,27 @@ class HomeRepository {
     );
   }
 
-  Future<ListResponse<MultipleMedia>> getBestDramaTv({
+  Future<ListResponse<MultipleMedia>> getDiscoverTv({
     required String language,
     required int page,
-    required List<int> withGenres,
-    // required String region,
+    List<int> withGenres = const [],
   }) async {
-    return TvService(apiClient: restApiClient).getBestDramaTv(
+    return TvService(apiClient: restApiClient).getDiscoverTv(
       language: language,
       page: page,
       withGenres: withGenres,
-      // region: region,
+    );
+  }
+
+  Future<ListResponse<MultipleMedia>> getDiscoverMovie({
+    required String language,
+    required int page,
+    List<int> withGenres = const [],
+  }) async {
+    return MovieService(apiClient: restApiClient).getDiscoverMovie(
+      language: language,
+      page: page,
+      withGenres: withGenres,
     );
   }
 
