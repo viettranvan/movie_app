@@ -28,9 +28,9 @@ class FetchDataTrailer extends TrailerEvent {
   });
 }
 
-class SwitchType extends TrailerEvent {
+class ChangeType extends TrailerEvent {
   final bool isActive;
-  SwitchType({
+  ChangeType({
     required this.isActive,
   });
 }
@@ -50,8 +50,6 @@ class PlayTrailer extends TrailerEvent {
     required this.visibleVideoTv,
   });
 }
-
-class RefreshState extends TrailerEvent {}
 
 class StopTrailer extends TrailerEvent {
   final int? indexMovie;

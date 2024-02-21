@@ -1,1 +1,1 @@
-export 'movie_view.dart';
+export 'favorite_movie_view.dart';

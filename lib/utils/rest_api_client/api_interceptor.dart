@@ -8,7 +8,7 @@ class APIInterceptor extends QueuedInterceptor {
     // if (accessToken != null) {
     //   if (JwtDecoder.isExpired(accessToken)) {
     //     try {
-    //       log('♻️ Refreshing token...');
+          // log('♻️ Refreshing token...');
     //       final refreshToken = storage.getValue(AppDatabaseKey.refreshToken);
     //       final request =
     //           AuthenticationRequest.refreshToken(refreshToken: refreshToken);

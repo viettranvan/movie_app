@@ -9,7 +9,7 @@ class MovieService {
   Future<ListResponse<MultipleMedia>> getPopularMovie({
     required String language,
     required int page,
-    required String region,
+    String? region,
   }) async {
     final request = MovieRequest.getPopularMovie(
       language: language,
@@ -22,25 +22,7 @@ class MovieService {
     return ListResponse(list: listResponse);
   }
 
-  Future<ListResponse<MultipleMedia>> getTrendingMovie({
-    required String mediaType,
-    required String timeWindow,
-    required int page,
-    required String language,
-    required bool includeAdult,
-  }) async {
-    final request = MovieRequest.getTrendingMovie(
-      mediaType: mediaType,
-      timeWindow: timeWindow,
-      page: page,
-      language: language,
-      includeAdult: includeAdult,
-    );
-    final response = await apiClient.execute(request: request);
-    final listResponse =
-        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
-    return ListResponse(list: listResponse);
-  }
+  
 
   Future<ListResponse<MultipleMedia>> getUpcomingMovie({
     required String language,

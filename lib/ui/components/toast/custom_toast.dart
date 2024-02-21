@@ -29,7 +29,7 @@ class CustomToast extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           alignment: Alignment.center,
           height: 50.h,
-          color: darkBlueColor.withOpacity(0.7),
+          color: yellowColor,
           child: Text(
             statusMessage ?? '',
             textAlign: TextAlign.center,

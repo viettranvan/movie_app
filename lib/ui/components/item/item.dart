@@ -10,3 +10,4 @@ export 'tertiary_item.dart';
 export 'view_all_item.dart';
 export 'single_item.dart';
 export 'octonary_item.dart';
+export 'nonary_item.dart';

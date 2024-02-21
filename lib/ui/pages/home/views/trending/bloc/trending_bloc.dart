@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:movie_app/models/models.dart';
-import 'package:movie_app/ui/pages/home/index.dart';
+import 'package:movie_app/ui/pages/home/home.dart';
 import 'package:movie_app/utils/utils.dart';
 
 part 'trending_event.dart';
@@ -18,7 +18,7 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<TrendingState> emit) async {
     try {
-      var result = await homeRepository.getTrendingMovie(
+      var result = await homeRepository.getTrendingMultiple(
         mediaType: event.mediaType,
         timeWindow: event.timeWindow,
         page: event.page,

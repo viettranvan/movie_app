@@ -20,14 +20,12 @@ class AddWatchList extends TopRatedEvent {
   final String sessionId;
   final String mediaType;
   final int mediaId;
-   bool watchlist;
   final int index;
   AddWatchList({
     required this.accountId,
     required this.sessionId,
     required this.mediaType,
     required this.mediaId,
-    required this.watchlist,
     required this.index,
   });
 }

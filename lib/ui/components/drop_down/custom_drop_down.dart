@@ -4,19 +4,13 @@ import 'package:movie_app/shared_ui/colors/color.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';
 
 class CustomDropDown extends StatelessWidget {
-  final Widget Function(BuildContext, int) itemBuilder;
-  final VoidCallback? onTapDropDown;
-  final bool isDropDown;
-  final String itemSelected;
-  final List<String> items;
+  final VoidCallback? onTap;
+  final String title;
   final IconData? icon;
   const CustomDropDown({
     super.key,
-    this.onTapDropDown,
-    required this.isDropDown,
-    required this.itemSelected,
-    required this.items,
-    required this.itemBuilder,
+    this.onTap,
+    required this.title,
     this.icon,
   });
 
@@ -25,33 +19,8 @@ class CustomDropDown extends StatelessWidget {
     return GestureDetector(
       child: Stack(
         children: [
-          Positioned(
-            child: AnimatedContainer(
-              height: isDropDown ? (28.h * (items.length + 1) + 35).w : 28,
-              margin: EdgeInsets.symmetric(horizontal: 20.w),
-              padding: EdgeInsets.symmetric(horizontal: 5.w),
-              alignment: AlignmentDirectional.center,
-              decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(20.r),
-                border: Border.all(
-                  color: darkBlueColor,
-                  width: 1.w,
-                ),
-              ),
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.fastOutSlowIn,
-              child: ListView.separated(
-                padding: EdgeInsets.fromLTRB(0, 36.h, 0, 5.h),
-                itemBuilder: itemBuilder,
-                physics: const NeverScrollableScrollPhysics(),
-                separatorBuilder: separatorBuilder,
-                itemCount: items.length,
-              ),
-            ),
-          ),
           GestureDetector(
-            onTap: onTapDropDown,
+            onTap: onTap,
             child: Container(
               height: 30.h,
               alignment: Alignment.center,
@@ -71,7 +40,7 @@ class CustomDropDown extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 25.w),
                     child: Text(
-                      AppUtils().getSortTitle(itemSelected),
+                      AppUtils().getSortTitle(title),
                       textScaleFactor: 1,
                       style: TextStyle(
                         color: whiteColor,

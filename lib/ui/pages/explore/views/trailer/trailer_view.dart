@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/details/index.dart';
+import 'package:movie_app/ui/pages/details/details.dart';
 import 'package:movie_app/ui/pages/explore/bloc/explore_bloc.dart';
 import 'package:movie_app/ui/pages/explore/views/trailer/bloc/trailer_bloc.dart';
 import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
@@ -112,8 +112,9 @@ class _TrailerViewState extends State<TrailerView> {
                   duration: const Duration(milliseconds: 400),
                   crossFadeState:
                       state.isActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                  firstChild: SizedBox(
+                  firstChild: Container(
                     height: 350.h,
+                    color: Colors.red,
                     child: PageView.builder(
                       physics: const BouncingScrollPhysics(),
                       allowImplicitScrolling: true,
@@ -174,11 +175,12 @@ class _TrailerViewState extends State<TrailerView> {
       controller: controller,
       enableVideo: bloc.state.visibleVideoMovie[index],
       title: item.title,
-      overview: item.overview,
-      releaseDate:
-          (item.releaseDate ?? '').isNotEmpty ? AppUtils().formatDate(item.releaseDate ?? '') : '',
+      overview: (item.overview ?? '').isNotEmpty ? item.overview : 'No description',
       voteAverage: double.parse((item.voteAverage ?? 0).toStringAsFixed(1)),
-      isActive: bloc.state.isActive,
+      type: (itemTrailer.type ?? '').isNotEmpty ? '(Official ${itemTrailer.type})' : '',
+      releaseDate: (item.releaseDate ?? '').isNotEmpty
+          ? AppUtils().formatDate(item.releaseDate ?? '')
+          : 'Coming soon',
       imageUrl:
           item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
       onEnded: (metdaData) => stopTrailer(context, index, bloc.state.indexTv),
@@ -211,12 +213,12 @@ class _TrailerViewState extends State<TrailerView> {
       controller: controller,
       enableVideo: bloc.state.visibleVideoTv[index],
       title: item.name,
-      overview: item.overview,
+      overview: (item.overview ?? '').isNotEmpty ? item.overview : 'No description',
+      voteAverage: double.parse((item.voteAverage ?? 0).toStringAsFixed(1)),
+      type: (itemTrailer.type ?? '').isNotEmpty ? '(Official ${itemTrailer.type})' : '',
       releaseDate: (item.firstAirDate ?? '').isNotEmpty
           ? AppUtils().formatDate(item.firstAirDate ?? '')
           : '',
-      voteAverage: double.parse((item.voteAverage ?? 0).toStringAsFixed(1)),
-      isActive: bloc.state.isActive,
       imageUrl:
           item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
       onEnded: (metdaData) => stopTrailer(context, bloc.state.indexMovie, index),
@@ -229,13 +231,13 @@ class _TrailerViewState extends State<TrailerView> {
 
   changeMovie(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
-    bloc.add(SwitchType(isActive: false));
+    bloc.add(ChangeType(isActive: false));
     playTrailer(context, bloc.state.indexMovie, bloc.state.indexTv);
   }
 
   changeTv(BuildContext context) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
-    bloc.add(SwitchType(isActive: true));
+    bloc.add(ChangeType(isActive: true));
     playTrailer(context, bloc.state.indexMovie, bloc.state.indexTv);
   }
 

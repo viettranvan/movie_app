@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
-import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/favorite/favorite_page.dart';
-import 'package:movie_app/ui/pages/watch_list/index.dart';
+import 'package:movie_app/ui/ui.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -46,7 +44,7 @@ class ProfilePage extends StatelessWidget {
             GestureDetector(
               onTap: () => Navigator.of(context).push(
                 CustomPageRoute(
-                  page: const WatchListPage(),
+                  page: const WatchlistPage(),
                   begin: const Offset(1, 0),
                 ),
               ),

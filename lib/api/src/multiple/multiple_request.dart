@@ -3,7 +3,26 @@ import 'package:movie_app/api/api_client/index.dart';
 class MultipleRequest {
   MultipleRequest._();
 
-  static APIRequest searchMultipleMedia({
+  static APIRequest getTrendingMultiple({
+    required String mediaType,
+    required String timeWindow,
+    required int page,
+    required String language,
+    required bool includeAdult,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/trending/$mediaType/$timeWindow',
+        parameters: {
+          'media_type': mediaType,
+          'time_window': timeWindow,
+          'page': page,
+          'language': language,
+          'include_adult': includeAdult,
+        },
+      );
+
+  static APIRequest getsearchMultiple({
     required String query,
     required bool includeAdult,
     required String language,

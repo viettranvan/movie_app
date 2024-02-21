@@ -1,0 +1,12 @@
+export 'artist/artist.dart';
+export 'best_drama/best_drama.dart';
+export 'born_today/born_today.dart';
+export 'genre/genre.dart';
+export 'now_playing/now_playing.dart';
+export 'popular/popular.dart';
+export 'provider/provider.dart';
+export 'top_rated/top_rated.dart';
+export 'top_tv/top_tv.dart';
+export 'trailer/trailer.dart';
+export 'trending/trending.dart';
+export 'upcoming/upcoming.dart';

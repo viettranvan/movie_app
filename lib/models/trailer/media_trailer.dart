@@ -35,4 +35,6 @@ class MediaTrailer {
         publishedAt: json['published_at'],
         id: json['id'],
       );
+
+  
 }

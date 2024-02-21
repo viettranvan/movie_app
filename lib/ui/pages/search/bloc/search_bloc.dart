@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/models/models.dart';
 import 'package:movie_app/ui/pages/home/home_repository.dart';
-import 'package:movie_app/ui/pages/search/index.dart';
+import 'package:movie_app/ui/pages/search/search.dart';
 import 'package:movie_app/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -34,7 +34,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   FutureOr<void> _onFetchData(FetchData event, Emitter<SearchState> emit) async {
     try {
       page = 1;
-      final searchResult = await searchRepository.searchMultipleMedia(
+      final searchResult = await searchRepository.getsearchMultiple(
         query: event.query,
         includeAdult: event.includeAdult,
         language: event.language,
@@ -50,7 +50,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         ));
       } else {
         page = 1;
-        final trendingResult = await homeRepository.getTrendingMovie(
+        final trendingResult = await homeRepository.getTrendingMultiple(
           mediaType: event.mediaType,
           timeWindow: event.timeWindow,
           page: page,
@@ -100,7 +100,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
       var currentSearchList = (state as SearchSuccess).listSearch;
       if (currentSearchList.isNotEmpty) {
-        final searchResult = await searchRepository.searchMultipleMedia(
+        final searchResult = await searchRepository.getsearchMultiple(
           query: event.query,
           includeAdult: event.includeAdult,
           language: event.language,
@@ -121,7 +121,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         }
       } else {
         var currentTrendingList = (state as SearchSuccess).listTrending;
-        final trendingResult = await homeRepository.getTrendingMovie(
+        final trendingResult = await homeRepository.getTrendingMultiple(
           mediaType: event.mediaType,
           timeWindow: event.timeWindow,
           page: page,

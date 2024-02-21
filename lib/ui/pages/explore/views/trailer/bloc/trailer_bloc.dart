@@ -4,14 +4,12 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:movie_app/models/models.dart';
 import 'package:movie_app/ui/pages/explore/explore_repository.dart';
-import 'package:movie_app/ui/pages/home/index.dart';
 import 'package:movie_app/utils/utils.dart';
 
 part 'trailer_event.dart';
 part 'trailer_state.dart';
 
 class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
-  final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
   final ExploreRepository exploreRepository = ExploreRepository(restApiClient: RestApiClient());
   final PageController movieController = PageController();
   final PageController tvController = PageController();
@@ -28,7 +26,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           visibleVideoTv: List.filled(20, false),
         )) {
     on<FetchData>(_onFetchData);
-    on<SwitchType>(_onSwitchType);
+    on<ChangeType>(_onChangeType);
     on<PlayTrailer>(_onPlayTrailer);
     on<StopTrailer>(_onStopTrailer);
   }
@@ -40,13 +38,13 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         page: event.page,
         region: event.region,
       );
-      final resultTv = await homeRepository.getNowPlayingTv(
+
+      final resultTv = await exploreRepository.getNowPlayingTv(
         language: event.language,
         page: event.page,
       );
       // call API trailer movie
-      final listOfListTrailerMovie =
-          await Future.wait(resultMovie.list.map<Future<List<MediaTrailer>>>(
+      final listTrailersMovie = await Future.wait(resultMovie.list.map<Future<List<MediaTrailer>>>(
         (e) async {
           final resultsTrailerMovie = await exploreRepository.getTrailerMovie(
             movieId: e.id ?? 0,
@@ -55,8 +53,15 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           return resultsTrailerMovie.list.isEmpty ? [] : resultsTrailerMovie.list;
         },
       ).toList());
-      final listTrailerMovie = listOfListTrailerMovie
-          .map<MediaTrailer>((e) => e.isNotEmpty ? e.first : MediaTrailer(key: ''))
+      final listTrailerMovie = listTrailersMovie
+          .map<MediaTrailer>(
+            (e) => e.isNotEmpty
+                ? e.firstWhere(
+                    (element) => (element.type ?? '').contains('Trailer'),
+                    orElse: () => MediaTrailer(key: ''),
+                  )
+                : MediaTrailer(key: ''),
+          )
           .toList();
       // call API trailer tv
       final listOfListTrailerTv = await Future.wait(resultTv.list.map<Future<List<MediaTrailer>>>(
@@ -69,7 +74,9 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         },
       ).toList());
       final listTrailerTv = listOfListTrailerTv
-          .map<MediaTrailer>((e) => e.isNotEmpty ? e.first : MediaTrailer(key: ''))
+          .map<MediaTrailer>(
+            (e) => e.isNotEmpty ? e.first : MediaTrailer(key: ''),
+          )
           .toList();
       emit(TrailerSuccess(
         indexTv: state.indexTv,
@@ -98,7 +105,7 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
     }
   }
 
-  FutureOr<void> _onSwitchType(SwitchType event, Emitter<TrailerState> emit) {
+  FutureOr<void> _onChangeType(ChangeType event, Emitter<TrailerState> emit) {
     try {
       emit(TrailerSuccess(
         indexMovie: state.indexMovie,

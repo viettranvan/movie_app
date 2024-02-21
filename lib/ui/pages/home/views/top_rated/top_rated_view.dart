@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/details/index.dart';
+import 'package:movie_app/ui/pages/details/details.dart';
 import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/top_rated/bloc/top_rated_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
@@ -39,23 +40,23 @@ class TopRatedView extends StatelessWidget {
           SizedBox(height: 15.h),
           BlocConsumer<TopRatedBloc, TopRatedState>(
             listener: (context, state) {
-              final exploreBloc = BlocProvider.of<HomeBloc>(context);
+              final homeBloc = BlocProvider.of<HomeBloc>(context);
               if (state is TopRatedAddWatchListSuccess) {
                 showToast(
                     context,
-                    state.listMovieState[state.index].watchlist == false
+                    (state.listMovieState[state.index].watchlist ?? false)
                         ? '${state.listTopRated[state.index].title} was added to Watchlist'
                         : '${state.listTopRated[state.index].title} was removed from Watchlist');
               }
               if (state is TopRatedAddWatchListError) {
-                exploreBloc.add(DisplayToast(
+                homeBloc.add(DisplayToast(
                   visibility: true,
                   statusMessage: state.errorMessage,
                 ));
-                exploreBloc.add(ChangeAnimationToast(opacity: 1.0));
+                homeBloc.add(ChangeAnimationToast(opacity: 1.0));
                 Timer(
                   const Duration(seconds: 2),
-                  () => exploreBloc.add(ChangeAnimationToast(opacity: 0.0)),
+                  () => homeBloc.add(ChangeAnimationToast(opacity: 0.0)),
                 );
               }
             },
@@ -98,31 +99,35 @@ class TopRatedView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     final bloc = BlocProvider.of<TopRatedBloc>(context);
     final item = bloc.state.listTopRated[index];
-    return SenaryItem(
-      title: item.title ?? '',
-      rank: '${index + 1}',
-      voteAverage: double.parse((item.voteAverage ?? 0).toStringAsFixed(1)),
-      imageUrl: item.posterPath == null ? '' : '${AppConstants.kImagePathPoster}${item.posterPath}',
-      watchlist: bloc.state.listMovieState[index].watchlist,
-      onTapBanner: () => !(bloc.state.listMovieState[index].watchlist ?? false)
-          ? addWatchList(context, index)
-          : bloc.state is TopRatedAddWatchListSuccess
-              ? null
-              : showCupertinoModalPopup(
-                  context: context,
-                  builder: (secondContext) => CustomBottomSheet(
-                    title: '${item.title} (${item.releaseDate?.substring(0, 4)})',
-                    titleConfirm: 'Remove from Watchlist',
-                    titleCancel: 'Cancel',
-                    onPressCancel: () => Navigator.of(secondContext).pop(),
-                    onPressConfirm: () => removeWatchList(context, secondContext, index),
-                  ),
+    return Hero(
+      tag: 'trailer',
+      child: SenaryItem(
+        title: item.title ?? '',
+        rank: '${index + 1}',
+        voteAverage: double.parse((item.voteAverage ?? 0).toStringAsFixed(1)),
+        imageUrl:
+            item.posterPath == null ? '' : '${AppConstants.kImagePathPoster}${item.posterPath}',
+        watchlist: bloc.state.listMovieState[index].watchlist ?? false,
+        onTapBanner: () => (bloc.state.listMovieState[index].watchlist ?? false)
+            ? showCupertinoModalPopup(
+                context: context,
+                builder: (secondContext) => CustomBottomSheet(
+                  title: '${item.title} (${item.releaseDate?.substring(0, 4)})',
+                  titleConfirm: 'Remove from Watchlist',
+                  titleCancel: 'Cancel',
+                  onPressCancel: () => Navigator.of(secondContext).pop(),
+                  onPressConfirm: () => removeWatchList(context, secondContext, index),
                 ),
-      onTapItem: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: const DetailsPage(),
-          begin: const Offset(1, 0),
-        ),
+              )
+            : addWatchList(context, index),
+        onTapItem: () => Navigator.of(context).push(
+            // CustomPageRoute(
+            //   page: const DetailsPage(),
+            //   begin: const Offset(1, 0),
+            // ),
+            MaterialPageRoute(
+          builder: (context) => const DetailsPage(),
+        )),
       ),
     );
   }
@@ -137,14 +142,13 @@ class TopRatedView extends StatelessWidget {
       sessionId: sessionId,
       mediaType: 'movie',
       mediaId: bloc.state.listTopRated[index].id ?? 0,
-      watchlist: !(bloc.state.listMovieState[index].watchlist ?? false),
       index: index,
     ));
   }
 
   removeWatchList(BuildContext firstContext, BuildContext secondContext, int index) {
-    Navigator.of(secondContext).pop();
     addWatchList(firstContext, index);
+    Navigator.of(secondContext).pop();
   }
 
   showToast(BuildContext context, String statusMessage) {

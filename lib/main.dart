@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/ui/pages/navigation/index.dart';
+import 'package:movie_app/ui/pages/navigation/navigation.dart';
 
 import 'bloc_observer/index.dart';
 

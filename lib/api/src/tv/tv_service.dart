@@ -39,12 +39,12 @@ class TvService {
   Future<ListResponse<MultipleMedia>> getPopularTv({
     required String language,
     required int page,
-    List<int> withGenres = const [],
+    String? region,
   }) async {
     final request = TvRequest.getPopularTv(
       language: language,
       page: page,
-      withGenres: withGenres,
+      region: region,
     );
     final response = await apiClient.execute(request: request);
     final listResponse =
@@ -52,11 +52,11 @@ class TvService {
     return ListResponse(list: listResponse);
   }
 
-  Future<ListResponse<MultipleMedia>> getTopTv({
+  Future<ListResponse<MultipleMedia>> getTopRatedTv({
     required String language,
     required int page,
   }) async {
-    final request = TvRequest.getTopTv(
+    final request = TvRequest.getTopRatedTv(
       language: language,
       page: page,
     );

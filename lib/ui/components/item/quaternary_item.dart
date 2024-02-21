@@ -11,7 +11,7 @@ class QuaternaryItem extends StatelessWidget {
   final String? overview;
   final String? releaseDate;
   final String? voteAverage;
-  final VoidCallback? onTap;
+  final VoidCallback? onTapItem;
   const QuaternaryItem({
     super.key,
     this.imageUrl,
@@ -20,13 +20,13 @@ class QuaternaryItem extends StatelessWidget {
     this.overview,
     this.releaseDate,
     this.voteAverage,
-    this.onTap,
+    this.onTapItem,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: onTapItem,
       child: RepaintBoundary(
         child: IntrinsicHeight(
           child: Container(
@@ -65,59 +65,65 @@ class QuaternaryItem extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 6.h),
-                        Text(
-                          overview ?? 'Coming soon',
-                          maxLines: 3,
-                          softWrap: true,
-                          overflow: TextOverflow.ellipsis,
-                          textScaleFactor: 1,
-                          style: TextStyle(
-                            color: greyColor,
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w300,
+                        SizedBox(
+                          height: 50.h,
+                          child: Text(
+                            overview ?? 'Coming soon',
+                            maxLines: 3,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            textScaleFactor: 1,
+                            style: TextStyle(
+                              color: greyColor,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w300,
+                            ),
                           ),
                         ),
-                        overview!.contains('Coming soon') ? const Spacer() : SizedBox(height: 10.h),
+                        SizedBox(height: 20.h),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(1.w, 0, 8.w, 0),
+                          padding: EdgeInsets.fromLTRB(0.w, 0, 6.w, 0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Icon(
                                 Icons.access_time_rounded,
-                                size: 18.sp,
+                                size: 16.sp,
                               ),
-                              SizedBox(width: 2.w),
                               Flexible(
-                                flex: 5,
-                                child: Text(
-                                  releaseDate ?? '',
-                                  maxLines: 1,
-                                  softWrap: true,
-                                  overflow: TextOverflow.ellipsis,
-                                  textScaleFactor: 1,
-                                  style: TextStyle(
-                                    fontSize: 15.sp,
-                                    color: indigoColor,
+                                // flex: 5,
+                                child: SizedBox(
+                                  width: 100.w,
+                                  child: Text(
+                                    releaseDate ?? '',
+                                    maxLines: 1,
+                                    softWrap: true,
+                                    overflow: TextOverflow.ellipsis,
+                                    textScaleFactor: 1,
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: indigoColor,
+                                    ),
                                   ),
                                 ),
                               ),
-                              const Spacer(flex: 3),
+                              Icon(
+                                Icons.star,
+                                color: yellowColor,
+                                size: 17.sp,
+                              ),
                               Text(
                                 voteAverage ?? '',
                                 textScaleFactor: 1,
                                 style: TextStyle(
                                   color: yellowColor,
-                                  fontSize: 15.sp,
+                                  fontSize: 14.sp,
                                 ),
                               ),
-                              Icon(
-                                Icons.star_rounded,
-                                color: yellowColor,
-                              ),
-                              SizedBox(width: 3.w),
+                              SizedBox(width: 1.w),
                               Container(
                                 width: 23.w,
+                                height: 19.h,
                                 alignment: Alignment.center,
                                 padding: const EdgeInsets.all(3).w,
                                 decoration: BoxDecoration(
@@ -129,6 +135,7 @@ class QuaternaryItem extends StatelessWidget {
                                   textScaleFactor: 1,
                                   style: TextStyle(
                                     color: whiteColor,
+                                    fontSize: 14.sp,
                                   ),
                                 ),
                               ),
@@ -142,7 +149,7 @@ class QuaternaryItem extends StatelessWidget {
                 CachedNetworkImage(
                   imageUrl: imageUrl ?? '',
                   filterQuality: FilterQuality.high,
-                  width: 90.w,
+                  width: 100.w,
                   fit: BoxFit.fill,
                   progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
                   errorWidget: (context, url, error) => Image.asset(
