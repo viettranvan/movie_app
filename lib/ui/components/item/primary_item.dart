@@ -28,6 +28,7 @@ class PrimaryItem extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           alignment: Alignment.center,
           decoration: BoxDecoration(
+            color: whiteColor,
             borderRadius: BorderRadius.circular(15.r),
           ),
           child: Stack(

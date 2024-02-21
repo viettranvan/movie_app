@@ -1,1 +1,1 @@
-export 'tv_view.dart';
+export 'favorite_tv_view.dart';

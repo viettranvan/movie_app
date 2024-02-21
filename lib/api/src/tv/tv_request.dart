@@ -3,21 +3,6 @@ import 'package:movie_app/api/api.dart';
 class TvRequest {
   TvRequest._();
 
-  static APIRequest getDiscoverTv({
-    required String language,
-    required int page,
-    List<int> withGenres = const [],
-  }) =>
-      APIRequest(
-        method: HTTPMethods.get,
-        path: '/discover/tv',
-        parameters: {
-          'language': language,
-          'page': page,
-          'with_genres': withGenres,
-        },
-      );
-
   static APIRequest getNowPlayingTv({
     required String language,
     required int page,
@@ -34,7 +19,7 @@ class TvRequest {
   static APIRequest getPopularTv({
     required String language,
     required int page,
-    List<int> withGenres = const [],
+    String? region,
   }) =>
       APIRequest(
         method: HTTPMethods.get,
@@ -42,11 +27,11 @@ class TvRequest {
         parameters: {
           'language': language,
           'page': page,
-          'with_genres': withGenres,
+          'region': region,
         },
       );
 
-  static APIRequest getTopTv({
+  static APIRequest getTopRatedTv({
     required String language,
     required int page,
   }) =>
@@ -56,6 +41,21 @@ class TvRequest {
         parameters: {
           'language': language,
           'page': page,
+        },
+      );
+
+  static APIRequest getDiscoverTv({
+    required String language,
+    required int page,
+    List<int> withGenres = const [],
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/discover/tv',
+        parameters: {
+          'language': language,
+          'page': page,
+          'with_genres': withGenres,
         },
       );
 

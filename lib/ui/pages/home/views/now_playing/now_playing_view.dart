@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/details/index.dart';
+import 'package:movie_app/ui/pages/details/details.dart';
 import 'package:movie_app/ui/pages/home/views/now_playing/bloc/now_playing_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
 

@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/explore/index.dart';
-import 'package:movie_app/ui/pages/home/index.dart';
+import 'package:movie_app/ui/pages/explore/explore.dart';
+import 'package:movie_app/ui/pages/home/home.dart';
 import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
-import 'package:movie_app/ui/pages/profile/index.dart';
-import 'package:movie_app/ui/pages/search/index.dart';
+import 'package:movie_app/ui/pages/profile/profile.dart';
+import 'package:movie_app/ui/pages/search/search.dart';
 
 class NavigationPage extends StatelessWidget {
   const NavigationPage({super.key});

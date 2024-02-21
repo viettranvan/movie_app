@@ -5,7 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/details/index.dart';
+import 'package:movie_app/ui/pages/details/details.dart';
+import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
 import 'package:movie_app/ui/pages/home/views/popular/bloc/popular_bloc.dart';
 import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/utils/utils.dart';
@@ -111,11 +112,13 @@ class PopularView extends StatelessWidget {
   enableAutoSlide(BuildContext context, int indexPage) {
     final bloc = BlocProvider.of<PopularBloc>(context);
     indexPage == 0
-        ? bloc.state.autoPlay
-            ? null
-            : bloc.add(AutoSlide(autoPlay: true))
-        : bloc.state.autoPlay
-            ? bloc.add(AutoSlide(autoPlay: false))
-            : null;
+        ? BlocProvider.of<HomeBloc>(context).scrollController.position.extentBefore <= 300
+            ? bloc.state.autoPlay
+                ? null
+                : bloc.add(AutoSlide(autoPlay: true))
+            : bloc.state.autoPlay
+                ? bloc.add(AutoSlide(autoPlay: false))
+                : null
+        : null;
   }
 }

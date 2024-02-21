@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:movie_app/models/models.dart';
-import 'package:movie_app/ui/pages/explore/index.dart';
+import 'package:movie_app/ui/pages/home/home_repository.dart';
 import 'package:movie_app/utils/utils.dart';
 
 part 'top_rated_event.dart';
 part 'top_rated_state.dart';
 
 class TopRatedBloc extends Bloc<TopRatedEvent, TopRatedState> {
-  final ExploreRepository exploreRepository = ExploreRepository(restApiClient: RestApiClient());
+  final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
   TopRatedBloc()
       : super(TopRatedInitial(
           listTopRated: [],
@@ -23,14 +23,14 @@ class TopRatedBloc extends Bloc<TopRatedEvent, TopRatedState> {
 
   FutureOr<void> _onFetcData(FetcData event, Emitter<TopRatedState> emit) async {
     try {
-      final result = await exploreRepository.getTopRatedMovie(
+      final result = await homeRepository.getTopRatedMovie(
         language: event.language,
         page: event.page,
         region: event.region,
       );
       final movieStateList = await Future.wait(result.list.map<Future<MediaState>>(
         (e) async {
-          final movieStateResult = await exploreRepository.getMovieState(
+          final movieStateResult = await homeRepository.getMovieState(
             movieId: e.id ?? 0,
             sessionId: event.sessionId,
           );
@@ -56,14 +56,15 @@ class TopRatedBloc extends Bloc<TopRatedEvent, TopRatedState> {
 
   FutureOr<void> _onAddWatchList(AddWatchList event, Emitter<TopRatedState> emit) async {
     try {
-      final result = await exploreRepository.addWatchList(
+      state.listMovieState[event.index].watchlist =
+          !(state.listMovieState[event.index].watchlist ?? false);
+      final result = await homeRepository.addWatchList(
         accountId: event.accountId,
         sessionId: event.sessionId,
         mediaType: event.mediaType,
         mediaId: event.mediaId,
-        watchlist: event.watchlist,
+        watchlist: state.listMovieState[event.index].watchlist ?? false,
       );
-
       emit(TopRatedAddWatchListSuccess(
         listTopRated: state.listTopRated,
         listMovieState: state.listMovieState,

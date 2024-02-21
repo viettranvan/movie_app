@@ -4,8 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:movie_app/models/models.dart';
-import 'package:movie_app/ui/pages/details/index.dart';
-import 'package:movie_app/ui/pages/home/index.dart';
+import 'package:movie_app/ui/pages/details/details.dart';
+import 'package:movie_app/ui/pages/home/home.dart';
 import 'package:movie_app/utils/app_utils/app_utils.dart';
 import 'package:movie_app/utils/utils.dart';
 

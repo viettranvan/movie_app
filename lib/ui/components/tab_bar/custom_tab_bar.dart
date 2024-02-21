@@ -19,13 +19,12 @@ class CustomTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        double paddingRight = const EdgeInsets.all(15).right;
-        double paddingLeft = const EdgeInsets.all(15).left;
-        double marginLeft = const EdgeInsets.all(5).left;
-        double marginRight = const EdgeInsets.all(5).right;
-        double width = (constraints.maxWidth -
-                (paddingRight.w + paddingLeft.w + marginLeft.w + marginRight.w)) /
-            2;
+        double paddingRight = const EdgeInsets.all(15).right.w;
+        double paddingLeft = const EdgeInsets.all(15).left.w;
+        double marginLeft = const EdgeInsets.all(5).left.w;
+        double marginRight = const EdgeInsets.all(5).right.w;
+        double width =
+            (constraints.maxWidth - (paddingRight + paddingLeft + marginLeft + marginRight)) / 2;
         return Padding(
           padding: EdgeInsets.fromLTRB(paddingLeft.w, 15.h, paddingRight.w, 15.h),
           child: Stack(
@@ -44,6 +43,12 @@ class CustomTabBar extends StatelessWidget {
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(11.r),
                       color: darkBlueColor,
+                      boxShadow: [
+                        BoxShadow(
+                          color: greyColor,
+                          blurRadius: 1,
+                        ),
+                      ],
                     ),
                   ),
                 ),

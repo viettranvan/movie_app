@@ -7,16 +7,16 @@ class CustomBottomSheet extends StatelessWidget {
   final String? title;
   final String? titleConfirm;
   final String? titleCancel;
-  final VoidCallback onPressConfirm;
-  final VoidCallback onPressCancel;
+  final VoidCallback? onPressConfirm;
+  final VoidCallback? onPressCancel;
 
   const CustomBottomSheet({
     super.key,
     this.title,
     this.titleConfirm,
     this.titleCancel,
-    required this.onPressConfirm,
-    required this.onPressCancel,
+    this.onPressConfirm,
+    this.onPressCancel,
   });
 
   @override
@@ -31,7 +31,7 @@ class CustomBottomSheet extends StatelessWidget {
       actions: [
         CupertinoActionSheetAction(
           isDefaultAction: false,
-          onPressed: onPressConfirm,
+          onPressed: onPressConfirm ?? () {},
           child: Text(
             titleConfirm ?? '',
             style: TextStyle(
@@ -43,7 +43,7 @@ class CustomBottomSheet extends StatelessWidget {
       ],
       cancelButton: CupertinoActionSheetAction(
         isDefaultAction: true,
-        onPressed: onPressCancel,
+        onPressed: onPressCancel ?? () {},
         child: Text(
           titleCancel ?? '',
           style: TextStyle(

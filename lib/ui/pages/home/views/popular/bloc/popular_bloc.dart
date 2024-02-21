@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:movie_app/models/models.dart';
-import 'package:movie_app/ui/pages/home/index.dart';
+import 'package:movie_app/ui/pages/home/home.dart';
 import 'package:movie_app/utils/rest_api_client/index.dart';
 import 'package:movie_app/utils/utils.dart';
 
@@ -62,11 +62,11 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
 
   FutureOr<void> _onAutoSlide(AutoSlide event, Emitter<PopularState> emit) {
     try {
-    emit(PopularSuccess(
-              listPopular: state.listPopular,
-              selectedIndex: state.selectedIndex,
-              autoPlay: event.autoPlay,
-            ));
+      emit(PopularSuccess(
+        listPopular: state.listPopular,
+        selectedIndex: state.selectedIndex,
+        autoPlay: event.autoPlay,
+      ));
     } catch (e) {
       emit(PopularError(
         errorMessage: e.toString(),
